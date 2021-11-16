@@ -9,7 +9,7 @@ class HeadersInterceptor(private val headersProvider: HeadersProvider) : Interce
         val builder = request.newBuilder()
 
         val ignoreAuthorization = request.headers()[CustomHeaders.IGNORE_AUTHORIZATION]?.toBoolean()
-                ?: false
+            ?: false
 
         val headers = headersProvider.getHeaders()
 
@@ -23,6 +23,7 @@ class HeadersInterceptor(private val headersProvider: HeadersProvider) : Interce
 
         builder.addHeader(Headers.HEADER_CONTENT_TYPE, Headers.HEADER_CONTENT_TYPE_VALUE)
         builder.addHeader(Headers.HEADER_ACCEPT, Headers.HEADER_CONTENT_TYPE_VALUE)
+        builder.addHeader(Headers.HEADER_CLIENT, ApiConstants.CLIENT_HEADER)
 
         builder.removeHeader(CustomHeaders.IGNORE_AUTHORIZATION)
 

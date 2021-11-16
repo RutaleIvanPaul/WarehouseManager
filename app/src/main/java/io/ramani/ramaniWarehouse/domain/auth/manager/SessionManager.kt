@@ -16,7 +16,7 @@ class SessionManager(
 
     override fun isUserLoggedIn(): Single<Boolean> =
         authDataSource.getCurrentUser().flatMap { user ->
-            Single.just(user?.id != null)
+            Single.just(user?.uuid != null)
         }
 
 

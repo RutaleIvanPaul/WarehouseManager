@@ -10,6 +10,8 @@ class AuthRepository(
     private val localAuthDataSource: AuthDataSource
 ) :
     AuthDataSource {
+    override fun login(phone: String, password: String): Single<UserModel> =
+        remoteAuthDataSource.login(phone, password)
 
 
     override fun getCurrentUser(): Single<UserModel> =

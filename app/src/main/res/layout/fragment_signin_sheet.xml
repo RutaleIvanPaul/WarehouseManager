@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/line_on_bottom_of_layout_login"
+            android:text="@string/title_sign_in"
+            android:textAllCaps="true"
+            android:textColor="@color/matte_black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/close_bottom_sheet"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/ic_close_x_icon" />
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/phone_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginRight="20dp"
+        android:hint="Phone Number e.g 078733..."
+        android:inputType="number"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_grey"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/password_pwd_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/dark_grey"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/confirm_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/rounded_button_default"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/confirm_title"
+        android:textColor="@color/white"
+        android:textSize="13dp" />
+
+</LinearLayout>

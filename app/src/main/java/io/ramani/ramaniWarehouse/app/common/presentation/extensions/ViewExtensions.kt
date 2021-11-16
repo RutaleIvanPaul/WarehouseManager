@@ -27,7 +27,7 @@ import io.ramani.ramaniWarehouse.R
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.tabs.TabLayout
 import org.jetbrains.anko.backgroundColorResource
-
+import android.os.Handler
 
 /**
  * Created by Amr on 6/27/17.
@@ -350,7 +350,7 @@ fun View.showInfoSnackbar(message: String, init: Snackbar.() -> Unit = {}): Snac
 
 fun View.showErrorSnackbar(message: String, init: Snackbar.() -> Unit = {}): Snackbar =
     buildSnackbar(message) {
-        this.view.backgroundColorResource = R.color.red_dark
+        this.view.backgroundColorResource = R.color.gloss_red
     }.apply {
         init()
         show()
@@ -365,5 +365,15 @@ fun View.fixedWidth(width: Int) = apply {
 
 fun View.widthWrapContent() = apply {
     layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+}
+
+fun View.setOnSingleClickListener(onClickListener: (view:View) -> Unit) = apply{
+    setOnClickListener{
+        onClickListener(it)
+        isEnabled = false
+        Handler().postDelayed({
+           isEnabled = true
+        },2000)
+    }
 }
 

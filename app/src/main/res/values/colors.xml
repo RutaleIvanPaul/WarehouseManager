@@ -1,13 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="color_accent">#E3E3E3</color>
-    <color name="color_primary">#04C401</color>
-    <color name="red_dark">#E9584E</color>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#1BBD1B</color>
+
+    <color name="black">#000</color>
+    <color name="text_color_account_headers">#FFFFFF</color>
+
+    <color name="coral_blue">#4acbc8</color>
+    <color name="white">#ffffff </color>
+
+    <color name="dark_grey">#A9A9A9</color>
+    <color name="light_grey">#F0F0F0</color>
+    <color name="mid_dark_grey">#d9dbdd</color>
+    <color name="light_white_grey">#F7F8F9</color>
+
+    <color name="purples">#6b70ff</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="menu_item_color">#292C34</color>
+
+    <color name="red">#FF0000</color>
+    <color name="gloss_red">#E71837</color>
+    <color name="message_indicator_blue">#2867f6</color>
+    <color name="glossy_green">#A5D610</color>
+
+    <color name="light_pink">#ecbcba</color>
+
+    <color name = "ramani_green">#FF1BBD1B</color>
+    <color name = "dark_green">#5DB075</color>
+    <color name = "light_green">#87be61</color>
+
+    <color name = "light_lime_green">#eafee4</color>
+    <color name = "light_lime_yellow">#75C152</color>
+    <color name = "products_green_lime_yellow">#8CEB83</color>
+
+    <color name="order_prompt_button_background_color">#000000</color>
+    <color name="matte_black">#292929</color>
+
+    <color name = "add_comment_color">#ccc</color>
+
+    <color name = "greenish_blue">#6ba3a3</color>
+    <color name = "secondary_blue">#599BCB</color>
+    <color name = "darkish_blue">#5884a1</color>
+
+    <color name="deep_grey">#9B9C9B</color>
+    <color name="cell_view_color">#DDE1DD</color>
+
+    <color name="ghost_white">#4DFFFFFF</color>
+    <color name = "unpaid_order">#75C152</color>
+    <color name = "unpaid_order_list_separator">#E5E6E5</color>
+    <color name = "grey_text">#9B9C9B</color>
+
+    <color name = "finish_grey_border">#DADEDA</color>
+    <color name = "grey_no_sales">#9B9C9B</color>
+    <color name="button_light_grey">#D9DBDD</color>
+    <color name="reward_light_grey">#F7F8F9</color>
+    <color name="transparent_white">#FFFFFF4D</color>
+    <color name="grey_out_finish_order_text">#979DA1</color>
+    <color name="deep_blue">#14353C</color>
+    <color name="item_light_grey">#9B9C9B</color>
+    <color name="horizontal_line">#E5E6E5</color>
+    <color name="light_grey_for_input">#F7F8F9</color>
+    <color name="deep_grey_scale">#292C34</color>
+    <color name="finish_color">#75C152</color>
+
+
+    <color name="title_grey_color">#B3B4B4</color>
+
+    <color name="custom_black">#292C34</color>
+    <color name="light_grey_edit">#F7F8F9</color>
+
+    <color name="edit_pric_bg">#D9DBDD</color>
+
+    <color name="button_text_edit">#979DA1</color>
 </resources>

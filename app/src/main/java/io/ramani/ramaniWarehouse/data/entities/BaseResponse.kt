@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName
 /**
  * Created by Amr on 9/14/17.
  */
-open class BaseResponse<T>(@SerializedName("Status") var status: String? = "",
-                           @SerializedName("Message") var message: String? = "",
-                           @SerializedName("data") var data: T? = null,
+open class BaseResponse<T>(@SerializedName("Status") var status: Long? = 0,
+                           @SerializedName("message") var message: String? = "",
+                           @SerializedName("response") var data: T? = null,
                            @SerializedName("meta") var meta: PaginationMetaRemote? = null) {
     companion object {
-        fun <T> buildSuccessResponse(status: String? = "Success", message: String? = "Success",
+        fun <T> buildSuccessResponse(status: Long? = 0, message: String? = "Success",
                                      data: T) =
                 BaseResponse(status, message, data)
 
-        fun <T> buildSuccessEmptyDataResponse(status: String? = "Success", message: String? = "Success") =
+        fun <T> buildSuccessEmptyDataResponse(status: Long? = 0, message: String? = "Success") =
                 BaseResponse<T>(status, message, null)
     }
 }

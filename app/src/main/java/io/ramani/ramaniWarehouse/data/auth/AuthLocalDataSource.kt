@@ -11,6 +11,9 @@ import io.reactivex.Single
 class AuthLocalDataSource(
     private val prefsManager: Prefs
 ) : AuthDataSource, BaseRemoteDataSource() {
+    override fun login(phone: String, password: String): Single<UserModel> {
+        TODO("Not yet implemented")
+    }
 
 
     override fun getCurrentUser(): Single<UserModel> =

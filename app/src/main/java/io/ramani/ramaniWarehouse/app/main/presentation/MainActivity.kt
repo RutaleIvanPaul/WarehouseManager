@@ -1,11 +1,13 @@
 package io.ramani.ramaniWarehouse.app.main.presentation
 
+import android.os.Build
 import android.os.Bundle
+import androidx.core.content.ContextCompat
+import com.code95.android.app.auth.flow.AuthFlow
+import com.code95.android.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.main.flow.MainFlow
-import io.ramani.ramaniWarehouse.app.main.flow.MainFlowController
 import org.kodein.di.generic.factory
 
 class MainActivity : BaseActivity() {
@@ -15,7 +17,7 @@ class MainActivity : BaseActivity() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
-    private lateinit var mainFlow: MainFlow
+    private lateinit var flow: AuthFlow
 
 //    private var leftMenuActionView: ActionMenuView? = null
 
@@ -24,11 +26,14 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            window.statusBarColor = ContextCompat.getColor(this, R.color.colorPrimaryDark)
+        }
         viewModel = viewModelProvider(this as BaseActivity)
-
-        mainFlow = MainFlowController(this, R.id.main_fragment_container)
+        flow = AuthFlowController(this, R.id.main_fragment_container)
         subscribeError(viewModel)
         observerError(viewModel, this)
         viewModel.start()
+        flow.openLogin()
     }
 }
