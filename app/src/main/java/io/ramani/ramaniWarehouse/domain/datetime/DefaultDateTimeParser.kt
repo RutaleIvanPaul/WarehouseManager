@@ -1,7 +1,7 @@
 package io.ramani.ramaniWarehouse.domain.datetime
 
 import android.annotation.SuppressLint
-import io.ramani.ramaniWarehouse.core.domain.datetime.DateTimeParser
+import io.ramani.ramaniWarehouse.domainCore.datetime.DateTimeParser
 import io.ramani.ramaniWarehouse.domainCore.datetime.IDateTimeManager
 import io.ramani.ramaniWarehouse.domainCore.log.logError
 

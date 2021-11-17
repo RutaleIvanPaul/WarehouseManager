@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.core.domain.entities
+package io.ramani.ramaniWarehouse.domainCore.entities
 
 /**
  * Created by Amr on 10/16/17.

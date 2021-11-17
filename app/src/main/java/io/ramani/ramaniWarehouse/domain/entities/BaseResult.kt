@@ -1,6 +1,6 @@
 package io.ramani.ramaniWarehouse.domain.entities
 
-import io.ramani.ramaniWarehouse.core.domain.entities.IBuilder
+import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
 data class BaseResult(val message: String) {
     class Builder : IBuilder<BaseResult> {

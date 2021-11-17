@@ -31,6 +31,7 @@ import io.ramani.ramaniWarehouse.domainCore.lang.getLocaleFromString
 import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
+import java.util.*
 
 
 /**
@@ -108,8 +109,8 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware, DisposablesHolde
     }
 
     override fun attachBaseContext(newBase: Context) {
-        val prefsManager = PrefsManager(newBase)
-        val languageType = prefsManager.language.getLocaleFromString()
+//        val prefsManager = PrefsManager(newBase)
+        val languageType = Locale("en")
         super.attachBaseContext(AppContextWrapper.wrap(newBase, languageType))
     }
 

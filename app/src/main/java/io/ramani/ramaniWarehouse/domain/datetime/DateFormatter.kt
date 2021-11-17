@@ -1,7 +1,7 @@
 package io.ramani.ramaniWarehouse.domain.datetime
 
 import android.annotation.SuppressLint
-import io.ramani.ramaniWarehouse.core.domain.datetime.IDateFormatter
+import io.ramani.ramaniWarehouse.domainCore.datetime.IDateFormatter
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_24_hours
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_AM_PM
 import io.ramani.ramaniWarehouse.domainCore.datetime.IDateTimeManager
@@ -26,17 +26,11 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         const val FULL_MONTH_FORMAT = "MMMM"
         const val FULL_MONTH_YEAR_FORMAT = "MMMM yyyy"
         const val SERVER_SEND_DATE_FORMAT = "dd/MM/yyyy"
-        const val SERVER_SEND_TIME_FORMAT = "HH:mm"
-        const val SERVER_SEND_TIME_WITH_SECONDS_FORMAT = "HH:mm:ss"
         const val DURATION_TIME_FORMAT = "mm:ss"
         const val SERVER_RECEIVE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         const val VIEW_DISPLAY_DATE_FORMAT = "hh:mm a • dd/MM, yyyy"
         const val SERVER_RECEIVE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss"
-        const val CHILD_DEVELOPMENT_FORMAT = "d MMM yyyy"
-        const val BILLING_DATE_DISPLAY_FORMAT = "dd MMM YYYY"
         const val CALENDAR_FORMAT = "dd MMM yy"
-        const val HOLIDAY_DAYS_LIST_FORMAT = "dd MMM yyyy"
-        const val EVENT_FORMAT = "EEE, dd MMM"
         const val UTC_TIME_ZONE = "UTC"
         const val MEDIA_DOWNLOAD_FORMAT = "yyyyMMdd"
         const val TIME_FORMAT_AM_PM = "hh:mm a"

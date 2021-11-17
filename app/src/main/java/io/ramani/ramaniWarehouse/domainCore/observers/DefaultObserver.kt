@@ -1,6 +1,7 @@
-package io.ramani.ramaniWarehouse.core.domain.observers
+package io.ramani.ramaniWarehouse.domainCore.observers
 
-import io.ramani.ramaniWarehouse.core.domain.presentation.ErrorHandlerView
+import io.ramani.ramaniWarehouse.core.domain.observers.BaseObserver
+import io.ramani.ramaniWarehouse.domainCore.presentation.ErrorHandlerView
 
 
 /**

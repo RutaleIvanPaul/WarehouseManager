@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.core.domain.date
+package io.ramani.ramaniWarehouse.domainCore.date
 
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone

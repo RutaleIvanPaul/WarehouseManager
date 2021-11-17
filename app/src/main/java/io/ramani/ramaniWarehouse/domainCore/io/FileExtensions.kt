@@ -9,7 +9,7 @@ import android.os.Build
 import android.provider.DocumentsContract
 import android.provider.OpenableColumns
 import android.webkit.MimeTypeMap
-import io.ramani.ramaniWarehouse.core.domain.extension.takeIfNotBlank
+import io.ramani.ramaniWarehouse.domainCore.extension.takeIfNotBlank
 
 
 /**

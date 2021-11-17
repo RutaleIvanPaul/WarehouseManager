@@ -1,3 +1,3 @@
-package io.ramani.ramaniWarehouse.core.domain.exceptions
+package io.ramani.ramaniWarehouse.domainCore.exceptions
 
 class PermissionsChangedException(message: String? = "") : Exception(message)

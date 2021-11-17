@@ -3,7 +3,7 @@ package io.ramani.ramaniWarehouse.app.auth.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import com.code95.android.app.auth.flow.AuthFlow
+import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
 import com.code95.android.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener

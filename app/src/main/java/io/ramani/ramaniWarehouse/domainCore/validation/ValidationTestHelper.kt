@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.core.domain.validation
+package io.ramani.ramaniWarehouse.domainCore.validation
 
 /**
  * Created by Amr on 11/20/17.

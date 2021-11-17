@@ -1,7 +1,6 @@
 package io.ramani.ramaniWarehouse.app.common.presentation.viewmodels
 
 import android.app.Application
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.ColorRes
 import androidx.annotation.RequiresApi
@@ -14,14 +13,14 @@ import io.ramani.ramaniWarehouse.app.common.download.IFilesDownloadManager
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.entities.ValidationError
 import io.ramani.ramaniWarehouse.app.main.presentation.MainActivity
-import io.ramani.ramaniWarehouse.core.domain.observers.DefaultCompletableObserver
-import io.ramani.ramaniWarehouse.core.domain.observers.DefaultMayeObserver
-import io.ramani.ramaniWarehouse.core.domain.observers.DefaultObserver
-import io.ramani.ramaniWarehouse.core.domain.observers.DefaultSingleObserver
-import io.ramani.ramaniWarehouse.core.domain.presentation.ErrorHandlerView
-import io.ramani.ramaniWarehouse.core.domain.presentation.GenericErrorHandlerView
-import io.ramani.ramaniWarehouse.core.domain.presentation.GenericErrors
-import io.ramani.ramaniWarehouse.core.domain.presentation.language.IStringProvider
+import io.ramani.ramaniWarehouse.domainCore.observers.DefaultCompletableObserver
+import io.ramani.ramaniWarehouse.domainCore.observers.DefaultMayeObserver
+import io.ramani.ramaniWarehouse.domainCore.observers.DefaultObserver
+import io.ramani.ramaniWarehouse.domainCore.observers.DefaultSingleObserver
+import io.ramani.ramaniWarehouse.domainCore.presentation.ErrorHandlerView
+import io.ramani.ramaniWarehouse.domainCore.presentation.GenericErrorHandlerView
+import io.ramani.ramaniWarehouse.domainCore.presentation.GenericErrors
+import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.SingleLiveEvent
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.TokenAlreadyRefreshedException

@@ -1,6 +1,6 @@
 package io.ramani.ramaniWarehouse.data.common.network
 
-import io.ramani.ramaniWarehouse.core.domain.prefs.Prefs
+import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import java.util.*
 
 /**
@@ -26,7 +26,7 @@ class GenericHeadersProvider(private val prefsManager: Prefs) : HeadersProvider 
             map[HEADER_AUTH] = ""
         }
 
-        map[HEADER_LANGUAGE] = prefsManager.language.lowercase(Locale.getDefault())
+//        map[HEADER_LANGUAGE] = prefsManager.language.lowercase(Locale.getDefault())
         map[HEADER_CONTENT_TYPE] = HEADER_CONTENT_TYPE_VALUE
         map[HEADER_ACCEPT] = HEADER_CONTENT_TYPE_VALUE
         map[HEADER_CLIENT] = ApiConstants.CLIENT_HEADER

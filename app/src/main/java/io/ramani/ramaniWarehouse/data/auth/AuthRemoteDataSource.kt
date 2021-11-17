@@ -1,6 +1,6 @@
 package io.ramani.ramaniWarehouse.data.auth
 
-import io.ramani.ramaniWarehouse.core.domain.exceptions.NotAuthenticatedException
+import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
 import io.ramani.ramaniWarehouse.data.auth.model.LoginRequestModel
 import io.ramani.ramaniWarehouse.data.auth.model.UserRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants

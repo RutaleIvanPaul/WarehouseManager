@@ -4,8 +4,8 @@ import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import io.ramani.ramaniWarehouse.core.domain.date.getHour
-import io.ramani.ramaniWarehouse.core.domain.date.getMinute
+import io.ramani.ramaniWarehouse.domainCore.date.getHour
+import io.ramani.ramaniWarehouse.domainCore.date.getMinute
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import com.wdullaer.materialdatetimepicker.time.Timepoint

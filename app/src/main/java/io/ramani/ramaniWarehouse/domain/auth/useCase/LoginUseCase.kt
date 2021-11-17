@@ -4,8 +4,8 @@ import io.ramani.ramaniWarehouse.data.auth.model.LoginRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.AuthDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
-import io.ramani.ramaniWarehouse.domain.executor.PostThreadExecutor
-import io.ramani.ramaniWarehouse.domain.executor.ThreadExecutor
+import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor
+import io.ramani.ramaniWarehouse.domain.base.executor.ThreadExecutor
 import io.reactivex.Single
 
 class LoginUseCase(

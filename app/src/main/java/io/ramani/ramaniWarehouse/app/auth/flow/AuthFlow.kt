@@ -1,4 +1,4 @@
-package com.code95.android.app.auth.flow
+package io.ramani.ramaniWarehouse.app.auth.flow
 
 interface AuthFlow {
     fun openLogin()

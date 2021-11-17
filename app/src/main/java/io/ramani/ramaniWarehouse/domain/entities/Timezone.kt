@@ -1,6 +1,6 @@
 package io.ramani.ramaniWarehouse.domain.entities
 
-import io.ramani.ramaniWarehouse.core.domain.entities.IBuilder
+import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
 /**
  * Created by Amr on 11/28/17.

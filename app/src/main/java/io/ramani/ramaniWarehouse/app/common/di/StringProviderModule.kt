@@ -1,6 +1,6 @@
 package io.ramani.ramaniWarehouse.app.common.di
 
-import io.ramani.ramaniWarehouse.core.domain.presentation.language.IStringProvider
+import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.app.common.presentation.language.StringProvider
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind

@@ -8,7 +8,7 @@ import io.ramani.ramaniWarehouse.app.common.download.FilesDownloadManager
 import io.ramani.ramaniWarehouse.app.common.download.IFilesDownloadManager
 import io.ramani.ramaniWarehouse.app.common.download.IMediaDownloadManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivityLifeCycleCallbacks
-import io.ramani.ramaniWarehouse.core.domain.prefs.Prefs
+import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware

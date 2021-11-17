@@ -13,7 +13,8 @@ import java.lang.reflect.Type
 /**
  * Created by Amr on 10/12/17.
  */
-class RxErrorHandlingCallAdapterFactory private constructor(private val networkErrorHandler: NetworkErrorHandler) : CallAdapter.Factory() {
+class RxErrorHandlingCallAdapterFactory private constructor(private val networkErrorHandler: NetworkErrorHandler) :
+    CallAdapter.Factory() {
     companion object {
         fun create(networkErrorHandler: NetworkErrorHandler) = RxErrorHandlingCallAdapterFactory(networkErrorHandler)
     }

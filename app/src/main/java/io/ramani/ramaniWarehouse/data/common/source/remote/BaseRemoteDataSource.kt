@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.data.common.source.remote
 import com.google.gson.JsonSyntaxException
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
+import io.ramani.ramaniWarehouse.domain.base.exceptions.ItemNotFoundException
 import io.ramani.ramaniWarehouse.domain.entities.BaseErrorResponse
 import io.ramani.ramaniWarehouse.domain.entities.ValidationErrorsResponse
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.*

@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.core.domain.presentation.language
+package io.ramani.ramaniWarehouse.domainCore.presentation.language
 
 import androidx.annotation.StringRes
 

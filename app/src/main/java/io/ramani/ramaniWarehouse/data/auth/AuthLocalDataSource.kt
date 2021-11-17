@@ -1,7 +1,7 @@
 package io.ramani.ramaniWarehouse.data.auth
 
 import com.google.gson.Gson
-import io.ramani.ramaniWarehouse.core.domain.prefs.Prefs
+import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniWarehouse.domain.auth.AuthDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
@@ -29,8 +29,6 @@ class AuthLocalDataSource(
         Completable.fromAction {
             prefsManager.currentUser = ""
             prefsManager.accessToken = ""
-            prefsManager.currentInstitutionId = ""
-            prefsManager.isCurrentInstituteSelected = false
         }
 
     override fun refreshAccessToken(token: String): Completable =
