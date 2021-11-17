@@ -22,6 +22,7 @@ class LoginViewModel(
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
+    val loginActionLiveData = MutableLiveData<UserModel>()
     override fun start(args: Map<String, Any?>) {
 
     }
@@ -36,8 +37,11 @@ class LoginViewModel(
             )
         } else {
             validationResponseLiveData.postValue(Pair(first = true, second = true))
+            isLoadingVisible = true
             val single = loginUseCase.getSingle(LoginRequestModel(phone, password))
             subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+                loginActionLiveData.postValue(it)
                 Log.d("ALLAH", "login SUCCESS: $it")
             }, onError = {
                 isLoadingVisible = false

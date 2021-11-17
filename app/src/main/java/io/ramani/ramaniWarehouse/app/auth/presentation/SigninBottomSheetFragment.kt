@@ -11,6 +11,7 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_signin_sheet.*
 import org.kodein.di.generic.factory
@@ -41,11 +42,23 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
         subscribeLoadingError(viewModel)
         subscribeError(viewModel)
         observerError(viewModel, this)
+        subscribeValidationResponse()
         subscribeLoginResponse()
         viewModel.start()
     }
 
     private fun subscribeLoginResponse() {
+        viewModel.loginActionLiveData.observe(this, Observer {
+            // TODO:// Save User to prefs and nav to main screen
+        })
+    }
+
+    override fun setLoadingIndicatorVisible(visible: Boolean) {
+        super.setLoadingIndicatorVisible(visible)
+        loader.visible(visible)
+    }
+
+    private fun subscribeValidationResponse() {
         viewModel.validationResponseLiveData.observe(this, Observer {
             if (it.first && it.second) {
                 phone_et.error = null
