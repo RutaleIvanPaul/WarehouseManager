@@ -5,6 +5,8 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.core.domain.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.data.auth.model.LoginRequestModel
@@ -38,6 +40,10 @@ class LoginViewModel(
             subscribeSingle(single, onSuccess = {
                 Log.d("ALLAH", "login SUCCESS: $it")
             }, onError = {
+                isLoadingVisible = false
+                notifyError(it.message
+                    ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
+//                notifyErrorObserver(getErrorMessage(it), PresentationError.ERROR_TEXT)
                 Log.d("ALLAH", "login ERROR: " + it.message)
             })
         }

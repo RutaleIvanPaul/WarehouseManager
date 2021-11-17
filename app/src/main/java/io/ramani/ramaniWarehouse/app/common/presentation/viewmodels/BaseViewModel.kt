@@ -124,9 +124,9 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         getApplication<Application>().resources.getBoolean(R.bool.isTablet)
 
     protected fun getErrorMessage(throwable: Throwable): String {
-        return onError(throwable as HttpException)
-//        return throwable.message?.takeIf { it.isNotBlank() }
-//            ?: getString(R.string.an_error_has_occured_please_try_again)
+//        return onError(throwable as HttpException)
+        return throwable.message?.takeIf { it.isNotBlank() }
+            ?: getString(R.string.an_error_has_occured_please_try_again)
     }
 
     protected fun onError(throwable: Throwable, handleError: (Throwable) -> Unit = {}) {

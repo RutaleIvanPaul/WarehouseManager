@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.code95.android.app.auth.flow.AuthFlow
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_signin_sheet.*
@@ -36,7 +37,12 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
     }
 
     private fun initSubscribers() {
+        subscribeLoadingVisible(viewModel)
+        subscribeLoadingError(viewModel)
+        subscribeError(viewModel)
+        observerError(viewModel, this)
         subscribeLoginResponse()
+        viewModel.start()
     }
 
     private fun subscribeLoginResponse() {
@@ -50,6 +56,11 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
                 password_pwd_et.error = if (it.second) null else getString(R.string.required_field)
             }
         })
+    }
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
