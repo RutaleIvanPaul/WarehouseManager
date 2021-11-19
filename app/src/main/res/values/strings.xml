@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Ramani Warehouse</string>
+    <string name="yes">yes</string>
+    <string name="an_error_has_occured_please_try_again">An error has occurred. Please try again</string>
+    <string name="cancel">cancel</string>
+    <string name="close">close</string>
+    <string name="ok_button">ok</string>
+    <string name="retry">retry</string>
+    <string name="oops_no_signal_check_your_internet_connection">Oops no signal! check your internet connection</string>
+    <string name="title_sign_in">sign in</string>
+    <string name="confirm_title">Confirm</string>
+    <string name="title_welcome_to">Welcome to</string>
+    <string name="title_our_privacy_policy">our privacy policy</string>
+    <string name="required_field">This field is required</string>
+</resources>
