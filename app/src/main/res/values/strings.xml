@@ -12,4 +12,32 @@
     <string name="title_welcome_to">Welcome to</string>
     <string name="title_our_privacy_policy">our privacy policy</string>
     <string name="required_field">This field is required</string>
+
+    <!-- Common Text -->
+    <string name="continue_">Continue</string>
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+
+    <!-- Receive Stock -->
+    <string name="receive_stock">Receive Stock</string>
+
+    <string name="supplier">Supplier</string>
+    <string name="receiving_date">Receiving Date</string>
+    <string name="select_supplier">Select Supplier</string>
+    <string name="supporting_document">Supporting Document</string>
+    <string name="take_picture_now">Take Picture Now</string>
+
+    <string name="products">Products</string>
+    <string name="product">Product</string>
+    <string name="add_product">Add Products</string>
+    <string name="units">Units</string>
+    <string name="accepted">Accepted</string>
+    <string name="declined">Declined</string>
+    <string name="why_declined">Why Declined</string>
+    <string name="unit_price">Unit Price</string>
+    <string name="parameter">Parameter</string>
+    <string name="size">Size</string>
+    <string name="add_with_plus">+ Add</string>
+    <string name="expire_date">Expire Date</string>
+
 </resources>

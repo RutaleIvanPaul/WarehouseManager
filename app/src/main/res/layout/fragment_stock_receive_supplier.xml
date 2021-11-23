@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Receiving Date -->
+
+        <TextView
+            style="@style/BoldTextSmallLabel"
+            android:layout_marginTop="10dp"
+            android:text="@string/receiving_date" />
+
+        <RelativeLayout
+            android:id="@+id/supplier_receiving_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/item_outline_round"
+            android:padding="10dp">
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:layout_centerVertical="true"
+                android:text="12 sep 2021"
+                android:textColor="@color/dark_grey" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_close_x_icon" />
+        </RelativeLayout>
+
+        <!-- Select Supplier -->
+
+        <TextView
+            style="@style/BoldTextSmallLabel"
+            android:layout_marginTop="20dp"
+            android:text="@string/select_supplier" />
+
+        <com.skydoves.powerspinner.PowerSpinnerView
+            style="@style/CustomSpinner"
+            android:layout_marginTop="10dp"
+            android:hint="@string/select_supplier"
+            app:spinner_item_array="@array/questions" />
+
+        <!-- Supporting Document -->
+
+        <TextView
+            style="@style/BoldTextSmallLabel"
+            android:layout_marginTop="20dp"
+            android:text="@string/supporting_document" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/dash_outline_round"
+            android:minHeight="150dp"
+            android:padding="10dp">
+
+            <GridView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/ic_camera_icon" />
+
+                <TextView
+                    style="@style/BoldTextSmallLabel"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/take_picture_now"
+                    android:textColor="@color/dark_grey" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</ScrollView>

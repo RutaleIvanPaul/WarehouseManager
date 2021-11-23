@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Header -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/stock_receive_receive_now_back_button"
+            style="@style/backButton" />
+
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/stock_receive_receive_now_back_button"
+            android:text="@string/receive_stock" />
+
+        <Button
+            android:id="@+id/stock_receive_receive_now_next_button"
+            style="@style/NormalActionButton"
+            android:layout_alignParentEnd="true"
+            android:text="@string/continue_" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="fill"
+            app:tabMode="fixed" />
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+    </LinearLayout>
+</LinearLayout>
