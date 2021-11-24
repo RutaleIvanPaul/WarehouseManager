@@ -11,7 +11,6 @@ import android.os.Environment
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.data.common.network.HeadersProvider
 import java.io.File
-import java.util.*
 
 
 class DownloadManager(private val context: Context, var dateFormatter: DateFormatter,
@@ -38,7 +37,7 @@ class DownloadManager(private val context: Context, var dateFormatter: DateForma
         }
 
         context.registerReceiver(onComplete, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-        val code95DirectoryPrefix = "code95Aps"
+        val warehouseDirectoryPrefix = "WarehouseAps"
 
         val extension = when (mediaType) {
             DownloadMediaType.REPORT -> "pdf"
@@ -61,7 +60,7 @@ class DownloadManager(private val context: Context, var dateFormatter: DateForma
                                                                                DownloadMediaType.PHOTO -> Environment.DIRECTORY_PICTURES
                                                                                DownloadMediaType.VIDEO -> Environment.DIRECTORY_MOVIES
                                                                                else -> Environment.DIRECTORY_DOCUMENTS
-                                                                           }).absolutePath + "/$code95DirectoryPrefix/")
+                                                                           }).absolutePath + "/$warehouseDirectoryPrefix/")
 
         if (!directory.exists())
             directory.mkdir()
@@ -74,7 +73,7 @@ class DownloadManager(private val context: Context, var dateFormatter: DateForma
                                                        DownloadMediaType.VIDEO -> Environment.DIRECTORY_MOVIES
                                                        else -> Environment.DIRECTORY_DOCUMENTS
                                                    },
-                                                   File.separator + code95DirectoryPrefix + File.separator + downloadFileName)
+                                                   File.separator + warehouseDirectoryPrefix + File.separator + downloadFileName)
                 .setAllowedOverRoaming(true)
                 .setAllowedOverMetered(true)
 
