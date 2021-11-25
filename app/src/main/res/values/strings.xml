@@ -21,11 +21,17 @@
     <!-- Receive Stock -->
     <string name="receive_stock">Receive Stock</string>
 
+    <string name="ramani_orders">Ramani Orders</string>
+    <string name="others">Others</string>
+
+    <string name="receive_now">Receive Now</string>
+
     <string name="supplier">Supplier</string>
     <string name="receiving_date">Receiving Date</string>
     <string name="select_supplier">Select Supplier</string>
     <string name="supporting_document">Supporting Document</string>
     <string name="take_picture_now">Take Picture Now</string>
+    <string name="confirm_delete_photo">Are you sure you want to delete this photo?</string>
 
     <string name="products">Products</string>
     <string name="product">Product</string>
@@ -40,4 +46,5 @@
     <string name="add_with_plus">+ Add</string>
     <string name="expire_date">Expire Date</string>
 
+    <string name="confirm">Confirm</string>
 </resources>

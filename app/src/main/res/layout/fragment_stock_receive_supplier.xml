@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,7 +14,7 @@
         <!-- Receiving Date -->
 
         <TextView
-            style="@style/BoldTextSmallLabel"
+            style="@style/BoldTextLabel"
             android:layout_marginTop="10dp"
             android:text="@string/receiving_date" />
 
@@ -26,36 +27,38 @@
             android:padding="10dp">
 
             <TextView
+                android:id="@+id/supplier_receiving_date_label"
                 style="@style/NormalTextLabel"
                 android:layout_centerVertical="true"
                 android:text="12 sep 2021"
                 android:textColor="@color/dark_grey" />
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="17dp"
+                android:layout_height="17dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ic_close_x_icon" />
+                android:layout_marginEnd="10dp"
+                android:src="@mipmap/ic_calendar_blue" />
         </RelativeLayout>
 
         <!-- Select Supplier -->
 
         <TextView
-            style="@style/BoldTextSmallLabel"
+            style="@style/BoldTextLabel"
             android:layout_marginTop="20dp"
             android:text="@string/select_supplier" />
 
         <com.skydoves.powerspinner.PowerSpinnerView
+            android:id="@+id/supplier_receiving_select_supplier_spinner"
             style="@style/CustomSpinner"
             android:layout_marginTop="10dp"
-            android:hint="@string/select_supplier"
-            app:spinner_item_array="@array/questions" />
+            android:hint="@string/select_supplier" />
 
         <!-- Supporting Document -->
 
         <TextView
-            style="@style/BoldTextSmallLabel"
+            style="@style/BoldTextLabel"
             android:layout_marginTop="20dp"
             android:text="@string/supporting_document" />
 
@@ -68,10 +71,17 @@
             android:padding="10dp">
 
             <GridView
+                android:id="@+id/stock_receive_supplier_gallery"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:horizontalSpacing="5dp"
+                android:numColumns="3"
+                android:longClickable="true"
+                android:verticalSpacing="5dp"
+                tools:ignore="NestedScrolling" />
 
             <LinearLayout
+                android:id="@+id/stock_receive_take_photo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -81,7 +91,7 @@
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:src="@drawable/ic_camera_icon" />
+                    android:src="@mipmap/ic_camera_grey" />
 
                 <TextView
                     style="@style/BoldTextSmallLabel"
@@ -90,6 +100,8 @@
                     android:textColor="@color/dark_grey" />
 
             </LinearLayout>
+
+
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>
