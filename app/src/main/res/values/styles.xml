@@ -7,4 +7,16 @@
         <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <item name="android:background">@color/white</item>
     </style>
+
+    <style name="BoldTextView">
+        <item name="font">@font/raleway_bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <style name="TopButton">
+        <item name="font">@font/raleway</item>
+        <item name="android:background">@drawable/top_button_active</item>
+    </style>
 </resources>

@@ -12,4 +12,11 @@
     <string name="title_welcome_to">Welcome to</string>
     <string name="title_our_privacy_policy">our privacy policy</string>
     <string name="required_field">This field is required</string>
+
+
+    <string name="return_stock">Return Stock</string>
+    <string name="next">Next</string>
+    <string name="salesperson">Salesperson</string>
+    <string name="products">Products</string>
+    <string name="confirm">Confirm</string>
 </resources>
