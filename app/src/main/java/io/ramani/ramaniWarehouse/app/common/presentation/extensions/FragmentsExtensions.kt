@@ -65,6 +65,6 @@ fun Fragment.startDialAction(phoneNumber: String) {
     context?.startDialAction(phoneNumber)
 }
 
-fun Fragment.createView(@LayoutRes layoutRes: Int, code95: ViewGroup? = null, attachTocode95: Boolean = false,
+fun Fragment.createView(@LayoutRes layoutRes: Int, parent: ViewGroup? = null, attachToParent: Boolean = false,
                         init: View.() -> Unit = {}) =
-        context?.createView(layoutRes, code95, attachTocode95, init)
+        context?.createView(layoutRes, parent, attachToParent, init)

@@ -4,7 +4,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.core.content.ContextCompat
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
-import com.code95.android.app.auth.flow.AuthFlowController
+import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
