@@ -29,7 +29,7 @@ import android.widget.ImageView;
 import android.widget.OverScroller;
 import android.widget.Scroller;
 
-public class TouchImageView extends ImageView {
+public class TouchImageView extends androidx.appcompat.widget.AppCompatImageView {
 
     private static final String DEBUG = "DEBUG";
 
@@ -392,7 +392,7 @@ public class TouchImageView extends ImageView {
     /**
      * Set zoom parameters equal to another TouchImageView. Including scale, position,
      * and ScaleType.
-     * @param TouchImageView
+     * @param img
      */
     public void setZoom(TouchImageView img) {
         PointF center = img.getScrollPosition();
@@ -449,7 +449,7 @@ public class TouchImageView extends ImageView {
 
     /**
      * When transitioning from zooming from focus to zoom from center (or vice versa)
-     * the image can become unaligned within the view. This is apcode95 when zooming
+     * the image can become unaligned within the view. This is apparent when zooming
      * quickly. When the content size is less than the view size, the content will often
      * be centered incorrectly within the view. fixScaleTrans first calls fixTrans() and
      * then makes sure the image is centered correctly within the view.

@@ -14,9 +14,9 @@ open class PrefsManager(context: Context) : Prefs {
     )
 
     override var currentUser: String
-        get() = sharedPrefs.getString(PrefsConstants.PREF_CURRENT_USER_ID, null) ?: ""
+        get() = sharedPrefs.getString(PrefsConstants.PREF_CURRENT_USER, null) ?: ""
         set(value) {
-            sharedPrefs.edit().putString(PrefsConstants.PREF_CURRENT_USER_ID, value).apply()
+            sharedPrefs.edit().putString(PrefsConstants.PREF_CURRENT_USER, value).apply()
         }
     override var accessToken: String
         get() = sharedPrefs.getString(PrefsConstants.PREF_ACCESS_TOKEN, null) ?: ""

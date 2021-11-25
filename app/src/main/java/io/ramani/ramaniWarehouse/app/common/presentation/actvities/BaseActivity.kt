@@ -35,7 +35,7 @@ import java.util.*
 
 
 /**
- * This is the code95 Activity for all the Activities across the application
+ * This is the Warehouse Activity for all the Activities across the application
  *
  * Created by Amr on 9/8/17.
  */

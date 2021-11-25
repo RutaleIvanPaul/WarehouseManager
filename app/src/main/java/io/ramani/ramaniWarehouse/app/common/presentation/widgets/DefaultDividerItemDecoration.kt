@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import io.ramani.ramaniWarehouse.domainCore.log.logWarning
@@ -32,40 +31,40 @@ class DefaultDividerItemDecoration(context: Context, private val orientation: In
         setOrientation(orientation)
     }
 
-    override fun onDraw(canvas: Canvas, code95: RecyclerView, state: RecyclerView.State) {
-        if (code95.layoutManager == null || mDivider == null) {
+    override fun onDraw(canvas: Canvas, rv: RecyclerView, state: RecyclerView.State) {
+        if (rv.layoutManager == null || mDivider == null) {
             return
         }
 
         mDivider?.let { divider ->
             if (orientation == VERTICAL) {
-                drawVertical(canvas, code95, divider)
+                drawVertical(canvas, rv, divider)
             } else {
-                drawHorizontal(canvas, code95, divider)
+                drawHorizontal(canvas, rv, divider)
             }
         }
     }
 
-    private fun drawVertical(canvas: Canvas, code95: RecyclerView, divider: Drawable) {
+    private fun drawVertical(canvas: Canvas, rv: RecyclerView, divider: Drawable) {
         canvas.save()
         val left: Int
         val right: Int
 
-        if (code95.clipToPadding) {
-            left = code95.paddingLeft
-            right = code95.width - code95.paddingRight
-            canvas.clipRect(left, code95.paddingTop, right,
-                    code95.height - code95.paddingBottom)
+        if (rv.clipToPadding) {
+            left = rv.paddingLeft
+            right = rv.width - rv.paddingRight
+            canvas.clipRect(left, rv.paddingTop, right,
+                    rv.height - rv.paddingBottom)
         } else {
             left = 0
-            right = code95.width
+            right = rv.width
         }
 
-        val childCount = code95.childCount
+        val childCount = rv.childCount
         for (i in 0 until childCount) {
             if (shouldDraw(i, childCount)) {
-                val child = code95.getChildAt(i)
-                code95.getDecoratedBoundsWithMargins(child, mBounds)
+                val child = rv.getChildAt(i)
+                rv.getDecoratedBoundsWithMargins(child, mBounds)
                 val bottom = mBounds.bottom + child.translationY.roundToInt()
                 val top = bottom - divider.intrinsicHeight
                 divider.setBounds(left, top, right, bottom)
@@ -75,26 +74,26 @@ class DefaultDividerItemDecoration(context: Context, private val orientation: In
         canvas.restore()
     }
 
-    private fun drawHorizontal(canvas: Canvas, code95: RecyclerView, divider: Drawable) {
+    private fun drawHorizontal(canvas: Canvas, rv: RecyclerView, divider: Drawable) {
         canvas.save()
         val top: Int
         val bottom: Int
 
-        if (code95.clipToPadding) {
-            top = code95.paddingTop
-            bottom = code95.height - code95.paddingBottom
-            canvas.clipRect(code95.paddingLeft, top,
-                    code95.width - code95.paddingRight, bottom)
+        if (rv.clipToPadding) {
+            top = rv.paddingTop
+            bottom = rv.height - rv.paddingBottom
+            canvas.clipRect(rv.paddingLeft, top,
+                    rv.width - rv.paddingRight, bottom)
         } else {
             top = 0
-            bottom = code95.height
+            bottom = rv.height
         }
 
-        val childCount = code95.childCount
+        val childCount = rv.childCount
         for (i in 0 until childCount) {
             if (shouldDraw(i, childCount)) {
-                val child = code95.getChildAt(i)
-                code95.layoutManager!!.getDecoratedBoundsWithMargins(child, mBounds)
+                val child = rv.getChildAt(i)
+                rv.layoutManager!!.getDecoratedBoundsWithMargins(child, mBounds)
                 val right = mBounds.right + child.translationX.roundToInt()
                 val left = right - divider.intrinsicWidth
                 divider.setBounds(left, top, right, bottom)

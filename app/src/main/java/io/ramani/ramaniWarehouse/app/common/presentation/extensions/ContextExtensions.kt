@@ -32,9 +32,9 @@ fun Context.drawableMarginSpan(@DrawableRes drawableRes: Int, @DimenRes marginRe
         DrawableMarginSpan(drawable(drawableRes)!!, resources.getDimensionPixelSize(marginRes))
 
 inline fun Context.createView(@LayoutRes layoutRes: Int,
-                              code95: ViewGroup? = null,
-                              attachTocode95: Boolean = false,
+                              parent: ViewGroup? = null,
+                              attachToparent: Boolean = false,
                               init: View.() -> Unit = {}): View =
-        layoutInflater.inflate(layoutRes, code95, attachTocode95).apply {
+        layoutInflater.inflate(layoutRes, parent, attachToparent).apply {
             init(this)
         }

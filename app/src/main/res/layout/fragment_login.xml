@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/login_main_background"
     android:layout_width="match_parent"
-    android:background="@color/matte_black"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <TextView
@@ -13,7 +13,7 @@
         android:layout_marginTop="70dp"
         android:text="@string/title_welcome_to"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:textColor="@color/matte_black"
         android:textSize="25sp" />
 
     <TextView
@@ -24,7 +24,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/app_name"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
+        android:textColor="@color/matte_black"
         android:textSize="30sp"
         app:fontFamily="sans-serif" />
     <!--ViewPager-->
