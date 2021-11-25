@@ -9,16 +9,19 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.auth.model.LoginRequestModel
+import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
+import io.reactivex.rxkotlin.subscribeBy
 
 class LoginViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
-    private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>
+    private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>,
+    private val prefs: PrefsManager
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
@@ -40,11 +43,13 @@ class LoginViewModel(
             isLoadingVisible = true
             var phoneEnhanced = phone
             if (phoneEnhanced.toCharArray()[0] == '0')
-                phoneEnhanced = phoneEnhanced.replaceFirst("0","")// remove first character
+                phoneEnhanced = phoneEnhanced.replaceFirst("0", "")// remove first character
             phoneEnhanced = "255${phoneEnhanced}"
             val single = loginUseCase.getSingle(LoginRequestModel(phoneEnhanced, password))
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
+                prefs.currentUser = it.toString()
+                sessionManager.refreshAccessToken(it.token)
                 loginActionLiveData.postValue(it)
                 Log.d("ALLAH", "login SUCCESS: $it")
             }, onError = {
@@ -64,7 +69,8 @@ class LoginViewModel(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
-        private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>
+        private val loginUseCase: BaseSingleUseCase<UserModel, LoginRequestModel>,
+        private val prefs: PrefsManager
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -73,7 +79,8 @@ class LoginViewModel(
                     application,
                     stringProvider,
                     sessionManager,
-                    loginUseCase
+                    loginUseCase,
+                    prefs
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

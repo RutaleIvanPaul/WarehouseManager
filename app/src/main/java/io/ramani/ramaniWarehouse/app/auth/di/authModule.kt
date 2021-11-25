@@ -22,7 +22,7 @@ val authModule = Module("authModule") {
     bind<LoginViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, LoginViewModel.Factory(
-                instance(), instance(), instance(), instance("loginUseCase")
+                instance(), instance(), instance(), instance("loginUseCase"),instance()
             )
         ).get(LoginViewModel::class.java)
     }
