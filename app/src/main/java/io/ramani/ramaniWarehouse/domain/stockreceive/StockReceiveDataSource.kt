@@ -6,5 +6,6 @@ import io.reactivex.Single
 
 interface StockReceiveDataSource {
     fun getSuppliers(companyId: String, page: Int, size: Int): Single<List<SupplierModel>>
+    fun getDeclineReasons(): Single<List<String>>
 
 }

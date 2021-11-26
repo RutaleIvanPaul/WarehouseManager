@@ -31,6 +31,9 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
     override fun getLayoutResId(): Int = R.layout.fragment_stock_receive_now_host
 
+    private var supplierFragment: StockReceiveSupplierFragment? = null
+    private var productsFragment: StockReceiveProductsFragment? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
@@ -46,6 +49,9 @@ class StockReceiveNowHostFragment : BaseFragment() {
         }
 
         stock_receive_now_host_next_button.setOnClickListener {
+            if (stock_receive_now_host_viewpager.currentItem == 0)
+                productsFragment?.updateView()
+
             stock_receive_now_host_viewpager.currentItem += 1
         }
 
@@ -81,9 +87,12 @@ class StockReceiveNowHostFragment : BaseFragment() {
     }
 
     private fun initTabLayout() {
+        supplierFragment = StockReceiveSupplierFragment.newInstance()
+        productsFragment = StockReceiveProductsFragment.newInstance()
+
         val adapter = AdapterTabPager(activity)
-        adapter.addFragment(StockReceiveSupplierFragment.newInstance(), getString(R.string.supplier))
-        adapter.addFragment(StockReceiveSupplierFragment.newInstance(), getString(R.string.products))
+        adapter.addFragment(supplierFragment!!, getString(R.string.supplier))
+        adapter.addFragment(productsFragment!!, getString(R.string.products))
         adapter.addFragment(StockReceiveSupplierFragment.newInstance(), getString(R.string.confirm))
 
         stock_receive_now_host_viewpager.isUserInputEnabled = false

@@ -62,4 +62,43 @@ class StockReceiveRemoteDataSource(
                 }
         )
 
+    override fun getDeclineReasons() =
+        callSingle(
+            stockReceiveApi.getDeclineReasons().flatMap {
+                val data = it.data
+                if (data != null) {
+                    Single.just(data)
+                } else {
+                    Single.error(ParseResponseException())
+                }
+            }
+                .onErrorResumeNext {
+                    if (it is HttpException) {
+                        val code = it.code()
+                        val errorResponse = it.toErrorResponseModel<BaseErrorResponse<Any>>()
+                        when (code) {
+                            ErrorConstants.INPUT_VALIDATION_400,
+                            ErrorConstants.NOT_FOUND_404 ->
+                                Single.error(InvalidLoginException(errorResponse?.message))
+                            ErrorConstants.NOT_AUTHORIZED_403 ->
+                                Single.error(AccountNotActiveException(errorResponse?.message))
+                            else -> Single.error(it)
+                        }
+                    } else if (it is NotAuthenticatedException) {
+                        val message =
+                            if (!it.message.isNullOrBlank()) it.message
+                            else if (it.cause.isNotNull() && !it.cause?.message.isNullOrBlank()) it.cause?.message
+                            else "Not Authorized exception"
+                        Single.error(
+                            NotAuthorizedException(
+                                message ?: ""
+                            )
+                        )
+
+                    } else {
+                        Single.error(it)
+                    }
+                }
+        )
+
 }

@@ -1,35 +1,40 @@
 package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.data.auth.model.GetSupplierRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.GetSupplierRequestModel
-import io.ramani.ramaniWarehouse.data.auth.model.LoginRequestModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
-import io.ramani.ramaniWarehouse.domain.auth.model.SelectedSupplierDataModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedSupplierDataModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
-import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
+import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniWarehouse.domain.base.v2.Params
 import java.util.*
+import kotlin.collections.ArrayList
 
 class StockReceiveNowViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
-    private val getSupplierUseCase: BaseSingleUseCase<List<SupplierModel>, GetSupplierRequestModel>
+    private val getSupplierUseCase: BaseSingleUseCase<List<SupplierModel>, GetSupplierRequestModel>,
+    private val getDeclineReasonsUseCase: BaseSingleUseCase<List<String>, Params>
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
-    val supplierData = SelectedSupplierDataModel()
-
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
+
     val getSuppliersActionLiveData = MutableLiveData<List<SupplierModel>>()
+    var suppliers = ArrayList<SupplierModel>()
+
+    val getDeclineReasonsActionLiveData = MutableLiveData<List<String>>()
+
+    // Selected Supplier Data
+    val supplierData = SelectedSupplierDataModel()
 
     override fun start(args: Map<String, Any?>) {
         /*
@@ -49,6 +54,7 @@ class StockReceiveNowViewModel(
         subscribeSingle(single, onSuccess = {
             isLoadingVisible = false
 
+            suppliers = it as ArrayList<SupplierModel>
             getSuppliersActionLiveData.postValue(it)
         }, onError = {
             isLoadingVisible = false
@@ -57,12 +63,40 @@ class StockReceiveNowViewModel(
         })
     }
 
+    private fun getDeclineReasons() {
+        isLoadingVisible = true
+
+        val single = getDeclineReasonsUseCase.getSingle()
+        subscribeSingle(single, onSuccess = {
+            isLoadingVisible = false
+
+            getDeclineReasonsActionLiveData.postValue(it)
+        }, onError = {
+            isLoadingVisible = false
+            notifyError(it.message
+                ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
+        })
+    }
+
+    fun getAvailableProductsForSelectedSupplier(): List<SupplierProductModel> {
+        supplierData.supplier?.let {
+            for (supplier in suppliers) {
+                if (supplier.id == it.id ?: "")
+                    return supplier.products
+            }
+        }
+
+        return ArrayList()
+    }
+
     /**
      * Set any data
      */
     fun setData(what: Int, value: Any) {
         when (what) {
-            DATA_SUPPLIER -> supplierData.supplier = value as SupplierModel
+            DATA_SUPPLIER -> {
+                supplierData.supplier = value as SupplierModel
+            }
             DATA_DATE -> supplierData.date = value as Date
             DATA_DOCUMENTS -> supplierData.documents = value as List<String>
         }
@@ -72,7 +106,8 @@ class StockReceiveNowViewModel(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
-        private val getSupplierUseCase: BaseSingleUseCase<List<SupplierModel>, GetSupplierRequestModel>
+        private val getSupplierUseCase: BaseSingleUseCase<List<SupplierModel>, GetSupplierRequestModel>,
+        private val getDeclineReasonsUseCase: BaseSingleUseCase<List<String>, Params>
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -81,7 +116,7 @@ class StockReceiveNowViewModel(
                     application,
                     stringProvider,
                     sessionManager,
-                    getSupplierUseCase
+                    getSupplierUseCase, getDeclineReasonsUseCase
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

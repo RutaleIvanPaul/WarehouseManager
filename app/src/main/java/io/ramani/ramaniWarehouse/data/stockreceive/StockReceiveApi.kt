@@ -15,4 +15,7 @@ interface StockReceiveApi {
         @Query("size") size: Int
     ): Single<BaseResponse<GetSupplierRemoteModel>>
 
+    @GET("/api/v1/account/decline-reasons")
+    fun getDeclineReasons(): Single<BaseResponse<List<String>>>
+
 }

@@ -14,4 +14,8 @@ class StockReceiveLocalDataSource(
         TODO("Not yet implemented")
     }
 
+    override fun getDeclineReasons(): Single<List<String>> {
+        TODO("Not yet implemented")
+    }
+
 }
