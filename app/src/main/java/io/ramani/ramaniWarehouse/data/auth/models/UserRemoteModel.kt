@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.data.auth.model
+package io.ramani.ramaniWarehouse.data.auth.models
 
 import com.google.gson.annotations.SerializedName
 

@@ -5,7 +5,7 @@ import io.ramani.ramaniWarehouse.data.auth.AuthLocalDataSource
 import io.ramani.ramaniWarehouse.data.auth.AuthRemoteDataSource
 import io.ramani.ramaniWarehouse.data.auth.AuthRepository
 import io.ramani.ramaniWarehouse.data.auth.mappers.UserRemoteMapper
-import io.ramani.ramaniWarehouse.data.auth.model.UserRemoteModel
+import io.ramani.ramaniWarehouse.data.auth.models.UserRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ServiceHelper
 import io.ramani.ramaniWarehouse.domain.auth.AuthDataSource
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
