@@ -17,6 +17,7 @@
     <string name="continue_">Continue</string>
     <string name="next">Next</string>
     <string name="save">Save</string>
+    <string name="done">Done</string>
 
     <!-- Receive Stock -->
     <string name="receive_stock">Receive Stock</string>
@@ -48,4 +49,14 @@
     <string name="expire_date">Expire Date</string>
 
     <string name="confirm">Confirm</string>
+
+    <!-- Warning Messages -->
+    <string name="warning_select_supplier">Please select supplier</string>
+    <string name="warning_add_product">Please add one more of product</string>
+    <string name="warning_select_product">Please select product</string>
+    <string name="warning_select_unit">Please select unit</string>
+    <string name="warning_put_amount">You cannot add product without amount</string>
+    <string name="warning_select_declined_reason">Please select declined reason</string>
+    <string name="warning_invalid_unit">Invalid unit price</string>
+
 </resources>

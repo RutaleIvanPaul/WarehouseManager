@@ -39,6 +39,9 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
+import android.widget.AdapterView
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
+
 
 class StockReceiveSupplierFragment : BaseFragment() {
     companion object {
@@ -86,6 +89,15 @@ class StockReceiveSupplierFragment : BaseFragment() {
 
         gridViewAdapter = GridViewAdapter(requireActivity(), images)
         stock_receive_supplier_gallery.adapter = gridViewAdapter
+        stock_receive_supplier_gallery.onItemLongClickListener =
+            AdapterView.OnItemLongClickListener { parent, view, position, id ->
+                showConfirmDialog("Are you sure you want to delete this photo?", onConfirmed = {
+                    images.removeAt(position)
+                    updateGallery()
+                })
+
+                true
+            }
 
         viewModel.start()
         subscribeObservers()
@@ -217,6 +229,9 @@ class StockReceiveSupplierFragment : BaseFragment() {
         return bitmap
     }
 
+    /**
+     * Grid Adapter
+     */
     class GridViewAdapter(private val context: Context, var listImageURLs: List<String>) : BaseAdapter() {
 
         fun setImages(images: List<String>) {

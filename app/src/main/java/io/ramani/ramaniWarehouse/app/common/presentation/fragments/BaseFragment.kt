@@ -4,6 +4,7 @@ import android.content.pm.ActivityInfo
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -315,5 +316,19 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
 
     open fun onScroll(dx: Int, dy: Int) {
 
+    }
+
+    protected fun getFieldValueByInt(editText: EditText): Int {
+        if (editText.text.isNotBlank())
+            return editText.text.toString().toInt()
+        else
+            return -1
+    }
+
+    protected fun getFieldValueByDouble(editText: EditText): Double {
+        if (editText.text.isNotBlank())
+            return editText.text.toString().toDouble()
+        else
+            return -1.0
     }
 }

@@ -16,6 +16,7 @@ import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
 import java.util.*
+import javax.inject.Singleton
 import kotlin.collections.ArrayList
 
 class StockReceiveNowViewModel(
@@ -32,9 +33,6 @@ class StockReceiveNowViewModel(
     var suppliers = ArrayList<SupplierModel>()
 
     val getDeclineReasonsActionLiveData = MutableLiveData<List<String>>()
-
-    // Selected Supplier Data
-    val supplierData = SelectedSupplierDataModel()
 
     override fun start(args: Map<String, Any?>) {
         /*
@@ -63,7 +61,7 @@ class StockReceiveNowViewModel(
         })
     }
 
-    private fun getDeclineReasons() {
+    fun getDeclineReasons() {
         isLoadingVisible = true
 
         val single = getDeclineReasonsUseCase.getSingle()
@@ -80,10 +78,7 @@ class StockReceiveNowViewModel(
 
     fun getAvailableProductsForSelectedSupplier(): List<SupplierProductModel> {
         supplierData.supplier?.let {
-            for (supplier in suppliers) {
-                if (supplier.id == it.id ?: "")
-                    return supplier.products
-            }
+            return it.products
         }
 
         return ArrayList()
@@ -100,6 +95,12 @@ class StockReceiveNowViewModel(
             DATA_DATE -> supplierData.date = value as Date
             DATA_DOCUMENTS -> supplierData.documents = value as List<String>
         }
+    }
+
+    fun clearData() {
+        // Clear global data
+        supplierData.clear()
+        System.gc()
     }
 
     class Factory(
@@ -127,5 +128,8 @@ class StockReceiveNowViewModel(
         val DATA_SUPPLIER = 1000
         val DATA_DOCUMENTS = 1001
         val DATA_DATE = 1002
+
+        // Selected Supplier Data
+        var supplierData = SelectedSupplierDataModel()
     }
 }

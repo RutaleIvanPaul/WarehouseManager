@@ -9,18 +9,19 @@ import java.util.*
  *
  * @author          Adrian
  */
-class SelectedProductModel {
-    var product: SupplierProductModel? = null
-    var units: String = ""
-    var accepted: Int = 0
-    var declined: Int = 0
-    var declinedReason: String = ""
-    var unitPrice: Int = 0
-    var parameters: List<ProductParameterModel>? = null
-    var expireDate: Date? = null
-}
+data class SelectedProductModel(
+    var product: SupplierProductModel? = null,
+    var units: String = "",
+    var accepted: Int = 0,
+    var declined: Int = 0,
+    var declinedReason: String = "",
+    var unitPrice: Double = 0.0,
+    var parameters: List<ProductParameterModel>? = null,
+    var expireDate: String? = ""
+)
 
-class ProductParameterModel {
-    var name: String = ""
+
+data class ProductParameterModel(
+    var name: String = "",
     var size: String = ""
-}
+)

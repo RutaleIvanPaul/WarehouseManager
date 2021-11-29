@@ -10,9 +10,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.loader
 import org.kodein.di.generic.factory
@@ -44,15 +46,45 @@ class StockReceiveNowHostFragment : BaseFragment() {
         super.initView(view)
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
 
+        // Back button handler
         stock_receive_now_host_back.setOnClickListener {
-            flow.pop(this)
+            showConfirmDialog("Are you sure you want to cancel receive stocks?", onConfirmed = {
+                viewModel.clearData()
+                flow.pop(this)
+            })
         }
 
+        // Next button handler
         stock_receive_now_host_next_button.setOnClickListener {
-            if (stock_receive_now_host_viewpager.currentItem == 0)
-                productsFragment?.updateView()
+            var allowGo = true
 
-            stock_receive_now_host_viewpager.currentItem += 1
+            if (stock_receive_now_host_viewpager.currentItem == 0) {
+                if (StockReceiveNowViewModel.supplierData.supplier == null) {
+                    errorDialog(getString(R.string.warning_select_supplier))
+                    allowGo = false
+                }
+
+                if (allowGo) {
+                    stock_receive_now_host_next_button.text = getString(R.string.next)
+                    stock_receive_now_host_indicator_2.visibility = View.VISIBLE
+                }
+
+            } else if (stock_receive_now_host_viewpager.currentItem == 1) {
+                if (StockReceiveNowViewModel.supplierData.products.isNullOrEmpty()) {
+                    errorDialog(getString(R.string.warning_add_product))
+                    allowGo = false
+                }
+
+                if (allowGo) {
+                    stock_receive_now_host_next_button.text = getString(R.string.done)
+                    stock_receive_now_host_indicator_3.visibility = View.VISIBLE
+                }
+            }
+
+            //    productsFragment?.updateView()
+
+            if (allowGo)
+                stock_receive_now_host_viewpager.currentItem += 1
         }
 
         initTabLayout()
@@ -112,7 +144,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
         private val mFragmentList: MutableList<Fragment> = ArrayList()
         private val mFragmentTitleList: MutableList<String> = ArrayList()
 
-        public fun getTabTitle(position : Int): String{
+        fun getTabTitle(position : Int): String{
             return mFragmentTitleList[position]
         }
 
@@ -129,6 +161,5 @@ class StockReceiveNowHostFragment : BaseFragment() {
             return mFragmentList[position]
         }
     }
-
 
 }
