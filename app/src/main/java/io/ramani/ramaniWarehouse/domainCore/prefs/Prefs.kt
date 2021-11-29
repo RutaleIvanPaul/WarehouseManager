@@ -8,5 +8,6 @@ interface Prefs {
     var accessToken: String
     val hasAccessToken: Boolean
     var refreshToken: String
+    var currentWarehouse:String
 
 }

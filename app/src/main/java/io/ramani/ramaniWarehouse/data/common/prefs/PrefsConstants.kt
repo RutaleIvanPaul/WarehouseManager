@@ -8,4 +8,5 @@ object PrefsConstants {
     const val PREF_CURRENT_USER = "current_user"
     const val PREF_ACCESS_TOKEN = "access_token"
     const val PREF_REFRESH_TOKEN = "refresh_token"
+    const val PREF_CURRENT_WAREHOUSE = "current_warehouse"
 }
