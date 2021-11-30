@@ -50,7 +50,7 @@ class AuthRemoteDataSource(
                         val message =
                             if (!it.message.isNullOrBlank()) it.message
                             else if (it.cause.isNotNull() && !it.cause?.message.isNullOrBlank()) it.cause?.message
-                            else "Not Authorized exception"
+                            else "No active user with those credentials"
                         Single.error(
                             NotAuthorizedException(
                                 message ?: ""

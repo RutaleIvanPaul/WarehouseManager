@@ -14,7 +14,6 @@ import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
-import io.reactivex.rxkotlin.subscribeBy
 
 class LoginViewModel(
     application: Application,
@@ -49,7 +48,7 @@ class LoginViewModel(
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
                 prefs.currentUser = it.toString()
-                sessionManager.refreshAccessToken(it.token)
+                prefs.accessToken = it.token
                 loginActionLiveData.postValue(it)
                 Log.d("ALLAH", "login SUCCESS: $it")
             }, onError = {
