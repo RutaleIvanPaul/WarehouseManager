@@ -41,6 +41,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.AdapterView
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
+import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 
 
 class StockReceiveSupplierFragment : BaseFragment() {
@@ -81,6 +82,8 @@ class StockReceiveSupplierFragment : BaseFragment() {
             viewModel.getSuppliersActionLiveData.value?.get(newIndex)?.let {
                 viewModel.setData(DATA_SUPPLIER, it)
             }
+
+            checkIfGoNext()
         }
 
         stock_receive_take_photo.setOnClickListener {
@@ -136,6 +139,8 @@ class StockReceiveSupplierFragment : BaseFragment() {
             notifyDataSetInvalidated()
         }
 
+        viewModel.setData(StockReceiveNowViewModel.DATA_DOCUMENTS, images)
+        checkIfGoNext()
     }
 
     private fun showTakePhotoDialog() {
@@ -227,6 +232,13 @@ class StockReceiveSupplierFragment : BaseFragment() {
         }
 
         return bitmap
+    }
+
+    private fun checkIfGoNext() {
+        StockReceiveNowViewModel.supplierData?.let {
+            if (it.supplier.isNotNull() && !it.documents.isNullOrEmpty())
+                StockReceiveNowViewModel.allowToGoNext.postValue(Pair(0, true))
+        }
     }
 
     /**

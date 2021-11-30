@@ -17,7 +17,9 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_SUPPLIER
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.ProductParameterModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
+import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_products.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_supplier.*
@@ -26,6 +28,11 @@ import org.kodein.di.generic.instance
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+import android.view.LayoutInflater
+
+import android.widget.LinearLayout
+import kotlinx.android.synthetic.main.item_stock_receive_product_parameter.view.*
+
 
 class StockReceiveProductsFragment : BaseFragment() {
     companion object {
@@ -42,6 +49,7 @@ class StockReceiveProductsFragment : BaseFragment() {
     // Products Variables
     private var availableProducts: ArrayList<SupplierProductModel> = ArrayList()
     private var addedProducts: ArrayList<SelectedProductModel> = ArrayList()
+    private var parameters: ArrayList<ProductParameterModel> = ArrayList()
 
     private val dateFormatter: DateFormatter by instance()
     private var calendar = Calendar.getInstance()
@@ -85,11 +93,19 @@ class StockReceiveProductsFragment : BaseFragment() {
             })
         }
 
+        // Manage parameters
+        product_add_parameter.setOnClickListener {
+            addParametersLayout(ProductParameterModel("Temperature", ""))
+        }
+        addParametersLayout(ProductParameterModel("Temperature", ""))
+
         // Add action
         products_add_product_button.setOnClickListener {
             if (doSave()) {
                 updateProducts()
                 clearAllFields()
+
+                StockReceiveNowViewModel.allowToGoNext.postValue(Pair(1, true))
             }
         }
 
@@ -245,5 +261,24 @@ class StockReceiveProductsFragment : BaseFragment() {
 
     private fun updateProducts() {
         products_added_amount.text = String.format("%d %s", addedProducts.size, getString(R.string.added))
+    }
+
+    /**
+     * Add new parameters
+     */
+    private fun addParametersLayout(parameter: ProductParameterModel) {
+        parameters.add(parameter)
+
+        val listItem = ArrayList<String>()
+        listItem.add(parameter.name)
+
+        val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_receive_product_parameter, null)
+        itemView.products_parameter_spinner.setItems(listItem)
+        itemView.products_parameter_size.setText(parameter.size)
+        itemView.products_parameter_delete.setOnClickListener {
+            products_parameter_container.removeView(itemView)
+        }
+
+        products_parameter_container.addView(itemView)
     }
 }

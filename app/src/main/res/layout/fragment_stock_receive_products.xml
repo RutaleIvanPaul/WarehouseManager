@@ -146,7 +146,6 @@
 
                 </LinearLayout>
 
-
                 <!-- Why Declined Selector -->
 
                 <TextView
@@ -170,12 +169,11 @@
                     style="@style/NormalEditText"
                     android:layout_marginTop="10dp"
                     android:hint="@string/unit_price"
-                    android:inputType="number" />
+                    android:inputType="numberDecimal" />
 
                 <!-- Parameters Size -->
 
                 <LinearLayout
-                    android:id="@+id/products_parameter_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -184,28 +182,41 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center">
 
                         <TextView
                             style="@style/StockReceiveItemTitle"
                             android:layout_width="0dp"
                             android:layout_weight="2"
+                            android:layout_marginTop="0dp"
                             android:text="@string/parameter" />
 
                         <TextView
                             style="@style/StockReceiveItemTitle"
                             android:layout_width="0dp"
                             android:layout_marginStart="15dp"
+                            android:layout_marginTop="0dp"
                             android:layout_weight="1"
                             android:text="@string/size" />
 
                         <TextView
-                            style="@style/StockReceiveItemTitle"
+                            android:id="@+id/product_add_parameter"
+                            style="@style/BoldTextLabel"
                             android:layout_width="0dp"
-                            android:layout_marginStart="15dp"
-                            android:layout_weight="0.5" />
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:text="@string/add_with_plus"
+                            android:textColor="@color/secondary_blue" />
 
                     </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/products_parameter_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
                 </LinearLayout>
 
                 <!-- Expire Date Selector -->

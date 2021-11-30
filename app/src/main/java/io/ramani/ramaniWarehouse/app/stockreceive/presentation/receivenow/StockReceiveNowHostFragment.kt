@@ -2,6 +2,8 @@ package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -11,6 +13,7 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.tint
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -39,6 +42,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        viewModel.clearData()
         initSubscribers()
     }
 
@@ -66,7 +70,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
                 if (allowGo) {
                     stock_receive_now_host_next_button.text = getString(R.string.next)
-                    stock_receive_now_host_indicator_2.visibility = View.VISIBLE
+                    stock_receive_now_host_indicator_1.visibility = View.VISIBLE
                 }
 
             } else if (stock_receive_now_host_viewpager.currentItem == 1) {
@@ -77,7 +81,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
                 if (allowGo) {
                     stock_receive_now_host_next_button.text = getString(R.string.done)
-                    stock_receive_now_host_indicator_3.visibility = View.VISIBLE
+                    stock_receive_now_host_indicator_2.visibility = View.VISIBLE
                 }
             }
 
@@ -110,6 +114,16 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
         viewModel.getSuppliersActionLiveData.observe(this, {
 
+        })
+
+        StockReceiveNowViewModel.allowToGoNext.observe(this, {
+            if (it.second) {
+                when (it.first) {
+                    0 -> DrawableCompat.setTint(stock_receive_now_host_indicator_0.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green));
+                    1 -> DrawableCompat.setTint(stock_receive_now_host_indicator_1.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green));
+                    2 -> DrawableCompat.setTint(stock_receive_now_host_indicator_2.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green));
+                }
+            }
         })
     }
 

@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingTop="10dp"
     android:orientation="horizontal">
 
     <com.skydoves.powerspinner.PowerSpinnerView
@@ -15,20 +17,18 @@
         app:spinner_arrow_tint="@color/light_grey" />
 
     <EditText
+        android:id="@+id/products_parameter_size"
         style="@style/NormalEditText"
         android:layout_width="0dp"
         android:layout_marginStart="15dp"
         android:layout_weight="1"
         android:hint="@string/size" />
 
-    <TextView
-        style="@style/BoldTextLabel"
+    <ImageView
+        android:id="@+id/products_parameter_delete"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="15dp"
+        android:layout_height="18dp"
         android:layout_weight="0.5"
-        android:gravity="center_vertical"
-        android:text="@string/add_with_plus"
-        android:textColor="@color/secondary_blue" />
+        android:src="@drawable/ic_delete_icon" />
 
 </LinearLayout>

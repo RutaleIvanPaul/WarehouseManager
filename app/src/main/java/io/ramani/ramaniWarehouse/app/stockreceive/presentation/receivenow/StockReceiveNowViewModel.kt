@@ -100,6 +100,8 @@ class StockReceiveNowViewModel(
     fun clearData() {
         // Clear global data
         supplierData.clear()
+        allowToGoNext = MutableLiveData<Pair<Int, Boolean>>()
+
         System.gc()
     }
 
@@ -131,5 +133,6 @@ class StockReceiveNowViewModel(
 
         // Selected Supplier Data
         var supplierData = SelectedSupplierDataModel()
+        var allowToGoNext = MutableLiveData<Pair<Int, Boolean>>()      // Allow event to go next on each page
     }
 }
