@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/stock_receive_main_others_receive_now"
+        style="@style/BlueActionWithArrowButton"
+        android:layout_width="match_parent"
+        android:layout_margin="20dp"
+        android:text="@string/receive_now" />
+</LinearLayout>

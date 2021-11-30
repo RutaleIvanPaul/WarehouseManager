@@ -30,7 +30,7 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         const val SERVER_RECEIVE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         const val VIEW_DISPLAY_DATE_FORMAT = "hh:mm a • dd/MM, yyyy"
         const val SERVER_RECEIVE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss"
-        const val CALENDAR_FORMAT = "dd MMM yy"
+        const val CALENDAR_FORMAT = "dd MMM yyyy"
         const val UTC_TIME_ZONE = "UTC"
         const val MEDIA_DOWNLOAD_FORMAT = "yyyyMMdd"
         const val TIME_FORMAT_AM_PM = "hh:mm a"
@@ -115,6 +115,10 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         }
     }
 
+    fun getCalendarTimeString(date: Date): String {
+        val simpleDateFormat = SimpleDateFormat(CALENDAR_FORMAT)
+        return simpleDateFormat.format(date)
+    }
 
 }
 
