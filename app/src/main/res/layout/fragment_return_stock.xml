@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Header -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="10dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="20dp">
+
+            <LinearLayout
+                android:id="@+id/stock_receive_now_host_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/BoldTextLabel"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/return_stock" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/stock_receive_now_host_next_button"
+                style="@style/NormalActionButton"
+                android:layout_alignParentEnd="true"
+                android:text="@string/next" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- Check Marks -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/stock_receive_now_host_indicator_0"
+                    style="@style/CheckMarksForTabs"
+                    app:tint="@color/dark_grey" />
+
+                <ImageView
+                    android:id="@+id/stock_receive_now_host_indicator_1"
+                    style="@style/CheckMarksForTabs"
+                    app:tint="@color/dark_grey"
+                    android:visibility="invisible" />
+
+                <ImageView
+                    android:id="@+id/stock_receive_now_host_indicator_2"
+                    style="@style/CheckMarksForTabs"
+                    app:tint="@color/dark_grey"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/light_grey" />
+
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/return_stock_tablayout"
+                    style="@style/CommonTabLayout"
+                    android:layout_height="match_parent"
+                    android:background="@color/transparent" />
+
+            </RelativeLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/return_stock_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

@@ -2,10 +2,10 @@ package io.ramani.ramaniWarehouse.app.common.presentation.dialogs
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.showSnackbar
 import io.ramani.ramaniWarehouse.app.common.presentation.interfaces.DisposablesHolder
@@ -31,6 +31,9 @@ abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment(), Kode
 
 
     private val snackbars = mutableMapOf<Snackbar, BaseTransientBottomBar.BaseCallback<Snackbar>>()
+
+    val baseActivity: BaseActivity?
+        get() = if (isAdded && activity is BaseActivity) activity as BaseActivity else null
 
     override fun onResume() {
         super.onResume()

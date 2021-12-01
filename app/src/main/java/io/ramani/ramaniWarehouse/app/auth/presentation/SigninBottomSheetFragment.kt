@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
@@ -35,6 +36,7 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
         initSubscribers()
+        flow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
     }
 
     private fun initSubscribers() {
@@ -64,6 +66,7 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
                 phone_et.error = null
                 password_pwd_et.error = null
                 // TODO: nav to main screen
+                flow.openReturnStock()
             } else {
                 phone_et.error = if (it.first) null else getString(R.string.required_field)
                 password_pwd_et.error = if (it.second) null else getString(R.string.required_field)
