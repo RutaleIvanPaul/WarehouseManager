@@ -29,17 +29,19 @@ class MainNavViewModel(
     private val warehouseModelMapper: ModelMapper<WarehouseModel, WarehouseModelView>
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
-    private var page = 1
-    private var hasMoreToLoad = false
-    val warehousesList = mutableListOf<WarehouseModelView>()
-    val warehousesItemsList = mutableListOf<String>()
+    companion object {
+        val warehousesList = mutableListOf<WarehouseModelView>()
+        private var page = 1
+         var hasMoreToLoad = false
+        var currentWarehouse: WarehouseModel? = null
+    }
+
     val onWarehousesLoadedLiveData = MutableLiveData<Boolean>()
-    var currentWarehouse: WarehouseModel? = null
     override fun start(args: Map<String, Any?>) {
         loadWarehouses()
     }
 
-    private fun loadWarehouses() {
+     fun loadWarehouses() {
         isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy {
             val single =
@@ -64,9 +66,6 @@ class MainNavViewModel(
                             currentWarehouse = savedWarehouse
                         }
                     }
-                    warehousesList.forEach {
-                        warehousesItemsList.add(it.name ?: "")
-                    }
                     onWarehousesLoadedLiveData.postValue(true)
                 }
             }, onError = {
@@ -80,9 +79,12 @@ class MainNavViewModel(
         }
     }
 
-    fun onWarehouseSelected(position: Int) {
-        currentWarehouse = warehousesList[position].mapToWith(warehouseModelMapper)
-        prefs.currentWarehouse = currentWarehouse.toString()
+    fun onWarehouseSelected(id: String) {
+        currentWarehouse =
+            warehousesList.firstOrNull { it.id == id }?.mapToWith(warehouseModelMapper)
+        if (currentWarehouse != null) {
+            prefs.currentWarehouse = currentWarehouse.toString()
+        }
     }
 
     class Factory(

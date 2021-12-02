@@ -4,8 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
-import io.ramani.ramaniWarehouse.app.common.presentation.extensions.showSelectPopUp
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow.MainNavFlow
@@ -38,6 +39,29 @@ class MainNavFragment : BaseFragment() {
         flow = MainNavFlowController(baseActivity!!)
         initSubscribers()
         viewModel.start()
+        setupNavs()
+    }
+
+    private fun setupNavs() {
+        receive_stock_button.setOnSingleClickListener {
+            flow.openReceiveStock()
+        }
+
+        assign_stock_button.setOnSingleClickListener {
+            flow.openAssignStock()
+        }
+
+        return_stock_button.setOnSingleClickListener {
+            flow.openReturnStock()
+        }
+
+        stock_report_button.setOnSingleClickListener {
+            flow.openStockReport()
+        }
+
+        assignment_report_button.setOnSingleClickListener {
+            flow.openAssignmentReport()
+        }
     }
 
     private fun initSubscribers() {
@@ -48,21 +72,27 @@ class MainNavFragment : BaseFragment() {
         subscribeOnWarehousesLoaded()
     }
 
+    override fun setLoadingIndicatorVisible(visible: Boolean) {
+        super.setLoadingIndicatorVisible(visible)
+        loader.visible(visible)
+    }
+
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
+    }
+
     private fun subscribeOnWarehousesLoaded() {
         viewModel.onWarehousesLoadedLiveData.observe(this, {
 
-            if (viewModel.currentWarehouse != null) {
-                warehouse_spinner.text = viewModel.currentWarehouse?.name ?: ""
+            if (MainNavViewModel.currentWarehouse != null) {
+                warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
             }
 
             warehouse_spinner.setOnSingleClickListener {
-                it.showSelectPopUp(
-                    viewModel.warehousesItemsList,
-                    wrapWidth = true,
-                    onItemClick = { _, item, position ->
-                        viewModel.onWarehouseSelected(position)
-                        warehouse_spinner.text = viewModel.currentWarehouse?.name ?: ""
-                    })
+                flow.openWarehousesBottomSheet()
+                warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
             }
         })
     }
