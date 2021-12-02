@@ -11,6 +11,9 @@ import org.kodein.di.generic.instance
 
 val returnStockModule = Kodein.Module("returnStockModule") {
 
+    import(returnStockDataModule)
+    import(returnStockDomainModule)
+
     bind<ReturnStockViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, ReturnStockViewModel.Factory(
@@ -22,7 +25,7 @@ val returnStockModule = Kodein.Module("returnStockModule") {
     bind<SalesPersonViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, SalesPersonViewModel.Factory(
-                instance(), instance(), instance()
+                instance(), instance(), instance(), instance("getSalespeopleUseCase")
             )
         ).get(SalesPersonViewModel::class.java)
     }

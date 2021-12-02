@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import io.ramani.ramaniWarehouse.R
 
-class SalespersonBottomSheetRVAdapter(private val salespeople: Array<String>)
+class SalespersonBottomSheetRVAdapter(private var salespeople: ArrayList<String>)
     :RecyclerView.Adapter<SalespersonBottomSheetRVAdapter.ViewHolder>() {
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         val textView: TextView
@@ -29,6 +29,11 @@ class SalespersonBottomSheetRVAdapter(private val salespeople: Array<String>)
     }
 
     override fun getItemCount() = salespeople.size
+
+    fun update(salespeople: ArrayList<String>){
+        this.salespeople = salespeople
+        notifyDataSetChanged()
+    }
 
 
 }

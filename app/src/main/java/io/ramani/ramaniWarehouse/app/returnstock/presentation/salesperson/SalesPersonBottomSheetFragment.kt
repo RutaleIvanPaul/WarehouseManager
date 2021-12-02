@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.auth.presentation.LoginViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_sales_person_bottom_sheet.*
 import org.kodein.di.generic.factory
 
 class SalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment() {
+    private lateinit var salespersonBottomSheetRVAdapter: SalespersonBottomSheetRVAdapter
     private val viewModelProvider: (Fragment) -> SalesPersonViewModel by factory()
     private lateinit var viewModel: SalesPersonViewModel
     override val baseViewModel: BaseViewModel?
@@ -22,6 +22,10 @@ class SalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        salespersonBottomSheetRVAdapter = SalespersonBottomSheetRVAdapter(
+                arrayListOf("January", "February", "March")
+                )
+        viewModel.getSalespeople()
     }
 
     override fun onCreateView(
@@ -39,13 +43,24 @@ class SalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         salespersonnameRV.layoutManager = LinearLayoutManager(this.requireContext())
-        salespersonnameRV.adapter = SalespersonBottomSheetRVAdapter(
-            arrayOf("January", "February", "March")
-        )
+        salespersonnameRV.adapter = salespersonBottomSheetRVAdapter
+        subscribeObservers()
     }
 
     override fun getTheme(): Int {
         return R.style.CustomBottomSheetDialog
+    }
+
+
+
+    private fun subscribeObservers(){
+        viewModel.getSalespeopleLiveData.observe(this,{
+            val salespeople:ArrayList<String> = arrayListOf()
+            for(salesperson in it){
+                salespeople.add(salesperson.name)
+            }
+            salespersonBottomSheetRVAdapter.update(salespeople)
+        })
     }
 
 }
