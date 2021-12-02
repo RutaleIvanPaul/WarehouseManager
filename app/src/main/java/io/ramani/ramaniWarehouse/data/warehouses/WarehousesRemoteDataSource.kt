@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.data.warehouses
 import io.ramani.ramaniWarehouse.data.common.network.ApiConstants
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniWarehouse.data.warehouses.models.WarehouseRemoteModel
+import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.UniModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.entities.PagedList
@@ -14,7 +15,7 @@ import io.reactivex.Single
 
 class WarehousesRemoteDataSource(
     private val warehouseApi: WarehouseApi,
-    private val warehouseRemoteModelMapper: UniModelMapper<WarehouseRemoteModel, WarehouseModel>
+    private val warehouseRemoteModelMapper: ModelMapper<WarehouseRemoteModel, WarehouseModel>
 ) : WarehousesDataSource, BaseRemoteDataSource() {
     override fun getWarehouses(getWarehousesRequestModel: GetWarehousesRequestModel): Single<PagedList<WarehouseModel>> =
         callSingle(

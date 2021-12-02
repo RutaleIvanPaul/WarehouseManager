@@ -6,8 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
+import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
@@ -34,6 +35,7 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        flow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
         initSubscribers()
     }
 
@@ -48,8 +50,9 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
     }
 
     private fun subscribeLoginResponse() {
-        viewModel.loginActionLiveData.observe(this, Observer {
-            // TODO:// Save User to prefs and nav to main screen
+        viewModel.loginActionLiveData.observe(this, {
+            flow.openMainNav()
+            dismiss()
         })
     }
 

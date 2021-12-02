@@ -5,13 +5,13 @@ import android.os.Parcelable
 import com.google.gson.Gson
 
 data class WarehouseModel(
-    val id: Int? = null,
+    val id: String? = null,
     val name: String? = null,
     val category: String? = null,
     val dimensions: WarehouseDimensionsModel? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
-        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readParcelable(WarehouseDimensionsModel::class.java.classLoader)

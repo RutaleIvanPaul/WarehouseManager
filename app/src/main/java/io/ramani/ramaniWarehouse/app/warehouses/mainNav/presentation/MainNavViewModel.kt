@@ -10,8 +10,9 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.model.WarehouseModelView
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
-import io.ramani.ramaniWarehouse.domain.base.mappers.UniModelMapper
+import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
+import io.ramani.ramaniWarehouse.domain.base.mappers.mapToWith
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.entities.PagedList
 import io.ramani.ramaniWarehouse.domain.warehouses.models.GetWarehousesRequestModel
@@ -25,14 +26,15 @@ class MainNavViewModel(
     sessionManager: ISessionManager,
     private val loadWarehousesUseCase: BaseSingleUseCase<PagedList<WarehouseModel>, GetWarehousesRequestModel>,
     private val prefs: PrefsManager,
-    private val warehouseModelMapper: UniModelMapper<WarehouseModel, WarehouseModelView>
+    private val warehouseModelMapper: ModelMapper<WarehouseModel, WarehouseModelView>
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
     private var page = 1
     private var hasMoreToLoad = false
-    private val warehousesList = mutableListOf<WarehouseModelView>()
-    private val onWarehousesLoadedLiveData = MutableLiveData<Boolean>()
-    private var currentWarehouse = WarehouseModel()
+    val warehousesList = mutableListOf<WarehouseModelView>()
+    val warehousesItemsList = mutableListOf<String>()
+    val onWarehousesLoadedLiveData = MutableLiveData<Boolean>()
+    var currentWarehouse: WarehouseModel? = null
     override fun start(args: Map<String, Any?>) {
         loadWarehouses()
     }
@@ -57,9 +59,13 @@ class MainNavViewModel(
                         currentWarehouse = it.data.first()
                     } else {
                         sessionManager.getCurrentWarehouse().subscribeBy { savedWarehouse ->
-                            warehousesList.firstOrNull { it.id == savedWarehouse.id }?.isSelected = true
+                            warehousesList.firstOrNull { it.id == savedWarehouse.id }?.isSelected =
+                                true
                             currentWarehouse = savedWarehouse
                         }
+                    }
+                    warehousesList.forEach {
+                        warehousesItemsList.add(it.name ?: "")
                     }
                     onWarehousesLoadedLiveData.postValue(true)
                 }
@@ -74,13 +80,18 @@ class MainNavViewModel(
         }
     }
 
+    fun onWarehouseSelected(position: Int) {
+        currentWarehouse = warehousesList[position].mapToWith(warehouseModelMapper)
+        prefs.currentWarehouse = currentWarehouse.toString()
+    }
+
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val loadWarehousesUseCase: BaseSingleUseCase<PagedList<WarehouseModel>, GetWarehousesRequestModel>,
         private val prefs: PrefsManager,
-        private val warehouseModelMapper: UniModelMapper<WarehouseModel, WarehouseModelView>
+        private val warehouseModelMapper: ModelMapper<WarehouseModel, WarehouseModelView>
 
     ) : ViewModelProvider.Factory {
 

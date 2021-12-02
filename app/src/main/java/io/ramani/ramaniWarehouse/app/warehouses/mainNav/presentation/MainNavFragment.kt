@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.showSelectPopUp
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow.MainNavFlow
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow.MainNavFlowController
+import kotlinx.android.synthetic.main.fragment_main_nav.*
 import org.kodein.di.generic.factory
 
 class MainNavFragment : BaseFragment() {
@@ -46,6 +49,21 @@ class MainNavFragment : BaseFragment() {
     }
 
     private fun subscribeOnWarehousesLoaded() {
+        viewModel.onWarehousesLoadedLiveData.observe(this, {
 
+            if (viewModel.currentWarehouse != null) {
+                warehouse_spinner.text = viewModel.currentWarehouse?.name ?: ""
+            }
+
+            warehouse_spinner.setOnSingleClickListener {
+                it.showSelectPopUp(
+                    viewModel.warehousesItemsList,
+                    wrapWidth = true,
+                    onItemClick = { _, item, position ->
+                        viewModel.onWarehouseSelected(position)
+                        warehouse_spinner.text = viewModel.currentWarehouse?.name ?: ""
+                    })
+            }
+        })
     }
 }

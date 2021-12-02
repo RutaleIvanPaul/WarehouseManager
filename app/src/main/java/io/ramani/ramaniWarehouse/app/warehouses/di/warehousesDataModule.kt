@@ -9,7 +9,7 @@ import io.ramani.ramaniWarehouse.data.warehouses.mappers.WarehouseDimensionsRemo
 import io.ramani.ramaniWarehouse.data.warehouses.mappers.WarehouseRemoteModelMapper
 import io.ramani.ramaniWarehouse.data.warehouses.models.WarehouseDimensionsRemoteModel
 import io.ramani.ramaniWarehouse.data.warehouses.models.WarehouseRemoteModel
-import io.ramani.ramaniWarehouse.domain.base.mappers.UniModelMapper
+import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.warehouses.WarehousesDataSource
 import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseDimensionsModel
 import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
@@ -25,31 +25,29 @@ val warehousesDataModule = Kodein.Module("warehousesDataModule") {
         ServiceHelper.createService(instance())
     }
 
-    bind<WarehousesDataSource>("warehousesDataSource") with singleton {
+    bind<WarehousesDataSource>("warehousesDataSource") with provider {
         WarehousesRepository(
             instance("remoteWarehousesDataSource"),
             instance("localWarehousesDataSource")
         )
     }
 
-    bind<WarehousesDataSource>("remoteWarehousesDataSource") with singleton {
+    bind<WarehousesDataSource>("remoteWarehousesDataSource") with provider {
         WarehousesRemoteDataSource(
             instance(),
             instance()
         )
     }
 
-    bind<WarehousesDataSource>("warehousesLocalDataSource") with singleton {
-        WarehousesLocalDataSource(
-            instance()
-        )
+    bind<WarehousesDataSource>("localWarehousesDataSource") with provider {
+        WarehousesLocalDataSource()
     }
 
-    bind<UniModelMapper<WarehouseDimensionsRemoteModel, WarehouseDimensionsModel>>() with provider {
+    bind<ModelMapper<WarehouseDimensionsRemoteModel, WarehouseDimensionsModel>>() with provider {
         WarehouseDimensionsRemoteModelMapper()
     }
 
-    bind<UniModelMapper<WarehouseRemoteModel, WarehouseModel>>() with provider {
+    bind<ModelMapper<WarehouseRemoteModel, WarehouseModel>>() with provider {
         WarehouseRemoteModelMapper(instance())
     }
 }
