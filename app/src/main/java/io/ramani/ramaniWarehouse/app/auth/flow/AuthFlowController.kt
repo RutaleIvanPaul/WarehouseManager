@@ -22,14 +22,15 @@ class AuthFlowController(
 
     override fun openSigninSheet() {
         val fragment = SigninBottomSheetFragment()
-        activity?.supportFragmentManager?.let { fragment.show(it,"signin_sheet_fragment") }
+        activity?.supportFragmentManager?.let { fragment.show(it, "signin_sheet_fragment") }
     }
 
     override fun openMainNav() {
         val fragment = MainNavFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.ADD
+            openMethod = NavigationManager.OpenMethod.ADD,
+            addToBackStack = false
         )
     }
 }

@@ -38,7 +38,7 @@ class MainNavFragment : BaseFragment() {
         super.initView(view)
         flow = MainNavFlowController(baseActivity!!)
         initSubscribers()
-        viewModel.start()
+        viewModel.loadWarehouses()
         setupNavs()
     }
 
@@ -70,6 +70,11 @@ class MainNavFragment : BaseFragment() {
         subscribeError(viewModel)
         observerError(viewModel, this)
         subscribeOnWarehousesLoaded()
+        subscribeOnWarehousesSelected()
+    }
+
+    private fun subscribeOnWarehousesSelected() {
+        warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
@@ -84,7 +89,7 @@ class MainNavFragment : BaseFragment() {
     }
 
     private fun subscribeOnWarehousesLoaded() {
-        viewModel.onWarehousesLoadedLiveData.observe(this, {
+        MainNavViewModel.onWarehousesLoadedLiveData.observe(this, {
 
             if (MainNavViewModel.currentWarehouse != null) {
                 warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""

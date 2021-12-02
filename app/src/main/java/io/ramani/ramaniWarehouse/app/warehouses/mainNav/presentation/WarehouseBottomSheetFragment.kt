@@ -23,7 +23,7 @@ class WarehouseBottomSheetFragment : BaseBottomSheetDialogFragment() {
         get() = viewModel
 
     private lateinit var flow: AuthFlow
-
+    private var isLoading = false
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -33,6 +33,7 @@ class WarehouseBottomSheetFragment : BaseBottomSheetDialogFragment() {
 
     private val warehouseAdapter = WarehouseAdapter(MainNavViewModel.warehousesList) {
         viewModel.onWarehouseSelected(it.id ?: "")
+        dismiss()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,8 +57,9 @@ class WarehouseBottomSheetFragment : BaseBottomSheetDialogFragment() {
     }
 
     private fun subscribeOnWarehousesLoaded() {
-        viewModel.onWarehousesLoadedLiveData.observe(this, {
+        MainNavViewModel.onWarehousesLoadedLiveData.observe(this, {
             warehouseAdapter.notifyDataSetChanged()
+            isLoading = false
         })
     }
 
@@ -75,9 +77,11 @@ class WarehouseBottomSheetFragment : BaseBottomSheetDialogFragment() {
                         (layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
 
 
-                    if (MainNavViewModel.hasMoreToLoad) {
+                    if (!isLoading && MainNavViewModel.hasMoreToLoad) {
                         if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
+                            MainNavViewModel.page++
                             viewModel.loadWarehouses()
+                            isLoading = true
                         }
                     }
                 }
