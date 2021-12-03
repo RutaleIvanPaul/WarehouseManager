@@ -27,7 +27,7 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/supplier_receiving_date_label"
+                android:id="@+id/return_stock_datepicker_text"
                 style="@style/NormalTextLabel"
                 android:layout_centerVertical="true"
                 android:text="12 sep 2021"

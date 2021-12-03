@@ -1,11 +1,14 @@
 package io.ramani.ramaniWarehouse.app.returnstock.presentation.host
 
+import android.graphics.Color
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -13,9 +16,12 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonFragment
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveProductsFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSupplierFragment
 import kotlinx.android.synthetic.main.fragment_return_stock.*
+import org.jetbrains.anko.backgroundDrawable
+import org.jetbrains.anko.textColor
 import org.kodein.di.generic.factory
 
 class ReturnStockFragment : BaseFragment() {
@@ -37,27 +43,27 @@ class ReturnStockFragment : BaseFragment() {
     private var salespersonFragment: SalesPersonFragment? = null
     private var productsFragment: StockReceiveProductsFragment? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_return_stock, container, false)
-    }
 
-    override fun getLayoutResId(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getLayoutResId() = R.layout.fragment_return_stock
 
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ReturnStockViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
     override fun initView(view: View?) {
         super.initView(view)
+        viewModel = ViewModelProvider(this).get(ReturnStockViewModel::class.java)
         initTabLayout()
+        subscribeObservers()
+    }
+
+    private fun subscribeObservers() {
+        SalesPersonViewModel.selectedSalesperson.observe(this,{
+            if(it != null){
+                return_stock_host_next_button.apply {
+                    isEnabled = true
+                    backgroundDrawable= getDrawable(requireContext(),R.drawable.green_stroke_action_button)
+                    setTextColor(ContextCompat.getColor(requireContext(),R.color.light_lime_yellow))
+                }
+            }
+        })
     }
 
     private fun initTabLayout() {

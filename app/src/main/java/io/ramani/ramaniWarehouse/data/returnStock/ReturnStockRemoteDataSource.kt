@@ -28,11 +28,7 @@ class ReturnStockRemoteDataSource(
             returnStockApi.getSalespeople(companyId).flatMap {
                 val data = it.data
                 if (data != null) {
-                    val salespeople:ArrayList<SalespeopleModel> = ArrayList()
-                    for(salesperson in data){
-                        salespeople.add(salesperson.mapFromWith(salespeopleRemoteMapper))
-                    }
-                    Single.just(salespeople as List<SalespeopleModel>)
+                    Single.just(data.mapFromWith(salespeopleRemoteMapper))
                 } else {
                     Single.error(ParseResponseException())
                 }

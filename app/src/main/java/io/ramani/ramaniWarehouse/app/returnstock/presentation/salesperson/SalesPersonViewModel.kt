@@ -17,6 +17,7 @@ import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapToWith
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.returnStock.model.SalespeopleModel
 import io.ramani.ramaniWarehouse.domain.returnStock.useCase.GetSalesPeopleUsecase
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
@@ -26,7 +27,8 @@ class SalesPersonViewModel(application: Application,
                            stringProvider: IStringProvider,
                            sessionManager: ISessionManager,
                            private val getSalesPeopleUsecase: BaseSingleUseCase<List<SalespeopleModel>, GetSalespeopleRequestModel>,
-                           private val salespersonRVMapper: ModelMapper<SalespeopleModel, SalespersonRVModel>
+                           private val salespersonRVMapper: ModelMapper<SalespeopleModel, SalespersonRVModel>,
+                           private val dateFormatter: DateFormatter
 ):BaseViewModel(
     application, stringProvider, sessionManager
                            ) {
@@ -34,8 +36,8 @@ class SalesPersonViewModel(application: Application,
     companion object{
         val salesPeopleList = mutableListOf<SalespersonRVModel>()
         val onSalesPeopleLoadedLiveData = MutableLiveData<Boolean>()
+        val selectedSalesperson = MutableLiveData<String>()
     }
-
     override fun start(args: Map<String, Any?>) {
         TODO("Not yet implemented")
     }
@@ -45,7 +47,8 @@ class SalesPersonViewModel(application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val getSalesPeopleUsecase: BaseSingleUseCase<List<SalespeopleModel>, GetSalespeopleRequestModel>,
-        private val salespersonRVMapper: ModelMapper<SalespeopleModel, SalespersonRVModel>
+        private val salespersonRVMapper: ModelMapper<SalespeopleModel, SalespersonRVModel>,
+        private val dateFormatter: DateFormatter
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -55,7 +58,8 @@ class SalesPersonViewModel(application: Application,
                     stringProvider,
                     sessionManager,
                     getSalesPeopleUsecase,
-                    salespersonRVMapper
+                    salespersonRVMapper,
+                    dateFormatter
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")
@@ -80,9 +84,13 @@ class SalesPersonViewModel(application: Application,
         }
     }
 
-    fun onSalespersonSelected(id: String) {
+    fun onSalespersonSelected(selectedSalespersonRV: SalespersonRVModel) {
         salesPeopleList.map {
-            it.isSelected = it.id == id
+            it.isSelected = it.id == selectedSalespersonRV.id
         }
+        selectedSalesperson.postValue(selectedSalespersonRV.name!!)
     }
+
+    fun getDate(timInMillis: Long):String =
+        dateFormatter.convertToDateWithDashes(timInMillis)
 }

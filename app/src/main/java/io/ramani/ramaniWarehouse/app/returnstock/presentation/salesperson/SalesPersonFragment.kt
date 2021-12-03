@@ -14,6 +14,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
+import io.ramani.ramaniWarehouse.domainCore.date.now
 import kotlinx.android.synthetic.main.fragment_sales_person.*
 import org.kodein.di.generic.factory
 import java.util.*
@@ -42,19 +43,31 @@ class SalesPersonFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
+        return_stock_datepicker_text.text = viewModel.getDate(now())
         pick_date_layout.setOnClickListener {
             showDatePicker(
                 Calendar.getInstance().timeInMillis,
                 -1,
                 -1
             ) { year, monthOfYear, dayOfMonth, timInMillis ->
-                Log.d("Date",year.toString())
+                val date = "$dayOfMonth $monthOfYear $year"
+                return_stock_datepicker_text.text = viewModel.getDate(timInMillis)
             }
         }
 
         select_salesperson_spinner.setOnClickListener {
             flow.openSalesPersonBottomSheet()
         }
+
+        subscribeObservers()
+        viewModel.getSalespeople()
+    }
+
+    private fun subscribeObservers() {
+
+        SalesPersonViewModel.selectedSalesperson.observe(this,{
+            select_salesperson_spinner.text = it
+        })
     }
 
     override fun getLayoutResId(): Int {

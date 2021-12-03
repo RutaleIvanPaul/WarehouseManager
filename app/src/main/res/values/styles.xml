@@ -58,6 +58,13 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
+    <style name="NormalActionButtonInactive" parent="BoldTextLabel">
+        <item name="android:layout_height">30dp</item>
+        <item name="android:background">@drawable/grey_stroke_next_action_button</item>
+        <item name="android:textColor">@color/grey_inactive_button_text</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
     <style name="BlueStrokeActionButton" parent="NormalActionButton">
         <item name="android:background">@drawable/blue_stroke_action_button</item>
         <item name="android:textColor">@color/secondary_blue</item>
