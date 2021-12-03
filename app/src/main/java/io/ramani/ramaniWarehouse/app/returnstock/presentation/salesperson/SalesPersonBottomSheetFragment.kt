@@ -24,7 +24,7 @@ class SalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment() {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
         salespersonBottomSheetRVAdapter = SalespersonBottomSheetRVAdapter(SalesPersonViewModel.salesPeopleList){
-            viewModel.onSalespersonSelected(it.id!!)
+            viewModel.onSalespersonSelected(it.id?:"")
             dismiss()
         }
         viewModel.getSalespeople()

@@ -81,6 +81,8 @@ class SalesPersonViewModel(application: Application,
     }
 
     fun onSalespersonSelected(id: String) {
-        TODO()
+        salesPeopleList.map {
+            it.isSelected = it.id == id
+        }
     }
 }
