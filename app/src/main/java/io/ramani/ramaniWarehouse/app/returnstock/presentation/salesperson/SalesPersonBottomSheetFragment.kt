@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.model.SalespersonRVModel
 import kotlinx.android.synthetic.main.fragment_sales_person_bottom_sheet.*
 import org.kodein.di.generic.factory
 
@@ -22,9 +23,10 @@ class SalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        salespersonBottomSheetRVAdapter = SalespersonBottomSheetRVAdapter(
-                arrayListOf("January", "February", "March")
-                )
+        salespersonBottomSheetRVAdapter = SalespersonBottomSheetRVAdapter(SalesPersonViewModel.salesPeopleList){
+            viewModel.onSalespersonSelected(it.id!!)
+            dismiss()
+        }
         viewModel.getSalespeople()
     }
 
@@ -54,13 +56,12 @@ class SalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment() {
 
 
     private fun subscribeObservers(){
-        viewModel.getSalespeopleLiveData.observe(this,{
-            val salespeople:ArrayList<String> = arrayListOf()
-            for(salesperson in it){
-                salespeople.add(salesperson.name)
+        SalesPersonViewModel.onSalesPeopleLoadedLiveData.observe(
+            this,
+            {
+                salespersonBottomSheetRVAdapter.notifyDataSetChanged()
             }
-            salespersonBottomSheetRVAdapter.update(salespeople)
-        })
+        )
     }
 
 }

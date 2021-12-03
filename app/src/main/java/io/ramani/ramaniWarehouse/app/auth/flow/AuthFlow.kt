@@ -4,5 +4,5 @@ interface AuthFlow {
     fun openLogin()
     fun openSigninSheet()
 
-    fun openReturnStock()
+    fun openMainNav()
 }

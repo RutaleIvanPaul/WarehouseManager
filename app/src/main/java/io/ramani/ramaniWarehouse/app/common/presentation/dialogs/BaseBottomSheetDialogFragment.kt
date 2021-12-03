@@ -28,12 +28,10 @@ abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment(), Kode
 
     abstract val baseViewModel: BaseViewModel?
 
-
-
-    private val snackbars = mutableMapOf<Snackbar, BaseTransientBottomBar.BaseCallback<Snackbar>>()
-
     val baseActivity: BaseActivity?
         get() = if (isAdded && activity is BaseActivity) activity as BaseActivity else null
+
+    private val snackbars = mutableMapOf<Snackbar, BaseTransientBottomBar.BaseCallback<Snackbar>>()
 
     override fun onResume() {
         super.onResume()

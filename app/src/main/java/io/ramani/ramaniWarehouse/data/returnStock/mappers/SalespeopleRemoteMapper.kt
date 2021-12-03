@@ -8,6 +8,7 @@ class SalespeopleRemoteMapper():ModelMapper<SalespeopleRemoteModel,SalespeopleMo
     override fun mapFrom(from: SalespeopleRemoteModel): SalespeopleModel {
         return SalespeopleModel.Builder()
             .companyId(from.companyId)
+            .id(from.id)
             .isActive(from.isActive)
             .isAdmin(from.isAdmin)
             .name(from.name)
@@ -19,7 +20,7 @@ class SalespeopleRemoteMapper():ModelMapper<SalespeopleRemoteModel,SalespeopleMo
     override fun mapTo(to: SalespeopleModel): SalespeopleRemoteModel {
         return SalespeopleRemoteModel(
             to.companyId,
-            "",
+            to.id,
             to.isActive,
             to.isAdmin,
             to.name,

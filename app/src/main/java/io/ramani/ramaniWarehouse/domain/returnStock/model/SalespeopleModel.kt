@@ -7,6 +7,7 @@ import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
 data class SalespeopleModel(
     val companyId: String = "",
+    val id: String = "",
     val isActive: Boolean = false,
     val isAdmin: Boolean = false,
     val name: String = "",
@@ -16,6 +17,7 @@ data class SalespeopleModel(
 
     class Builder:IBuilder<SalespeopleModel>{
         private var companyId: String = ""
+        private var id: String = ""
         private var isActive: Boolean = false
         private var isAdmin: Boolean = false
         private var name: String = ""
@@ -24,6 +26,11 @@ data class SalespeopleModel(
 
         fun companyId(companyId: String):Builder{
             this.companyId = companyId
+            return this
+        }
+
+        fun id(id: String):Builder{
+            this.id = id
             return this
         }
 
@@ -54,11 +61,12 @@ data class SalespeopleModel(
 
         override fun build(): SalespeopleModel  =
             SalespeopleModel(
-                companyId,isActive,isAdmin,name,phoneNumber,userType
+                companyId,id,isActive,isAdmin,name,phoneNumber,userType
             )
 
     }
     constructor(parcel: Parcel) : this(
+        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte(),
