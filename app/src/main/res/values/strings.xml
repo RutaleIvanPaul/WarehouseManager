@@ -12,10 +12,11 @@
     <string name="title_welcome_to">Welcome to</string>
     <string name="title_our_privacy_policy">our privacy policy</string>
     <string name="required_field">This field is required</string>
+
+    <!-- Warehouse -->
     <string name="warehouse">Warehouse</string>
     <string name="ghala_brackets">(ghala)</string>
     <string name="incoming_stock">Incoming stock from the supplier</string>
-    <string name="receive_stock">Receive Stock</string>
     <string name="warehouse_stock">Warehouse Stock</string>
     <string name="assign_stock">Assign Stock</string>
     <string name="return_stock">Return Stock</string>
