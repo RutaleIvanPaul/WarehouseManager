@@ -1,8 +1,8 @@
 package io.ramani.ramaniWarehouse.data.auth
 
 import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
-import io.ramani.ramaniWarehouse.data.auth.model.LoginRequestModel
-import io.ramani.ramaniWarehouse.data.auth.model.UserRemoteModel
+import io.ramani.ramaniWarehouse.data.auth.models.LoginRequestModel
+import io.ramani.ramaniWarehouse.data.auth.models.UserRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
@@ -15,6 +15,7 @@ import io.ramani.ramaniWarehouse.domain.entities.exceptions.AccountNotActiveExce
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.InvalidLoginException
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.NotAuthorizedException
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.ParseResponseException
+import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -77,6 +78,10 @@ class AuthRemoteDataSource(
     }
 
     override fun refreshAccessToken(token: String): Completable {
+        TODO("Not yet implemented")
+    }
+
+    override fun getCurrentWarehouse(): Single<WarehouseModel> {
         TODO("Not yet implemented")
     }
 

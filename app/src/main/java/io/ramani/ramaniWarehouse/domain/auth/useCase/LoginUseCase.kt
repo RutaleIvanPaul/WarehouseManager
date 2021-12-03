@@ -1,6 +1,6 @@
 package io.ramani.ramaniWarehouse.domain.auth.useCase
 
-import io.ramani.ramaniWarehouse.data.auth.model.LoginRequestModel
+import io.ramani.ramaniWarehouse.data.auth.models.LoginRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.AuthDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
