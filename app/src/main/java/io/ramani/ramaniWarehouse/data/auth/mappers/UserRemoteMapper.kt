@@ -1,6 +1,6 @@
 package io.ramani.ramaniWarehouse.data.auth.mappers
 
-import io.ramani.ramaniWarehouse.data.auth.model.UserRemoteModel
+import io.ramani.ramaniWarehouse.data.auth.models.UserRemoteModel
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 

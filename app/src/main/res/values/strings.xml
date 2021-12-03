@@ -13,6 +13,17 @@
     <string name="title_our_privacy_policy">our privacy policy</string>
     <string name="required_field">This field is required</string>
 
+    <!-- Warehouse -->
+    <string name="warehouse">Warehouse</string>
+    <string name="ghala_brackets">(ghala)</string>
+    <string name="incoming_stock">Incoming stock from the supplier</string>
+    <string name="warehouse_stock">Warehouse Stock</string>
+    <string name="assign_stock">Assign Stock</string>
+    <string name="return_stock">Return Stock</string>
+    <string name="activities">Activities</string>
+    <string name="stock_report">Stock Report</string>
+    <string name="assignment_report">Assignment Report</string>
+
     <!-- Common Text -->
     <string name="continue_">Continue</string>
     <string name="next">Next</string>

@@ -74,4 +74,5 @@
     <color name="edit_pric_bg">#D9DBDD</color>
 
     <color name="button_text_edit">#979DA1</color>
+    <color name="text_light">#bdbdbd</color>
 </resources>

@@ -34,6 +34,12 @@ open class PrefsManager(context: Context) : Prefs {
             sharedPrefs.edit().putString(PrefsConstants.PREF_REFRESH_TOKEN, value).apply()
         }
 
+    override var currentWarehouse: String
+        get() = sharedPrefs.getString(PrefsConstants.PREF_CURRENT_WAREHOUSE, null) ?: ""
+        set(value) {
+            sharedPrefs.edit().putString(PrefsConstants.PREF_CURRENT_WAREHOUSE, value).apply()
+        }
+
 
     private fun contains(key: String) = sharedPrefs.contains(key)
 
