@@ -22,4 +22,51 @@
     <string name="activities">Activities</string>
     <string name="stock_report">Stock Report</string>
     <string name="assignment_report">Assignment Report</string>
+
+    <!-- Common Text -->
+    <string name="continue_">Continue</string>
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="done">Done</string>
+
+    <!-- Receive Stock -->
+    <string name="receive_stock">Receive Stock</string>
+
+    <string name="ramani_orders">Ramani Orders</string>
+    <string name="others">Others</string>
+
+    <string name="receive_now">Receive Now</string>
+
+    <string name="supplier">Supplier</string>
+    <string name="receiving_date">Receiving Date</string>
+    <string name="select_supplier">Select Supplier</string>
+    <string name="supporting_document">Supporting Document</string>
+    <string name="take_picture_now">Take Picture Now</string>
+    <string name="confirm_delete_photo">Are you sure you want to delete this photo?</string>
+
+    <string name="products">Products</string>
+    <string name="added">Added</string>
+    <string name="product">Product</string>
+    <string name="add_product">Add Products</string>
+    <string name="units">Units</string>
+    <string name="accepted">Accepted</string>
+    <string name="declined">Declined</string>
+    <string name="why_declined">Why Declined</string>
+    <string name="unit_price">Unit Price</string>
+    <string name="parameter">Parameter</string>
+    <string name="size">Size</string>
+    <string name="add_with_plus">+ Add</string>
+    <string name="expire_date">Expire Date</string>
+
+    <string name="confirm">Confirm</string>
+
+    <!-- Warning Messages -->
+    <string name="warning_select_supplier">Please select supplier</string>
+    <string name="warning_add_product">Please add one more of product</string>
+    <string name="warning_select_product">Please select product</string>
+    <string name="warning_select_unit">Please select unit</string>
+    <string name="warning_put_amount">You cannot add product without amount</string>
+    <string name="warning_select_declined_reason">Please select declined reason</string>
+    <string name="warning_invalid_unit">Invalid unit price</string>
+
 </resources>

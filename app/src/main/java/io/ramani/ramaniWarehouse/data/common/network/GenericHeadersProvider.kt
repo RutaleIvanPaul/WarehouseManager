@@ -23,7 +23,7 @@ class GenericHeadersProvider(private val prefsManager: Prefs) : HeadersProvider 
         if (prefsManager.hasAccessToken) {
             map[HEADER_AUTH] = "Bearer " + prefsManager.accessToken
         } else {
-            map[HEADER_AUTH] = ""
+            map[HEADER_AUTH] = "Bearer 950ae00bcecbb98c40a9d493648ca2f6f1d2cbc6"
         }
 
 //        map[HEADER_LANGUAGE] = prefsManager.language.lowercase(Locale.getDefault())
