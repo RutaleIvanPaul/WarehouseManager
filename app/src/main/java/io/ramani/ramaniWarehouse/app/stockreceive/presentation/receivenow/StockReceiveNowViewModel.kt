@@ -15,8 +15,8 @@ import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
 import java.util.*
-import javax.inject.Singleton
 import kotlin.collections.ArrayList
 
 class StockReceiveNowViewModel(
@@ -94,13 +94,16 @@ class StockReceiveNowViewModel(
             }
             DATA_DATE -> supplierData.date = value as Date
             DATA_DOCUMENTS -> supplierData.documents = value as List<String>
+            DATA_PRODUCTS -> supplierData.products = value as List<SelectedProductModel>
         }
     }
 
     fun clearData() {
         // Clear global data
         supplierData.clear()
-        allowToGoNext = MutableLiveData<Pair<Int, Boolean>>()
+        allowToGoNextLiveData = MutableLiveData<Pair<Int, Boolean>>()
+        updateProductRequestLiveData = MutableLiveData<SelectedProductModel>()
+        updateProductCompletedLiveData = MutableLiveData<SelectedProductModel>()
 
         System.gc()
     }
@@ -130,9 +133,12 @@ class StockReceiveNowViewModel(
         val DATA_SUPPLIER = 1000
         val DATA_DOCUMENTS = 1001
         val DATA_DATE = 1002
+        val DATA_PRODUCTS = 1003
 
         // Selected Supplier Data
         var supplierData = SelectedSupplierDataModel()
-        var allowToGoNext = MutableLiveData<Pair<Int, Boolean>>()      // Allow event to go next on each page
+        var allowToGoNextLiveData = MutableLiveData<Pair<Int, Boolean>>()      // Allow event to go next on each page
+        var updateProductRequestLiveData = MutableLiveData<SelectedProductModel>()      // Update product request
+        var updateProductCompletedLiveData = MutableLiveData<SelectedProductModel>()      // Update product request
     }
 }

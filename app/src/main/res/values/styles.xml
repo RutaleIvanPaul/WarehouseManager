@@ -35,7 +35,7 @@
         <item name="android:textSize">10sp</item>
     </style>
 
-    <style name="SmallTextLabel" parent="BoldTextLabel">
+    <style name="SmallTextLabel" parent="NormalTextLabel">
         <item name="android:textSize">10sp</item>
     </style>
 

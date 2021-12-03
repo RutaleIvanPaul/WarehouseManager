@@ -13,11 +13,9 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
-import io.ramani.ramaniWarehouse.app.common.presentation.extensions.tint
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.loader
 import org.kodein.di.generic.factory
@@ -38,6 +36,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
     private var supplierFragment: StockReceiveSupplierFragment? = null
     private var productsFragment: StockReceiveProductsFragment? = null
+    private var confirmFragment: StockReceiveConfirmFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,7 +115,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
         })
 
-        StockReceiveNowViewModel.allowToGoNext.observe(this, {
+        StockReceiveNowViewModel.allowToGoNextLiveData.observe(this, {
             if (it.second) {
                 when (it.first) {
                     0 -> DrawableCompat.setTint(stock_receive_now_host_indicator_0.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green));
@@ -125,6 +124,19 @@ class StockReceiveNowHostFragment : BaseFragment() {
                 }
             }
         })
+
+        StockReceiveNowViewModel.updateProductRequestLiveData.observe(this, {
+            // If the request of updating product is posted, then go back to product page
+            productsFragment?.requestProductUpdate(it)
+            stock_receive_now_host_viewpager.setCurrentItem(1, true)
+        })
+
+        StockReceiveNowViewModel.updateProductCompletedLiveData.observe(this, {
+            // If the request of updating product is completed, then go to confirm page
+            confirmFragment?.updateView()
+            stock_receive_now_host_viewpager.setCurrentItem(2, true)
+        })
+
     }
 
     override fun showError(error: String) {
@@ -135,11 +147,12 @@ class StockReceiveNowHostFragment : BaseFragment() {
     private fun initTabLayout() {
         supplierFragment = StockReceiveSupplierFragment.newInstance()
         productsFragment = StockReceiveProductsFragment.newInstance()
+        confirmFragment = StockReceiveConfirmFragment.newInstance()
 
         val adapter = AdapterTabPager(activity)
         adapter.addFragment(supplierFragment!!, getString(R.string.supplier))
         adapter.addFragment(productsFragment!!, getString(R.string.products))
-        adapter.addFragment(StockReceiveSupplierFragment.newInstance(), getString(R.string.confirm))
+        adapter.addFragment(confirmFragment!!, getString(R.string.confirm))
 
         stock_receive_now_host_viewpager.isUserInputEnabled = false
         stock_receive_now_host_viewpager.adapter = adapter

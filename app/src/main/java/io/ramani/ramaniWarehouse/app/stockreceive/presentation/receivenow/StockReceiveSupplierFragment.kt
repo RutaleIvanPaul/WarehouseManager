@@ -4,13 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +19,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.code95.android.app.auth.flow.StockReceiveFlowController
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
@@ -237,7 +234,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
     private fun checkIfGoNext() {
         StockReceiveNowViewModel.supplierData?.let {
             if (it.supplier.isNotNull() && !it.documents.isNullOrEmpty())
-                StockReceiveNowViewModel.allowToGoNext.postValue(Pair(0, true))
+                StockReceiveNowViewModel.allowToGoNextLiveData.postValue(Pair(0, true))
         }
     }
 
