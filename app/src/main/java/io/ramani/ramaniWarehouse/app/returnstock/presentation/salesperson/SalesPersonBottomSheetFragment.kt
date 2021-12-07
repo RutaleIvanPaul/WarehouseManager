@@ -38,6 +38,7 @@ class SalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment() {
         return inflater.inflate(R.layout.fragment_sales_person_bottom_sheet, container, false)
     }
 
+
     companion object {
         fun newInstance() = SalesPersonBottomSheetFragment()
     }

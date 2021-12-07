@@ -37,7 +37,6 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
         viewModel = viewModelProvider(this)
         flow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
         initSubscribers()
-        flow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
     }
 
     private fun initSubscribers() {

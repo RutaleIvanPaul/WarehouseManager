@@ -1,5 +1,7 @@
 package io.ramani.ramaniWarehouse.app.common.presentation.dialogs
 
+import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -32,6 +34,12 @@ abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment(), Kode
         get() = if (isAdded && activity is BaseActivity) activity as BaseActivity else null
 
     private val snackbars = mutableMapOf<Snackbar, BaseTransientBottomBar.BaseCallback<Snackbar>>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initView(view)
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -139,4 +147,10 @@ abstract class BaseBottomSheetDialogFragment : BottomSheetDialogFragment(), Kode
     protected open fun showErrorWithConfirm(error: String) {}
 
     protected open fun onValidationErrors(errors: List<ValidationError>) {}
+
+    protected open fun initView(view: View?) {
+
+    }
+
+
 }

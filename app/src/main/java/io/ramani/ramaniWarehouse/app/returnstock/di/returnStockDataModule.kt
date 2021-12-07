@@ -20,7 +20,7 @@ val returnStockDataModule = Kodein.Module("returnStockDataModule"){
         ServiceHelper.createService(instance())
     }
 
-    bind<ReturnStockDataSource>("returnStockRemoteDataSource") with singleton {
+    bind<ReturnStockDataSource>("returnStockRemoteDataSource") with provider {
         ReturnStockRemoteDataSource(instance(), instance())
     }
 
@@ -28,7 +28,7 @@ val returnStockDataModule = Kodein.Module("returnStockDataModule"){
         SalespeopleRemoteMapper()
     }
 
-    bind<ReturnStockDataSource>("returnStockRepository") with singleton {
+    bind<ReturnStockDataSource>("returnStockRepository") with provider {
         ReturnStockRepository(instance())
     }
 }
