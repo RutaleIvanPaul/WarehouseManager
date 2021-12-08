@@ -30,7 +30,7 @@ class AuthFlowController(
         val fragment = MainNavFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.ADD,
+            openMethod = NavigationManager.OpenMethod.REPLACE,
             addToBackStack = false
         )
     }

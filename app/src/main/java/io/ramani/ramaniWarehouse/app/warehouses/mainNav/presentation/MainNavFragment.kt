@@ -4,8 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
+import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.showSelectPopUp
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -21,6 +25,7 @@ class MainNavFragment : BaseFragment() {
     }
 
     private lateinit var flow: MainNavFlow
+    private lateinit var authFlow: AuthFlow
     private val viewModelProvider: (Fragment) -> MainNavViewModel by factory()
     private lateinit var viewModel: MainNavViewModel
     override val baseViewModel: BaseViewModel?
@@ -31,15 +36,32 @@ class MainNavFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        MainNavViewModel.warehousesList.clear()
     }
 
 
     override fun initView(view: View?) {
         super.initView(view)
         flow = MainNavFlowController(baseActivity!!)
+        authFlow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
         initSubscribers()
         viewModel.loadWarehouses()
         setupNavs()
+        setupMenu()
+    }
+
+    private fun setupMenu() {
+        menu_iv.setOnClickListener {
+            menu_iv.showSelectPopUp(listOf(getString(R.string.logout)),
+                wrapWidth = true,
+                onItemClick = { _, _, _ ->
+                    showConfirmDialog(getString(R.string.confirm_logout), onConfirmed = {
+                        viewModel.logout {
+                            authFlow.openLogin()
+                        }
+                    })
+                })
+        }
     }
 
     private fun setupNavs() {
