@@ -4,6 +4,7 @@ import io.ramani.ramaniWarehouse.app.auth.presentation.LoginFragment
 import io.ramani.ramaniWarehouse.app.auth.presentation.SigninBottomSheetFragment
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockFragment
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavFragment
 import org.jetbrains.anko.AnkoLogger
 

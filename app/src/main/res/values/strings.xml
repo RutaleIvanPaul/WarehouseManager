@@ -13,6 +13,10 @@
     <string name="title_our_privacy_policy">our privacy policy</string>
     <string name="required_field">This field is required</string>
 
+
+    <string name="salesperson">Salesperson</string>
+    <string name="pickdate">Pick Date</string>
+
     <!-- Warehouse -->
     <string name="warehouse">Warehouse</string>
     <string name="ghala_brackets">(ghala)</string>
@@ -69,5 +73,7 @@
     <string name="warning_put_amount">You cannot add product without amount</string>
     <string name="warning_select_declined_reason">Please select declined reason</string>
     <string name="warning_invalid_unit">Invalid unit price</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -9,6 +9,17 @@
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
+    <style name="BoldTextView">
+        <item name="font">@font/raleway_bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:letterSpacing">0.02</item>
+    </style>
+
+    <style name="TopButton">
+        <item name="font">@font/raleway</item>
+        <item name="android:background">@drawable/top_button_active</item>
+    </style>
     <!-- Common Styles -->
 
     <style name="backButton">
@@ -44,6 +55,13 @@
         <item name="android:layout_height">30dp</item>
         <item name="android:background">@drawable/green_stroke_action_button</item>
         <item name="android:textColor">@color/light_lime_yellow</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="NormalActionButtonInactive" parent="BoldTextLabel">
+        <item name="android:layout_height">30dp</item>
+        <item name="android:background">@drawable/grey_stroke_next_action_button</item>
+        <item name="android:textColor">@color/grey_inactive_button_text</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
@@ -118,6 +136,25 @@
         <item name="spinner_popup_elevation">14dp</item>
     </style>
 
+    <style name="CustomSpinnerRoundedOval" parent="NormalTextLabel">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@drawable/item_outline_rounded_oval</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:textColorHint">@color/dark_grey</item>
+        <item name="spinner_arrow_gravity">end</item>
+        <item name="spinner_arrow_padding">8dp</item>
+        <item name="spinner_arrow_show">true</item>
+        <item name="spinner_arrow_tint">@color/ramani_green</item>
+        <item name="spinner_divider_color">@color/dark_grey</item>
+        <item name="spinner_divider_show">true</item>
+        <item name="spinner_divider_size">0.4dp</item>
+        <item name="spinner_popup_animation">dropdown</item>
+        <item name="spinner_popup_background">@color/light_grey</item>
+        <item name="spinner_popup_elevation">14dp</item>
+    </style>
+
 
     <!-- Stock Receive Styles -->
     <style name="CheckMarksForTabs">
@@ -137,6 +174,22 @@
     <style name="StockReceiveSpinner" parent="CustomSpinner">
         <item name="android:background">@drawable/item_outline_with_white_solid_round</item>
         <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="CustomBottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheet</item>
+    </style>
+
+    <style name="CustomBottomSheet" parent="Widget.MaterialComponents.BottomSheet">
+        <item name="shapeAppearanceOverlay">@style/CustomShapeAppearanceBottomSheetDialog</item>
+    </style>
+
+    <style name="CustomShapeAppearanceBottomSheetDialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSizeTopRight">16dp</item>
+        <item name="cornerSizeTopLeft">16dp</item>
+        <item name="cornerSizeBottomRight">0dp</item>
+        <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
 </resources>
