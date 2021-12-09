@@ -1,6 +1,5 @@
 package io.ramani.ramaniWarehouse.data.auth
 
-import io.ramani.ramaniWarehouse.data.auth.model.GetSupplierRemoteModel
 import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource

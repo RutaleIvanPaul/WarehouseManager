@@ -74,5 +74,9 @@
     <color name="edit_pric_bg">#D9DBDD</color>
 
     <color name="button_text_edit">#979DA1</color>
+
+    <color name="dark_grey_salespeople_rv">#5C5C5C</color>
     <color name="text_light">#bdbdbd</color>
+    <color name="grey_inactive_button">#C7D3DD</color>
+    <color name="grey_inactive_button_text">#C4C4C4</color>
 </resources>

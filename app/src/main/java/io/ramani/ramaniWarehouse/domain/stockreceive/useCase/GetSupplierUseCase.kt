@@ -1,6 +1,5 @@
 package io.ramani.ramaniWarehouse.domain.auth.useCase
 
-import io.ramani.ramaniWarehouse.data.auth.model.GetSupplierRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.GetSupplierRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
