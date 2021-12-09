@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
+package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -24,10 +24,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 import android.widget.LinearLayout
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_PRODUCTS
-import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import kotlinx.android.synthetic.main.item_stock_receive_product_parameter.view.*
-import kotlin.math.exp
 
 
 class StockReceiveProductsFragment : BaseFragment() {
@@ -322,7 +322,7 @@ class StockReceiveProductsFragment : BaseFragment() {
         val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_receive_product_parameter, null)
         itemView.products_parameter_spinner.setItems(listItem)
         itemView.products_parameter_size.setText(parameter.size)
-        itemView.products_parameter_delete.setOnClickListener {
+        itemView.products_parameter_delete.setOnSingleClickListener {
             products_parameter_container.removeView(itemView)
         }
 

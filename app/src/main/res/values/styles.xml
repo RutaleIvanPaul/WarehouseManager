@@ -19,6 +19,13 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
+    <style name="refreshButton">
+        <item name="android:layout_width">30dp</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:src">@drawable/ic_refresh_icon</item>
+        <item name="android:contentDescription">Refresh</item>
+    </style>
+
     <style name="NormalTextLabel">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

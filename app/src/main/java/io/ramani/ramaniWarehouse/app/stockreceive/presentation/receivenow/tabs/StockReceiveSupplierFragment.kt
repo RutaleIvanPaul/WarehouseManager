@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
+package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs
 
 import android.app.Activity
 import android.content.Context
@@ -38,6 +38,8 @@ import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.AdapterView
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 
 
@@ -83,7 +85,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
             checkIfGoNext()
         }
 
-        stock_receive_take_photo.setOnClickListener {
+        stock_receive_take_photo.setOnSingleClickListener {
             showTakePhotoDialog()
         }
 

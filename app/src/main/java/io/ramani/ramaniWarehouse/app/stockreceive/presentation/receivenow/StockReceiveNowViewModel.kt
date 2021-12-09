@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -16,6 +17,7 @@ import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SignatureInfo
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -93,8 +95,11 @@ class StockReceiveNowViewModel(
                 supplierData.supplier = value as SupplierModel
             }
             DATA_DATE -> supplierData.date = value as Date
-            DATA_DOCUMENTS -> supplierData.documents = value as List<String>
-            DATA_PRODUCTS -> supplierData.products = value as List<SelectedProductModel>
+            DATA_DOCUMENTS -> supplierData.documents = value as ArrayList<String>
+            DATA_PRODUCTS -> supplierData.products = value as ArrayList<SelectedProductModel>
+
+            DATA_STORE_KEEPER_DATA -> supplierData.storeKeeperData = value as SignatureInfo
+            DATA_DELIVERY_PERSON_DATA -> supplierData.deliveryPersonData = value as SignatureInfo
         }
     }
 
@@ -104,6 +109,7 @@ class StockReceiveNowViewModel(
         allowToGoNextLiveData = MutableLiveData<Pair<Int, Boolean>>()
         updateProductRequestLiveData = MutableLiveData<SelectedProductModel>()
         updateProductCompletedLiveData = MutableLiveData<SelectedProductModel>()
+        signedLiveData = MutableLiveData<Pair<String, Bitmap>>()
 
         System.gc()
     }
@@ -130,15 +136,20 @@ class StockReceiveNowViewModel(
     }
 
     companion object {
-        val DATA_SUPPLIER = 1000
-        val DATA_DOCUMENTS = 1001
-        val DATA_DATE = 1002
-        val DATA_PRODUCTS = 1003
+        const val DATA_SUPPLIER = 1000
+        const val DATA_DOCUMENTS = 1001
+        const val DATA_DATE = 1002
+        const val DATA_PRODUCTS = 1003
+        const val DATA_STORE_KEEPER_DATA = 1004
+        const val DATA_DELIVERY_PERSON_DATA = 1005
 
         // Selected Supplier Data
         var supplierData = SelectedSupplierDataModel()
         var allowToGoNextLiveData = MutableLiveData<Pair<Int, Boolean>>()      // Allow event to go next on each page
         var updateProductRequestLiveData = MutableLiveData<SelectedProductModel>()      // Update product request
         var updateProductCompletedLiveData = MutableLiveData<SelectedProductModel>()      // Update product request
+
+        var signedLiveData = MutableLiveData<Pair<String, Bitmap>>()      // Event triggered when sign is completed
+
     }
 }
