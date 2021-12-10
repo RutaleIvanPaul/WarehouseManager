@@ -83,7 +83,7 @@
                     android:background="@color/light_grey" />
 
                 <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/return_stock_tablayout"
+                    android:id="@+id/assign_stock_tablayout"
                     style="@style/CommonTabLayout"
                     android:layout_height="match_parent"
                     android:background="@color/transparent" />
@@ -91,7 +91,7 @@
             </RelativeLayout>
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/return_stock_viewpager"
+                android:id="@+id/assign_stock_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />

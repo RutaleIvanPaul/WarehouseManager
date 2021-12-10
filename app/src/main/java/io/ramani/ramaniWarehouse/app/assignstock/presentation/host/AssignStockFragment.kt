@@ -16,7 +16,11 @@ import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesP
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveProductsFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSupplierFragment
+import kotlinx.android.synthetic.main.fragment_assign_stock.*
 import kotlinx.android.synthetic.main.fragment_return_stock.*
+import kotlinx.android.synthetic.main.fragment_return_stock.return_stock_host_next_button
+import kotlinx.android.synthetic.main.fragment_return_stock.return_stock_tablayout
+import kotlinx.android.synthetic.main.fragment_return_stock.return_stock_viewpager
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
 
@@ -78,9 +82,9 @@ class AssignStockFragment : BaseFragment() {
         adapter.addFragment(productsFragment!!, getString(R.string.products))
         adapter.addFragment(StockReceiveSupplierFragment.newInstance(), getString(R.string.confirm))
 
-        return_stock_viewpager.adapter = adapter
-        return_stock_viewpager.currentItem = 0
-        TabLayoutMediator(return_stock_tablayout, return_stock_viewpager) { tab, position ->
+        assign_stock_viewpager.adapter = adapter
+        assign_stock_viewpager.currentItem = 0
+        TabLayoutMediator(assign_stock_tablayout, assign_stock_viewpager) { tab, position ->
             tab.text = adapter.getTabTitle(position)
         }.attach()
 
