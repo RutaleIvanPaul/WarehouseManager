@@ -18,8 +18,11 @@ class AuthLocalDataSource(
 
 
     override fun getCurrentUser(): Single<UserModel> =
-        Single.just(Gson().fromJson(prefsManager.currentUser, UserModel::class.java))
-
+        if (prefsManager.currentUser.isNullOrBlank()) {
+            Single.just(UserModel())
+        } else {
+            Single.just(Gson().fromJson(prefsManager.currentUser, UserModel::class.java))
+        }
 
     override fun setCurrentUser(user: UserModel): Completable =
         Completable.fromAction {

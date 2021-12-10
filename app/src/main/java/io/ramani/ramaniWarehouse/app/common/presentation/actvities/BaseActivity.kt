@@ -1,16 +1,14 @@
 package io.ramani.ramaniWarehouse.app.common.presentation.actvities
 
 import android.content.Context
-import android.os.Build
 import android.os.Bundle
-import android.view.MenuItem
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import io.ramani.ramaniWarehouse.R
@@ -26,8 +24,6 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.interfaces.DisposablesHolder
 import io.ramani.ramaniWarehouse.app.common.presentation.interfaces.addDisposable
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
-import io.ramani.ramaniWarehouse.domainCore.lang.getLocaleFromString
 import io.reactivex.disposables.CompositeDisposable
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -75,7 +71,12 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware, DisposablesHolde
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN
+        )
+        window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         window.statusBarColor = color(R.color.white)
 
         navigationManager = NavigationManager().apply {
@@ -102,6 +103,9 @@ abstract class BaseActivity : AppCompatActivity(), KodeinAware, DisposablesHolde
 
     override fun onResume() {
         super.onResume()
+        val decorView: View = window.decorView
+        val uiOptions: Int = View.SYSTEM_UI_FLAG_FULLSCREEN
+        decorView.setSystemUiVisibility(uiOptions)
         baseViewModel?.let {
             subscribeConfirmLogout(it)
             subscribeConfirmRestart(it)
