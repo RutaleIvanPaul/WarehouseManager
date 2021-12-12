@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.warehouses.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.presentation.InvoicesViewModel
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.mappers.WarehouseModelMapper
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.model.WarehouseModelView
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavViewModel
@@ -26,6 +27,14 @@ val warehousesModule = Module("warehousesModule") {
                 instance()
             )
         ).get(MainNavViewModel::class.java)
+    }
+
+    bind<InvoicesViewModel>() with factory { fragment: Fragment ->
+        ViewModelProvider(
+            fragment, InvoicesViewModel.Factory(
+                instance(), instance(), instance(), instance("loadInvoicesUseCase")
+            )
+        ).get(InvoicesViewModel::class.java)
     }
 
     bind<ModelMapper<WarehouseModel, WarehouseModelView>>() with provider {

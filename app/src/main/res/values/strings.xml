@@ -77,5 +77,9 @@
     <string name="warning_put_amount">You cannot add product without amount</string>
     <string name="warning_select_declined_reason">Please select declined reason</string>
     <string name="warning_invalid_unit">Invalid unit price</string>
+    <string name="order_from">Order from: {{warehouse}}</string>
+    <string name="date">Date:</string>
+    <string name="invoice">Invoice:</string>
+    <string name="accept_confirm"><![CDATA[Accept & Confirm]]></string>
 
 </resources>
