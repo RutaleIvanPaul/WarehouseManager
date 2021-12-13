@@ -11,6 +11,7 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.products.SelectReturnItemsFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveProductsFragment
@@ -36,7 +37,7 @@ class ReturnStockFragment : BaseFragment() {
     }
 
     private var salespersonFragment: SalesPersonFragment? = null
-    private var productsFragment: StockReceiveProductsFragment? = null
+    private var productsFragment: SelectReturnItemsFragment? = null
 
 
     override fun getLayoutResId() = R.layout.fragment_return_stock
@@ -70,7 +71,7 @@ class ReturnStockFragment : BaseFragment() {
 
     private fun initTabLayout() {
         salespersonFragment = SalesPersonFragment.newInstance()
-        productsFragment = StockReceiveProductsFragment.newInstance()
+        productsFragment = SelectReturnItemsFragment.newInstance()
 
         val adapter = TabPagerAdapter(activity)
         adapter.addFragment(salespersonFragment!!, getString(R.string.salesperson))
