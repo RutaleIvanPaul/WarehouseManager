@@ -2,10 +2,12 @@ package io.ramani.ramaniWarehouse.app.main.presentation
 
 import android.os.Build
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.core.content.ContextCompat
+import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
-import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import org.kodein.di.generic.factory
@@ -34,6 +36,10 @@ class MainActivity : BaseActivity() {
         subscribeError(viewModel)
         observerError(viewModel, this)
         viewModel.start()
-        flow.openLogin()
+        if (viewModel.isUserLoggedInBefore) {
+            flow.openMainNav()
+        } else {
+            flow.openLogin()
+        }
     }
 }
