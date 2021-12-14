@@ -22,13 +22,13 @@ import kotlinx.android.synthetic.main.item_product_confirm_row.view.*
 import androidx.recyclerview.widget.DividerItemDecoration
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_DELIVERY_PERSON_DATA
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_STORE_KEEPER_DATA
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment.Companion.PARAM_DELIVERY_PERSON_SIGN
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment.Companion.PARAM_STORE_KEEPER_SIGN
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SignatureInfo
-
 
 class StockReceiveConfirmFragment : BaseFragment() {
     companion object {
@@ -50,18 +50,22 @@ class StockReceiveConfirmFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-
+        subscribeObservers()
     }
 
     override fun initView(view: View?) {
         super.initView(view)
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
 
-        subscribeObservers()
         updateView()
     }
 
     private fun subscribeObservers() {
+        subscribeLoadingVisible(viewModel)
+        subscribeLoadingError(viewModel)
+        subscribeError(viewModel)
+        observerError(viewModel, this)
+
         StockReceiveNowViewModel.signedLiveData.observe(this, {
 
             if (it.first == PARAM_STORE_KEEPER_SIGN) {
@@ -91,6 +95,16 @@ class StockReceiveConfirmFragment : BaseFragment() {
 
             checkIfGoNext()
         })
+    }
+
+    override fun setLoadingIndicatorVisible(visible: Boolean) {
+        super.setLoadingIndicatorVisible(visible)
+        stock_receive_confirm_loader.visible(visible)
+    }
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
     }
 
     private fun checkIfGoNext() {

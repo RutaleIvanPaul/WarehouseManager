@@ -13,8 +13,8 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveProductsFragment
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSupplierFragment
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveProductsFragment
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveSupplierFragment
 import kotlinx.android.synthetic.main.fragment_return_stock.*
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory

@@ -9,8 +9,11 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.auth.model.GetSupplierRequestModel
+import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRequestModel
+import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
+import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedSupplierDataModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
@@ -25,8 +28,10 @@ class StockReceiveNowViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
+    private val prefs: PrefsManager,
     private val getSupplierUseCase: BaseSingleUseCase<List<SupplierModel>, GetSupplierRequestModel>,
-    private val getDeclineReasonsUseCase: BaseSingleUseCase<List<String>, Params>
+    private val getDeclineReasonsUseCase: BaseSingleUseCase<List<String>, Params>,
+    private val postGoodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
@@ -36,6 +41,10 @@ class StockReceiveNowViewModel(
 
     val getDeclineReasonsActionLiveData = MutableLiveData<List<String>>()
 
+    val postGoodsReceivedActionLiveData = MutableLiveData<GoodsReceivedModel>()
+
+    var companyId = ""
+
     override fun start(args: Map<String, Any?>) {
         /*
         val user = getLoggedInUser()
@@ -43,6 +52,7 @@ class StockReceiveNowViewModel(
             getSuppliers(it.companyId, 1, 100)
         })
         */
+        notifyErrorObserver(getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
 
         getSuppliers("613f3aa92aa50d36120b7c67", 1, 100)
     }
@@ -58,7 +68,7 @@ class StockReceiveNowViewModel(
             getSuppliersActionLiveData.postValue(it)
         }, onError = {
             isLoadingVisible = false
-            notifyError(it.message
+            notifyErrorObserver(it.message
                 ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
         })
     }
@@ -73,7 +83,7 @@ class StockReceiveNowViewModel(
             getDeclineReasonsActionLiveData.postValue(it)
         }, onError = {
             isLoadingVisible = false
-            notifyError(it.message
+            notifyErrorObserver(it.message
                 ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
         })
     }
@@ -84,6 +94,31 @@ class StockReceiveNowViewModel(
         }
 
         return ArrayList()
+    }
+
+    /**
+     * Post Goods Received
+     */
+    fun postGoodsReceived() {
+        isLoadingVisible = true
+
+        // Create request body
+        val requestBody = supplierData.createRequestBody(
+            prefs.currentWarehouse,
+            prefs.currentUser,
+            "613f3aa92aa50d36120b7c67"
+        )
+
+        val single = postGoodsReceivedUseCase.getSingle(GoodsReceivedRequestModel(requestBody))
+        subscribeSingle(single, onSuccess = {
+            //isLoadingVisible = false
+
+            postGoodsReceivedActionLiveData.postValue(it)
+        }, onError = {
+            //isLoadingVisible = false
+            notifyErrorObserver(it.message
+                ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
+        })
     }
 
     /**
@@ -118,8 +153,10 @@ class StockReceiveNowViewModel(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
+        private val prefs: PrefsManager,
         private val getSupplierUseCase: BaseSingleUseCase<List<SupplierModel>, GetSupplierRequestModel>,
-        private val getDeclineReasonsUseCase: BaseSingleUseCase<List<String>, Params>
+        private val getDeclineReasonsUseCase: BaseSingleUseCase<List<String>, Params>,
+        private val goodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -128,7 +165,8 @@ class StockReceiveNowViewModel(
                     application,
                     stringProvider,
                     sessionManager,
-                    getSupplierUseCase, getDeclineReasonsUseCase
+                    prefs,
+                    getSupplierUseCase, getDeclineReasonsUseCase, goodsReceivedUseCase
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

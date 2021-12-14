@@ -37,11 +37,13 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.AdapterView
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
-
+import kotlinx.android.synthetic.main.fragment_signin_sheet.*
 
 class StockReceiveSupplierFragment : BaseFragment() {
     companion object {
@@ -65,7 +67,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-
+        subscribeObservers()
     }
 
     override fun initView(view: View?) {
@@ -102,7 +104,6 @@ class StockReceiveSupplierFragment : BaseFragment() {
             }
 
         viewModel.start()
-        subscribeObservers()
     }
 
     override fun onPause() {
@@ -118,6 +119,11 @@ class StockReceiveSupplierFragment : BaseFragment() {
     }
 
     private fun subscribeObservers() {
+        subscribeLoadingVisible(viewModel)
+        subscribeLoadingError(viewModel)
+        subscribeError(viewModel)
+        observerError(viewModel, this)
+
         viewModel.validationResponseLiveData.observe(this, {
 
         })
@@ -130,6 +136,16 @@ class StockReceiveSupplierFragment : BaseFragment() {
             supplier_receiving_select_supplier_spinner.setItems(items)
 
         })
+    }
+
+    override fun setLoadingIndicatorVisible(visible: Boolean) {
+        super.setLoadingIndicatorVisible(visible)
+        stock_receive_supplier_loader.visible(visible)
+    }
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
     }
 
     private fun updateGallery() {

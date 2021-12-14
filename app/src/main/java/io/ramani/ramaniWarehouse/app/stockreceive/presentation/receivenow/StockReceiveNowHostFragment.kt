@@ -106,6 +106,8 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
                 // There is no need to go ahead.
                 allowGo = false
+
+                viewModel.postGoodsReceived()
             }
 
             //    productsFragment?.updateView()
@@ -118,16 +120,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
     }
 
     private fun initSubscribers() {
-        subscribeLoadingVisible(viewModel)
-        subscribeLoadingError(viewModel)
-        subscribeError(viewModel)
-        observerError(viewModel, this)
         subscribeObservers()
-    }
-
-    override fun setLoadingIndicatorVisible(visible: Boolean) {
-        super.setLoadingIndicatorVisible(visible)
-        loader.visible(visible)
     }
 
     private fun subscribeObservers() {
@@ -137,6 +130,14 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
         viewModel.getSuppliersActionLiveData.observe(this, {
 
+        })
+
+        viewModel.postGoodsReceivedActionLiveData.observe(this, {
+            showConfirmDialog("Stock posting success", onConfirmed = {
+                viewModel.clearData()
+
+                // Navigate to PrintScreen
+            })
         })
 
         StockReceiveNowViewModel.allowToGoNextLiveData.observe(this, {
@@ -161,11 +162,6 @@ class StockReceiveNowHostFragment : BaseFragment() {
             stock_receive_now_host_viewpager.setCurrentItem(2, true)
         })
 
-    }
-
-    override fun showError(error: String) {
-        super.showError(error)
-        errorDialog(error)
     }
 
     private fun initTabLayout() {
