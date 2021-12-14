@@ -63,6 +63,6 @@ val warehousesDataModule = Kodein.Module("warehousesDataModule") {
     }
 
     bind<UniModelMapper<InvoiceRemoteModel, InvoiceModel>>() with provider {
-        InvoiceRemoteModelMapper(instance())
+        InvoiceRemoteModelMapper(instance(),instance())
     }
 }

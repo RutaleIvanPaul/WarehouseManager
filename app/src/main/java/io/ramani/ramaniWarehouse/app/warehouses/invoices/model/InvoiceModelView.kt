@@ -1,21 +1,22 @@
-package io.ramani.ramaniWarehouse.domain.warehouses.models
+package io.ramani.ramaniWarehouse.app.warehouses.invoices.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import io.ramani.ramaniWarehouse.domain.warehouses.models.ProductModel
 import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
-data class InvoiceModel(
+data class InvoiceModelView(
 
     val invoiceId: String? = null,
-    val createdAt: Long? = null,
+    val createdAt: String? = null,
     val distributorName: String? = null,
     val supplierName: String? = null,
     val invoiceAmount: Double? = null,
-    val products: List<ProductModel>? = null,
+    val products: List<ProductModel>? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
-        parcel.readLong(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
@@ -25,7 +26,7 @@ data class InvoiceModel(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(invoiceId)
-        parcel.writeLong(createdAt ?: 0L)
+        parcel.writeString(createdAt)
         parcel.writeString(distributorName)
         parcel.writeString(supplierName)
         parcel.writeValue(invoiceAmount)
@@ -36,19 +37,19 @@ data class InvoiceModel(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<InvoiceModel> {
-        override fun createFromParcel(parcel: Parcel): InvoiceModel {
-            return InvoiceModel(parcel)
+    companion object CREATOR : Parcelable.Creator<InvoiceModelView> {
+        override fun createFromParcel(parcel: Parcel): InvoiceModelView {
+            return InvoiceModelView(parcel)
         }
 
-        override fun newArray(size: Int): Array<InvoiceModel?> {
+        override fun newArray(size: Int): Array<InvoiceModelView?> {
             return arrayOfNulls(size)
         }
     }
 
-    class Builder : IBuilder<InvoiceModel> {
+    class Builder : IBuilder<InvoiceModelView> {
         private var invoiceId: String? = null
-        private var createdAt: Long? = null
+        private var createdAt: String? = null
         private var distributorName: String? = null
         private var supplierName: String? = null
         private var invoiceAmount: Double? = null
@@ -59,7 +60,7 @@ data class InvoiceModel(
             return this
         }
 
-        fun createdAt(createdAt: Long?): Builder {
+        fun createdAt(createdAt: String?): Builder {
             this.createdAt = createdAt
             return this
         }
@@ -84,7 +85,7 @@ data class InvoiceModel(
             return this
         }
 
-        override fun build(): InvoiceModel = InvoiceModel(
+        override fun build(): InvoiceModelView = InvoiceModelView(
             invoiceId,
             createdAt,
             distributorName,

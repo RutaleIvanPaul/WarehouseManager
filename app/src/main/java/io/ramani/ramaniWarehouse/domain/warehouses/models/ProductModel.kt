@@ -8,13 +8,15 @@ data class ProductModel(
     val productId: String? = null,
     val productName: String? = null,
     val price: Double? = null,
-    val quantity: Double? = null
+    val quantity: Double? = null,
+    val unit: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
-        parcel.readValue(Double::class.java.classLoader) as? Double
+        parcel.readValue(Double::class.java.classLoader) as? Double,
+        parcel.readString()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -22,6 +24,7 @@ data class ProductModel(
         parcel.writeString(productName)
         parcel.writeValue(price)
         parcel.writeValue(quantity)
+        parcel.writeString(unit)
     }
 
     override fun describeContents(): Int {
@@ -43,6 +46,7 @@ data class ProductModel(
         private var productName: String? = null
         private var price: Double? = null
         private var quantity: Double? = null
+        private var unit: String? = null
 
         fun productId(productId: String?): Builder {
             this.productId = productId
@@ -64,8 +68,13 @@ data class ProductModel(
             return this
         }
 
+        fun unit(unit: String?): Builder {
+            this.unit = unit
+            return this
+        }
+
         override fun build(): ProductModel =
-            ProductModel(productId, productName, price, quantity)
+            ProductModel(productId, productName, price, quantity,unit)
     }
 
 }

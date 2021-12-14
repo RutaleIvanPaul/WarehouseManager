@@ -11,5 +11,6 @@ class ProductRemoteModelMapper : UniModelMapper<ProductRemoteModel, ProductModel
             .productName(from.productName)
             .price(from.price)
             .quantity(from.quantity)
+            .unit(from.unit)
             .build()
 }

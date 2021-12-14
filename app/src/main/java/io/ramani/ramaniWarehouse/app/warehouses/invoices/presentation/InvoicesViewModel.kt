@@ -7,8 +7,11 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.InvoiceModelView
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.exceptions.ItemNotFoundException
+import io.ramani.ramaniWarehouse.domain.base.mappers.UniModelMapper
+import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.entities.PagedList
 import io.ramani.ramaniWarehouse.domain.warehouses.models.GetWarehousesRequestModel
@@ -20,11 +23,12 @@ class InvoicesViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
-    private val loadInvoicesUseCase: BaseSingleUseCase<PagedList<InvoiceModel>, GetWarehousesRequestModel>
+    private val loadInvoicesUseCase: BaseSingleUseCase<PagedList<InvoiceModel>, GetWarehousesRequestModel>,
+    private val invoiceModelMapper: UniModelMapper<InvoiceModel, InvoiceModelView>
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
-    val invoicesList = mutableListOf<InvoiceModel>()
-    var page = 1
+    val invoicesList = mutableListOf<InvoiceModelView>()
+    private var page = 1
     var hasMoreToLoad = true
     val onInvoicesLoadedLiveData = MutableLiveData<Boolean>()
 
@@ -44,7 +48,7 @@ class InvoicesViewModel(
                         onInvoicesLoadedLiveData.postValue(false)
                     } else {
                         invoicesList.addAll(
-                            it.data
+                            it.data.mapFromWith(invoiceModelMapper)
                         )
                         hasMoreToLoad = it.paginationMeta.hasNext
                         onInvoicesLoadedLiveData.postValue(true)
@@ -66,17 +70,16 @@ class InvoicesViewModel(
     }
 
     fun loadMore() {
-        if (hasMoreToLoad) {
-            page++
-            loadInvoices()
-        }
+        page++
+        loadInvoices()
     }
 
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
-        private val loadInvoicesUseCase: BaseSingleUseCase<PagedList<InvoiceModel>, GetWarehousesRequestModel>
+        private val loadInvoicesUseCase: BaseSingleUseCase<PagedList<InvoiceModel>, GetWarehousesRequestModel>,
+        private val invoiceModelMapper: UniModelMapper<InvoiceModel, InvoiceModelView>
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -85,7 +88,8 @@ class InvoicesViewModel(
                     application,
                     stringProvider,
                     sessionManager,
-                    loadInvoicesUseCase
+                    loadInvoicesUseCase,
+                    invoiceModelMapper
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")
