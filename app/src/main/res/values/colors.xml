@@ -79,4 +79,6 @@
     <color name="text_light">#bdbdbd</color>
     <color name="grey_inactive_button">#C7D3DD</color>
     <color name="grey_inactive_button_text">#C4C4C4</color>
+    <color name="button_599BCB">#599BCB</color>
+    <color name="confirm_action_button_background">#91FF90</color>
 </resources>

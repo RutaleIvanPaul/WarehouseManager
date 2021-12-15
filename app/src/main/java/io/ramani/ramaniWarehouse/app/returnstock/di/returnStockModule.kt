@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.app.returnstock.di
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.products.SelectReturnItemsViewmodel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.mapper.SalespersonRVMapper
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.model.SalespersonRVModel
@@ -36,6 +37,16 @@ val returnStockModule = Kodein.Module("returnStockModule") {
                 instance(), instance(), instance(), instance("getSalespeopleUseCase"), instance(),instance()
             )
         ).get(SalesPersonViewModel::class.java)
+    }
+
+    bind<SelectReturnItemsViewmodel>() with factory{ fragment: Fragment ->
+        ViewModelProvider(
+            fragment,SelectReturnItemsViewmodel.Factory(
+                instance(), instance(), instance(),
+                instance("getAvailableStockUseCase")
+            )
+        ).get(SelectReturnItemsViewmodel::class.java)
+
     }
 
     bind<ModelMapper<SalespeopleModel, SalespersonRVModel>>() with provider {
