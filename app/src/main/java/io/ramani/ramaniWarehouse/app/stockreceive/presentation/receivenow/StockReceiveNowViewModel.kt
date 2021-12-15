@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
@@ -21,6 +22,9 @@ import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SignatureInfo
+import io.reactivex.rxkotlin.subscribeBy
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -43,8 +47,11 @@ class StockReceiveNowViewModel(
 
     val postGoodsReceivedActionLiveData = MutableLiveData<GoodsReceivedModel>()
 
+    var userId = ""
     var companyId = ""
+    var warehouseId = ""
 
+    @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
         /*
         val user = getLoggedInUser()
@@ -52,9 +59,17 @@ class StockReceiveNowViewModel(
             getSuppliers(it.companyId, 1, 100)
         })
         */
-        notifyErrorObserver(getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
+        sessionManager.getLoggedInUser().subscribeBy {
+            userId = it.uuid
+            companyId = it.companyId
+        }
+
+        sessionManager.getCurrentWarehouse().subscribeBy {
+            warehouseId = it.id ?: ""
+        }
 
         getSuppliers("613f3aa92aa50d36120b7c67", 1, 100)
+        //postGoodsReceived()
     }
 
     private fun getSuppliers(companyId: String, page: Int, size: Int) {
@@ -103,22 +118,55 @@ class StockReceiveNowViewModel(
         isLoadingVisible = true
 
         // Create request body
-        val requestBody = supplierData.createRequestBody(
-            prefs.currentWarehouse,
-            prefs.currentUser,
-            "613f3aa92aa50d36120b7c67"
-        )
+        var requestBody:Map<String, RequestBody>? = null
+        if (supplierData.supplier != null) {
+            requestBody = supplierData.createRequestBody(
+                prefs.currentWarehouse,
+                prefs.currentUser,
+                "613f3aa92aa50d36120b7c67"
+            )
+        } else {
+            requestBody = makeParam()
+        }
 
-        val single = postGoodsReceivedUseCase.getSingle(GoodsReceivedRequestModel(requestBody))
+        val request = GoodsReceivedRequestModel(
+            "",
+            userId,
+            warehouseId,
+            companyId,
+            "",
+            "",
+            "adrian"
+        )
+        val single = postGoodsReceivedUseCase.getSingle(request)
         subscribeSingle(single, onSuccess = {
-            //isLoadingVisible = false
+            isLoadingVisible = false
 
             postGoodsReceivedActionLiveData.postValue(it)
         }, onError = {
-            //isLoadingVisible = false
-            notifyErrorObserver(it.message
-                ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
+            isLoadingVisible = false
+            notifyErrorObserver(
+                it.message
+                    ?: getString(R.string.an_error_has_occured_please_try_again),
+                PresentationError.ERROR_TEXT
+            )
         })
+
+    }
+
+    private fun makeParam():HashMap<String, RequestBody> {
+        val map:HashMap<String, RequestBody> = HashMap<String, RequestBody>()
+
+        map["warehouseId"] = createTextFormData(prefs.currentWarehouse)
+        map["distributorId"] = createTextFormData("613f3aa92aa50d36120b7c67")
+        map["warehouseManagerId"] = createTextFormData(prefs.currentUser)
+        map["supplierId"] = createTextFormData("asfsfsdfsdf")
+        map["time"] = createTextFormData("")
+        map["date"] = createTextFormData("")
+        return map
+    }
+    private fun createTextFormData(value:String): RequestBody {
+        return RequestBody.create(MediaType.parse("text/plain"), value)
     }
 
     /**

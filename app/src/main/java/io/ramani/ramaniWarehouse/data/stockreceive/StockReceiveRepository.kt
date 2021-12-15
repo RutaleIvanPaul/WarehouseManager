@@ -5,6 +5,7 @@ import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
 import io.reactivex.Single
 import okhttp3.RequestBody
+import retrofit2.http.Part
 
 class StockReceiveRepository(
     private val remoteStockReceiveDataSource: StockReceiveDataSource,
@@ -17,7 +18,14 @@ class StockReceiveRepository(
     override fun getDeclineReasons(): Single<List<String>> =
         remoteStockReceiveDataSource.getDeclineReasons()
 
-    override fun postGoodsReceived(bodyMaps: Map<String, RequestBody>): Single<GoodsReceivedModel> =
-        remoteStockReceiveDataSource.postGoodsReceived(bodyMaps)
-
+    override fun postGoodsReceived(
+        invoiceId: String,
+        warehouseManagerId: String,
+        warehouseId: String,
+        distributorId: String,
+        date: String,
+        time: String,
+        deliveryPersonName: String
+    ): Single<GoodsReceivedModel> =
+        remoteStockReceiveDataSource.postGoodsReceived(invoiceId, warehouseManagerId, warehouseId, distributorId, date, time, deliveryPersonName)
 }

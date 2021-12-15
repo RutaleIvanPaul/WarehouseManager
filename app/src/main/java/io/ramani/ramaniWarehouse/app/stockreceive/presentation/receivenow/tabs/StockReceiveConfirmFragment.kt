@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalespersonBottomSheetRVAdapter
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_DELIVERY_PERSON_DATA
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_STORE_KEEPER_DATA
@@ -45,7 +47,7 @@ class StockReceiveConfirmFragment : BaseFragment() {
     override fun getLayoutResId(): Int = R.layout.fragment_stock_receive_confirm
 
     private var products: ArrayList<SelectedProductModel>? = null
-    private var listAdapter: ProductsRecycledViewAdapter? = null
+    private var listAdapter: StockReceiveConfirmProductRVAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +65,7 @@ class StockReceiveConfirmFragment : BaseFragment() {
     private fun subscribeObservers() {
         subscribeLoadingVisible(viewModel)
         subscribeLoadingError(viewModel)
+        observeLoadingVisible(viewModel, this)
         subscribeError(viewModel)
         observerError(viewModel, this)
 
@@ -125,9 +128,12 @@ class StockReceiveConfirmFragment : BaseFragment() {
         // Initialize List View
         stock_receive_confirm_product_list.apply {
             layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
-            listAdapter = ProductsRecycledViewAdapter(products!!, requireActivity(), R.layout.item_product_confirm_row)
-            adapter = listAdapter
 
+            listAdapter = StockReceiveConfirmProductRVAdapter(products!!){
+                StockReceiveNowViewModel.updateProductRequestLiveData.postValue(it)
+            }
+
+            adapter = listAdapter
             addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
         }
 
@@ -152,57 +158,5 @@ class StockReceiveConfirmFragment : BaseFragment() {
                 errorDialog("Please enter the delivery person name")
             }
         }
-
     }
-
-    /**
-     * Recycled View Adapter For List
-     */
-    internal class ProductsRecycledViewAdapter(private val arrayList: ArrayList<SelectedProductModel>,
-                             private val context: Context,
-                             private val layout: Int) : RecyclerView.Adapter<ProductsRecycledViewAdapter.ViewHolder>() {
-
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val v = LayoutInflater.from(parent.context).inflate(layout, parent, false)
-            return ViewHolder(v)
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bindItems(arrayList[position])
-        }
-
-        override fun getItemCount(): Int {
-            return arrayList.size
-        }
-
-        internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private var isInEditMode = false
-
-            fun bindItems(product: SelectedProductModel) {
-                itemView.item_product_confirm_row_product_name.text = product.product?.name ?: ""
-                itemView.item_product_confirm_row_agreed_amount.setText(product.accepted.toString())
-                itemView.item_product_confirm_row_declined_amount.setText(product.declined.toString())
-                itemView.item_product_confirm_row_edit_action.setOnSingleClickListener {
-                    isInEditMode = !isInEditMode
-
-                    StockReceiveNowViewModel.updateProductRequestLiveData.postValue(product)
-                    //updateItemView()
-                }
-
-                //updateItemView()
-            }
-
-            private fun updateItemView() {
-                itemView.item_product_confirm_row_agreed_amount.isEnabled = isInEditMode
-                itemView.item_product_confirm_row_agreed_amount.setBackgroundResource(if (isInEditMode) R.drawable.item_outline_round else R.color.transparent)
-
-                itemView.item_product_confirm_row_declined_amount.isEnabled = isInEditMode
-                itemView.item_product_confirm_row_declined_amount.setBackgroundResource(if (isInEditMode) R.drawable.item_outline_round else R.color.transparent)
-
-                itemView.item_product_confirm_row_edit_action.text = context.getString(if (isInEditMode) R.string.done else R.string.edit )
-            }
-        }
-    }
-
 }

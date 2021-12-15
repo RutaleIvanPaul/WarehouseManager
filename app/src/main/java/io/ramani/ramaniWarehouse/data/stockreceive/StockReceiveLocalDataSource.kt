@@ -20,8 +20,17 @@ class StockReceiveLocalDataSource(
         TODO("Not yet implemented")
     }
 
-    override fun postGoodsReceived(bodyMaps: Map<String, RequestBody>): Single<GoodsReceivedModel> {
+    override fun postGoodsReceived(
+        invoiceId: String,
+        warehouseManagerId: String,
+        warehouseId: String,
+        distributorId: String,
+        date: String,
+        time: String,
+        deliveryPersonName: String
+    ): Single<GoodsReceivedModel> {
         TODO("Not yet implemented")
     }
+
 
 }

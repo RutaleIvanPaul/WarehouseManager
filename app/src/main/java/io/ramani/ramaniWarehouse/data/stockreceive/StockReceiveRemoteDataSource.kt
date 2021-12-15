@@ -21,6 +21,7 @@ import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import io.reactivex.Single
 import okhttp3.RequestBody
 import retrofit2.HttpException
+import retrofit2.http.Part
 
 class StockReceiveRemoteDataSource(
     private val stockReceiveApi: StockReceiveApi,
@@ -105,9 +106,17 @@ class StockReceiveRemoteDataSource(
                 }
         )
 
-    override fun postGoodsReceived(bodyMaps: Map<String, RequestBody>): Single<GoodsReceivedModel> =
+    override fun postGoodsReceived(
+        invoiceId: String,
+        warehouseManagerId: String,
+        warehouseId: String,
+        distributorId: String,
+        date: String,
+        time: String,
+        deliveryPersonName: String
+    ): Single<GoodsReceivedModel> =
         callSingle(
-            stockReceiveApi.postGoodsReceived(bodyMaps).flatMap {
+            stockReceiveApi.postGoodsReceived(invoiceId, warehouseManagerId, warehouseId, distributorId, date, time, deliveryPersonName).flatMap {
                 val data = it.data
                 if (data != null) {
                     Single.just(data.mapFromWith(goodsReceivedRemoteMapper))

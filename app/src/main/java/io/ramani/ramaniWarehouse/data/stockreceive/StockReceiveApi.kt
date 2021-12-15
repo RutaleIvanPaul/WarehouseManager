@@ -23,7 +23,13 @@ interface StockReceiveApi {
     @Multipart
     @POST("/api/v1/invoice/goods-received")
     fun postGoodsReceived(
-        @PartMap bodyMaps: Map<String, @JvmSuppressWildcards RequestBody>
+        @Part("invoiceId") invoiceId: String,
+        @Part("warehouseManagerId") warehouseManagerId: String,
+        @Part("warehouseId") warehouseId: String,
+        @Part("distributorId") distributorId: String,
+        @Part("date") date: String,
+        @Part("time") time: String,
+        @Part("deliveryPersonName") deliveryPersonName: String,
     ): Single<BaseResponse<GoodsReceivedRemoteModel>>
 
 }

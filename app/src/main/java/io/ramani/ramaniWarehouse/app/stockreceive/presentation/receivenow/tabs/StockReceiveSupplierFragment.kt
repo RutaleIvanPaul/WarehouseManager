@@ -121,6 +121,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
     private fun subscribeObservers() {
         subscribeLoadingVisible(viewModel)
         subscribeLoadingError(viewModel)
+        observeLoadingVisible(viewModel, this)
         subscribeError(viewModel)
         observerError(viewModel, this)
 
