@@ -77,6 +77,10 @@
     <string name="warning_put_amount">You cannot add product without amount</string>
     <string name="warning_select_declined_reason">Please select declined reason</string>
     <string name="warning_invalid_unit">Invalid unit price</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_4">4</string>
+    <string name="Confirmed">Confirmed</string>
     <string name="okay_title">Okay</string>
 
 

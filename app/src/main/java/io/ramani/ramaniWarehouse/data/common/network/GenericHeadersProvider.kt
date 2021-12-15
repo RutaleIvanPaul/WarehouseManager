@@ -15,6 +15,7 @@ class GenericHeadersProvider(private val prefsManager: Prefs) : HeadersProvider 
         const val HEADER_ACCEPT = "Accept"
         const val HEADER_CONTENT_TYPE_VALUE = "application/json"
         const val HEADER_CLIENT = "client"
+        const val INVALIDATE_CACHE = "invalidate_cache"
 
     }
 
@@ -30,6 +31,7 @@ class GenericHeadersProvider(private val prefsManager: Prefs) : HeadersProvider 
         map[HEADER_CONTENT_TYPE] = HEADER_CONTENT_TYPE_VALUE
         map[HEADER_ACCEPT] = HEADER_CONTENT_TYPE_VALUE
         map[HEADER_CLIENT] = ApiConstants.CLIENT_HEADER
+        map[INVALIDATE_CACHE] = true.toString()
         return map
     }
 
