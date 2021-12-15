@@ -1,16 +1,14 @@
-package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
+package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -21,7 +19,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.code95.android.app.auth.flow.StockReceiveFlowController
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
@@ -40,9 +37,13 @@ import java.io.IOException
 import java.util.*
 import kotlin.collections.ArrayList
 import android.widget.AdapterView
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
-
+import kotlinx.android.synthetic.main.fragment_signin_sheet.*
 
 class StockReceiveSupplierFragment : BaseFragment() {
     companion object {
@@ -66,7 +67,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-
+        subscribeObservers()
     }
 
     override fun initView(view: View?) {
@@ -86,7 +87,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
             checkIfGoNext()
         }
 
-        stock_receive_take_photo.setOnClickListener {
+        stock_receive_take_photo.setOnSingleClickListener {
             showTakePhotoDialog()
         }
 
@@ -103,7 +104,6 @@ class StockReceiveSupplierFragment : BaseFragment() {
             }
 
         viewModel.start()
-        subscribeObservers()
     }
 
     override fun onPause() {
@@ -119,6 +119,12 @@ class StockReceiveSupplierFragment : BaseFragment() {
     }
 
     private fun subscribeObservers() {
+        subscribeLoadingVisible(viewModel)
+        subscribeLoadingError(viewModel)
+        observeLoadingVisible(viewModel, this)
+        subscribeError(viewModel)
+        observerError(viewModel, this)
+
         viewModel.validationResponseLiveData.observe(this, {
 
         })
@@ -131,6 +137,16 @@ class StockReceiveSupplierFragment : BaseFragment() {
             supplier_receiving_select_supplier_spinner.setItems(items)
 
         })
+    }
+
+    override fun setLoadingIndicatorVisible(visible: Boolean) {
+        super.setLoadingIndicatorVisible(visible)
+        stock_receive_supplier_loader.visible(visible)
+    }
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
     }
 
     private fun updateGallery() {
@@ -237,7 +253,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
     private fun checkIfGoNext() {
         StockReceiveNowViewModel.supplierData?.let {
             if (it.supplier.isNotNull() && !it.documents.isNullOrEmpty())
-                StockReceiveNowViewModel.allowToGoNext.postValue(Pair(0, true))
+                StockReceiveNowViewModel.allowToGoNextLiveData.postValue(Pair(0, true))
         }
     }
 

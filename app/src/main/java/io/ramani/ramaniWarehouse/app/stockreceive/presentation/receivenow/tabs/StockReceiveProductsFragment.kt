@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
+package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -10,27 +10,23 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
-import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showErrorDialog
-import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_SUPPLIER
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.ProductParameterModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
-import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
-import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_products.*
-import kotlinx.android.synthetic.main.fragment_stock_receive_supplier.*
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import android.view.LayoutInflater
 
 import android.widget.LinearLayout
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_PRODUCTS
 import kotlinx.android.synthetic.main.item_stock_receive_product_parameter.view.*
 
 
@@ -48,11 +44,17 @@ class StockReceiveProductsFragment : BaseFragment() {
 
     // Products Variables
     private var availableProducts: ArrayList<SupplierProductModel> = ArrayList()
+    private var declinedReasons: ArrayList<String> = ArrayList()
+
     private var addedProducts: ArrayList<SelectedProductModel> = ArrayList()
     private var parameters: ArrayList<ProductParameterModel> = ArrayList()
 
     private val dateFormatter: DateFormatter by instance()
     private var calendar = Calendar.getInstance()
+
+    // Update Mode
+    private var needToUpdateProduct = false
+    private var updateNeedProduct: SelectedProductModel? = null
 
     override fun getLayoutResId(): Int = R.layout.fragment_stock_receive_products
 
@@ -105,7 +107,7 @@ class StockReceiveProductsFragment : BaseFragment() {
                 updateProducts()
                 clearAllFields()
 
-                StockReceiveNowViewModel.allowToGoNext.postValue(Pair(1, true))
+                StockReceiveNowViewModel.allowToGoNextLiveData.postValue(Pair(1, true))
             }
         }
 
@@ -137,8 +139,10 @@ class StockReceiveProductsFragment : BaseFragment() {
         })
 
         viewModel.getDeclineReasonsActionLiveData.observe(this, {
+            declinedReasons = it as ArrayList<String>
             products_why_declined_spinner.setItems(it)
         })
+
     }
 
     private fun updateView() {
@@ -150,7 +154,32 @@ class StockReceiveProductsFragment : BaseFragment() {
         updateProducts()
     }
 
-    fun doSave(): Boolean {
+    // Need to update product
+    fun requestProductUpdate(product: SelectedProductModel) {
+        updateNeedProduct = product
+
+        product.product?.let {
+            val prod = it
+
+            needToUpdateProduct = true
+
+            products_product_spinner.selectItemByIndex(availableProducts.indexOf(availableProducts.find { it.id == prod.id }))
+
+            updateUnitSpinner(prod)
+            products_units_spinner.selectItemByIndex(if (prod.units.equals(product.units)) 0 else 1)
+
+            products_accepted_amount.setText(product.accepted.toString())
+            products_declined_amount.setText(product.declined.toString())
+
+            products_why_declined_spinner.selectItemByIndex(declinedReasons.indexOf(declinedReasons.find { it == product.declinedReason }))
+
+            products_unit_price.setText(product.unitPrice.toString())
+            products_expire_date.text = product.expireDate
+
+        }
+    }
+
+    private fun doSave(): Boolean {
         if (products_product_spinner.selectedIndex < 0) {
             errorDialog(getString(R.string.warning_select_product))
             return false
@@ -183,18 +212,34 @@ class StockReceiveProductsFragment : BaseFragment() {
 
         val expireDate = products_expire_date.text.toString()
 
-        // Create one object
-        val product = SelectedProductModel(
-            availableProducts[products_product_spinner.selectedIndex],
-            products_units_spinner.text.toString(),
-            acceptedAmounts,
-            declinedAmouunts,
-            if (declinedAmouunts > 0) products_why_declined_spinner.text.toString() else "",
-            unitPrice,
-            null,
-            expireDate
-        )
-        addedProducts.add(product)
+        if (!needToUpdateProduct) {
+            // Create one object
+            val product = SelectedProductModel(
+                availableProducts[products_product_spinner.selectedIndex],
+                products_units_spinner.text.toString(),
+                acceptedAmounts,
+                declinedAmouunts,
+                if (declinedAmouunts > 0) products_why_declined_spinner.text.toString() else "",
+                unitPrice,
+                null,
+                expireDate
+            )
+            addedProducts.add(product)
+        } else {
+            updateNeedProduct?.product = availableProducts[products_product_spinner.selectedIndex]
+            updateNeedProduct?.units = products_units_spinner.text.toString()
+            updateNeedProduct?.accepted = acceptedAmounts
+            updateNeedProduct?.declined = declinedAmouunts
+            updateNeedProduct?.declinedReason = if (declinedAmouunts > 0) products_why_declined_spinner.text.toString() else ""
+            updateNeedProduct?.unitPrice = unitPrice
+            updateNeedProduct?.expireDate = expireDate
+
+            needToUpdateProduct = false
+            StockReceiveNowViewModel.updateProductCompletedLiveData.postValue(updateNeedProduct)
+
+            // There is no need to update on UI
+            return false;
+        }
 
         return true
     }
@@ -261,6 +306,8 @@ class StockReceiveProductsFragment : BaseFragment() {
 
     private fun updateProducts() {
         products_added_amount.text = String.format("%d %s", addedProducts.size, getString(R.string.added))
+
+        viewModel.setData(DATA_PRODUCTS, addedProducts)
     }
 
     /**
@@ -275,7 +322,7 @@ class StockReceiveProductsFragment : BaseFragment() {
         val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_receive_product_parameter, null)
         itemView.products_parameter_spinner.setItems(listItem)
         itemView.products_parameter_size.setText(parameter.size)
-        itemView.products_parameter_delete.setOnClickListener {
+        itemView.products_parameter_delete.setOnSingleClickListener {
             products_parameter_container.removeView(itemView)
         }
 

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/SmallTextLabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="3" />
+
+                <TextView
+                    style="@style/BoldTextSmallLabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/accepted" />
+
+                <TextView
+                    style="@style/BoldTextSmallLabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/declined" />
+
+                <TextView
+                    style="@style/SmallTextLabel"
+                    android:layout_width="0dp"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <!-- Items -->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/stock_receive_confirm_product_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none" />
+
+            <!-- Sign Part -->
+
+            <!-- Store Keeper -->
+
+            <TextView
+                style="@style/BoldTextLabel"
+                android:layout_marginTop="30dp"
+                android:text="@string/store_keeper" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/stock_receive_confirm_store_keeper_name"
+                    style="@style/NormalEditText"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:hint="@string/store_keeper_hint" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/stock_receive_confirm_sign_store_keeper"
+                    style="@style/BlueStrokeActionButton"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:text="@string/sign" />
+
+            </LinearLayout>
+
+            <!-- Delivery Person -->
+
+            <TextView
+                style="@style/BoldTextLabel"
+                android:layout_marginTop="30dp"
+                android:text="@string/delivery_person" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/stock_receive_confirm_delivery_person_name"
+                    style="@style/NormalEditText"
+                    android:layout_width="0dp"
+                    android:layout_weight="3"
+                    android:hint="@string/delivery_person_hint" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/stock_receive_confirm_sign_delivery_person"
+                    style="@style/BlueStrokeActionButton"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:text="@string/sign" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/stock_receive_confirm_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+</RelativeLayout>
