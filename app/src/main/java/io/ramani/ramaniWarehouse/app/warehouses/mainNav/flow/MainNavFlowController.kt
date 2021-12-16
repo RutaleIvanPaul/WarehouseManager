@@ -20,8 +20,7 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
         val fragment = StockReceiveMainFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.ADD,
-            addToBackStack = false
+            openMethod = NavigationManager.OpenMethod.ADD
         )
     }
 
@@ -29,7 +28,7 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
         val fragment = AssignStockFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.REPLACE
+            openMethod = NavigationManager.OpenMethod.ADD
         )
     }
 
@@ -37,7 +36,7 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
         val fragment = ReturnStockFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.REPLACE
+            openMethod = NavigationManager.OpenMethod.ADD
         )
     }
 
