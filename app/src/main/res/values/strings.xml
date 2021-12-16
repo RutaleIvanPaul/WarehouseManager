@@ -37,6 +37,9 @@
     <string name="next">Next</string>
     <string name="save">Save</string>
     <string name="done">Done</string>
+    <string name="edit">Edit</string>
+    <string name="sign">Sign</string>
+    <string name="signed">Signed</string>
 
     <!-- Receive Stock -->
     <string name="receive_stock">Receive Stock</string>
@@ -69,6 +72,11 @@
 
     <string name="confirm">Confirm</string>
 
+    <string name="store_keeper">Store Keeper</string>
+    <string name="store_keeper_hint">Enter store keeper name</string>
+    <string name="delivery_person">Delivery Person</string>
+    <string name="delivery_person_hint">Enter delivery person name</string>
+
     <!-- Warning Messages -->
     <string name="warning_select_supplier">Please select supplier</string>
     <string name="warning_add_product">Please add one more of product</string>
@@ -77,6 +85,15 @@
     <string name="warning_put_amount">You cannot add product without amount</string>
     <string name="warning_select_declined_reason">Please select declined reason</string>
     <string name="warning_invalid_unit">Invalid unit price</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_4">4</string>
+    <string name="Confirmed">Confirmed</string>
+    <string name="okay_title">Okay</string>
+
+
+    <string name="warning_no_signed_store_keeper">Please enter store keeper name and sign</string>
+    <string name="warning_no_signed_delivery_person">Please enter delivery person name and sign</string>
     <string name="order_from">Order from: {{warehouse}}</string>
     <string name="date">Date:</string>
     <string name="invoice">Invoice:</string>

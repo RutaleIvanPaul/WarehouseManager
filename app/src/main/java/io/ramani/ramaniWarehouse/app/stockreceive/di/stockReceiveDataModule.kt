@@ -1,12 +1,18 @@
 package io.ramani.ramaniWarehouse.app.stockreceive.di
 
 import io.ramani.ramaniWarehouse.data.auth.*
+import io.ramani.ramaniWarehouse.data.auth.mappers.GoodsReceivedItemRemoteMapper
+import io.ramani.ramaniWarehouse.data.auth.mappers.GoodsReceivedRemoteMapper
 import io.ramani.ramaniWarehouse.data.auth.mappers.SupplierProductRemoteMapper
 import io.ramani.ramaniWarehouse.data.auth.mappers.SupplierRemoteMapper
+import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedItemRemoteModel
+import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.SupplierProductRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ServiceHelper
 import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
@@ -32,6 +38,7 @@ val stockReceiveDataModule = Kodein.Module("stockReceiveDataModule") {
     bind<StockReceiveDataSource>("remoteStockReceiveDataSource") with singleton {
         StockReceiveRemoteDataSource(
             instance(),
+            instance(),
             instance()
         )
     }
@@ -49,6 +56,15 @@ val stockReceiveDataModule = Kodein.Module("stockReceiveDataModule") {
 
     bind<ModelMapper<SupplierProductRemoteModel, SupplierProductModel>>("SupplierProductRemoteMapper") with provider {
         SupplierProductRemoteMapper()
+    }
+
+    // Goods Received Mapper
+    bind<ModelMapper<GoodsReceivedRemoteModel, GoodsReceivedModel>>() with provider {
+        GoodsReceivedRemoteMapper(instance("GoodsReceivedItemRemoteMapper"))
+    }
+
+    bind<ModelMapper<GoodsReceivedItemRemoteModel, GoodsReceivedItemModel>>("GoodsReceivedItemRemoteMapper") with provider {
+        GoodsReceivedItemRemoteMapper()
     }
 
 }

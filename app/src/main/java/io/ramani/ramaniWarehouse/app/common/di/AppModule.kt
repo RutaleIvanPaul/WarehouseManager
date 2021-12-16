@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.common.di
 
 
+import io.ramani.ramaniWarehouse.app.assignstock.di.assignStockModule
 import io.ramani.ramaniWarehouse.app.auth.di.authModule
 import io.ramani.ramaniWarehouse.app.common.di.datetime.dateTimeModule
 import io.ramani.ramaniWarehouse.app.common.di.pagination.paginationModule
@@ -26,4 +27,5 @@ val appModule = Kodein.Module("appModule") {
 
     import(stockReceiveModule)
     import(returnStockModule)
+    import(assignStockModule)
 }
