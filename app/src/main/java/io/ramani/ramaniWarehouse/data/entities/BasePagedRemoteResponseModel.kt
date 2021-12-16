@@ -1,10 +1,10 @@
-package io.ramani.ramaniWarehouse.data.warehouses.models
+package io.ramani.ramaniWarehouse.data.entities
 
 import com.google.gson.annotations.SerializedName
 
-data class GetWarehouseRemoteResponseModel(
+data class BasePagedRemoteResponseModel<T>(
     @SerializedName("docs")
-    var warehouses: List<WarehouseRemoteModel>? = null,
+    var data: T? = null,
     @SerializedName("totalDocs") var totalDocs: Int? = null,
     @SerializedName("limit") var limit: Int? = null,
     @SerializedName("page") var page: Int? = null,
