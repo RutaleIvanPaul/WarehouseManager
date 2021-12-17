@@ -17,7 +17,7 @@ data class UserRemoteModel(
     val name: String = "",
     @SerializedName("phoneNumber")
     val phoneNumber: String = "",
-    @SerializedName("uuid")
+    @SerializedName("userId")
     val uuid: String = "",
     @SerializedName("isAdmin")
     val isAdmin: Boolean = false,
