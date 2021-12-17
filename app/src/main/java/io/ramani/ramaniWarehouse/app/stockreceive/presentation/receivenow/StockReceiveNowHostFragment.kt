@@ -13,11 +13,13 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
-import io.ramani.ramaniWarehouse.app.common.presentation.extensions.tint
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveConfirmFragment
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveProductsFragment
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveSupplierFragment
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.loader
 import org.kodein.di.generic.factory
@@ -38,6 +40,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
     private var supplierFragment: StockReceiveSupplierFragment? = null
     private var productsFragment: StockReceiveProductsFragment? = null
+    private var confirmFragment: StockReceiveConfirmFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +54,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
 
         // Back button handler
-        stock_receive_now_host_back.setOnClickListener {
+        stock_receive_now_host_back.setOnSingleClickListener {
             showConfirmDialog("Are you sure you want to cancel receive stocks?", onConfirmed = {
                 viewModel.clearData()
                 flow.pop(this)
@@ -59,11 +62,14 @@ class StockReceiveNowHostFragment : BaseFragment() {
         }
 
         // Next button handler
-        stock_receive_now_host_next_button.setOnClickListener {
+        stock_receive_now_host_next_button.setOnSingleClickListener {
             var allowGo = true
 
+            val supplierData = StockReceiveNowViewModel.supplierData
+
             if (stock_receive_now_host_viewpager.currentItem == 0) {
-                if (StockReceiveNowViewModel.supplierData.supplier == null) {
+                // Supplier page
+                if (supplierData.supplier == null) {
                     errorDialog(getString(R.string.warning_select_supplier))
                     allowGo = false
                 }
@@ -73,8 +79,11 @@ class StockReceiveNowHostFragment : BaseFragment() {
                     stock_receive_now_host_indicator_1.visibility = View.VISIBLE
                 }
 
-            } else if (stock_receive_now_host_viewpager.currentItem == 1) {
-                if (StockReceiveNowViewModel.supplierData.products.isNullOrEmpty()) {
+            }
+
+            else if (stock_receive_now_host_viewpager.currentItem == 1) {
+                // Product page
+                if (supplierData.products.isNullOrEmpty()) {
                     errorDialog(getString(R.string.warning_add_product))
                     allowGo = false
                 }
@@ -83,6 +92,22 @@ class StockReceiveNowHostFragment : BaseFragment() {
                     stock_receive_now_host_next_button.text = getString(R.string.done)
                     stock_receive_now_host_indicator_2.visibility = View.VISIBLE
                 }
+            }
+
+            else if (stock_receive_now_host_viewpager.currentItem == 2) {
+                // Confirm page
+                if (supplierData.storeKeeperData == null) {
+                    errorDialog(getString(R.string.warning_no_signed_store_keeper))
+                    allowGo = false
+                } else if (supplierData.deliveryPersonData == null) {
+                    errorDialog(getString(R.string.warning_no_signed_delivery_person))
+                    allowGo = false
+                }
+
+                // There is no need to go ahead.
+                allowGo = false
+
+                viewModel.postGoodsReceived()
             }
 
             //    productsFragment?.updateView()
@@ -95,16 +120,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
     }
 
     private fun initSubscribers() {
-        subscribeLoadingVisible(viewModel)
-        subscribeLoadingError(viewModel)
-        subscribeError(viewModel)
-        observerError(viewModel, this)
         subscribeObservers()
-    }
-
-    override fun setLoadingIndicatorVisible(visible: Boolean) {
-        super.setLoadingIndicatorVisible(visible)
-        loader.visible(visible)
     }
 
     private fun subscribeObservers() {
@@ -116,7 +132,15 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
         })
 
-        StockReceiveNowViewModel.allowToGoNext.observe(this, {
+        viewModel.postGoodsReceivedActionLiveData.observe(this, {
+            showConfirmDialog("Stock posting success", onConfirmed = {
+                viewModel.clearData()
+
+                // Navigate to PrintScreen
+            })
+        })
+
+        StockReceiveNowViewModel.allowToGoNextLiveData.observe(this, {
             if (it.second) {
                 when (it.first) {
                     0 -> DrawableCompat.setTint(stock_receive_now_host_indicator_0.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green));
@@ -125,21 +149,30 @@ class StockReceiveNowHostFragment : BaseFragment() {
                 }
             }
         })
-    }
 
-    override fun showError(error: String) {
-        super.showError(error)
-        errorDialog(error)
+        StockReceiveNowViewModel.updateProductRequestLiveData.observe(this, {
+            // If the request of updating product is posted, then go back to product page
+            productsFragment?.requestProductUpdate(it)
+            stock_receive_now_host_viewpager.setCurrentItem(1, true)
+        })
+
+        StockReceiveNowViewModel.updateProductCompletedLiveData.observe(this, {
+            // If the request of updating product is completed, then go to confirm page
+            confirmFragment?.updateView()
+            stock_receive_now_host_viewpager.setCurrentItem(2, true)
+        })
+
     }
 
     private fun initTabLayout() {
         supplierFragment = StockReceiveSupplierFragment.newInstance()
         productsFragment = StockReceiveProductsFragment.newInstance()
+        confirmFragment = StockReceiveConfirmFragment.newInstance()
 
         val adapter = AdapterTabPager(activity)
         adapter.addFragment(supplierFragment!!, getString(R.string.supplier))
         adapter.addFragment(productsFragment!!, getString(R.string.products))
-        adapter.addFragment(StockReceiveSupplierFragment.newInstance(), getString(R.string.confirm))
+        adapter.addFragment(confirmFragment!!, getString(R.string.confirm))
 
         stock_receive_now_host_viewpager.isUserInputEnabled = false
         stock_receive_now_host_viewpager.adapter = adapter

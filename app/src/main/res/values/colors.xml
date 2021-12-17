@@ -13,7 +13,7 @@
     <color name="dark_grey">#A9A9A9</color>
     <color name="light_grey">#F0F0F0</color>
     <color name="mid_dark_grey">#d9dbdd</color>
-    <color name="light_white_grey">#F7F8F9</color>
+    <color name="light_white_grey">#FAFAFA</color>
 
     <color name="purples">#6b70ff</color>
 
@@ -46,6 +46,7 @@
 
     <color name="deep_grey">#9B9C9B</color>
     <color name="cell_view_color">#DDE1DD</color>
+    <color name="grey_separator">#969696</color>
 
     <color name="ghost_white">#4DFFFFFF</color>
     <color name = "unpaid_order">#75C152</color>
@@ -79,4 +80,6 @@
     <color name="text_light">#bdbdbd</color>
     <color name="grey_inactive_button">#C7D3DD</color>
     <color name="grey_inactive_button_text">#C4C4C4</color>
+    <color name="button_599BCB">#599BCB</color>
+    <color name="confirm_action_button_background">#91FF90</color>
 </resources>

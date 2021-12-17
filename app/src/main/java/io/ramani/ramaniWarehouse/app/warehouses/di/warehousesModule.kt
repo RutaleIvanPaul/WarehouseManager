@@ -2,10 +2,15 @@ package io.ramani.ramaniWarehouse.app.warehouses.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.mappers.InvoiceModelMapper
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.InvoiceModelView
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.presentation.InvoicesViewModel
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.mappers.WarehouseModelMapper
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.model.WarehouseModelView
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavViewModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
+import io.ramani.ramaniWarehouse.domain.base.mappers.UniModelMapper
+import io.ramani.ramaniWarehouse.domain.warehouses.models.InvoiceModel
 import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import org.kodein.di.Kodein.Module
 import org.kodein.di.generic.bind
@@ -28,9 +33,19 @@ val warehousesModule = Module("warehousesModule") {
         ).get(MainNavViewModel::class.java)
     }
 
+    bind<InvoicesViewModel>() with factory { fragment: Fragment ->
+        ViewModelProvider(
+            fragment, InvoicesViewModel.Factory(
+                instance(), instance(), instance(), instance("loadInvoicesUseCase"), instance()
+            )
+        ).get(InvoicesViewModel::class.java)
+    }
+
     bind<ModelMapper<WarehouseModel, WarehouseModelView>>() with provider {
         WarehouseModelMapper()
     }
 
-
+    bind<UniModelMapper<InvoiceModel, InvoiceModelView>>() with provider {
+        InvoiceModelMapper(instance())
+    }
 }

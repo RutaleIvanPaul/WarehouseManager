@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.returnstock.presentation.host
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -14,6 +15,10 @@ class ReturnStockViewModel(
 ) : BaseViewModel(
     application, stringProvider, sessionManager
 ) {
+    companion object{
+        var allowToGoNext = MutableLiveData<Pair<Int, Boolean>>()
+    }
+
     override fun start(args: Map<String, Any?>) {
         TODO("Not yet implemented")
     }
