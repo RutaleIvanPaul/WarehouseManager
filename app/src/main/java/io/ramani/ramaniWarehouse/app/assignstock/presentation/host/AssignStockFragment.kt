@@ -52,19 +52,30 @@ class AssignStockFragment : BaseFragment() {
     }
 
     private fun subscribeObservers() {
-        AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this,{
-            if(it != null){
+        AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
+            if (it != null) {
                 assign_stock_host_next_button.apply {
                     isEnabled = true
-                    backgroundDrawable= getDrawable(requireContext(),R.drawable.green_stroke_action_button)
-                    setTextColor(ContextCompat.getColor(requireContext(),R.color.light_lime_yellow))
+                    backgroundDrawable =
+                        getDrawable(requireContext(), R.drawable.green_stroke_action_button)
+                    setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.light_lime_yellow
+                        )
+                    )
                 }
-            }
-            else{
+            } else {
                 assign_stock_host_next_button.apply {
                     isEnabled = false
-                    backgroundDrawable= getDrawable(requireContext(),R.drawable.grey_stroke_next_action_button)
-                    setTextColor(ContextCompat.getColor(requireContext(),R.color.grey_inactive_button_text))
+                    backgroundDrawable =
+                        getDrawable(requireContext(), R.drawable.grey_stroke_next_action_button)
+                    setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.grey_inactive_button_text
+                        )
+                    )
                 }
             }
         })

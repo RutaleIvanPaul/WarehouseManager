@@ -67,7 +67,7 @@ class AssignStockSalesPersonFragment : BaseFragment() {
 
     private fun subscribeObservers() {
 
-        AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this,{
+        AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
             select_salesperson_spinner.text = it
         })
     }

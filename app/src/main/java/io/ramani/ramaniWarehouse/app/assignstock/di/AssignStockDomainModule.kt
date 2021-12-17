@@ -9,9 +9,9 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-val assignStockDomainModule = Kodein.Module("assignStockDomainModule"){
+val assignStockDomainModule = Kodein.Module("assignStockDomainModule") {
 
     bind<BaseSingleUseCase<List<SalesPersonModel>, GetSalesPersonRequestModel>>("getSalesPersonUseCase") with provider {
-        GetSalesPersonUseCase(instance(), instance(),instance("assignStockRemoteDataSource"))
+        GetSalesPersonUseCase(instance(), instance(), instance("assignStockRemoteDataSource"))
     }
 }

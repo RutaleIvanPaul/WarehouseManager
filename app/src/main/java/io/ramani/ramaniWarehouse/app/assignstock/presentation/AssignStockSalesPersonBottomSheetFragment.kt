@@ -22,10 +22,11 @@ class AssignStockSalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        salespersonBottomSheetRVAdapter = AssignStockSalesPersonBottomSheetRVAdapter(AssignStockSalesPersonViewModel.salesPeopleList){
-            viewModel.onSalesPersonSelected(it)
-            dismiss()
-        }
+        salespersonBottomSheetRVAdapter =
+            AssignStockSalesPersonBottomSheetRVAdapter(AssignStockSalesPersonViewModel.salesPeopleList) {
+                viewModel.onSalesPersonSelected(it)
+                dismiss()
+            }
         viewModel.getSalespeople()
     }
 
@@ -54,8 +55,7 @@ class AssignStockSalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment(
     }
 
 
-
-    private fun subscribeObservers(){
+    private fun subscribeObservers() {
         AssignStockSalesPersonViewModel.onSalesPeopleLoadedLiveData.observe(
             this,
             {

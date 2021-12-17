@@ -30,7 +30,12 @@ val assignStockModule = Kodein.Module("assignStockModule") {
     bind<AssignStockSalesPersonViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, AssignStockSalesPersonViewModel.Factory(
-                instance(), instance(), instance(), instance("getSalesPersonUseCase"), instance(),instance()
+                instance(),
+                instance(),
+                instance(),
+                instance("getSalesPersonUseCase"),
+                instance(),
+                instance()
             )
         ).get(AssignStockSalesPersonViewModel::class.java)
     }

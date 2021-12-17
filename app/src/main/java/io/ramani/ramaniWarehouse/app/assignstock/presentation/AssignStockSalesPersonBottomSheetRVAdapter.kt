@@ -13,7 +13,10 @@ class AssignStockSalesPersonBottomSheetRVAdapter(
     data: MutableList<SalesPersonRVModel>,
     val onItemClick: (SalesPersonRVModel) -> Unit
 ) :
-    BaseQuickAdapter<SalesPersonRVModel, BaseViewHolder>(R.layout.salesperson_recyclerview_item, data) {
+    BaseQuickAdapter<SalesPersonRVModel, BaseViewHolder>(
+        R.layout.salesperson_recyclerview_item,
+        data
+    ) {
     override fun convert(helper: BaseViewHolder, item: SalesPersonRVModel) {
         with(helper) {
             setText(R.id.salespersonname, item.name)

@@ -21,27 +21,29 @@ import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
 
-class AssignStockSalesPersonViewModel(application: Application,
-                                      stringProvider: IStringProvider,
-                                      sessionManager: ISessionManager,
-                                      private val getSalesPeopleUsecase: BaseSingleUseCase<List<SalesPersonModel>, GetSalesPersonRequestModel>,
-                                      private val salespersonRVMapper: ModelMapper<SalesPersonModel, SalesPersonRVModel>,
-                                      private val dateFormatter: DateFormatter
-):BaseViewModel(
+class AssignStockSalesPersonViewModel(
+    application: Application,
+    stringProvider: IStringProvider,
+    sessionManager: ISessionManager,
+    private val getSalesPeopleUsecase: BaseSingleUseCase<List<SalesPersonModel>, GetSalesPersonRequestModel>,
+    private val salespersonRVMapper: ModelMapper<SalesPersonModel, SalesPersonRVModel>,
+    private val dateFormatter: DateFormatter
+) : BaseViewModel(
     application, stringProvider, sessionManager
-                           ) {
+) {
 
-    companion object{
+    companion object {
         val salesPeopleList = mutableListOf<SalesPersonRVModel>()
         val onSalesPeopleLoadedLiveData = MutableLiveData<Boolean>()
         val selectedSalespersonLiveData = MutableLiveData<String>()
     }
+
     override fun start(args: Map<String, Any?>) {
         TODO("Not yet implemented")
     }
 
 
-    fun getSalespeople(){
+    fun getSalespeople() {
         sessionManager.getLoggedInUser().subscribeBy {
             val single = getSalesPeopleUsecase.getSingle(GetSalesPersonRequestModel(it.companyId))
             subscribeSingle(single,
@@ -53,8 +55,11 @@ class AssignStockSalesPersonViewModel(application: Application,
                     onSalesPeopleLoadedLiveData.postValue(true)
                 }, onError = {
                     isLoadingVisible = false
-                    notifyError(it.message
-                        ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
+                    notifyError(
+                        it.message
+                            ?: getString(R.string.an_error_has_occured_please_try_again),
+                        PresentationError.ERROR_TEXT
+                    )
                 })
         }
     }
@@ -66,7 +71,7 @@ class AssignStockSalesPersonViewModel(application: Application,
         selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
     }
 
-    fun getDate(timInMillis: Long):String =
+    fun getDate(timInMillis: Long): String =
         dateFormatter.convertToDateWithDashes(timInMillis)
 
     class Factory(
