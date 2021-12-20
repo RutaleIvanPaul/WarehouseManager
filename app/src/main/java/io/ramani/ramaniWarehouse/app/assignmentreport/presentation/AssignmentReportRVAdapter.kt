@@ -1,24 +1,22 @@
-package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs
+package io.ramani.ramaniWarehouse.app.assignmentreport.presentation
 
-import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
-import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
+import io.ramani.ramaniWarehouse.domain.auth.model.DistributorDateModel
 
-class StockReceiveConfirmProductRVAdapter(
-    data: MutableList<SelectedProductModel>,
-    val onItemClick: (SelectedProductModel) -> Unit
+class AssignmentReportRVAdapter(
+    data: MutableList<DistributorDateModel>,
+    val onItemClick: (DistributorDateModel) -> Unit
 ) :
-    BaseQuickAdapter<SelectedProductModel, BaseViewHolder>(R.layout.item_product_confirm_row, data) {
-    override fun convert(helper: BaseViewHolder, item: SelectedProductModel) {
+    BaseQuickAdapter<DistributorDateModel, BaseViewHolder>(R.layout.item_assignment_report_row, data) {
+    override fun convert(helper: BaseViewHolder, item: DistributorDateModel) {
         with(helper) {
-            setText(R.id.item_product_confirm_row_product_name, item.product?.name ?: "")
-            setText(R.id.item_product_confirm_row_agreed_amount, item.accepted.toString())
-            setText(R.id.item_product_confirm_row_declined_amount, item.declined.toString())
+            setText(R.id.item_assignment_report_row_name, item.supplierName)
+            setText(R.id.item_assignment_report_row_time, item.time)
 
-            getView<TextView>(R.id.item_product_confirm_row_edit_action).setOnSingleClickListener {
+            helper.itemView.setOnSingleClickListener {
                 onItemClick(item)
             }
         }

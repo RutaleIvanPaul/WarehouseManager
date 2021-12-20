@@ -1,22 +1,22 @@
-package io.ramani.ramaniWarehouse.app.stockreceive.di
+package io.ramani.ramaniWarehouse.app.assignmentreport.di
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import io.ramani.ramaniWarehouse.app.assignmentreport.presentation.AssignmentReportViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.host.StockReceiveMainViewModel
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
 
 /**
- * @description     Stock Receiving Module
+ * @description     Assignment Report Module
  *
  * @author          Adrian
  */
-val stockReceiveModule = Kodein.Module("stockReceiveModule") {
-    import(stockReceiveDataModule)
-    import(stockReceiveDomainModule)
+val assignmentReportModule = Kodein.Module("assignmentReportModule") {
+    import(assignmentReportDataModule)
+    import(assignmentReportDomainModule)
 
 
     bind<StockReceiveMainViewModel>() with factory { fragment: Fragment ->
@@ -27,13 +27,12 @@ val stockReceiveModule = Kodein.Module("stockReceiveModule") {
         ).get(StockReceiveMainViewModel::class.java)
     }
 
-    // Receive Now Pages
-    bind<StockReceiveNowViewModel>() with factory { fragment: Fragment ->
+    bind<AssignmentReportViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
-            fragment, StockReceiveNowViewModel.Factory(
-                instance(), instance(), instance(), instance(), instance("getSupplierUseCase"), instance("getDeclineReasonsUseCase"), instance("postGoodsReceivedUseCase")
+            fragment, AssignmentReportViewModel.Factory(
+                instance(), instance(), instance(), instance(), instance("getDistributorDateUseCase")
             )
-        ).get(StockReceiveNowViewModel::class.java)
+        ).get(AssignmentReportViewModel::class.java)
     }
 
 }

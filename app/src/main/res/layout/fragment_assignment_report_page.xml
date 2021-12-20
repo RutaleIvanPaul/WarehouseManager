@@ -25,7 +25,7 @@
             android:padding="10dp">
 
             <TextView
-                android:id="@+id/products_expire_date"
+                android:id="@+id/assignment_report_pick_date"
                 style="@style/NormalTextLabel"
                 android:layout_centerVertical="true"
                 android:text="12 sep 2021"
@@ -44,7 +44,7 @@
         <!-- Items -->
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/assignment_report_assigned_list"
+            android:id="@+id/assignment_report_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
@@ -53,7 +53,7 @@
     </LinearLayout>
 
     <ProgressBar
-        android:id="@+id/assignment_report_assigned_loader"
+        android:id="@+id/assignment_report_loader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

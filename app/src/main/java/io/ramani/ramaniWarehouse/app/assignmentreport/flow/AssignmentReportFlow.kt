@@ -1,8 +1,5 @@
-package io.ramani.ramaniWarehouse.app.auth.flow
+package io.ramani.ramaniWarehouse.app.assignmentreport.flow
 
-interface AuthFlow {
-    fun openLogin()
-    fun openSigninSheet()
-
-    fun openMainNav()
+interface AssignmentReportFlow {
+    fun openPrint()
 }

@@ -1,63 +1,49 @@
 package io.ramani.ramaniWarehouse.data.auth.mappers
 
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedItemRemoteModel
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
-import io.ramani.ramaniWarehouse.data.auth.model.SupplierProductRemoteModel
-import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
+import io.ramani.ramaniWarehouse.data.auth.model.*
+import io.ramani.ramaniWarehouse.domain.auth.model.*
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import kotlin.collections.ArrayList
 
-class DistributeDateRemoteMapper(
+class DistributorDateRemoteMapper(
     private val goodsReceivedItemRemoteMapper: ModelMapper<GoodsReceivedItemRemoteModel, GoodsReceivedItemModel>,
-) : ModelMapper<GoodsReceivedRemoteModel, GoodsReceivedModel> {
-    override fun mapFrom(from: GoodsReceivedRemoteModel): GoodsReceivedModel {
+) : ModelMapper<DistributorDateRemoteModel, DistributorDateModel> {
+    override fun mapFrom(from: DistributorDateRemoteModel): DistributorDateModel {
 
         val items:ArrayList<GoodsReceivedItemModel> = ArrayList()
         for (remoteItem in from.items) {
             items.add(goodsReceivedItemRemoteMapper.mapFrom(remoteItem))
         }
 
-        return GoodsReceivedModel.Builder()
+        return DistributorDateModel.Builder()
                 .id(from.id)
-                .invoiceId(from.invoiceId)
-                .distributorId(from.distributorId)
-                .supplierId(from.supplierId)
-                .warehouseId(from.warehouseId)
-                .warehouseManagerId(from.warehouseManagerId)
+                .supplierName(from.supplierName)
                 .date(from.date)
                 .time(from.time)
-                .deliveryPersonName(from.deliveryPersonName)
-                .supportingDocument(from.supportingDocument)
+                .items(items)
                 .storeKeeperSignature(from.storeKeeperSignature)
                 .deliveryPersonSignature(from.deliveryPersonSignature)
-                .items(items)
+                .deliveryPersonName(from.deliveryPersonName)
+                .warehouseManagerName(from.warehouseManagerName)
                 .build()
-    }
+        }
 
-    override fun mapTo(to: GoodsReceivedModel): GoodsReceivedRemoteModel {
+    override fun mapTo(to: DistributorDateModel): DistributorDateRemoteModel {
         val items:ArrayList<GoodsReceivedItemRemoteModel> = ArrayList()
         for (item in to.items) {
             items.add(goodsReceivedItemRemoteMapper.mapTo(item))
         }
 
-        return GoodsReceivedRemoteModel(
+        return DistributorDateRemoteModel(
                 to.id,
-                to.invoiceId,
-                to.distributorId,
-                to.supplierId,
-                to.warehouseId,
-                to.warehouseManagerId,
+                to.supplierName,
                 to.date,
                 to.time,
-                to.deliveryPersonName,
-                to.supportingDocument,
+                items,
                 to.storeKeeperSignature,
                 to.deliveryPersonSignature,
-                items
+                to.deliveryPersonName,
+                to.warehouseManagerName,
             )
     }
 

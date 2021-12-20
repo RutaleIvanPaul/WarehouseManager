@@ -1,15 +1,22 @@
-package io.ramani.ramaniWarehouse.app.auth.di
+package io.ramani.ramaniWarehouse.app.assignmentreport.di
 
-import io.ramani.ramaniWarehouse.data.auth.AuthApi
-import io.ramani.ramaniWarehouse.data.auth.AuthLocalDataSource
-import io.ramani.ramaniWarehouse.data.auth.AuthRemoteDataSource
-import io.ramani.ramaniWarehouse.data.auth.AuthRepository
+import io.ramani.ramaniWarehouse.data.auth.*
+import io.ramani.ramaniWarehouse.data.auth.mappers.DistributorDateRemoteMapper
+import io.ramani.ramaniWarehouse.data.auth.mappers.GoodsReceivedItemRemoteMapper
+import io.ramani.ramaniWarehouse.data.auth.mappers.GoodsReceivedRemoteMapper
 import io.ramani.ramaniWarehouse.data.auth.mappers.UserRemoteMapper
+import io.ramani.ramaniWarehouse.data.auth.model.DistributorDateRemoteModel
+import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedItemRemoteModel
+import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.models.UserRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ServiceHelper
+import io.ramani.ramaniWarehouse.domain.assignmentreport.AssignmentReportDataSource
 import io.ramani.ramaniWarehouse.domain.auth.AuthDataSource
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.auth.manager.SessionManager
+import io.ramani.ramaniWarehouse.domain.auth.model.DistributorDateModel
+import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import org.kodein.di.Kodein
@@ -18,37 +25,37 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 
-val authDataModule = Kodein.Module("authDataModule") {
+val assignmentReportDataModule = Kodein.Module("assignmentReportDataModule") {
 
-    bind<AuthApi>() with provider {
-        ServiceHelper.createService<AuthApi>(instance())
+    bind<AssignmentReportApi>() with provider {
+        ServiceHelper.createService<AssignmentReportApi>(instance())
     }
 
-    bind<AuthDataSource>("authDataSource") with singleton {
-        AuthRepository(
-            instance("remoteAuthDataSource"),
-            instance("localAuthDataSource")
+    bind<AssignmentReportDataSource>("assignmentReportDataSource") with singleton {
+        AssignmentReportRepository(
+            instance("remoteAssignmentReportDataSource"),
+            instance("localAssignmentReportDataSource")
         )
     }
 
-    bind<AuthDataSource>("remoteAuthDataSource") with singleton {
-        AuthRemoteDataSource(
+    bind<AssignmentReportDataSource>("remoteAssignmentReportDataSource") with singleton {
+        AssignmentReportRemoteDataSource(
             instance(),
             instance()
         )
     }
 
-    bind<AuthDataSource>("localAuthDataSource") with singleton {
-        AuthLocalDataSource(
+    bind<AssignmentReportDataSource>("localAssignmentReportDataSource") with singleton {
+        AssignmentReportLocalDataSource(
             instance()
         )
     }
 
-    bind<ModelMapper<UserRemoteModel, UserModel>>() with provider {
-        UserRemoteMapper()
+    bind<ModelMapper<DistributorDateRemoteModel, DistributorDateModel>>() with provider {
+        DistributorDateRemoteMapper(instance("GoodsReceivedItemRemoteMapper"))
     }
 
     bind<ISessionManager>() with singleton {
-        SessionManager(instance("authDataSource"))
+        SessionManager(instance("assignmentReportDataSource"))
     }
 }

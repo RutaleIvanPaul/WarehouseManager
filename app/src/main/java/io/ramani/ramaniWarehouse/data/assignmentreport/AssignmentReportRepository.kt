@@ -1,31 +1,15 @@
 package io.ramani.ramaniWarehouse.data.auth
 
-import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
+import io.ramani.ramaniWarehouse.domain.assignmentreport.AssignmentReportDataSource
+import io.ramani.ramaniWarehouse.domain.auth.model.DistributorDateModel
 import io.reactivex.Single
-import okhttp3.RequestBody
-import retrofit2.http.Part
 
-class StockReceiveRepository(
-    private val remoteStockReceiveDataSource: StockReceiveDataSource,
-    private val localStockReceiveDataSource: StockReceiveDataSource
-) : StockReceiveDataSource {
+class AssignmentReportRepository(
+    private val remoteAssignmentReportDataSource: AssignmentReportDataSource,
+    private val localAssignmentReportDataSource: AssignmentReportDataSource
+) : AssignmentReportDataSource {
 
-    override fun getSuppliers(companyId: String, page: Int, size: Int): Single<List<SupplierModel>> =
-        remoteStockReceiveDataSource.getSuppliers(companyId, page, size)
+    override fun getDistributorDate(companyId: String, warehouseId: String, date: String, page: Int, size: Int): Single<List<DistributorDateModel>> =
+        remoteAssignmentReportDataSource.getDistributorDate(companyId, warehouseId, date, page, size)
 
-    override fun getDeclineReasons(): Single<List<String>> =
-        remoteStockReceiveDataSource.getDeclineReasons()
-
-    override fun postGoodsReceived(
-        invoiceId: String,
-        warehouseManagerId: String,
-        warehouseId: String,
-        distributorId: String,
-        date: String,
-        time: String,
-        deliveryPersonName: String
-    ): Single<GoodsReceivedModel> =
-        remoteStockReceiveDataSource.postGoodsReceived(invoiceId, warehouseManagerId, warehouseId, distributorId, date, time, deliveryPersonName)
 }
