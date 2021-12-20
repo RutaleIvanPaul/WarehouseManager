@@ -1,35 +1,20 @@
-package io.ramani.ramaniWarehouse.app.returnstock.presentation.host
+package io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm
 
 import android.app.Application
-import android.graphics.Bitmap
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 
-class ReturnStockViewModel(
+class ReturnSuccessViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager
-) : BaseViewModel(
-    application, stringProvider, sessionManager
-) {
-    companion object{
-        var allowToGoNext = MutableLiveData<Pair<Int, Boolean>>()
-        val returnItemDetails:ReturnItemDetails = ReturnItemDetails()
-        val returnItemsChangedLiveData = MutableLiveData<Boolean>()
-        var signedLiveData = MutableLiveData<Pair<String, Bitmap>>()
-        var readyToConfirmLiveData = MutableLiveData<Boolean>()
-        var readyToPostLiveData = MutableLiveData<Boolean>()
-        var itemsReturned = MutableLiveData<Boolean>()
+):BaseViewModel(application, stringProvider, sessionManager) {
+    override fun start(args: Map<String, Any?>) {
     }
 
-    override fun start(args: Map<String, Any?>) {
-        TODO("Not yet implemented")
-    }
 
     class Factory(
         private val application: Application,
@@ -38,8 +23,8 @@ class ReturnStockViewModel(
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(ReturnStockViewModel::class.java)) {
-                return ReturnStockViewModel(
+            if (modelClass.isAssignableFrom(ReturnSuccessViewModel::class.java)) {
+                return ReturnSuccessViewModel(
                     application,
                     stringProvider,
                     sessionManager
@@ -48,4 +33,5 @@ class ReturnStockViewModel(
             throw IllegalArgumentException("Unknown view model class")
         }
     }
+
 }

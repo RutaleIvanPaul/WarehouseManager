@@ -13,12 +13,12 @@ data class UserRemoteModel(
     val companyId: String = "",
     @SerializedName("companyName")
     val companyName: String = "",
-    @SerializedName("name")
-    val name: String = "",
+    @SerializedName("userName")
+    val userName: String = "",
     @SerializedName("phoneNumber")
     val phoneNumber: String = "",
-    @SerializedName("uuid")
-    val uuid: String = "",
+    @SerializedName("userId")
+    val userId: String = "",
     @SerializedName("isAdmin")
     val isAdmin: Boolean = false,
     @SerializedName("hasSeenSFAOnboarding")

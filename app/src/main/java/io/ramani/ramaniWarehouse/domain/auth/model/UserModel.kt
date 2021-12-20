@@ -6,18 +6,18 @@ import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 import com.google.gson.Gson
 
 data class UserModel(
-     val fcmToken: String = "",
-     val token: String = "",
-     val accountType: String = "",
-     val companyId: String = "",
-     val companyName: String = "",
-     val name: String = "",
-     val phoneNumber: String = "",
-     val uuid: String = "",
-     val isAdmin: Boolean = false,
-     val hasSeenSFAOnboarding: Boolean = false,
-     val currency: String = "",
-     val timeZone: String = ""
+    val fcmToken: String = "",
+    val token: String = "",
+    val accountType: String = "",
+    val companyId: String = "",
+    val companyName: String = "",
+    val userName: String = "",
+    val phoneNumber: String = "",
+    val uuid: String = "",
+    val isAdmin: Boolean = false,
+    val hasSeenSFAOnboarding: Boolean = false,
+    val currency: String = "",
+    val timeZone: String = ""
 
 ) : Parcelable {
 
@@ -28,7 +28,7 @@ data class UserModel(
         private var accountType: String = ""
         private var companyId: String = ""
         private var companyName: String = ""
-        private var name: String = ""
+        private var userName: String = ""
         private var phoneNumber: String = ""
         private var uuid: String = ""
         private var isAdmin: Boolean = false
@@ -52,7 +52,7 @@ data class UserModel(
         }
 
         fun name(name: String): Builder {
-            this.name = name
+            this.userName = name
             return this
         }
 
@@ -104,7 +104,7 @@ data class UserModel(
                 accountType,
                 companyId,
                 companyName,
-                name,
+                userName,
                 phoneNumber,
                 uuid,
                 isAdmin,
@@ -141,7 +141,7 @@ data class UserModel(
         parcel.writeString(accountType)
         parcel.writeString(companyId)
         parcel.writeString(companyName)
-        parcel.writeString(name)
+        parcel.writeString(userName)
         parcel.writeString(phoneNumber)
         parcel.writeString(uuid)
         parcel.writeByte(if (isAdmin) 1 else 0)

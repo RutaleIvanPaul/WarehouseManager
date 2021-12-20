@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -12,14 +13,14 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
+import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnStockFragment
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnStockViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.products.SelectReturnItemsFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveProductsFragment
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSupplierFragment
 import kotlinx.android.synthetic.main.fragment_return_stock.*
-import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
 
@@ -34,6 +35,8 @@ class ReturnStockFragment : BaseFragment() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
+    private lateinit var flow: ReturnStockFlow
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
@@ -41,6 +44,7 @@ class ReturnStockFragment : BaseFragment() {
 
     private var salespersonFragment: SalesPersonFragment? = null
     private var productsFragment: SelectReturnItemsFragment? = null
+    private var confirmFragment: ConfirmReturnStockFragment? = null
 
 
     override fun getLayoutResId() = R.layout.fragment_return_stock
@@ -49,6 +53,7 @@ class ReturnStockFragment : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
         viewModel = ViewModelProvider(this).get(ReturnStockViewModel::class.java)
+        flow = ReturnStockFlowcontroller(baseActivity!!,R.id.main_fragment_container)
         initTabLayout()
         subscribeObservers()
 
@@ -85,16 +90,39 @@ class ReturnStockFragment : BaseFragment() {
                 }
             }
         })
+
+        ReturnStockViewModel.readyToConfirmLiveData.observe(this,{readyToConfirm ->
+            if (readyToConfirm){
+                    return_stock_host_next_button.text = getText(R.string.done)
+                    return_stock_host_next_button.setOnClickListener {
+                        ReturnStockViewModel.readyToPostLiveData.postValue(true)
+                    }
+
+            }
+            else{
+                return_stock_host_next_button.text = getText(R.string.next)
+                return_stock_host_next_button.setOnClickListener {
+                    return_stock_viewpager.currentItem++
+                }
+            }
+        })
+
+        ReturnStockViewModel.itemsReturned.observe(this,{ itemsReturned ->
+            if(itemsReturned){
+                flow.openReturnSuccess()
+            }
+        })
     }
 
     private fun initTabLayout() {
         salespersonFragment = SalesPersonFragment.newInstance()
         productsFragment = SelectReturnItemsFragment.newInstance()
+        confirmFragment = ConfirmReturnStockFragment.newInstance()
 
         val adapter = TabPagerAdapter(activity)
         adapter.addFragment(salespersonFragment!!, getString(R.string.salesperson))
         adapter.addFragment(productsFragment!!, getString(R.string.products))
-        adapter.addFragment(StockReceiveSupplierFragment.newInstance(), getString(R.string.confirm))
+        adapter.addFragment(confirmFragment!!, getString(R.string.confirm))
 
         return_stock_viewpager.adapter = adapter
         return_stock_viewpager.currentItem = 0
