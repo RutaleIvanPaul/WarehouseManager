@@ -36,8 +36,7 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
         val fragment = ReturnStockFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.ADD,
-            addToBackStack = false
+            openMethod = NavigationManager.OpenMethod.ADD
         )
     }
 
