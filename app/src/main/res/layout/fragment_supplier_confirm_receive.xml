@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Receiving Date -->
+
+            <TextView
+                style="@style/BoldTextLabel"
+                android:layout_marginTop="10dp"
+                android:text="@string/receiving_date" />
+
+            <RelativeLayout
+                android:id="@+id/supplier_receiving_date_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/item_outline_round"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/supplier_receiving_date_label"
+                    style="@style/NormalTextLabel"
+                    android:layout_centerVertical="true"
+                    android:text="12 sep 2021"
+                    android:textColor="@color/dark_grey" />
+
+                <ImageView
+                    android:layout_width="17dp"
+                    android:layout_height="17dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="10dp"
+                    android:src="@mipmap/ic_calendar_blue" />
+            </RelativeLayout>
+
+            <!-- Select Supplier -->
+
+            <TextView
+                style="@style/BoldTextLabel"
+                android:layout_marginTop="20dp"
+                android:text="@string/select_supplier" />
+
+            <TextView
+                android:id="@+id/supplier_receiving_tv"
+                style="@style/CustomSpinner"
+                android:layout_marginTop="10dp"
+                android:text="@string/select_supplier"
+                android:textColor="@color/text_hint_color" />
+
+            <!-- Supporting Document -->
+
+            <TextView
+                style="@style/BoldTextLabel"
+                android:layout_marginTop="20dp"
+                android:text="@string/proforma_invoice" />
+
+            <com.github.barteksc.pdfviewer.PDFView
+                android:id="@+id/proforma_invoice_iv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_13sdp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/stock_receive_supplier_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

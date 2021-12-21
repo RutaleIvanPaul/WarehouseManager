@@ -100,5 +100,6 @@
     <string name="accept_confirm"><![CDATA[Accept & Confirm]]></string>
     <string name="total_amount">Total Amount</string>
     <string name="no_data_available">No Data Available</string>
+    <string name="proforma_invoice">Proforma Invoice</string>
 
 </resources>

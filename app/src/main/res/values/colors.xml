@@ -14,6 +14,7 @@
     <color name="light_grey">#F0F0F0</color>
     <color name="mid_dark_grey">#d9dbdd</color>
     <color name="light_white_grey">#FAFAFA</color>
+    <color name="text_hint_color">#AEAEAE</color>
 
     <color name="purples">#6b70ff</color>
 
