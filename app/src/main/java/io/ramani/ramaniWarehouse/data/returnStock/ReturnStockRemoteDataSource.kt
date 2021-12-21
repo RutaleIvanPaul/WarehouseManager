@@ -1,10 +1,9 @@
 package io.ramani.ramaniWarehouse.data.returnStock
 
+import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
-import io.ramani.ramaniWarehouse.data.entities.BaseResponse
-import io.ramani.ramaniWarehouse.data.returnStock.mappers.SalespeopleRemoteMapper
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableStockReturnedListItem
 import io.ramani.ramaniWarehouse.data.returnStock.model.PostReturnItems
 import io.ramani.ramaniWarehouse.data.returnStock.model.PostReturnItemsResponse
@@ -105,7 +104,19 @@ class ReturnStockRemoteDataSource(
 
     override fun postReturnedStock(postReturnItems: PostReturnItems): Single<PostReturnItemsResponse> =
         callSingle(
-            returnStockApi.postReturnedStock(postReturnItems).flatMap {
+            returnStockApi.postReturnedStock(
+                createTextFormData(postReturnItems.assigner),
+                createTextFormData(postReturnItems.comment),
+                createTextFormData(postReturnItems.companyId),
+                createTextFormData(postReturnItems.dateStockTaken),
+                createTextFormData(postReturnItems.name),
+                createTextFormData(postReturnItems.salesPersonUID),
+                createTextFormData(postReturnItems.stockAssignmentType),
+                createTextFormData(postReturnItems.warehouseId),
+                createTextFormData(Gson().toJson(postReturnItems.listOfProducts)),
+                createImageFormData(postReturnItems.signatureInfoStoreKeeper!!),
+                createImageFormData(postReturnItems.signatureInfoSalesPerson!!)
+            ).flatMap {
                 val data = it.data
                 if (data != null){
                     Single.just(data)
@@ -140,6 +151,8 @@ class ReturnStockRemoteDataSource(
                 }
             }
         )
+
+
 
 
 

@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.data.returnStock.model
 
+import android.graphics.Bitmap
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
 
 
@@ -12,5 +13,7 @@ data class PostReturnItems(
     val name: String = "",
     val salesPersonUID: String = "",
     val warehouseId: String = "",
-    val stockAssignmentType: String = ""
+    val stockAssignmentType: String = "" ,
+    var signatureInfoStoreKeeper: Bitmap?= null,
+    var signatureInfoSalesPerson: Bitmap?= null
 ):Params

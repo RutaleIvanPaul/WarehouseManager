@@ -61,7 +61,9 @@ class ConfirmReturnStockViewModel(
                     returnItems.salespersonName,
                     userModel!!.uuid,
                     warehouseModel!!.id!!,
-                    "return"
+                    "return",
+                    signatureInfoSalesPerson = returnItems.signatureInfoSalesPerson,
+                    signatureInfoStoreKeeper = returnItems.signatureInfoStoreKeeper
                 )
             )
             subscribeSingle(
