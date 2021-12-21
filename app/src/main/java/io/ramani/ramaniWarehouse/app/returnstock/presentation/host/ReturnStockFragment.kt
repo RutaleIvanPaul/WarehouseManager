@@ -20,6 +20,7 @@ import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmRet
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.products.SelectReturnItemsFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveSupplierFragment
 import kotlinx.android.synthetic.main.fragment_return_stock.*
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
@@ -126,9 +127,13 @@ class ReturnStockFragment : BaseFragment() {
 
         return_stock_viewpager.adapter = adapter
         return_stock_viewpager.currentItem = 0
+        return_stock_viewpager.isUserInputEnabled = false
+
         TabLayoutMediator(return_stock_tablayout, return_stock_viewpager) { tab, position ->
             tab.text = adapter.getTabTitle(position)
         }.attach()
+
+        return_stock_tablayout.touchables.forEach { it.isClickable = false }
 
     }
 

@@ -25,7 +25,7 @@ class ReturnStockFlowcontroller(
         activity?.navigationManager?.open(
             fragment,
             openMethod = NavigationManager.OpenMethod.REPLACE,
-            addToBackStack = false
+            fragmentTag = "return_success_fragment"
         )
     }
 }

@@ -6,11 +6,8 @@ import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPe
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.assignstocksalesperson.mapper.SalesPersonRVMapper
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.assignstocksalesperson.model.SalesPersonRVModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
-import io.ramani.ramaniWarehouse.app.warehouses.mainNav.mappers.WarehouseModelMapper
-import io.ramani.ramaniWarehouse.app.warehouses.mainNav.model.WarehouseModelView
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
-import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.factory
@@ -33,7 +30,12 @@ val assignStockModule = Kodein.Module("assignStockModule") {
     bind<AssignStockSalesPersonViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, AssignStockSalesPersonViewModel.Factory(
-                instance(), instance(), instance(), instance("getSalesPersonUseCase"), instance(),instance()
+                instance(),
+                instance(),
+                instance(),
+                instance("getSalesPersonUseCase"),
+                instance(),
+                instance()
             )
         ).get(AssignStockSalesPersonViewModel::class.java)
     }
