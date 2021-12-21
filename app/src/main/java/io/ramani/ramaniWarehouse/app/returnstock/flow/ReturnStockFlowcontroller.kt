@@ -24,8 +24,7 @@ class ReturnStockFlowcontroller(
         val fragment = ReturnSuccessFragment.newInstance()
         activity?.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.REPLACE,
-            fragmentTag = "return_success_fragment"
+            openMethod = NavigationManager.OpenMethod.ADD,
         )
     }
 }
