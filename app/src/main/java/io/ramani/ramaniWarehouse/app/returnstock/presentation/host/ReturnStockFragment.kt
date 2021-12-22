@@ -39,6 +39,7 @@ class ReturnStockFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        viewModel.start()
     }
 
     private var salespersonFragment: SalesPersonFragment? = null
@@ -55,28 +56,58 @@ class ReturnStockFragment : BaseFragment() {
         flow = ReturnStockFlowcontroller(baseActivity!!, R.id.main_fragment_container)
         initTabLayout()
         subscribeObservers()
-
         return_stock_host_next_button.setOnClickListener {
-            return_stock_viewpager.currentItem++
+            when (return_stock_viewpager.currentItem) {
+                0 -> {
+                    return_stock_host_next_button.text = getText(R.string.next)
+                    return_stock_viewpager.currentItem++
+                    ReturnStockViewModel.allowToGoNext.postValue(Pair(1,false))
+                }
+                1 -> {
+                    return_stock_host_next_button.text = getText(R.string.done)
+                    return_stock_viewpager.currentItem++
+                    ReturnStockViewModel.allowToGoNext.postValue(Pair(1,false))
+                }
+                else -> {
+                    return_stock_host_next_button.text = getText(R.string.done)
+                    viewModel.returnStock()
+                }
+            }
         }
     }
 
     private fun subscribeObservers() {
-        SalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
-            if (it != null) {
-                return_stock_host_next_button.apply {
-                    isEnabled = true
-                    backgroundDrawable =
-                        getDrawable(requireContext(), R.drawable.green_stroke_action_button)
-                    setTextColor(
-                        ContextCompat.getColor(
-                            requireContext(),
-                            R.color.light_lime_yellow
+        ReturnStockViewModel.allowToGoNext.observe(this, {
+            if (it.second) {
+                when (it.first) {
+                    0 -> {
+                        DrawableCompat.setTint(
+                            return_stock_host_indicator_0.drawable,
+                            ContextCompat.getColor(requireContext(), R.color.ramani_green)
                         )
-                    )
-                    ReturnStockViewModel.allowToGoNext.postValue(Pair(0, true))
+
+                        allowToGoNext()
+
+                    }
+                    1 -> {
+                        DrawableCompat.setTint(
+                            return_stock_host_indicator_1.drawable,
+                            ContextCompat.getColor(requireContext(), R.color.ramani_green)
+                        )
+
+                        allowToGoNext()
+                    }
+                    2 -> {
+                        DrawableCompat.setTint(
+                            return_stock_host_indicator_2.drawable,
+                            ContextCompat.getColor(requireContext(), R.color.ramani_green)
+                        )
+
+                        allowToGoNext()
+                    }
                 }
-            } else {
+            }
+            else{
                 return_stock_host_next_button.apply {
                     isEnabled = false
                     backgroundDrawable =
@@ -91,54 +122,31 @@ class ReturnStockFragment : BaseFragment() {
             }
         })
 
-        ReturnStockViewModel.allowToGoNext.observe(this, {
-            if (it.second) {
-                when (it.first) {
-                    0 -> DrawableCompat.setTint(
-                        return_stock_host_indicator_0.drawable,
-                        ContextCompat.getColor(requireContext(), R.color.ramani_green)
-                    );
-                    1 -> DrawableCompat.setTint(
-                        return_stock_host_indicator_1.drawable,
-                        ContextCompat.getColor(requireContext(), R.color.ramani_green)
-                    );
-                    2 -> DrawableCompat.setTint(
-                        return_stock_host_indicator_2.drawable,
-                        ContextCompat.getColor(requireContext(), R.color.ramani_green)
-                    );
-                }
-            }
+        viewModel.onItemsReturnedLiveData.observe(this, {
+            flow.openReturnSuccess()
+            (activity as BaseActivity).navigationManager?.remove(this)
         })
 
-        ReturnStockViewModel.readyToConfirmLiveData.observe(this, { readyToConfirm ->
-            if (readyToConfirm) {
-                return_stock_host_next_button.text = getText(R.string.done)
-                return_stock_host_next_button.setOnClickListener {
-                    ReturnStockViewModel.readyToPostLiveData.postValue(true)
-                }
+    }
 
-            } else {
-                return_stock_host_next_button.text = getText(R.string.next)
-                return_stock_host_next_button.setOnClickListener {
-                    return_stock_viewpager.currentItem++
-                }
-            }
-        })
-
-        ReturnStockViewModel.itemsReturned.observe(this, { itemsReturned ->
-            if (itemsReturned) {
-                ReturnStockViewModel.itemsReturned.postValue(false)
-                (activity as BaseActivity).navigationManager?.remove(this)
-                flow.openReturnSuccess()
-            }
-        })
+    private fun allowToGoNext() {
+        return_stock_host_next_button.apply {
+            isEnabled = true
+            backgroundDrawable =
+                getDrawable(requireContext(), R.drawable.green_stroke_action_button)
+            setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.light_lime_yellow
+                )
+            )
+        }
     }
 
     private fun initTabLayout() {
         salespersonFragment = SalesPersonFragment.newInstance()
         productsFragment = SelectReturnItemsFragment.newInstance()
         confirmFragment = ConfirmReturnStockFragment.newInstance()
-
         val adapter = TabPagerAdapter(activity)
         adapter.addFragment(salespersonFragment!!, getString(R.string.salesperson))
         adapter.addFragment(productsFragment!!, getString(R.string.products))

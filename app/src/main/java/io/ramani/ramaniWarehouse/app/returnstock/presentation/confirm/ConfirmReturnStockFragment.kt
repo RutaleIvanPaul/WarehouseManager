@@ -1,9 +1,9 @@
 package io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
@@ -23,12 +23,14 @@ class ConfirmReturnStockFragment : BaseFragment() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
-    private lateinit var flow:ReturnStockFlow
+    private lateinit var flow: ReturnStockFlow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        confirmReturnItemsAdapter = ConfirmReturnItemsAdapter(ReturnStockViewModel.returnItemDetails.returnItems){}
+
+        confirmReturnItemsAdapter =
+            ConfirmReturnItemsAdapter(ReturnStockViewModel.returnItemDetails.returnItems) {}
     }
 
 
@@ -40,7 +42,7 @@ class ConfirmReturnStockFragment : BaseFragment() {
         confirm_return_items_RV.adapter = confirmReturnItemsAdapter
         subscribeObservers()
 
-        flow = ReturnStockFlowcontroller(baseActivity!!,R.id.main_fragment_container)
+        flow = ReturnStockFlowcontroller(baseActivity!!, R.id.main_fragment_container)
 
         confirm_return_sign_store_keeper.setOnSingleClickListener {
             flow.openReturnStockSignPad(ReturnStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN)
@@ -52,53 +54,80 @@ class ConfirmReturnStockFragment : BaseFragment() {
     }
 
     private fun subscribeObservers() {
-        ReturnStockViewModel.returnItemsChangedLiveData.observe(this,{
-            confirmReturnItemsAdapter.notifyDataSetChanged()
+        viewModel.onItemsReturnedLiveData.observe(this, {
+//            onItemsReturned(it)
         })
 
-        ReturnStockViewModel.signedLiveData.observe(this,{
+        ReturnStockViewModel.returnItemsChangedLiveData.observe(this, {
+            if (it){
+                ReturnStockViewModel.allowToGoNext.postValue(Pair(1, true))
+                confirmReturnItemsAdapter.notifyDataSetChanged()
+            }
+        })
+
+        ReturnStockViewModel.signedLiveData.observe(this, {
             if (it.first == ReturnStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN) {
 
-                confirm_return_sign_store_keeper.setCompoundDrawables(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_icon), null, null, null)
+                confirm_return_sign_store_keeper.setCompoundDrawables(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_check_icon
+                    ), null, null, null
+                )
                 confirm_return_sign_store_keeper.setBackgroundResource(R.drawable.green_stroke_action_button)
                 confirm_return_sign_store_keeper.setText(R.string.signed)
-                confirm_return_sign_store_keeper.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_lime_yellow))
+                confirm_return_sign_store_keeper.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.light_lime_yellow
+                    )
+                )
 
                 ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper = it.second
 
             } else if (it.first == ReturnStockSignaturePadFragment.PARAM_SALESPERSON_SIGN) {
 
-                confirm_return_sign_salesperson.setCompoundDrawables(ContextCompat.getDrawable(requireContext(), R.drawable.ic_check_icon), null, null, null)
+                confirm_return_sign_salesperson.setCompoundDrawables(
+                    ContextCompat.getDrawable(
+                        requireContext(),
+                        R.drawable.ic_check_icon
+                    ), null, null, null
+                )
                 confirm_return_sign_salesperson.setBackgroundResource(R.drawable.green_stroke_action_button)
                 confirm_return_sign_salesperson.setText(R.string.signed)
-                confirm_return_sign_salesperson.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_lime_yellow))
+                confirm_return_sign_salesperson.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.light_lime_yellow
+                    )
+                )
 
                 ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson = it.second
 
             }
+
+            if(
+                ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson != null &&
+                ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper != null
+            ){
+                ReturnStockViewModel.allowToGoNext.postValue(Pair(2,true))
+            }
         })
 
-        ReturnStockViewModel.readyToPostLiveData.observe(this,{
-            viewModel.returnStock()
-        })
     }
 
     override fun onResume() {
         super.onResume()
-        confirm_return_store_keeper_name.text = ReturnStockViewModel.returnItemDetails.storekeeperName
-        confirm_return_salesperson_name.text = ReturnStockViewModel.returnItemDetails.salespersonName
-        ReturnStockViewModel.readyToConfirmLiveData.postValue(true)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        ReturnStockViewModel.readyToConfirmLiveData.postValue(false)
+        confirm_return_store_keeper_name.text =
+            ReturnStockViewModel.returnItemDetails.storekeeperName
+        confirm_return_salesperson_name.text =
+            ReturnStockViewModel.returnItemDetails.salespersonName
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = ConfirmReturnStockFragment()
+        fun newInstance() =
+            ConfirmReturnStockFragment()
     }
-
 
 }
