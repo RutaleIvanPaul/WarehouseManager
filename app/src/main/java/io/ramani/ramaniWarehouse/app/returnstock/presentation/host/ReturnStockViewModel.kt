@@ -9,6 +9,7 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
+import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 import io.ramani.ramaniWarehouse.data.returnStock.model.OfProducts
 import io.ramani.ramaniWarehouse.data.returnStock.model.PostReturnItems
@@ -30,7 +31,8 @@ class ReturnStockViewModel(
     sessionManager: ISessionManager,
     private val postReturnedStockUseCase: BaseSingleUseCase<PostReturnItemsResponse, PostReturnItems>,
     private val dateFormatter: DateFormatter,
-    private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>
+    private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>,
+    private val prefs: PrefsManager
 ) : BaseViewModel(
     application, stringProvider, sessionManager
 ) {
@@ -76,6 +78,7 @@ class ReturnStockViewModel(
             onSuccess = {
                 isLoadingVisible = false
                 onItemsReturnedLiveData.postValue(true)
+                prefs.invalidate_cache_available_products = true
             }, onError = {
                 isLoadingVisible = false
                 notifyError(
@@ -96,7 +99,8 @@ class ReturnStockViewModel(
         private val sessionManager: ISessionManager,
         private val postReturnedStockUseCase: BaseSingleUseCase<PostReturnItemsResponse, PostReturnItems>,
         private val dateFormatter: DateFormatter,
-        private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>
+        private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>,
+        private val prefs: PrefsManager
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -107,7 +111,8 @@ class ReturnStockViewModel(
                     sessionManager,
                     postReturnedStockUseCase,
                     dateFormatter,
-                    returnItemsMapper
+                    returnItemsMapper,
+                    prefs
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

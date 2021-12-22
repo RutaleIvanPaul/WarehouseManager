@@ -18,6 +18,7 @@ interface ReturnStockApi {
 
     @GET("/sfa/stock/available")
     fun getAvailableStock(
+        @Header("invalidate_cache") invalidate_cache: String,
         @Query("salesPersonUID") salesPersonUID: String
     ): Single<BaseResponse<List<AvailableStockReturnedListItem>>>
 

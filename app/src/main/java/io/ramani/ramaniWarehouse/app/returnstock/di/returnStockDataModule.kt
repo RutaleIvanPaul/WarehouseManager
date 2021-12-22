@@ -21,7 +21,7 @@ val returnStockDataModule = Kodein.Module("returnStockDataModule"){
     }
 
     bind<ReturnStockDataSource>("returnStockRemoteDataSource") with provider {
-        ReturnStockRemoteDataSource(instance(), instance())
+        ReturnStockRemoteDataSource(instance(), instance(), instance())
     }
 
     bind<ModelMapper<SalespeopleRemoteModel,SalespeopleModel>>() with provider {

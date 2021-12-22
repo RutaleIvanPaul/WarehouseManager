@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.data.returnStock
 import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
+import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableStockReturnedListItem
 import io.ramani.ramaniWarehouse.data.returnStock.model.PostReturnItems
@@ -24,7 +25,8 @@ import retrofit2.HttpException
 
 class ReturnStockRemoteDataSource(
     private val returnStockApi: ReturnStockApi,
-    private val salespeopleRemoteMapper: ModelMapper<SalespeopleRemoteModel, SalespeopleModel>
+    private val salespeopleRemoteMapper: ModelMapper<SalespeopleRemoteModel, SalespeopleModel>,
+    private val prefs: PrefsManager
 ): ReturnStockDataSource, BaseRemoteDataSource() {
     override fun getSalespeople(companyId: String): Single<List<SalespeopleModel>> =
         callSingle(
@@ -66,7 +68,7 @@ class ReturnStockRemoteDataSource(
 
     override fun getAvailableStock(salesPersonUID: String): Single<List<AvailableStockReturnedListItem>>  =
         callSingle(
-            returnStockApi.getAvailableStock(salesPersonUID).flatMap {
+            returnStockApi.getAvailableStock(prefs.invalidate_cache_available_products.toString(),salesPersonUID).flatMap {
                 val data = it.data
                 if (data != null){
                     Single.just(data)

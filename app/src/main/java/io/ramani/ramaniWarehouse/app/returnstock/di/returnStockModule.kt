@@ -31,7 +31,8 @@ val returnStockModule = Kodein.Module("returnStockModule") {
     bind<ReturnStockViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, ReturnStockViewModel.Factory(
-                instance(), instance(), instance(),instance("postReturnedStockUseCase"),instance(),instance()
+                instance(), instance(), instance(),instance("postReturnedStockUseCase")
+                ,instance(),instance(),instance()
             )
         ).get(ReturnStockViewModel::class.java)
     }
