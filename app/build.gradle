@@ -37,10 +37,12 @@ android {
             minifyEnabled false
             buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
             buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-dev.herokuapp.com/\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
         }
 
         staging {
             buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-staging.herokuapp.com/\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
         }
     }
     compileOptions {
@@ -153,8 +155,7 @@ dependencies {
     implementation 'com.williamww:silky-signature:0.1.0'
 
     // PDF
-    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
-    implementation 'com.mindorks.android:prdownloader:0.6.0'
+    implementation project(':pdfviewer')
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'

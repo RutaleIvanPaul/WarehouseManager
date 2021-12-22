@@ -2,6 +2,8 @@ package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.host
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import com.code95.android.app.auth.flow.StockReceiveFlowController
 import com.google.android.material.tabs.TabLayoutMediator
@@ -16,7 +18,6 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.supplier.SupplierConfirmReceiveFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.host.StockReceiveMainViewModel
 import kotlinx.android.synthetic.main.fragment_signin_sheet.loader
-import kotlinx.android.synthetic.main.fragment_stock_receive_main.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import org.kodein.di.generic.factory
 
@@ -85,13 +86,34 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     }
 
     private fun initTabLayout() {
+        DrawableCompat.setTint(stock_receive_now_host_indicator_0.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green))
         val adapter = TabPagerAdapter(activity)
-        adapter.addFragment(SupplierConfirmReceiveFragment.newInstance(createdAt, supplierName, purchaseId), getString(R.string.supplier))
+        adapter.addFragment(
+            SupplierConfirmReceiveFragment.newInstance(
+                createdAt,
+                supplierName,
+                purchaseId
+            ), getString(R.string.supplier)
+        )
+        adapter.addFragment(
+            SupplierConfirmReceiveFragment.newInstance(
+                createdAt,
+                supplierName,
+                purchaseId
+            ), getString(R.string.products)
+        )
+        adapter.addFragment(
+            SupplierConfirmReceiveFragment.newInstance(
+                createdAt,
+                supplierName,
+                purchaseId
+            ), getString(R.string.confirm)
+        )
 //        adapter.addFragment(
 //            StockReceiveMainOthersFragment.newInstance(),
 //            getString(R.string.others)
 //        )
-
+        stock_receive_now_host_viewpager.isUserInputEnabled = false
         stock_receive_now_host_viewpager.adapter = adapter
         stock_receive_now_host_viewpager.currentItem = 0
         TabLayoutMediator(

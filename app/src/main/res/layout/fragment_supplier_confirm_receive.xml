@@ -66,11 +66,23 @@
                 android:layout_marginTop="20dp"
                 android:text="@string/proforma_invoice" />
 
-            <com.github.barteksc.pdfviewer.PDFView
-                android:id="@+id/proforma_invoice_iv"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_13sdp" />
+                android:layout_height="@dimen/_300sdp"
+                android:layout_marginTop="@dimen/_13sdp">
+
+                <View
+                    android:id="@+id/proforma_invoice_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_300sdp"
+                    android:background="@android:color/transparent"
+                    android:elevation="@dimen/_10sdp"/>
+
+                <io.ramani.android.app.pdfviewer.PdfViewerWidget
+                    android:id="@+id/proforma_invoice_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_300sdp" />
+            </RelativeLayout>
         </LinearLayout>
     </ScrollView>
 

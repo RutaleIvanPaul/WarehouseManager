@@ -3,20 +3,19 @@ package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.supplier
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import io.ramani.ramaniWarehouse.BuildConfig.BASE_URL
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setArgs
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlow
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlowController
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
-import io.ramani.ramaniWarehouse.domain.entities.MediaMimeTypes
 import kotlinx.android.synthetic.main.fragment_supplier_confirm_receive.*
 import org.kodein.di.generic.factory
-import java.util.*
 
 private const val CREATED_AT_ARG = "created_at_arg"
 private const val SUPPLIER_NAME_ARG = "supplier_name_arg"
-private const val PURCHASE_ID_ARG = "purchase_id_arg"
+const val PURCHASE_ID_ARG = "purchase_id_arg"
 
 class SupplierConfirmReceiveFragment : BaseFragment() {
     companion object {
@@ -36,12 +35,15 @@ class SupplierConfirmReceiveFragment : BaseFragment() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
+    private lateinit var flow: ReceiveStockFlow
+
     private var createdAt: String? = ""
     private var supplierName: String? = ""
     private var purchaseId: String? = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        flow = ReceiveStockFlowController(baseActivity!!)
         initArgs()
         subscribeObservers()
         viewModel.start()
@@ -63,24 +65,12 @@ class SupplierConfirmReceiveFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
-        val url =
-            BASE_URL.plus("purchase/order/get/invoice/for/distributor/pdf?purchaseOrderId=$purchaseId")
-        val pdfFileName = "pdf-${Calendar.getInstance().timeInMillis}"
-        viewModel.downloadFie(
-            url,
-            pdfFileName,
-            MediaMimeTypes.Documents.PDF.mime
-        )
-//        proforma_invoice_iv.loadImageWithHeaders(
-//            imageUrl = url,
-//            headers = (mapOf(
-//                "sessionToken" to "Bearer ${viewModel.token}",
-//                "client" to "-LrD30GyBIgLj8jeFZLb"
-//            ))
-//        )
-
+        val data = viewModel.getUrl(purchaseId)
+        proforma_invoice_iv.fromUrl(data.first, data.second)
         supplier_receiving_date_label.text = createdAt
         supplier_receiving_tv.text = supplierName
-
+        proforma_invoice_view.setOnClickListener {
+            flow.openInvoiceFragment(purchaseId ?: "")
+        }
     }
 }

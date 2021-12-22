@@ -2,7 +2,6 @@ package io.ramani.ramaniWarehouse.app.warehouses.invoices.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,8 +36,6 @@ class InvoicesFragment : BaseFragment() {
         flow = InvoicesFlowController(baseActivity!!)
         viewModel.start()
         invoiceAdapter = InvoiceAdapter(viewModel.invoicesList) {
-            Toast.makeText(context, "Clicked on invoice:  ${it.invoiceId}", Toast.LENGTH_SHORT)
-                .show()
             flow.openConfirmReceiveStock(it.createdAt, it.supplierName, it.purchaseOrderId)
         }
         initSubscribers()
