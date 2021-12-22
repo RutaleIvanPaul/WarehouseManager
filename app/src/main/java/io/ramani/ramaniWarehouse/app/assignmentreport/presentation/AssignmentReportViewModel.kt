@@ -8,11 +8,12 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.data.auth.model.DistributorDateRequestModel
+import io.ramani.ramaniWarehouse.data.assignmentreport.model.DistributorDateRequestModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
-import io.ramani.ramaniWarehouse.domain.auth.model.DistributorDateModel
+import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
+import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -28,7 +29,14 @@ class AssignmentReportViewModel(
     var companyId = ""
     var warehouseId = ""
 
+    var lastDate = ""
+    var page = 0
+    var size = 20
+    var hasMore = true
+
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
+
+    var stockList: ArrayList<DistributorDateModel> = ArrayList()
     val getDistributorDateActionLiveData = MutableLiveData<List<DistributorDateModel>>()
 
     @SuppressLint("CheckResult")
@@ -50,19 +58,66 @@ class AssignmentReportViewModel(
 
     }
 
-    private fun getDistributorDate(date: String, page: Int, size: Int) {
-        isLoadingVisible = true
+    fun getDistributorDate(date: String, isOnlyAccepted: Boolean) {
+        // If date is changed, list should be cleared
+        if (date != lastDate) {
+            hasMore = true
+            stockList.clear()
+        }
 
-        val single = getDistributorDateUseCase.getSingle(DistributorDateRequestModel(companyId, userId, date, page, size))
-        subscribeSingle(single, onSuccess = {
-            isLoadingVisible = false
+        if (hasMore) {
+            isLoadingVisible = true
 
-            getDistributorDateActionLiveData.postValue(it)
-        }, onError = {
-            isLoadingVisible = false
-            notifyErrorObserver(it.message
-                ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
-        })
+            val single = getDistributorDateUseCase.getSingle(
+                DistributorDateRequestModel(
+                    "601ffa4d279d812ed25a7f9b" /* companyId */,
+                    "618cdad48f172b7b7e399349" /* userId */,
+                    "2021-10-19"/* date */, page, size
+                )
+            )
+
+            subscribeSingle(single, onSuccess = {
+                isLoadingVisible = false
+
+                hasMore = it.isNotEmpty() && it.size >= size
+
+                if (it.isNotEmpty()) {
+                    for (stock in it) {
+                        val newStock = DistributorDateModel(
+                            stock.id,
+                            stock.supplierName,
+                            stock.date, stock.time,
+                            ArrayList(),
+                            stock.deliveryPersonName,
+                            stock.warehouseManagerName,
+                            stock.supportingDocument,
+                            stock.storeKeeperSignature,
+                            stock.deliveryPersonSignature
+                        )
+
+                        val availableItems = ArrayList<GoodsReceivedItemModel>()
+                        for (item in stock.items) {
+                            if ((isOnlyAccepted && item.qtyAccepted > 0) || (!isOnlyAccepted && item.qtyDeclined > 0)) {
+                                availableItems.add(item)
+                            }
+                        }
+
+                        if (availableItems.isNotEmpty()) {
+                            newStock.items = availableItems
+                            stockList.add(newStock)
+                        }
+                    }
+                    getDistributorDateActionLiveData.postValue(stockList)
+                }
+            }, onError = {
+                isLoadingVisible = false
+                notifyErrorObserver(
+                    it.message
+                        ?: getString(R.string.an_error_has_occured_please_try_again),
+                    PresentationError.ERROR_TEXT
+                )
+            })
+        }
     }
 
     class Factory(

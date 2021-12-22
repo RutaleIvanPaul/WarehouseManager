@@ -1,9 +1,9 @@
-package io.ramani.ramaniWarehouse.domain.auth.model
+package io.ramani.ramaniWarehouse.domain.assignmentreport.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
 import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
-import com.google.gson.Gson
 
 data class DistributorDateModel(
     val id: String = "",
@@ -11,14 +11,17 @@ data class DistributorDateModel(
     val date: String = "",
     val time: String = "",
 
-    val items: List<GoodsReceivedItemModel> = ArrayList(),
-
-    val storeKeeperSignature: String = "",
-    val deliveryPersonSignature: String = "",
+    var items: List<GoodsReceivedItemModel> = ArrayList(),
 
     val deliveryPersonName: String = "",
     val warehouseManagerName: String = "",
-) : Parcelable {
+
+    val supportingDocument: List<String> = ArrayList(),
+
+    val storeKeeperSignature: List<String> = ArrayList(),
+    val deliveryPersonSignature: List<String> = ArrayList(),
+
+    ) : Parcelable {
 
     class Builder : IBuilder<DistributorDateModel> {
         private var id: String = ""
@@ -28,11 +31,12 @@ data class DistributorDateModel(
 
         private var items: List<GoodsReceivedItemModel> = ArrayList()
 
-        private var storeKeeperSignature: String = ""
-        private var deliveryPersonSignature: String = ""
-
         private var deliveryPersonName: String = ""
         private var warehouseManagerName: String = ""
+
+        private var supportingDocument: List<String> = ArrayList()
+        private var storeKeeperSignature: List<String> = ArrayList()
+        private var deliveryPersonSignature: List<String> = ArrayList()
 
         fun id(id: String): Builder {
             this.id = id
@@ -59,12 +63,17 @@ data class DistributorDateModel(
             return this
         }
 
-        fun storeKeeperSignature(storeKeeperSignature: String): Builder {
+        fun supportingDocument(supportingDocument: List<String>): Builder {
+            this.supportingDocument = supportingDocument
+            return this
+        }
+
+        fun storeKeeperSignature(storeKeeperSignature: List<String>): Builder {
             this.storeKeeperSignature = storeKeeperSignature
             return this
         }
 
-        fun deliveryPersonSignature(deliveryPersonSignature: String): Builder {
+        fun deliveryPersonSignature(deliveryPersonSignature: List<String>): Builder {
             this.deliveryPersonSignature = deliveryPersonSignature
             return this
         }
@@ -85,9 +94,11 @@ data class DistributorDateModel(
                 supplierName,
                 date, time,
                 items,
-                storeKeeperSignature, deliveryPersonSignature,
                 deliveryPersonName,
-                warehouseManagerName
+                warehouseManagerName,
+                supportingDocument,
+                storeKeeperSignature,
+                deliveryPersonSignature
             )
     }
 
@@ -99,8 +110,9 @@ data class DistributorDateModel(
         parcel.createTypedArrayList(GoodsReceivedItemModel) ?: ArrayList(),
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: ""
+        parcel.createStringArrayList() ?: ArrayList(),
+        parcel.createStringArrayList() ?: ArrayList(),
+        parcel.createStringArrayList() ?: ArrayList()
     ) {
     }
 
@@ -110,10 +122,11 @@ data class DistributorDateModel(
         parcel.writeString(date)
         parcel.writeString(time)
         parcel.writeTypedList(items)
-        parcel.writeString(storeKeeperSignature)
-        parcel.writeString(deliveryPersonSignature)
         parcel.writeString(deliveryPersonName)
         parcel.writeString(warehouseManagerName)
+        parcel.writeStringList(supportingDocument)
+        parcel.writeStringList(storeKeeperSignature)
+        parcel.writeStringList(deliveryPersonSignature)
     }
 
     override fun describeContents(): Int {

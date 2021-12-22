@@ -1,6 +1,6 @@
-package io.ramani.ramaniWarehouse.data.auth
+package io.ramani.ramaniWarehouse.data.assignmentreport
 
-import io.ramani.ramaniWarehouse.data.auth.model.*
+import io.ramani.ramaniWarehouse.data.assignmentreport.model.GetDistributorDateRemoteModel
 import io.ramani.ramaniWarehouse.data.entities.BaseResponse
 import io.reactivex.Single
 import retrofit2.http.*
@@ -13,5 +13,5 @@ interface AssignmentReportApi {
         @Query("date") date: String,
         @Query("page") page: Int,
         @Query("size") size: Int
-    ): Single<BaseResponse<List<DistributorDateRemoteModel>>>
+    ): Single<BaseResponse<GetDistributorDateRemoteModel>>
 }

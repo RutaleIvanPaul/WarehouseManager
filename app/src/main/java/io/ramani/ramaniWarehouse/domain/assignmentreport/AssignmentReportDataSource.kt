@@ -1,6 +1,6 @@
 package io.ramani.ramaniWarehouse.domain.assignmentreport
 
-import io.ramani.ramaniWarehouse.domain.auth.model.DistributorDateModel
+import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.reactivex.Single
 
 interface AssignmentReportDataSource {

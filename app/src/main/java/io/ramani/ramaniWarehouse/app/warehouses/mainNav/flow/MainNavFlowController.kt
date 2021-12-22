@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow
 
+import io.ramani.ramaniWarehouse.app.assignmentreport.presentation.AssignmentReportFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockFragment
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
@@ -45,6 +46,10 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
     }
 
     override fun openAssignmentReport() {
-        //TODO("Not yet implemented")
+        val fragment = AssignmentReportFragment.newInstance()
+        activity.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.ADD
+        )
     }
 }

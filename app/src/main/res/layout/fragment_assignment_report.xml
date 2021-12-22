@@ -8,7 +8,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingStart="10dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="20dp"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/assignment_report_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView style="@style/backButton" />
+
+            <TextView
+                style="@style/BoldTextLabel"
+                android:layout_marginStart="5dp"
+                android:text="@string/assignment_report" />
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -22,7 +41,7 @@
                 android:background="@color/light_grey" />
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/stock_receive_main_tablayout"
+                android:id="@+id/assignment_report_tablayout"
                 style="@style/CommonTabLayout"
                 android:background="@color/transparent" />
 

@@ -1,8 +1,8 @@
-package io.ramani.ramaniWarehouse.domain.auth.useCase
+package io.ramani.ramaniWarehouse.domain.assignmentreport.usecase
 
-import io.ramani.ramaniWarehouse.data.auth.model.DistributorDateRequestModel
+import io.ramani.ramaniWarehouse.data.assignmentreport.model.DistributorDateRequestModel
 import io.ramani.ramaniWarehouse.domain.assignmentreport.AssignmentReportDataSource
-import io.ramani.ramaniWarehouse.domain.auth.model.DistributorDateModel
+import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor
 import io.ramani.ramaniWarehouse.domain.base.executor.ThreadExecutor

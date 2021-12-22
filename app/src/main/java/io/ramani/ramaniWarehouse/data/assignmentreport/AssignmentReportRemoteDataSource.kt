@@ -1,18 +1,12 @@
-package io.ramani.ramaniWarehouse.data.auth
+package io.ramani.ramaniWarehouse.data.assignmentreport
 
-import io.ramani.ramaniWarehouse.data.auth.mappers.GoodsReceivedRemoteMapper
-import io.ramani.ramaniWarehouse.data.auth.model.DistributorDateRemoteModel
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
+import io.ramani.ramaniWarehouse.data.assignmentreport.model.DistributorDateRemoteModel
 import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
-import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniWarehouse.domain.assignmentreport.AssignmentReportDataSource
-import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
-import io.ramani.ramaniWarehouse.domain.auth.model.DistributorDateModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
+import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.entities.BaseErrorResponse
@@ -22,9 +16,7 @@ import io.ramani.ramaniWarehouse.domain.entities.exceptions.NotAuthorizedExcepti
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.ParseResponseException
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import io.reactivex.Single
-import okhttp3.RequestBody
 import retrofit2.HttpException
-import retrofit2.http.Part
 
 class AssignmentReportRemoteDataSource(
     private val assignmentReportApi: AssignmentReportApi,
@@ -35,7 +27,7 @@ class AssignmentReportRemoteDataSource(
             assignmentReportApi.getDistributorDate(companyId, warehouseId, date, page, size).flatMap {
                 val data = it.data
                 if (data != null) {
-                    Single.just(data.mapFromWith(distributorDateRemoteMapper))
+                    Single.just(data.stocks.mapFromWith(distributorDateRemoteMapper))
                 } else {
                     Single.error(ParseResponseException())
                 }

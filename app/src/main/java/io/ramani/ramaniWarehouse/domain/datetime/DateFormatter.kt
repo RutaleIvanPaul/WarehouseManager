@@ -38,6 +38,7 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         const val NEWS_FFED_DATE_FORMAT = "dd MMMM"
         const val ACTIVITY_DEADLINE_FORMAT = "EEE, dd MMM yy"
         const val DATE_WITH_DASHES = "dd-MM-yyyy"
+        const val DATE_WITH_DASHES_1 = "yyyy-MM-dd"
     }
 
 
@@ -57,6 +58,7 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
     fun convertToServerDateFormat(date: Long): String = format(date, SERVER_RECEIVE_DATE_FORMAT)
     fun convertToDisplayDateFormat(date: Long): String = format(date, VIEW_DISPLAY_DATE_FORMAT)
     fun convertToDateWithDashes(date: Long): String = format(date, DATE_WITH_DASHES)
+    fun convertToDateWithDashes1(date: Long): String = format(date, DATE_WITH_DASHES_1)
 
 
     fun getDateInMillisFromDate(date: String): Long {

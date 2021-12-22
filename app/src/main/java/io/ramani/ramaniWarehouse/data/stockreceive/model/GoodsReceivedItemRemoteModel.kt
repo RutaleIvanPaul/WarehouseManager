@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.data.auth.model
+package io.ramani.ramaniWarehouse.data.stockreceive.model
 
 import com.google.gson.annotations.SerializedName
 
@@ -7,6 +7,8 @@ data class GoodsReceivedItemRemoteModel(
     val id: String = "",
     @SerializedName("productId")
     val productId: String = "",
+    @SerializedName("productName")
+    val productName: String = "",
     @SerializedName("qtyAccepted")
     val qtyAccepted: Int = 0,
     @SerializedName("qtyDeclined")

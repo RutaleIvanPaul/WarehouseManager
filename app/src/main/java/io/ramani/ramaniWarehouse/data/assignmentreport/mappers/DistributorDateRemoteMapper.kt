@@ -1,6 +1,8 @@
-package io.ramani.ramaniWarehouse.data.auth.mappers
+package io.ramani.ramaniWarehouse.data.assignmentreport.mappers
 
-import io.ramani.ramaniWarehouse.data.auth.model.*
+import io.ramani.ramaniWarehouse.data.assignmentreport.model.DistributorDateRemoteModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedItemRemoteModel
+import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.auth.model.*
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import kotlin.collections.ArrayList
@@ -40,10 +42,11 @@ class DistributorDateRemoteMapper(
                 to.date,
                 to.time,
                 items,
-                to.storeKeeperSignature,
-                to.deliveryPersonSignature,
                 to.deliveryPersonName,
                 to.warehouseManagerName,
+                to.supportingDocument,
+                to.storeKeeperSignature,
+                to.deliveryPersonSignature,
             )
     }
 

@@ -1,9 +1,9 @@
-package io.ramani.ramaniWarehouse.data.auth
+package io.ramani.ramaniWarehouse.data.assignmentreport
 
 import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniWarehouse.domain.assignmentreport.AssignmentReportDataSource
-import io.ramani.ramaniWarehouse.domain.auth.model.DistributorDateModel
+import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.reactivex.Single
 
 class AssignmentReportLocalDataSource(
