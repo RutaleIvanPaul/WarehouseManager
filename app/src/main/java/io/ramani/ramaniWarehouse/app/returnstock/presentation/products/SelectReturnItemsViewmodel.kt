@@ -23,6 +23,10 @@ class SelectReturnItemsViewmodel(application: Application,
                                  private val getAvailableStockUsecase: BaseSingleUseCase<List<AvailableStockReturnedListItem>, GetAvailableStockRequestModel>
 ): BaseViewModel(application, stringProvider, sessionManager) {
 
+    companion object{
+        val missingValueLiveData = MutableLiveData<Boolean>()
+    }
+
     val avaialableProductsListOriginal = mutableListOf<AvailableProductItem>()
     val availableProductsListLiveData = MutableLiveData<List<AvailableProductItem>>()
 

@@ -9,6 +9,8 @@ import android.widget.EditText
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showErrorDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 
@@ -31,23 +33,25 @@ class ReturnItemsRVAdapter(
 
             confirmQuantityButton.setOnClickListener {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    returnItems.removeIf{ itemFromList -> item.id == itemFromList.id }
-                }
-                else{
-                    returnItems.forEach {
-                        if (it.id == item.id){
-                            remove(it)
+                if(editQuantityEditText.text.isNullOrEmpty()){
+                    SelectReturnItemsViewmodel.missingValueLiveData.postValue(true)
+                }else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                        returnItems.removeIf { itemFromList -> item.id == itemFromList.id }
+                    } else {
+                        returnItems.forEach {
+                            if (it.id == item.id) {
+                                remove(it)
+                            }
                         }
                     }
+                    item.quantity = editQuantityEditText.text.toString().toInt()
+
+                    returnItems.add(item)
+                    ReturnStockViewModel.returnItemsChangedLiveData.postValue(true)
+                    setText(R.id.return_stock_confirm_quantity_button,context.getString(R.string.Confirmed))
+                    setTextColor(R.id.return_stock_confirm_quantity_button,context.resources.getColor(R.color.light_green))
                 }
-
-                item.quantity = editQuantityEditText.text.toString().toInt()
-
-                returnItems.add(item)
-                ReturnStockViewModel.returnItemsChangedLiveData.postValue(true)
-                setText(R.id.return_stock_confirm_quantity_button,context.getString(R.string.Confirmed))
-                setTextColor(R.id.return_stock_confirm_quantity_button,context.resources.getColor(R.color.light_green))
             }
 
             editQuantityEditText.setOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->

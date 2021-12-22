@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
@@ -27,9 +28,7 @@ class SelectReturnItemsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        returnItemsRVAdapter = ReturnItemsRVAdapter(returnItemsRVList){
-            Log.d("Available Products",it.productName)
-        }
+        returnItemsRVAdapter = ReturnItemsRVAdapter(returnItemsRVList, onItemClick = {})
     }
 
     override fun initView(view: View?) {
@@ -65,6 +64,13 @@ class SelectReturnItemsFragment : BaseFragment() {
             returnItemsRVList.clear()
             returnItemsRVList.addAll(it)
             returnItemsRVAdapter.notifyDataSetChanged()
+        })
+
+        SelectReturnItemsViewmodel.missingValueLiveData.observe(this,{
+            if(it) {
+                errorDialog(getString(R.string.missing_quantity))
+                SelectReturnItemsViewmodel.missingValueLiveData.postValue(false)
+            }
         })
     }
 
