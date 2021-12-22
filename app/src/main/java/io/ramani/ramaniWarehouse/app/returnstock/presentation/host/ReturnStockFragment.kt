@@ -39,6 +39,7 @@ class ReturnStockFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        viewModel.start()
     }
 
     private var salespersonFragment: SalesPersonFragment? = null
@@ -55,9 +56,21 @@ class ReturnStockFragment : BaseFragment() {
         flow = ReturnStockFlowcontroller(baseActivity!!, R.id.main_fragment_container)
         initTabLayout()
         subscribeObservers()
-
         return_stock_host_next_button.setOnClickListener {
-            return_stock_viewpager.currentItem++
+            when (return_stock_viewpager.currentItem) {
+                0 -> {
+                    return_stock_host_next_button.text = getText(R.string.next)
+                    return_stock_viewpager.currentItem++
+                }
+                1 -> {
+                    return_stock_host_next_button.text = getText(R.string.done)
+                    return_stock_viewpager.currentItem++
+                }
+                else -> {
+                    return_stock_host_next_button.text = getText(R.string.done)
+                    viewModel.returnStock()
+                }
+            }
         }
     }
 
@@ -110,33 +123,52 @@ class ReturnStockFragment : BaseFragment() {
             }
         })
 
-        ReturnStockViewModel.readyToConfirmLiveData.observe(this, { readyToConfirm ->
-            if (readyToConfirm) {
-                return_stock_host_next_button.text = getText(R.string.done)
-                return_stock_host_next_button.setOnClickListener {
-                    ReturnStockViewModel.readyToPostLiveData.postValue(true)
-                }
-
-            } else {
-                return_stock_host_next_button.text = getText(R.string.next)
-                return_stock_host_next_button.setOnClickListener {
-                    return_stock_viewpager.currentItem++
-                }
-            }
+        viewModel.onItemsReturnedLiveData.observe(this, {
+            (activity as BaseActivity).navigationManager?.remove(this)
+            flow.openReturnSuccess()
         })
 
-        ReturnStockViewModel.itemsReturned.observe(this, { itemsReturned ->
-            if (itemsReturned) {
-                (activity as BaseActivity).navigationManager?.remove(this)
-                flow.openReturnSuccess()
-            }
-        })
+//        ReturnStockViewModel.readyToConfirmLiveData.observe(this, { readyToConfirm ->
+//            if (readyToConfirm) {
+//                return_stock_host_next_button.text = getText(R.string.done)
+//                return_stock_host_next_button.setOnClickListener {
+//                    ReturnStockViewModel.readyToPostLiveData.postValue(true)
+//                }
+//
+//            } else {
+//                return_stock_host_next_button.text = getText(R.string.next)
+//                return_stock_host_next_button.setOnClickListener {
+//                    return_stock_viewpager.currentItem++
+//                }
+//            }
+//        })
+
+//        ReturnStockViewModel.itemsReturned.observe(this, { itemsReturned ->
+//            if (itemsReturned) {
+//                (activity as BaseActivity).navigationManager?.remove(this)
+//                flow.openReturnSuccess()
+//            }
+//        })
     }
 
     private fun initTabLayout() {
         salespersonFragment = SalesPersonFragment.newInstance()
         productsFragment = SelectReturnItemsFragment.newInstance()
         confirmFragment = ConfirmReturnStockFragment.newInstance()
+//            , readyToConfirm = {
+//            if (it) {
+//                return_stock_host_next_button.text = getText(R.string.done)
+//                return_stock_host_next_button.setOnClickListener {
+//                    ReturnStockViewModel.readyToPostLiveData.postValue(true)
+//                }
+//
+//            } else {
+//                return_stock_host_next_button.text = getText(R.string.next)
+//                return_stock_host_next_button.setOnClickListener {
+//                    return_stock_viewpager.currentItem++
+//                }
+//            }
+//        })
 
         val adapter = TabPagerAdapter(activity)
         adapter.addFragment(salespersonFragment!!, getString(R.string.salesperson))
