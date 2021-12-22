@@ -91,6 +91,7 @@ class MainNavFragment : BaseFragment() {
         subscribeLoadingError(viewModel)
         subscribeError(viewModel)
         observerError(viewModel, this)
+        observeLoadingVisible(viewModel,this)
         subscribeOnWarehousesLoaded()
         subscribeOnWarehousesSelected()
     }

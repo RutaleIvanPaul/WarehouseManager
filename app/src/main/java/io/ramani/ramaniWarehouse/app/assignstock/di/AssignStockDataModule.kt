@@ -14,7 +14,7 @@ import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
 import org.kodein.di.generic.provider
 
-val assignStockDataModule = Kodein.Module("assignStockDataModule"){
+val assignStockDataModule = Kodein.Module("assignStockDataModule") {
     bind<AssignStockAPI>() with provider {
         ServiceHelper.createService(instance())
     }

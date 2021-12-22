@@ -33,6 +33,7 @@ class AuthLocalDataSource(
         Completable.fromAction {
             prefsManager.currentUser = ""
             prefsManager.accessToken = ""
+            prefsManager.currentWarehouse = ""
         }
 
     override fun refreshAccessToken(token: String): Completable =

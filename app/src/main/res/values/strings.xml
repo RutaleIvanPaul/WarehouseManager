@@ -114,5 +114,11 @@
 
     <string name="warning_no_signed_store_keeper">Please enter store keeper name and sign</string>
     <string name="warning_no_signed_delivery_person">Please enter delivery person name and sign</string>
+    <string name="order_from">Order from: {{warehouse}}</string>
+    <string name="date">Date:</string>
+    <string name="invoice">Invoice:</string>
+    <string name="accept_confirm"><![CDATA[Accept & Confirm]]></string>
+    <string name="total_amount">Total Amount</string>
+    <string name="no_data_available">No Data Available</string>
 
 </resources>

@@ -14,6 +14,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.presentation.InvoicesFragment
 import kotlinx.android.synthetic.main.fragment_signin_sheet.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_main.*
 import org.kodein.di.generic.factory
@@ -55,7 +56,7 @@ class StockReceiveMainFragment : BaseFragment() {
 
     private fun initTabLayout() {
         val adapter = AdapterTabPager(activity)
-        adapter.addFragment(StockReceiveMainOrdersFragment.newInstance(), getString(R.string.ramani_orders))
+        adapter.addFragment(InvoicesFragment.newInstance(), getString(R.string.ramani_orders))
         adapter.addFragment(StockReceiveMainOthersFragment.newInstance(), getString(R.string.others))
 
         stock_receive_main_viewpager.adapter = adapter

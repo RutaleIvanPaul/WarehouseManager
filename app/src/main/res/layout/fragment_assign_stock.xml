@@ -35,10 +35,10 @@
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/return_stock_host_next_button"
+                android:id="@+id/assign_stock_host_next_button"
                 style="@style/NormalActionButtonInactive"
-                android:enabled="false"
                 android:layout_alignParentEnd="true"
+                android:enabled="false"
                 android:text="@string/next" />
         </RelativeLayout>
 

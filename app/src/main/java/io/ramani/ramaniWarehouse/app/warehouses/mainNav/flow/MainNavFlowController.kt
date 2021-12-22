@@ -6,6 +6,7 @@ import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.host.StockReceiveMainFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockFragment
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.presentation.InvoicesFragment
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.WarehouseBottomSheetFragment
 import org.jetbrains.anko.AnkoLogger
 
@@ -20,8 +21,7 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
         val fragment = StockReceiveMainFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.ADD,
-            addToBackStack = false
+            openMethod = NavigationManager.OpenMethod.ADD
         )
     }
 
@@ -29,7 +29,7 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
         val fragment = AssignStockFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.REPLACE
+            openMethod = NavigationManager.OpenMethod.ADD
         )
     }
 
@@ -37,7 +37,7 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
         val fragment = ReturnStockFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.REPLACE
+            openMethod = NavigationManager.OpenMethod.ADD
         )
     }
 

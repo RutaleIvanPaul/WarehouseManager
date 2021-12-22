@@ -17,7 +17,6 @@ import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesP
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveSupplierFragment
 import kotlinx.android.synthetic.main.fragment_return_stock.*
-import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
 
