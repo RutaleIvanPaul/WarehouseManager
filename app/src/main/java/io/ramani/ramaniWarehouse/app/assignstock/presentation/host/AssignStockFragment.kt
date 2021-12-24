@@ -1,22 +1,23 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.host
 
+import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveProductsFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveSupplierFragment
 import kotlinx.android.synthetic.main.fragment_assign_stock.*
-import kotlinx.android.synthetic.main.fragment_return_stock.return_stock_host_next_button
+import kotlinx.android.synthetic.main.fragment_assign_stock.assign_stock_host_next_button
+
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
 
@@ -51,9 +52,9 @@ class AssignStockFragment : BaseFragment() {
     }
 
     private fun subscribeObservers() {
-        SalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
+        AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
             if (it != null) {
-                return_stock_host_next_button.apply {
+                assign_stock_host_next_button.apply {
                     isEnabled = true
                     backgroundDrawable =
                         getDrawable(requireContext(), R.drawable.green_stroke_action_button)
@@ -65,7 +66,7 @@ class AssignStockFragment : BaseFragment() {
                     )
                 }
             } else {
-                return_stock_host_next_button.apply {
+                assign_stock_host_next_button.apply {
                     isEnabled = false
                     backgroundDrawable =
                         getDrawable(requireContext(), R.drawable.grey_stroke_next_action_button)
