@@ -2,7 +2,6 @@ package io.ramani.ramaniWarehouse.app.warehouses.invoices.presentation
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +10,8 @@ import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow.InvoicesFlow
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow.InvoicesFlowController
 import kotlinx.android.synthetic.main.fragment_invoice.*
 import org.kodein.di.generic.factory
 
@@ -25,17 +26,17 @@ class InvoicesFragment : BaseFragment() {
     private lateinit var viewModel: InvoicesViewModel
     override val baseViewModel: BaseViewModel?
         get() = viewModel
+    private lateinit var flow: InvoicesFlow
 
     override fun getLayoutResId(): Int = R.layout.fragment_invoice
     private var isLoading = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        flow = InvoicesFlowController(baseActivity!!)
         viewModel.start()
         invoiceAdapter = InvoiceAdapter(viewModel.invoicesList) {
-            Toast.makeText(context, "Clicked on invoice:  ${it.invoiceId}", Toast.LENGTH_SHORT)
-                .show()
-            //TODO: Nav to stock recieve page
+            flow.openConfirmReceiveStock(it.createdAt, it.supplierName, it.purchaseOrderId)
         }
         initSubscribers()
     }
