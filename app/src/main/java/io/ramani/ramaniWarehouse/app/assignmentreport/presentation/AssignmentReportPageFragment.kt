@@ -10,7 +10,6 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
-import java.util.*
 import kotlin.collections.ArrayList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +19,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import kotlinx.android.synthetic.main.fragment_assignment_report_page.*
+import java.util.Calendar
 
 class AssignmentReportPageFragment : BaseFragment() {
     companion object {
