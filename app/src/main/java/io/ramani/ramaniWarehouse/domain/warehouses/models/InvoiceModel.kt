@@ -7,6 +7,7 @@ import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 data class InvoiceModel(
 
     val invoiceId: String? = null,
+    val purchaseOrderId : String? = null,
     val createdAt: Long? = null,
     val distributorName: String? = null,
     val supplierName: String? = null,
@@ -14,6 +15,7 @@ data class InvoiceModel(
     val products: List<ProductModel>? = null,
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readString(),
         parcel.readLong(),
         parcel.readString(),
@@ -25,6 +27,7 @@ data class InvoiceModel(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(invoiceId)
+        parcel.writeString(purchaseOrderId)
         parcel.writeLong(createdAt ?: 0L)
         parcel.writeString(distributorName)
         parcel.writeString(supplierName)
@@ -48,6 +51,7 @@ data class InvoiceModel(
 
     class Builder : IBuilder<InvoiceModel> {
         private var invoiceId: String? = null
+        private var purchaseOrderId : String? = null
         private var createdAt: Long? = null
         private var distributorName: String? = null
         private var supplierName: String? = null
@@ -57,6 +61,11 @@ data class InvoiceModel(
         fun invoiceId(invoiceId: String?): Builder {
             this.invoiceId = invoiceId
             return this
+        }
+
+         fun purchaseOrderId (purchaseOrderId : String?): Builder {
+            this.purchaseOrderId  = purchaseOrderId
+             return this
         }
 
         fun createdAt(createdAt: Long?): Builder {
@@ -86,6 +95,7 @@ data class InvoiceModel(
 
         override fun build(): InvoiceModel = InvoiceModel(
             invoiceId,
+            purchaseOrderId ,
             createdAt,
             distributorName,
             supplierName,

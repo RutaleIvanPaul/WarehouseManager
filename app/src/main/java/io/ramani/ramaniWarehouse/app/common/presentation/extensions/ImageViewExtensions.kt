@@ -11,6 +11,8 @@ import androidx.annotation.DrawableRes
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.Transformation
+import com.bumptech.glide.load.model.GlideUrl
+import com.bumptech.glide.load.model.LazyHeaders
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
@@ -164,6 +166,38 @@ fun ImageView.loadImage(
                 transform(transformation)
             }
         }).into(this)
+}
+
+fun ImageView.loadImageWithHeaders(
+    imageUrl: String,
+    @DrawableRes placeHolder: Int? = null,
+    @DrawableRes errorPlaceHolder: Int? = null,
+    circleCrop: Boolean = false,
+    transformation: Transformation<Bitmap>? = null,
+    headers: Map<String, String> = mapOf()
+) {
+    val lazyHeader = LazyHeaders.Builder()
+    for ((key, value) in headers) {
+        lazyHeader.addHeader(key, value)
+    }
+    val glideUrl = GlideUrl(imageUrl, lazyHeader.build())
+    Glide.with(this).load(glideUrl)
+        .apply(RequestOptions().apply {
+            if (placeHolder != null) {
+                placeholder(placeHolder)
+            }
+            if (errorPlaceHolder != null) {
+                error(errorPlaceHolder)
+            }
+            if (circleCrop) {
+                circleCrop()
+            }
+
+            if (transformation != null) {
+                transform(transformation)
+            }
+        })
+        .into(this)
 }
 
 @SuppressLint("CheckResult")
