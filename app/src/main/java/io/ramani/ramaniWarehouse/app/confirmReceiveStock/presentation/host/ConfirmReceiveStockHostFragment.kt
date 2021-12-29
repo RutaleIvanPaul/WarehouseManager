@@ -17,23 +17,20 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.supplier.SupplierConfirmReceiveFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.host.StockReceiveMainViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.InvoiceModelView
 import kotlinx.android.synthetic.main.fragment_signin_sheet.loader
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import org.kodein.di.generic.factory
 
-private const val CREATED_AT_ARG = "created_at_arg"
-private const val SUPPLIER_NAME_ARG = "supplier_name_arg"
-private const val PURCHASE_ID_ARG = "purchase_id_arg"
+private const val INVOICE_MODEL_VIEW_ARG = "invoice_model_view_arg"
 
 class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     companion object {
-        fun newInstance(createdAt: String?, supplierName: String?, purchaseId: String?) =
+        fun newInstance(invoiceModelView: InvoiceModelView?) =
             ConfirmReceiveStockHostFragment().apply {
                 setArgs(
-                    CREATED_AT_ARG to createdAt,
-                    SUPPLIER_NAME_ARG to supplierName,
-                    PURCHASE_ID_ARG to purchaseId
+                    INVOICE_MODEL_VIEW_ARG to invoiceModelView
                 )
             }
     }
@@ -45,9 +42,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     private lateinit var flow: StockReceiveFlow
     override fun getLayoutResId(): Int = R.layout.fragment_stock_receive_now_host
-    private var createdAt: String? = ""
-    private var supplierName: String? = ""
-    private var purchaseId: String? = ""
+    private var invoiceModelView: InvoiceModelView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
@@ -64,9 +59,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     }
 
     private fun initArgs() {
-        createdAt = arguments?.getString(CREATED_AT_ARG, "")
-        supplierName = arguments?.getString(SUPPLIER_NAME_ARG, "")
-        purchaseId = arguments?.getString(PURCHASE_ID_ARG, "")
+        invoiceModelView = arguments?.getParcelable(INVOICE_MODEL_VIEW_ARG)
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
@@ -86,33 +79,20 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     }
 
     private fun initTabLayout() {
-        DrawableCompat.setTint(stock_receive_now_host_indicator_0.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green))
-        val adapter = TabPagerAdapter(activity)
-        adapter.addFragment(
-            SupplierConfirmReceiveFragment.newInstance(
-                createdAt,
-                supplierName,
-                purchaseId
-            ), getString(R.string.supplier)
+        DrawableCompat.setTint(
+            stock_receive_now_host_indicator_0.drawable,
+            ContextCompat.getColor(requireContext(), R.color.ramani_green)
         )
+        val adapter = TabPagerAdapter(activity)
+
         adapter.addFragment(
             SupplierConfirmReceiveFragment.newInstance(
-                createdAt,
-                supplierName,
-                purchaseId
+                invoiceModelView?.createdAt,
+                invoiceModelView?.supplierName,
+                invoiceModelView?.purchaseOrderId
             ), getString(R.string.products)
         )
-        adapter.addFragment(
-            SupplierConfirmReceiveFragment.newInstance(
-                createdAt,
-                supplierName,
-                purchaseId
-            ), getString(R.string.confirm)
-        )
-//        adapter.addFragment(
-//            StockReceiveMainOthersFragment.newInstance(),
-//            getString(R.string.others)
-//        )
+
         stock_receive_now_host_viewpager.isUserInputEnabled = false
         stock_receive_now_host_viewpager.adapter = adapter
         stock_receive_now_host_viewpager.currentItem = 0
