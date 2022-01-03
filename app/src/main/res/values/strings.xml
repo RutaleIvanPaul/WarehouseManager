@@ -105,5 +105,6 @@
     <string name="no_data_available">No Data Available</string>
     <string name="missing_quantity">Cannot Confirm without entering quantity</string>
     <string name="proforma_invoice">Proforma Invoice</string>
+    <string name="clear_signature">Clear Signature</string>
 
 </resources>
