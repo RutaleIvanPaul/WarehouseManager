@@ -15,5 +15,6 @@ class InvoiceModelMapper(private val dateFormatter: DateFormatter) :
             .invoiceId(from.invoiceId)
             .products(from.products)
             .supplierName(from.supplierName)
+            .purchaseOrderId(from.purchaseOrderId)
             .build()
 }

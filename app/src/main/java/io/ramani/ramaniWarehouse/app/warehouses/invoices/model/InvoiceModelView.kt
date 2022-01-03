@@ -8,6 +8,7 @@ import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 data class InvoiceModelView(
 
     val invoiceId: String? = null,
+    val purchaseOrderId : String? = null,
     val createdAt: String? = null,
     val distributorName: String? = null,
     val supplierName: String? = null,
@@ -19,6 +20,7 @@ data class InvoiceModelView(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
+        parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.createTypedArrayList(ProductModel)
     ) {
@@ -26,6 +28,7 @@ data class InvoiceModelView(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(invoiceId)
+        parcel.writeString(purchaseOrderId )
         parcel.writeString(createdAt)
         parcel.writeString(distributorName)
         parcel.writeString(supplierName)
@@ -49,6 +52,7 @@ data class InvoiceModelView(
 
     class Builder : IBuilder<InvoiceModelView> {
         private var invoiceId: String? = null
+        private var purchaseOrderId : String? = null
         private var createdAt: String? = null
         private var distributorName: String? = null
         private var supplierName: String? = null
@@ -58,6 +62,11 @@ data class InvoiceModelView(
         fun invoiceId(invoiceId: String?): Builder {
             this.invoiceId = invoiceId
             return this
+        }
+
+       fun purchaseOrderId (purchaseOrderId : String?): Builder {
+            this.purchaseOrderId  = purchaseOrderId
+           return this
         }
 
         fun createdAt(createdAt: String?): Builder {
@@ -87,6 +96,7 @@ data class InvoiceModelView(
 
         override fun build(): InvoiceModelView = InvoiceModelView(
             invoiceId,
+            purchaseOrderId ,
             createdAt,
             distributorName,
             supplierName,
