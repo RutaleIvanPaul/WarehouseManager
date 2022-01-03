@@ -13,7 +13,6 @@ class ReturnItemsMapper:ModelMapper<AvailableProductItem,OfProducts> {
             from.units
         )
 
-    override fun mapTo(to: OfProducts): AvailableProductItem {
-        TODO("Not yet implemented")
-    }
+    override fun mapTo(to: OfProducts): AvailableProductItem  =
+        AvailableProductItem()
 }
