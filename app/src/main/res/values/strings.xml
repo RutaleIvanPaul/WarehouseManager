@@ -101,5 +101,15 @@
     <string name="total_amount">Total Amount</string>
     <string name="no_data_available">No Data Available</string>
     <string name="proforma_invoice">Proforma Invoice</string>
+    <string name="qty">qty</string>
+    <string name="status">status</string>
+    <string name="receive">Receive</string>
+    <string name="received">Received</string>
+    <string name="incoming">Incoming</string>
+    <string name="percent_delivered">Percent delievered</string>
+    <string name="batch_no">Batch No.</string>
+    <string name="qty_accepted">Qty Accepted</string>
+    <string name="qty_declined">Qty Declined</string>
+    <string name="decline_reason">Decline Reason</string>
 
 </resources>
