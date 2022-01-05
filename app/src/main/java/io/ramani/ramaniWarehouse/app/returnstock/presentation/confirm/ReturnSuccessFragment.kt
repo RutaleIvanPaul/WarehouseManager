@@ -2,14 +2,13 @@ package io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
-import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
+import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
+import kotlinx.android.synthetic.main.fragment_return_success.*
 import org.kodein.di.generic.factory
 
 class ReturnSuccessFragment : BaseFragment() {
@@ -18,7 +17,7 @@ class ReturnSuccessFragment : BaseFragment() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
-    private lateinit var flow:AuthFlow
+    private lateinit var flow:ReturnStockFlow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +26,10 @@ class ReturnSuccessFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
-        flow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
+        flow = ReturnStockFlowcontroller(baseActivity!!, R.id.main_fragment_container)
+        return_stock_view_receipt.setOnClickListener {
+            flow.openReturnedStockPrintScreen()
+        }
     }
 
 

@@ -106,5 +106,18 @@
     <string name="missing_quantity">Cannot Confirm without entering quantity</string>
     <string name="proforma_invoice">Proforma Invoice</string>
     <string name="clear_signature">Clear Signature</string>
+    <string name="start_of_goods_returned">***START OF GOODS RETURNED***</string>
+    <string name="end_of_goods_returned">***END OF GOODS RETURNED***</string>
+    <string name="company_logo">company logo</string>
+    <string name="goods_issued_note">Goods Issued Note</string>
+    <string name="masyl_general_enteprices">Masyl General Enteprices</string>
+    <string name="date_24_july_2021">Date: 24 July 2021</string>
+    <string name="assigned_to">Assigned to</string>
+    <string name="christian_michael">Christian Michael</string>
+    <string name="assigned_to_signature">Assigned to Signature</string>
+    <string name="store_keeper_signature">Store Keeper Signature</string>
+    <string name="goods">Goods</string>
+    <string name="returned">Returned</string>
+    <string name="view_receipt">View Receipt</string>
 
 </resources>
