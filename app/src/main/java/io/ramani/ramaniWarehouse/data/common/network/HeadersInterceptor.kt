@@ -20,10 +20,6 @@ class HeadersInterceptor(private val headersProvider: HeadersProvider) : Interce
         builder.addHeader(Headers.HEADER_ACCEPT, Headers.HEADER_CONTENT_TYPE_VALUE)
         builder.addHeader(Headers.HEADER_CLIENT, ApiConstants.CLIENT_HEADER)
 
-        if(headers.get(Headers.INVALIDATE_CACHE) != null) {
-            builder.addHeader(Headers.INVALIDATE_CACHE, headers.get(Headers.INVALIDATE_CACHE))
-        }
-
         builder.removeHeader(CustomHeaders.IGNORE_AUTHORIZATION)
 
         return chain.proceed(builder.build())
