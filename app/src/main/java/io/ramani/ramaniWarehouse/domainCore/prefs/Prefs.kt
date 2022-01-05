@@ -9,5 +9,6 @@ interface Prefs {
     val hasAccessToken: Boolean
     var refreshToken: String
     var currentWarehouse:String
+    var invalidate_cache_company_products:Boolean
 
 }
