@@ -6,7 +6,4 @@ import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateMo
 interface AssignmentReportFlow {
     fun openDetail(isAssignedStock: Boolean, stock: DistributorDateModel)
     fun openPrint()
-
-    fun pop(fragment: BaseFragment)
-
 }

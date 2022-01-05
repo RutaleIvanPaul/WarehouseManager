@@ -62,7 +62,7 @@ class AssignmentReportDetailFragment : BaseFragment() {
 
         // Back button handler
         assignment_report_detail_back.setOnSingleClickListener {
-            flow.pop(this)
+            pop()
         }
 
         assignment_report_detail_title.text = getString(if (isAssignedStock) R.string.start_goods_issued else R.string.start_goods_returned)

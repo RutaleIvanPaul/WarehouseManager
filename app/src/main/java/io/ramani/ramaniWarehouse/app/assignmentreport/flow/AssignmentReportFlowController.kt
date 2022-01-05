@@ -29,8 +29,4 @@ class AssignmentReportFlowController(
         )
     }
 
-    override fun pop(fragment: BaseFragment) {
-        activity.navigationManager?.remove(fragment)
-    }
-
 }
