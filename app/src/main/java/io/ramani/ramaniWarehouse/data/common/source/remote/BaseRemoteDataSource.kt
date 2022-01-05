@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.data.common.source.remote
 
+import android.graphics.Bitmap
 import com.google.gson.JsonSyntaxException
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
@@ -10,7 +11,10 @@ import io.ramani.ramaniWarehouse.domain.entities.exceptions.*
 import io.ramani.ramaniWarehouse.domainCore.log.logError
 import io.reactivex.Completable
 import io.reactivex.Single
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.HttpException
+import java.io.ByteArrayOutputStream
 
 /**
  * Created by Amr on 12/30/17.
@@ -77,4 +81,14 @@ abstract class BaseRemoteDataSource {
 
     private fun getValidationError(error: HttpException) =
             error.toErrorResponseModel<ValidationErrorsResponse>()
+
+    fun createTextFormData(value:String): RequestBody {
+        return RequestBody.create(MediaType.parse("text/plain"), value)
+    }
+
+    fun createImageFormData(bitmap: Bitmap): RequestBody {
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        return RequestBody.create(MediaType.parse("multipart/form-data"), bos.toByteArray())
+    }
 }

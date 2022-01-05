@@ -109,6 +109,22 @@
         <item name="android:paddingEnd">10dp</item>
     </style>
 
+    <style name="GreyTextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:textColor">@color/deep_grey</item>
+        <item name="android:paddingEnd">10dp</item>
+    </style>
+
+    <style name="CheckMarksSuccess">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleType">centerInside</item>
+        <item name="android:src">@drawable/ic_round_check_icon_42</item>
+    </style>
+
     <!-- Tabs -->
 
     <style name="CommonTabLayout">

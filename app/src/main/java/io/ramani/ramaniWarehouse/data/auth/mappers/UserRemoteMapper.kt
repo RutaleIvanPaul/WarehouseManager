@@ -7,7 +7,7 @@ import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 class UserRemoteMapper : ModelMapper<UserRemoteModel, UserModel> {
     override fun mapFrom(from: UserRemoteModel): UserModel =
         UserModel.Builder()
-            .uuid(from.uuid)
+            .uuid(from.userId)
             .accountType(from.accountType)
             .companyId(from.companyId)
             .companyName(from.companyName)
@@ -16,7 +16,7 @@ class UserRemoteMapper : ModelMapper<UserRemoteModel, UserModel> {
             .hasSeenSFAOnboarding(from.hasSeenSFAOnboarding)
             .isAdmin(from.isAdmin)
             .phoneNumber(from.phoneNumber)
-            .name(from.name)
+            .name(from.userName)
             .timeZone(from.timeZone)
             .token(from.token)
             .build()
@@ -28,7 +28,7 @@ class UserRemoteMapper : ModelMapper<UserRemoteModel, UserModel> {
             to.accountType,
             to.companyId,
             to.companyName,
-            to.name,
+            to.userName,
             to.phoneNumber,
             to.uuid,
             to.isAdmin,

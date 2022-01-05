@@ -10,7 +10,10 @@ import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatterBuilder
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.TimeZone
+import java.util.Locale
+import java.util.Date
 
 /**
  * Created by raede on 27/10/2017.
@@ -59,6 +62,7 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
     fun convertToDisplayDateFormat(date: Long): String = format(date, VIEW_DISPLAY_DATE_FORMAT)
     fun convertToDateWithDashes(date: Long): String = format(date, DATE_WITH_DASHES)
     fun convertToDateWithDashes1(date: Long): String = format(date, DATE_WITH_DASHES_1)
+    fun convertToCalendarFormatDate(date: Long): String = format(date, CALENDAR_FORMAT)
 
 
     fun getDateInMillisFromDate(date: String): Long {

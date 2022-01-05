@@ -26,6 +26,7 @@
     <string name="warehouse_stock">Warehouse Stock</string>
     <string name="assign_stock">Assign Stock</string>
     <string name="return_stock">Return Stock</string>
+    <string name="return_success">Return Success</string>
     <string name="activities">Activities</string>
     <string name="stock_report">Stock Report</string>
     <string name="assignment_report">Assignment Report</string>
@@ -72,6 +73,7 @@
     <string name="expire_date">Expire Date</string>
 
     <string name="confirm">Confirm</string>
+    <string name="print">Print</string>
 
     <string name="store_keeper">Store Keeper</string>
     <string name="store_keeper_hint">Enter store keeper name</string>
@@ -114,12 +116,15 @@
 
     <string name="warning_no_signed_store_keeper">Please enter store keeper name and sign</string>
     <string name="warning_no_signed_delivery_person">Please enter delivery person name and sign</string>
+    <string name="quantity">5</string>
     <string name="order_from">Order from: {{warehouse}}</string>
     <string name="date">Date:</string>
     <string name="invoice">Invoice:</string>
     <string name="accept_confirm"><![CDATA[Accept & Confirm]]></string>
     <string name="total_amount">Total Amount</string>
     <string name="no_data_available">No Data Available</string>
+    <string name="missing_quantity">Cannot Confirm without entering quantity</string>
     <string name="proforma_invoice">Proforma Invoice</string>
+    <string name="clear_signature">Clear Signature</string>
 
 </resources>
