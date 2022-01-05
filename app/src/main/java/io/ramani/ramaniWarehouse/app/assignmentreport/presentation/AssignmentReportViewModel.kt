@@ -70,9 +70,9 @@ class AssignmentReportViewModel(
 
             val single = getDistributorDateUseCase.getSingle(
                 DistributorDateRequestModel(
-                    "601ffa4d279d812ed25a7f9b" /* companyId */,
-                    "618cdad48f172b7b7e399349" /* userId */,
-                    "2021-10-19"/* date */, page, size
+                    companyId /* "601ffa4d279d812ed25a7f9b" */,
+                    userId /* "618cdad48f172b7b7e399349" */,
+                    date/* "2021-10-19" */, page, size
                 )
             )
 
