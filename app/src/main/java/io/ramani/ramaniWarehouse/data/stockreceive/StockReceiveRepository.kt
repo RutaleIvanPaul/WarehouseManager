@@ -1,11 +1,9 @@
-package io.ramani.ramaniWarehouse.data.auth
+package io.ramani.ramaniWarehouse.data.stockreceive
 
-import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.reactivex.Single
-import okhttp3.RequestBody
-import retrofit2.http.Part
 
 class StockReceiveRepository(
     private val remoteStockReceiveDataSource: StockReceiveDataSource,

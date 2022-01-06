@@ -2,9 +2,8 @@ package io.ramani.ramaniWarehouse.domain.stockreceive.model.selected
 
 import android.graphics.Bitmap
 import com.google.gson.Gson
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import okhttp3.MediaType
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File

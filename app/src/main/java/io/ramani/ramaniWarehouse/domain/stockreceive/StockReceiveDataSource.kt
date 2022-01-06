@@ -1,11 +1,8 @@
-package io.ramani.ramaniWarehouse.domain.auth
+package io.ramani.ramaniWarehouse.domain.stockreceive
 
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.reactivex.Single
-import okhttp3.RequestBody
-import retrofit2.http.Part
 
 interface StockReceiveDataSource {
     fun getSuppliers(companyId: String, page: Int, size: Int): Single<List<SupplierModel>>

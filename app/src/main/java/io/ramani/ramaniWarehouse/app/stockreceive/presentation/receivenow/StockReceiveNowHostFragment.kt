@@ -7,21 +7,19 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.code95.android.app.auth.flow.StockReceiveFlowController
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlowController
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
-import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveConfirmFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveProductsFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveSupplierFragment
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
-import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.loader
 import org.kodein.di.generic.factory
 
 class StockReceiveNowHostFragment : BaseFragment() {

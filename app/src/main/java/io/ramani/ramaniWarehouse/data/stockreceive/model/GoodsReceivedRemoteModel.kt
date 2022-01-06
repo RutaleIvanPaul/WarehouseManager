@@ -1,6 +1,7 @@
-package io.ramani.ramaniWarehouse.data.auth.model
+package io.ramani.ramaniWarehouse.data.stockreceive.model
 
 import com.google.gson.annotations.SerializedName
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedItemRemoteModel
 
 data class GoodsReceivedRemoteModel(
     @SerializedName("_id")

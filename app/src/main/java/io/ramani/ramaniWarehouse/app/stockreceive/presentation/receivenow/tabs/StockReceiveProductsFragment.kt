@@ -5,14 +5,14 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.code95.android.app.auth.flow.StockReceiveFlowController
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlowController
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.ProductParameterModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel

@@ -1,8 +1,8 @@
-package io.ramani.ramaniWarehouse.domain.auth.useCase
+package io.ramani.ramaniWarehouse.domain.stockreceive.useCase
 
-import io.ramani.ramaniWarehouse.data.auth.model.GetSupplierRequestModel
-import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GetSupplierRequestModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor
 import io.ramani.ramaniWarehouse.domain.base.executor.ThreadExecutor

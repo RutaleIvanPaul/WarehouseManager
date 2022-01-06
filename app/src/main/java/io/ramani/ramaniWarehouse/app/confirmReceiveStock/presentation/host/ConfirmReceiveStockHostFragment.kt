@@ -5,10 +5,10 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
-import com.code95.android.app.auth.flow.StockReceiveFlowController
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlowController
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setArgs

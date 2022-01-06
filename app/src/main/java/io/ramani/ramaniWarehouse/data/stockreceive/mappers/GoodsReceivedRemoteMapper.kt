@@ -1,13 +1,9 @@
-package io.ramani.ramaniWarehouse.data.auth.mappers
+package io.ramani.ramaniWarehouse.data.stockreceive.mappers
 
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedItemRemoteModel
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
-import io.ramani.ramaniWarehouse.data.auth.model.SupplierProductRemoteModel
-import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedItemRemoteModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRemoteModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import kotlin.collections.ArrayList
 
