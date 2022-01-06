@@ -8,7 +8,5 @@ import org.kodein.di.generic.instance
 import org.kodein.di.generic.singleton
 
 val printerAction = Kodein.Module("printerAction"){
-    bind<PrinterAction>() with singleton {
-        NetworkManager(instance())
-    }
+
 }

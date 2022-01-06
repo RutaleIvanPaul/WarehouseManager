@@ -163,6 +163,6 @@ dependencies {
 
 
     //WizarPOS SDK
-    implementation(name: 'cloudpossdk-1.5.2', ext: 'aar')
+//    implementation(name: 'cloudpossdk-1.5.2', ext: 'aar')
 
 }

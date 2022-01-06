@@ -23,35 +23,32 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/start_of_goods_returned"
+        android:textColor="#61636C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/company_logo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/company_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topText" />
 
     <TextView
         android:id="@+id/company_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/masyl_general_enteprices"
+        style="@style/SmallTextLabel"
+        android:textSize="14sp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/company_logo" />
+        app:layout_constraintTop_toBottomOf="@+id/topText" />
 
     <TextView
         android:id="@+id/issued_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/goods_issued_note"
+        style="@style/SmallTextLabel"
+        android:textSize="12sp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/company_name" />
@@ -61,6 +58,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/date_24_july_2021"
+        android:layout_marginTop="20dp"
+        style="@style/SmallTextLabel"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/issued_note" />
@@ -75,92 +75,114 @@
         android:background="@color/light_grey"
         app:layout_constraintTop_toBottomOf="@+id/date" />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
-        android:orientation="horizontal"
         android:id="@+id/signature_section"
         app:layout_constraintTop_toBottomOf="@+id/horizontal_rule"
         tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
             android:id="@+id/storekeeper_layout"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_toLeftOf="@+id/vertical_split"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/vertical_split"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
             <TextView
                 android:id="@+id/storekeeper_label"
-                android:text="@string/store_keeper"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="@style/SmallTextLabel"
+                android:textSize="12sp"
+                android:layout_width="match_parent"
+                android:textAlignment="center"
+                android:layout_height="wrap_content"
+                android:text="@string/store_keeper" />
 
             <TextView
                 android:id="@+id/storekeeper_text"
-                android:text="@string/christian_michael"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                style="@style/GreyTextView"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/christian_michael" />
 
             <ImageView
                 android:id="@+id/storekeeper_image"
-                android:contentDescription="@string/store_keeper_signature"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="100dp"
+                android:paddingTop="10dp"
+                android:src="@drawable/ic_round_check_icon"
+                android:contentDescription="@string/store_keeper_signature" />
 
         </LinearLayout>
 
         <View
             android:id="@+id/vertical_split"
             android:layout_width="1dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            android:background="@color/light_grey" />
+            android:layout_height="0dp"
+            android:background="@color/light_grey"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/assignee_layout"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/vertical_split"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/vertical_split"
+            app:layout_constraintTop_toTopOf="parent">
 
             <TextView
                 android:id="@+id/assignee_label"
-                android:layout_width="wrap_content"
+                style="@style/SmallTextLabel"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/assigned_to" />
 
             <TextView
                 android:id="@+id/assignee_text"
-                android:layout_width="wrap_content"
+                style="@style/GreyTextView"
+                android:textSize="12sp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/christian_michael" />
 
             <ImageView
                 android:id="@+id/assignee_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:paddingTop="10dp"
+                android:src="@drawable/ic_round_check_icon"
+
                 android:contentDescription="@string/assigned_to_signature" />
 
         </LinearLayout>
 
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/horizontal_line"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:background="@color/light_grey"
+        android:background="@drawable/line_drawable"
         app:layout_constraintTop_toBottomOf="@+id/signature_section"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -181,6 +203,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="15dp"
+            style="@style/BoldTextLabel"
             android:text="@string/goods" />
 
         <TextView
@@ -190,6 +213,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="15dp"
+            style="@style/BoldTextLabel"
             android:text="@string/returned" />
 
     </RelativeLayout>
@@ -207,6 +231,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="#61636C"
         android:text="@string/end_of_goods_returned"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -243,9 +268,9 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/return_stock_done"
             style="@style/GreenFillActionButton"
-            android:layout_alignParentEnd="true"
             android:layout_width="129dp"
             android:layout_height="43dp"
+            android:layout_alignParentEnd="true"
             android:text="@string/done" />
 
     </RelativeLayout>
