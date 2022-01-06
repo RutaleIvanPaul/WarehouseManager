@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableStockReturnedListItem
 import io.ramani.ramaniWarehouse.data.returnStock.model.GetAvailableStockRequestModel
@@ -22,6 +23,10 @@ class SelectReturnItemsViewmodel(application: Application,
                                  private val getAvailableStockUsecase: BaseSingleUseCase<List<AvailableStockReturnedListItem>, GetAvailableStockRequestModel>
 ): BaseViewModel(application, stringProvider, sessionManager) {
 
+    companion object{
+        val missingValueLiveData = MutableLiveData<Boolean>()
+    }
+
     val avaialableProductsListOriginal = mutableListOf<AvailableProductItem>()
     val availableProductsListLiveData = MutableLiveData<List<AvailableProductItem>>()
 
@@ -30,23 +35,27 @@ class SelectReturnItemsViewmodel(application: Application,
     }
 
     fun getAvaialableStock(){
-        sessionManager.getLoggedInUser().subscribeBy { salesperson ->
-            val single = getAvailableStockUsecase.getSingle(GetAvailableStockRequestModel(salesperson.uuid))
+            val single = getAvailableStockUsecase
+                .getSingle(
+                    GetAvailableStockRequestModel(ReturnStockViewModel.returnItemDetails.salespersonUuid))
             subscribeSingle(
                 single,
                 onSuccess = {
                     isLoadingVisible = false
-                    avaialableProductsListOriginal.addAll(
-                        it[0].products
-                    )
-                    availableProductsListLiveData.postValue(it[0].products)
+
+                    if(it.isNotEmpty()) {
+                        avaialableProductsListOriginal.addAll(it[0].products)
+                        availableProductsListLiveData.postValue(it[0].products)
+                    }
+                    else{
+                        notifyError("Empty List",PresentationError.ERROR_TEXT)
+                    }
                 }, onError = {
                     isLoadingVisible = false
                     notifyError(it.message
                         ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
                 }
             )
-        }
     }
 
     class Factory(

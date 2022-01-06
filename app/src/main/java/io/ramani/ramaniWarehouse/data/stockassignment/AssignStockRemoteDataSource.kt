@@ -5,6 +5,7 @@ import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniWarehouse.data.returnStock.model.SalespeopleRemoteModel
+import io.ramani.ramaniWarehouse.data.stockassignment.model.AllProducts
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.SalesPersonRemoteModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
@@ -67,7 +68,7 @@ class AssignStockRemoteDataSource(
             }
         )
 
-    override fun getProducts(companyId: String): Single<List<RemoteProductModel>> =
+    override fun getProducts(companyId: String): Single<List<AllProducts>> =
         callSingle(
             assignStockAPI.getCompanyProducts(prefs.invalidate_cache_company_products.toString(),companyId).flatMap {
                 val data = it.data

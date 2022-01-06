@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.domain.stockassignment.usecases
 
+import io.ramani.ramaniWarehouse.data.stockassignment.model.AllProducts
 import io.ramani.ramaniWarehouse.data.stockassignment.model.GetProductsRequestModel
 import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor
 import io.ramani.ramaniWarehouse.domain.base.executor.ThreadExecutor
@@ -13,7 +14,7 @@ class GetCompanyProductsUseCase(
     postThreadExecutor: PostThreadExecutor,
     private val assignStockDataSource: AssignStockDataSource
 ): BaseSingleUseCase<List<ProductEntity>, GetProductsRequestModel>(threadExecutor,postThreadExecutor) {
-    override fun buildUseCaseSingle(params: GetProductsRequestModel?): Single<List<ProductEntity>> {
+    override fun buildUseCaseSingle(params: GetProductsRequestModel?): Single<List<AllProducts>> {
        return assignStockDataSource.getProducts(params!!.companyId)
     }
 }

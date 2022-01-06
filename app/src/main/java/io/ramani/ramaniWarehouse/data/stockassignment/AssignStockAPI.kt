@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.data.stockassignment
 
 import io.ramani.ramaniWarehouse.data.entities.BaseResponse
 import io.ramani.ramaniWarehouse.data.returnStock.model.SalespeopleRemoteModel
+import io.ramani.ramaniWarehouse.data.stockassignment.model.AllProducts
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.SalesPersonRemoteModel
 import io.ramani.ramaniWarehouse.data.warehouses.models.ProductRemoteModel
@@ -20,5 +21,5 @@ interface AssignStockAPI {
     fun getCompanyProducts(
         @Header("invalidate_cache") invalidate_cache: String,
         @Query("companyId") companyId: String
-    ): Single<BaseResponse<List<RemoteProductModel>>>
+    ): Single<BaseResponse<List<AllProducts>>>
 }

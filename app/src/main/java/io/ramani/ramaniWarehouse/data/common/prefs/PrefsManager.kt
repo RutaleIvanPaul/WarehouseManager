@@ -43,7 +43,14 @@ open class PrefsManager(context: Context) : Prefs {
     override var invalidate_cache_company_products: Boolean
         get() = sharedPrefs.getBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS,false)
         set(value) {
-            sharedPrefs.edit().putBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS,value).apply()
+            sharedPrefs.edit()
+                .putBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS, value).apply()
+        }
+
+    override var invalidate_cache_available_products: Boolean
+        get() = sharedPrefs.getBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_AVAILABLE_PRODUCTS,false)
+        set(value) {
+            sharedPrefs.edit().putBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_AVAILABLE_PRODUCTS,value).apply()
         }
 
 
