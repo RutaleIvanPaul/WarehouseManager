@@ -50,7 +50,7 @@ class ReturnReceiptFragment : BaseFragment() {
         subscribeObservers()
 
         return_stock_print_receipt.setOnClickListener {
-            val  view = return_receipt_layout
+            val  view = scrollview
             val bitmap = Bitmap.createBitmap(view.width,view.height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             val bgDrawable = view.background
@@ -59,7 +59,6 @@ class ReturnReceiptFragment : BaseFragment() {
             }
             else{
                 canvas.drawColor(Color.WHITE)
-                Log.d("BGDRAWABLE","BGDRAWABLE NULL")
             }
             view.draw(canvas)
 

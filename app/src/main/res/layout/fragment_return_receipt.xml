@@ -73,8 +73,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
         android:background="@color/light_grey"
-        app:layout_constraintTop_toBottomOf="@+id/date"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintTop_toBottomOf="@+id/date" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -90,9 +89,8 @@
         <LinearLayout
             android:id="@+id/storekeeper_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_toLeftOf="@+id/vertical_split"
-            android:padding="5dp"
             android:orientation="vertical">
 
             <TextView
@@ -118,22 +116,20 @@
         <View
             android:id="@+id/vertical_split"
             android:layout_width="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="2dp"
-            android:layout_marginBottom="2dp"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:background="@color/light_grey"
-            tools:layout_editor_absoluteX="0dp" />
+            android:background="@color/light_grey" />
 
         <LinearLayout
             android:id="@+id/assignee_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentEnd="true"
             android:layout_toRightOf="@+id/vertical_split"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/assignee_label"
