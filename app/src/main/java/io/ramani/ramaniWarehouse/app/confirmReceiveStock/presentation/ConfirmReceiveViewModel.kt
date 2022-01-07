@@ -49,6 +49,10 @@ class ConfirmReceiveViewModel(
         }
     }
 
+    fun validateQty(quantity: Double?, acceptedQty: Double, declinedQty: Double): Boolean =
+        quantity!! >= (acceptedQty + declinedQty)
+
+
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,

@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.fragment_signin_sheet.*
 import kotlinx.android.synthetic.main.fragment_supplier_confirm_receive.*
 import org.kodein.di.generic.factory
 
-class InvoiceBottomSheetFragment : BaseBottomSheetDialogFragment() {
+class InvoiceBottomSheetFragment : BaseBottomSheetDialogFragment(openFullScreen = true) {
     companion object {
         fun newInstance(purchaseId: String) = InvoiceBottomSheetFragment().apply {
             setArgs(PURCHASE_ID_ARG to purchaseId)

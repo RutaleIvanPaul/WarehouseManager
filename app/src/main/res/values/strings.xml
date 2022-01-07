@@ -111,5 +111,6 @@
     <string name="qty_accepted">Qty Accepted</string>
     <string name="qty_declined">Qty Declined</string>
     <string name="decline_reason">Decline Reason</string>
+    <string name="qty_validation">Accepted added to declined quantity should equal to {{product_qty}}</string>
 
 </resources>

@@ -8,5 +8,6 @@ class RECEIVE_MODELS {
         var invoiceModelView: InvoiceModelView? = null
         val declineReasons = mutableListOf<String>()
         val refreshReceiveProductListLiveData = SingleLiveEvent<Boolean>()
+        val refreshHostReceiveProductListLiveData = SingleLiveEvent<Boolean>()
     }
 }

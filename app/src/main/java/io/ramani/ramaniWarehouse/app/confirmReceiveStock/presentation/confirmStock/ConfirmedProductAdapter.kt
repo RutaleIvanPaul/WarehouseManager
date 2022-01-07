@@ -1,18 +1,14 @@
-package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveStock
+package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.confirmStock
 
 import android.graphics.Typeface
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
-import org.jetbrains.anko.textColor
 
-class ConfirmReceiveProductAdapter(
-    data: MutableList<ProductModelView>,
-    private val onReceiveClicked: (ProductModelView) -> Unit
+class ConfirmedProductAdapter(
+    data: MutableList<ProductModelView>
 ) :
     BaseMultiItemQuickAdapter<ProductModelView, BaseViewHolder>(data) {
     init {
@@ -58,22 +54,9 @@ class ConfirmReceiveProductAdapter(
             productStatus.setTypeface(null, Typeface.NORMAL)
 
             productName.text = item.productName
-            productQty.text = item.quantity.toString()
-            if (item.isReceived == true) {
-                productStatus.text = context.getString(R.string.received)
-                productStatus.textColor =
-                    ContextCompat.getColor(context, R.color.text_green)
-            } else {
-                productStatus.text = context.getString(R.string.receive)
-                productStatus.textColor =
-                    ContextCompat.getColor(context, R.color.secondary_blue)
-                setGone(R.id.status_received_iv, item.isReceived == false)
-            }
-            productStatus.setOnSingleClickListener {
-                if (item.isReceived == false) {
-                    onReceiveClicked(item)
-                }
-            }
+            productQty.text = "${item.quantityAccepted.toString()} ${item.unit}"
+
+            productStatus.text = "${item.quantityDeclined.toString()} ${item.unit}"
         }
     }
 }

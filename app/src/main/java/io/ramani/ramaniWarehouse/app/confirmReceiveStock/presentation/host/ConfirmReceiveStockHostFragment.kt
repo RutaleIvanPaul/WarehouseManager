@@ -18,7 +18,8 @@ import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlow
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlowController
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
-import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveStock.ConfirmReceiveStockFragment
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.confirmStock.ConfirmReceiveStockFragment
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveStock.ReceiveStockFragment
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.supplier.SupplierConfirmReceiveFragment
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.InvoiceModelView
 import kotlinx.android.synthetic.main.fragment_signin_sheet.loader
@@ -89,7 +90,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
         super.initView(view)
         flow = ReceiveStockFlowController(baseActivity!!)
         initTabLayout()
-        stock_receive_now_host_next_button.setOnSingleClickListener {
+        stock_receive_now_host_next_button.setOnClickListener {
             when (stock_receive_now_host_viewpager.currentItem) {
                 0 -> {
                     stock_receive_now_host_viewpager.currentItem++
@@ -99,6 +100,8 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                     if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
                         turnMarkOneToGreen()
                         stock_receive_now_host_viewpager.currentItem++
+                        stock_receive_now_host_next_button.text =
+                            getString(R.string.done).capitalize()
                     } else {
                         flow.openConfirmProductSheet(
                             RECEIVE_MODELS.invoiceModelView?.products?.first { it.isReceived == false }?.productId
@@ -106,10 +109,8 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                         ) {
                             if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
                                 turnMarkOneToGreen()
-                                stock_receive_now_host_next_button.text =
-                                    getString(R.string.done).capitalize()
                             }
-                            RECEIVE_MODELS.refreshReceiveProductListLiveData.postValue(true)
+                            RECEIVE_MODELS.refreshHostReceiveProductListLiveData.postValue(true)
                         }
                     }
                 }
@@ -135,7 +136,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
             ), getString(R.string.supplier)
         )
         adapter.addFragment(
-            ConfirmReceiveStockFragment.newInstance(), getString(R.string.products)
+            ReceiveStockFragment.newInstance(), getString(R.string.products)
         )
 
         adapter.addFragment(
@@ -152,6 +153,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
             tab.text = adapter.getTabTitle(position)
         }.attach()
         stock_receive_now_host_tablayout.touchables.map { it.isClickable = false }
+        stock_receive_now_host_viewpager.offscreenPageLimit = 3
     }
 
     private fun turnMarkOneToGreen() {
