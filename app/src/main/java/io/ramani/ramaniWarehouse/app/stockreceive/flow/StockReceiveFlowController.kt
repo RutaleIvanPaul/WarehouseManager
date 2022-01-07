@@ -4,6 +4,8 @@ import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowHostFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment
+import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSuccessFragment
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import org.jetbrains.anko.AnkoLogger
 
 class StockReceiveFlowController(
@@ -23,4 +25,13 @@ class StockReceiveFlowController(
         val fragment = StockReceiveSignaturePadSheetFragment.newInstance(what)
         activity?.supportFragmentManager?.let { fragment.show(it, "signature_pad") }
     }
+
+    override fun openReceiveSuccessPage(goodsReceivedModel: GoodsReceivedModel) {
+        val fragment = StockReceiveSuccessFragment.newInstance(goodsReceivedModel)
+        activity.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.ADD
+        )
+    }
+
 }

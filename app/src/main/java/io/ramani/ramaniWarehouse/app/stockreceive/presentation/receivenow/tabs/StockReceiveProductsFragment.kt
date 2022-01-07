@@ -25,10 +25,10 @@ import kotlin.collections.ArrayList
 
 import android.widget.LinearLayout
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL.Companion.DATA_PRODUCTS
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_PRODUCTS
 import kotlinx.android.synthetic.main.item_stock_receive_product_parameter.view.*
-
 
 class StockReceiveProductsFragment : BaseFragment() {
     companion object {
@@ -107,7 +107,7 @@ class StockReceiveProductsFragment : BaseFragment() {
                 updateProducts()
                 clearAllFields()
 
-                StockReceiveNowViewModel.allowToGoNextLiveData.postValue(Pair(1, true))
+                STOCK_RECEIVE_MODEL.allowToGoNextLiveData.postValue(Pair(1, true))
             }
         }
 
@@ -235,7 +235,7 @@ class StockReceiveProductsFragment : BaseFragment() {
             updateNeedProduct?.expireDate = expireDate
 
             needToUpdateProduct = false
-            StockReceiveNowViewModel.updateProductCompletedLiveData.postValue(updateNeedProduct)
+            STOCK_RECEIVE_MODEL.updateProductCompletedLiveData.postValue(updateNeedProduct)
 
             // There is no need to update on UI
             return false;
@@ -307,7 +307,7 @@ class StockReceiveProductsFragment : BaseFragment() {
     private fun updateProducts() {
         products_added_amount.text = String.format("%d %s", addedProducts.size, getString(R.string.added))
 
-        viewModel.setData(DATA_PRODUCTS, addedProducts)
+        STOCK_RECEIVE_MODEL.setData(DATA_PRODUCTS, addedProducts)
     }
 
     /**

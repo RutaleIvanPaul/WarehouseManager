@@ -13,6 +13,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheet
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
 import kotlinx.android.synthetic.main.fragment_stock_receive_signature_sheet.*
 import org.kodein.di.generic.factory
 
@@ -100,8 +101,8 @@ class StockReceiveSignaturePadSheetFragment : BaseBottomSheetDialogFragment() {
                 val bitmap = stock_receive_signature_pad.getCompressedSignatureBitmap(5)
 
                 when (arguments?.getString("what")) {
-                    PARAM_STORE_KEEPER_SIGN -> StockReceiveNowViewModel.signedLiveData.postValue(Pair(PARAM_STORE_KEEPER_SIGN, bitmap))
-                    PARAM_DELIVERY_PERSON_SIGN -> StockReceiveNowViewModel.signedLiveData.postValue(Pair(PARAM_DELIVERY_PERSON_SIGN, bitmap))
+                    PARAM_STORE_KEEPER_SIGN -> STOCK_RECEIVE_MODEL.signedLiveData.postValue(Pair(PARAM_STORE_KEEPER_SIGN, bitmap))
+                    PARAM_DELIVERY_PERSON_SIGN -> STOCK_RECEIVE_MODEL.signedLiveData.postValue(Pair(PARAM_DELIVERY_PERSON_SIGN, bitmap))
                 }
 
                 dismiss()

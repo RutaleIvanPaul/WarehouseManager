@@ -79,6 +79,8 @@
     <string name="delivery_person">Delivery Person</string>
     <string name="delivery_person_hint">Enter delivery person name</string>
 
+    <string name="assignment_success">Assignment Success</string>
+
     <!-- Warning Messages -->
     <string name="warning_select_supplier">Please select supplier</string>
     <string name="warning_add_product">Please add one more of product</string>

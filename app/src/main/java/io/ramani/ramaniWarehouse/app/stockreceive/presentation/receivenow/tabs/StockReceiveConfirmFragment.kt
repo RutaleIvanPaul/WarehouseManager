@@ -19,9 +19,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL.Companion.DATA_DELIVERY_PERSON_DATA
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL.Companion.DATA_STORE_KEEPER_DATA
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_DELIVERY_PERSON_DATA
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_STORE_KEEPER_DATA
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment.Companion.PARAM_DELIVERY_PERSON_SIGN
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment.Companion.PARAM_STORE_KEEPER_SIGN
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SignatureInfo
@@ -46,6 +47,7 @@ class StockReceiveConfirmFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+
         subscribeObservers()
     }
 
@@ -63,7 +65,7 @@ class StockReceiveConfirmFragment : BaseFragment() {
         subscribeError(viewModel)
         observerError(viewModel, this)
 
-        StockReceiveNowViewModel.signedLiveData.observe(this, {
+        STOCK_RECEIVE_MODEL.signedLiveData.observe(this, {
 
             if (it.first == PARAM_STORE_KEEPER_SIGN) {
                 stock_receive_confirm_store_keeper_name.isEnabled = false
@@ -74,7 +76,7 @@ class StockReceiveConfirmFragment : BaseFragment() {
                 stock_receive_confirm_sign_store_keeper.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_lime_yellow))
 
                 val storeKeeperName = stock_receive_confirm_store_keeper_name.text.toString()
-                viewModel.setData(DATA_STORE_KEEPER_DATA, SignatureInfo(storeKeeperName, it.second))
+                STOCK_RECEIVE_MODEL.setData(DATA_STORE_KEEPER_DATA, SignatureInfo(storeKeeperName, it.second))
 
             } else if (it.first == PARAM_DELIVERY_PERSON_SIGN) {
 
@@ -86,7 +88,7 @@ class StockReceiveConfirmFragment : BaseFragment() {
                 stock_receive_confirm_sign_delivery_person.setTextColor(ContextCompat.getColor(requireContext(), R.color.light_lime_yellow))
 
                 val deliveryPersonName = stock_receive_confirm_delivery_person_name.text.toString()
-                viewModel.setData(DATA_DELIVERY_PERSON_DATA, SignatureInfo(deliveryPersonName, it.second))
+                STOCK_RECEIVE_MODEL.setData(DATA_DELIVERY_PERSON_DATA, SignatureInfo(deliveryPersonName, it.second))
 
             }
 
@@ -105,16 +107,16 @@ class StockReceiveConfirmFragment : BaseFragment() {
     }
 
     private fun checkIfGoNext() {
-        StockReceiveNowViewModel.supplierData?.let {
+        STOCK_RECEIVE_MODEL.supplierData?.let {
             if (it.supplier.isNotNull() && it.storeKeeperData.isNotNull() && it.deliveryPersonData.isNotNull())
-                StockReceiveNowViewModel.allowToGoNextLiveData.postValue(Pair(2, true))
+                STOCK_RECEIVE_MODEL.allowToGoNextLiveData.postValue(Pair(2, true))
         }
     }
 
     fun updateView() {
         // Initialize UI
-        if (StockReceiveNowViewModel.supplierData.products != null) {
-            StockReceiveNowViewModel.supplierData.products.let {
+        if (STOCK_RECEIVE_MODEL.supplierData.products != null) {
+            STOCK_RECEIVE_MODEL.supplierData.products.let {
                 products = it as ArrayList<SelectedProductModel>
             }
         }
@@ -124,7 +126,7 @@ class StockReceiveConfirmFragment : BaseFragment() {
             layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
             listAdapter = StockReceiveConfirmProductRVAdapter(products!!){
-                StockReceiveNowViewModel.updateProductRequestLiveData.postValue(it)
+                STOCK_RECEIVE_MODEL.updateProductRequestLiveData.postValue(it)
             }
 
             adapter = listAdapter

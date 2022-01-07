@@ -5,17 +5,17 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlowController
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveConfirmFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveProductsFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveSupplierFragment
@@ -43,7 +43,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        viewModel.clearData()
+        STOCK_RECEIVE_MODEL.clearData()
         initSubscribers()
     }
 
@@ -54,8 +54,8 @@ class StockReceiveNowHostFragment : BaseFragment() {
         // Back button handler
         stock_receive_now_host_back.setOnSingleClickListener {
             showConfirmDialog("Are you sure you want to cancel receive stocks?", onConfirmed = {
-                viewModel.clearData()
-                flow.pop(this)
+                STOCK_RECEIVE_MODEL.clearData()
+                pop()
             })
         }
 
@@ -63,7 +63,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
         stock_receive_now_host_next_button.setOnSingleClickListener {
             var allowGo = true
 
-            val supplierData = StockReceiveNowViewModel.supplierData
+            val supplierData = STOCK_RECEIVE_MODEL.supplierData
 
             if (stock_receive_now_host_viewpager.currentItem == 0) {
                 // Supplier page
@@ -131,14 +131,13 @@ class StockReceiveNowHostFragment : BaseFragment() {
         })
 
         viewModel.postGoodsReceivedActionLiveData.observe(this, {
-            showConfirmDialog("Stock posting success", onConfirmed = {
-                viewModel.clearData()
+            STOCK_RECEIVE_MODEL.clearData()
 
-                // Navigate to PrintScreen
-            })
+            // Navigate to Success page
+            flow.openReceiveSuccessPage(it)
         })
 
-        StockReceiveNowViewModel.allowToGoNextLiveData.observe(this, {
+        STOCK_RECEIVE_MODEL.allowToGoNextLiveData.observe(this, {
             if (it.second) {
                 when (it.first) {
                     0 -> DrawableCompat.setTint(stock_receive_now_host_indicator_0.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green));
@@ -148,13 +147,13 @@ class StockReceiveNowHostFragment : BaseFragment() {
             }
         })
 
-        StockReceiveNowViewModel.updateProductRequestLiveData.observe(this, {
+        STOCK_RECEIVE_MODEL.updateProductRequestLiveData.observe(this, {
             // If the request of updating product is posted, then go back to product page
             productsFragment?.requestProductUpdate(it)
             stock_receive_now_host_viewpager.setCurrentItem(1, true)
         })
 
-        StockReceiveNowViewModel.updateProductCompletedLiveData.observe(this, {
+        STOCK_RECEIVE_MODEL.updateProductCompletedLiveData.observe(this, {
             // If the request of updating product is completed, then go to confirm page
             confirmFragment?.updateView()
             stock_receive_now_host_viewpager.setCurrentItem(2, true)
@@ -167,7 +166,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
         productsFragment = StockReceiveProductsFragment.newInstance()
         confirmFragment = StockReceiveConfirmFragment.newInstance()
 
-        val adapter = AdapterTabPager(activity)
+        val adapter = TabPagerAdapter(activity)
         adapter.addFragment(supplierFragment!!, getString(R.string.supplier))
         adapter.addFragment(productsFragment!!, getString(R.string.products))
         adapter.addFragment(confirmFragment!!, getString(R.string.confirm))
@@ -181,30 +180,4 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
         stock_receive_now_host_tablayout.touchables.forEach { it.isClickable = false }
     }
-
-    /**
-     * Tab pager adapter
-     */
-    internal inner class AdapterTabPager(activity: FragmentActivity?) : FragmentStateAdapter(activity!!) {
-        private val mFragmentList: MutableList<Fragment> = ArrayList()
-        private val mFragmentTitleList: MutableList<String> = ArrayList()
-
-        fun getTabTitle(position : Int): String{
-            return mFragmentTitleList[position]
-        }
-
-        fun addFragment(fragment: Fragment, title: String) {
-            mFragmentList.add(fragment)
-            mFragmentTitleList.add(title)
-        }
-
-        override fun getItemCount(): Int {
-            return mFragmentList.size
-        }
-
-        override fun createFragment(position: Int): Fragment {
-            return mFragmentList[position]
-        }
-    }
-
 }

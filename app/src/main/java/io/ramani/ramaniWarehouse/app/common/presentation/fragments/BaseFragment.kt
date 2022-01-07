@@ -114,6 +114,11 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
         super.onDestroy()
     }
 
+    protected open fun pop() {
+
+
+    }
+
     protected open fun initNavigationManager(navigationManager: NavigationManager) {}
 
     protected open fun onOptionsMenuCreated(menu: Menu?) {}

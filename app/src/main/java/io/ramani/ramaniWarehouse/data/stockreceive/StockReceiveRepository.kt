@@ -4,6 +4,7 @@ import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.reactivex.Single
+import okhttp3.RequestBody
 
 class StockReceiveRepository(
     private val remoteStockReceiveDataSource: StockReceiveDataSource,
@@ -16,14 +17,6 @@ class StockReceiveRepository(
     override fun getDeclineReasons(): Single<List<String>> =
         remoteStockReceiveDataSource.getDeclineReasons()
 
-    override fun postGoodsReceived(
-        invoiceId: String,
-        warehouseManagerId: String,
-        warehouseId: String,
-        distributorId: String,
-        date: String,
-        time: String,
-        deliveryPersonName: String
-    ): Single<GoodsReceivedModel> =
-        remoteStockReceiveDataSource.postGoodsReceived(invoiceId, warehouseManagerId, warehouseId, distributorId, date, time, deliveryPersonName)
+    override fun postGoodsReceived(body: RequestBody): Single<GoodsReceivedModel> =
+        remoteStockReceiveDataSource.postGoodsReceived(body)
 }

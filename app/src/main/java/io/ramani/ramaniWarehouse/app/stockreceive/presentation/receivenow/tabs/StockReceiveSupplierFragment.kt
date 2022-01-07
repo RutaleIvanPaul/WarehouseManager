@@ -25,7 +25,6 @@ import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel.Companion.DATA_SUPPLIER
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import kotlinx.android.synthetic.main.fragment_stock_receive_supplier.*
 import org.kodein.di.generic.factory
@@ -41,9 +40,10 @@ import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL.Companion.DATA_SUPPLIER
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
-import kotlinx.android.synthetic.main.fragment_signin_sheet.*
 
 class StockReceiveSupplierFragment : BaseFragment() {
     companion object {
@@ -81,7 +81,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
             supplier_receiving_select_supplier_spinner.isSelected = true
 
             viewModel.getSuppliersActionLiveData.value?.get(newIndex)?.let {
-                viewModel.setData(DATA_SUPPLIER, it)
+                STOCK_RECEIVE_MODEL.setData(DATA_SUPPLIER, it)
             }
 
             checkIfGoNext()
@@ -103,7 +103,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
                 true
             }
 
-        viewModel.start()
+        viewModel.getSuppliers(1, 200)
     }
 
     override fun onPause() {
@@ -155,7 +155,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
             notifyDataSetInvalidated()
         }
 
-        viewModel.setData(StockReceiveNowViewModel.DATA_DOCUMENTS, images)
+        STOCK_RECEIVE_MODEL.setData(STOCK_RECEIVE_MODEL.DATA_DOCUMENTS, images)
         checkIfGoNext()
     }
 
@@ -251,9 +251,9 @@ class StockReceiveSupplierFragment : BaseFragment() {
     }
 
     private fun checkIfGoNext() {
-        StockReceiveNowViewModel.supplierData?.let {
+        STOCK_RECEIVE_MODEL.supplierData?.let {
             if (it.supplier.isNotNull() && !it.documents.isNullOrEmpty())
-                StockReceiveNowViewModel.allowToGoNextLiveData.postValue(Pair(0, true))
+                STOCK_RECEIVE_MODEL.allowToGoNextLiveData.postValue(Pair(0, true))
         }
     }
 

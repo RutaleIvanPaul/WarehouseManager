@@ -17,14 +17,6 @@ class PostGoodsReceivedUseCase(
     postThreadExecutor
 ) {
     override fun buildUseCaseSingle(params: GoodsReceivedRequestModel?): Single<GoodsReceivedModel> =
-        stockReceiveDataSource.postGoodsReceived(
-            params?.invoiceId!!,
-            params.warehouseManagerId,
-            params.warehouseId,
-            params.distributorId,
-            params.date,
-            params.time,
-            params.deliveryPersonName
-        )
+        stockReceiveDataSource.postGoodsReceived(params!!.body)
 
 }
