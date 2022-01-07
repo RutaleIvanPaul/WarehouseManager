@@ -108,5 +108,6 @@
     <string name="missing_quantity">Cannot Confirm without entering quantity</string>
     <string name="proforma_invoice">Proforma Invoice</string>
     <string name="clear_signature">Clear Signature</string>
+    <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
 
 </resources>
