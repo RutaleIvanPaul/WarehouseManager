@@ -57,6 +57,7 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
     fun convertToServerDateFormat(date: Long): String = format(date, SERVER_RECEIVE_DATE_FORMAT)
     fun convertToDisplayDateFormat(date: Long): String = format(date, VIEW_DISPLAY_DATE_FORMAT)
     fun convertToDateWithDashes(date: Long): String = format(date, DATE_WITH_DASHES)
+    fun convertToCalendarFormatDate(date: Long): String = format(date, CALENDAR_FORMAT)
 
 
     fun getDateInMillisFromDate(date: String): Long {

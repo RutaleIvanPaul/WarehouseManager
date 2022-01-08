@@ -11,7 +11,7 @@ data class AvailableProductItem(
     @SerializedName("productName")
     val productName: String = "",
     @SerializedName("quantity")
-    val quantity: Int = 0,
+    var quantity: Int = 0,
     @SerializedName("secondaryUnitConversion")
     val secondaryUnitConversion: Int = 0,
     @SerializedName("secondaryUnitQuantity")

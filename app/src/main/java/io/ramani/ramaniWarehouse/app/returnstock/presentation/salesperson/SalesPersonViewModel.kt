@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.model.SalespersonRVModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.GetSalespeopleRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
@@ -40,6 +41,7 @@ class SalesPersonViewModel(application: Application,
 
     fun getSalespeople(){
         sessionManager.getLoggedInUser().subscribeBy {
+            ReturnStockViewModel.returnItemDetails.storekeeperName = it.userName
             val single = getSalesPeopleUsecase.getSingle(GetSalespeopleRequestModel(it.companyId))
             subscribeSingle(single,
                 onSuccess = {
@@ -61,6 +63,8 @@ class SalesPersonViewModel(application: Application,
             it.isSelected = it.id == selectedSalespersonRV.id
         }
         selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
+        ReturnStockViewModel.returnItemDetails.salespersonName = selectedSalespersonRV.name!!
+        ReturnStockViewModel.returnItemDetails.salespersonUuid = selectedSalespersonRV.id!!
     }
 
     fun getDate(timInMillis: Long):String =
