@@ -55,8 +55,8 @@ class ConfirmedProductAdapter(
 
             productName.text = item.productName
             productQty.text = "${item.quantityAccepted.toString()} ${item.unit}"
-
             productStatus.text = "${item.quantityDeclined.toString()} ${item.unit}"
+            setGone(R.id.status_received_iv, true)
         }
     }
 }

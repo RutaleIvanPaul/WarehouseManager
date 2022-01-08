@@ -153,7 +153,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
             tab.text = adapter.getTabTitle(position)
         }.attach()
         stock_receive_now_host_tablayout.touchables.map { it.isClickable = false }
-        stock_receive_now_host_viewpager.offscreenPageLimit = 3
+        stock_receive_now_host_viewpager.offscreenPageLimit = 2
     }
 
     private fun turnMarkOneToGreen() {

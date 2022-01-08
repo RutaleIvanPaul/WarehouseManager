@@ -17,7 +17,7 @@ import org.kodein.di.generic.factory
 
 class ConfirmReceiveStockFragment : BaseFragment() {
     companion object {
-        fun newInstance() = ReceiveStockFragment()
+        fun newInstance() = ConfirmReceiveStockFragment()
     }
 
     private val viewModelProvider: (Fragment) -> ConfirmReceiveViewModel by factory()
@@ -46,6 +46,11 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         super.initView(view)
         flow = ReceiveStockFlowController(baseActivity!!)
         setupRV()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        productsAdapter.notifyDataSetChanged()
     }
 
 
