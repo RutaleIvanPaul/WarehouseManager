@@ -48,7 +48,7 @@ class SelectReturnItemsViewmodel(application: Application,
                         availableProductsListLiveData.postValue(it[0].products)
                     }
                     else{
-                        notifyError("Empty List",PresentationError.ERROR_TEXT)
+                        notifyErrorObserver(getString(R.string.no_assigned_products),PresentationError.ERROR_TEXT_RETRY)
                     }
                 }, onError = {
                     isLoadingVisible = false

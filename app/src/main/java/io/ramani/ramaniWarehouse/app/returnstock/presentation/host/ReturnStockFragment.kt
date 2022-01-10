@@ -127,6 +127,13 @@ class ReturnStockFragment : BaseFragment() {
             (activity as BaseActivity).navigationManager?.remove(this)
         })
 
+
+        ReturnStockViewModel.pushBackToStart.observe(this,{
+            if (it){
+                return_stock_viewpager.currentItem = 0
+            }
+        })
+
     }
 
     private fun allowToGoNext() {
