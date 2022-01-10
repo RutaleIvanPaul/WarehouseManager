@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.CompanyProductsFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -40,7 +41,7 @@ class AssignStockFragment : BaseFragment() {
     }
 
     private var salespersonFragment: AssignStockSalesPersonFragment? = null
-    private var productsFragment: StockReceiveProductsFragment? = null
+    private var productsFragment: CompanyProductsFragment? = null
 
 
     override fun getLayoutResId() = R.layout.fragment_assign_stock
@@ -85,7 +86,7 @@ class AssignStockFragment : BaseFragment() {
 
     private fun initTabLayout() {
         salespersonFragment = AssignStockSalesPersonFragment.newInstance()
-        productsFragment = StockReceiveProductsFragment.newInstance()
+        productsFragment = CompanyProductsFragment.newInstance()
 
         val adapter = TabPagerAdapter(activity)
         adapter.addFragment(salespersonFragment!!, getString(R.string.salesperson))

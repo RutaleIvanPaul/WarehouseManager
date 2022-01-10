@@ -1,6 +1,6 @@
-package io.ramani.ramaniWarehouse.data.stockassignment.model
+package io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model
 
-data class Reward(
+data class RewardUIModel(
     val _id: String,
     val createdBy: String,
     val dateCreated: String,

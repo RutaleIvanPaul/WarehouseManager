@@ -8,7 +8,7 @@ data class RewardEntity(
     val maxValue: Int,
     val name: String,
     val rewardType: String,
-    val rewardUnitPrice: Int,
+    val rewardUnitPrice: Double,
     val rewardUnits: String,
     val rewardValue: Int,
     val triggerType: String,

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <LinearLayout
@@ -12,6 +13,8 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginBottom="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
 
         <LinearLayout
@@ -23,8 +26,8 @@
             android:layout_marginBottom="15dp"
             android:orientation="horizontal">
 
-            <SearchView
-                android:id="@+id/StockDate"
+            <androidx.appcompat.widget.SearchView
+                android:id="@+id/company_products_searchbar"
                 android:layout_width="250dp"
                 android:layout_height="50dp"
                 android:background="@drawable/search_bg"
@@ -65,175 +68,184 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="170dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/company_products_RV"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="left"
-                android:orientation="vertical">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
 
-                <ImageView
-                    android:layout_width="170dp"
-                    android:layout_height="160dp"
-                    android:src="@drawable/azam_img" />
+<!--            <LinearLayout-->
+<!--                android:layout_width="170dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_marginRight="20dp"-->
+<!--                android:gravity="left"-->
+<!--                android:orientation="vertical">-->
 
-                <TextView
-                    style="@style/ProductTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Azam H.B.F, UNGA WA NGANO"
-                    android:textFontWeight="400" />
+<!--                <ImageView-->
+<!--                    android:layout_width="170dp"-->
+<!--                    android:layout_height="160dp"-->
+<!--                    android:src="@drawable/azam_img" />-->
 
-                <TextView
-                    style="@style/ProductDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Wheat Flour"
-                    android:textFontWeight="400" />
+<!--                <TextView-->
+<!--                    style="@style/ProductTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginBottom="10dp"-->
+<!--                    android:text="Azam H.B.F, UNGA WA NGANO"-->
+<!--                    android:textFontWeight="400" />-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                <TextView-->
+<!--                    style="@style/ProductDesc"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Wheat Flour"-->
+<!--                    android:textFontWeight="400" />-->
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="20dp"
-                        android:gravity="right">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                        <TextView
-                            style="@style/AssignedTrigger"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="0 Assigned" />
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginTop="20dp"-->
+<!--                        android:gravity="right">-->
 
-                    </LinearLayout>
+<!--                        <TextView-->
+<!--                            style="@style/AssignedTrigger"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:gravity="center"-->
+<!--                            android:text="0 Assigned" />-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:gravity="right">
+<!--                    </LinearLayout>-->
 
-
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_gravity="right"
-                            android:background="@drawable/assgn_button"
-                            android:drawableRight="@drawable/ic_baseline_add_24"
-                            android:fontFamily="@font/galvji"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:paddingBottom="5dp"
-                            android:text="assign"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white"
-                            android:textFontWeight="700"
-                            android:textSize="11sp"
-                            android:textStyle="normal" />
-
-                    </LinearLayout>
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="20dp"-->
+<!--                        android:gravity="right">-->
 
 
-                </LinearLayout>
+<!--                        <Button-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="40dp"-->
+<!--                            android:layout_gravity="right"-->
+<!--                            android:background="@drawable/assgn_button"-->
+<!--                            android:drawableRight="@drawable/ic_baseline_add_24"-->
+<!--                            android:fontFamily="@font/galvji"-->
+<!--                            android:paddingLeft="10dp"-->
+<!--                            android:paddingTop="5dp"-->
+<!--                            android:paddingRight="10dp"-->
+<!--                            android:paddingBottom="5dp"-->
+<!--                            android:text="assign"-->
+<!--                            android:textAllCaps="false"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textFontWeight="700"-->
+<!--                            android:textSize="11sp"-->
+<!--                            android:textStyle="normal" />-->
+
+<!--                    </LinearLayout>-->
 
 
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:gravity="left"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="170dp"
-                    android:layout_height="160dp"
-                    android:src="@drawable/azam_img" />
-
-                <TextView
-                    style="@style/ProductTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:text="Sayona embe"
-                    android:textFontWeight="400" />
-
-                <TextView
-                    style="@style/ProductDesc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Mango Juice Drink"
-                    android:textFontWeight="400" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="20dp"
-                        android:gravity="right">
-
-                        <TextView
-                            style="@style/AssignedTrigger"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:gravity="center"
-                            android:text="1 Assigned"
-                            android:textColor="@color/ramani_green" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:gravity="right">
+<!--                </LinearLayout>-->
 
 
-                        <Button
-                            android:layout_width="wrap_content"
-                            android:layout_height="40dp"
-                            android:layout_gravity="right"
-                            android:background="@drawable/edit_product_button"
-                            android:fontFamily="@font/galvji"
-                            android:paddingLeft="10dp"
-                            android:paddingTop="5dp"
-                            android:paddingRight="10dp"
-                            android:paddingBottom="5dp"
-                            android:text="edit"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white"
-                            android:textFontWeight="700"
-                            android:textSize="11sp"
-                            android:textStyle="normal" />
+<!--            </LinearLayout>-->
 
-                    </LinearLayout>
+<!--            <LinearLayout-->
+<!--                android:layout_width="170dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:layout_marginRight="20dp"-->
+<!--                android:gravity="left"-->
+<!--                android:orientation="vertical">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="170dp"-->
+<!--                    android:layout_height="160dp"-->
+<!--                    android:src="@drawable/azam_img" />-->
+
+<!--                <TextView-->
+<!--                    style="@style/ProductTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginBottom="10dp"-->
+<!--                    android:text="Sayona embe"-->
+<!--                    android:textFontWeight="400" />-->
+
+<!--                <TextView-->
+<!--                    style="@style/ProductDesc"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="Mango Juice Drink"-->
+<!--                    android:textFontWeight="400" />-->
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="match_parent"-->
+<!--                        android:layout_marginTop="20dp"-->
+<!--                        android:gravity="right">-->
+
+<!--                        <TextView-->
+<!--                            style="@style/AssignedTrigger"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="match_parent"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:gravity="center"-->
+<!--                            android:text="1 Assigned"-->
+<!--                            android:textColor="@color/ramani_green" />-->
+
+<!--                    </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="20dp"-->
+<!--                        android:gravity="right">-->
 
 
-                </LinearLayout>
+<!--                        <Button-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="40dp"-->
+<!--                            android:layout_gravity="right"-->
+<!--                            android:background="@drawable/edit_product_button"-->
+<!--                            android:fontFamily="@font/galvji"-->
+<!--                            android:paddingLeft="10dp"-->
+<!--                            android:paddingTop="5dp"-->
+<!--                            android:paddingRight="10dp"-->
+<!--                            android:paddingBottom="5dp"-->
+<!--                            android:text="edit"-->
+<!--                            android:textAllCaps="false"-->
+<!--                            android:textColor="@color/white"-->
+<!--                            android:textFontWeight="700"-->
+<!--                            android:textSize="11sp"-->
+<!--                            android:textStyle="normal" />-->
+
+<!--                    </LinearLayout>-->
 
 
-            </LinearLayout>
+<!--                </LinearLayout>-->
+
+
+<!--            </LinearLayout>-->
 
         </LinearLayout>
 
     </LinearLayout>
 
 
-</androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

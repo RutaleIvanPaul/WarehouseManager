@@ -21,5 +21,5 @@ interface AssignStockAPI {
     fun getCompanyProducts(
         @Header("invalidate_cache") invalidate_cache: String,
         @Query("companyId") companyId: String
-    ): Single<BaseResponse<List<AllProducts>>>
+    ): Single<BaseResponse<List<RemoteProductModel>>>
 }

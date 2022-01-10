@@ -68,7 +68,7 @@ class AssignStockRemoteDataSource(
             }
         )
 
-    override fun getProducts(companyId: String): Single<List<AllProducts>> =
+    override fun getProducts(companyId: String): Single<List<RemoteProductModel>> =
         callSingle(
             assignStockAPI.getCompanyProducts(prefs.invalidate_cache_company_products.toString(),companyId).flatMap {
                 val data = it.data

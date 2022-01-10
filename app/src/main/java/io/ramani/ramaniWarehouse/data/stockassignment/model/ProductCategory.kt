@@ -4,5 +4,5 @@ data class ProductCategory(
     val _id: String,
     val categoryId: String,
     val name: String,
-    val unitPrice: Int
+    val unitPrice: Double
 )
