@@ -1,4 +1,4 @@
-<resources>
+   <resources>
     <string name="app_name">Ramani Warehouse</string>
     <string name="yes">yes</string>
     <string name="an_error_has_occured_please_try_again">An error has occurred. Please try again</string>
@@ -119,5 +119,6 @@
     <string name="goods">Goods</string>
     <string name="returned">Returned</string>
     <string name="view_receipt">View Receipt</string>
+    <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
 
 </resources>
