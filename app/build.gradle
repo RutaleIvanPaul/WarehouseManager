@@ -19,8 +19,8 @@ android {
         applicationId "io.ramani.ramaniWarehouse"
         minSdk 21
         targetSdk 31
-        versionCode 11
-        versionName "0.1.1"
+        versionCode 12
+        versionName "0.1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -163,6 +163,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Famoco Printer
-//    implementation(name: 'cloudpossdkV1.5.3.089_Standard_20220104', ext: 'aar')
      implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
 }

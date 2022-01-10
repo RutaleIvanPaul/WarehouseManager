@@ -8,6 +8,7 @@ import com.cloudpos.POSTerminal
 import com.cloudpos.printer.Format
 import com.cloudpos.printer.PrinterDevice
 
+
 class PX400Printer(var context: Context) {
     private var device: PrinterDevice? = null
     fun open() {
@@ -44,7 +45,10 @@ class PX400Printer(var context: Context) {
 
     fun printBitmap(bitmap: Bitmap){
         try {
-            device?.printBitmap(bitmap)
+            val format = Format()
+            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_LEFT)
+            format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
+            device?.printBitmap(format,bitmap)
             Log.d("Printer Work","Print Bitmap  succeed!")
         } catch (ex: DeviceException) {
             Log.d("Printer Work","Print Bitmap Failed!")
