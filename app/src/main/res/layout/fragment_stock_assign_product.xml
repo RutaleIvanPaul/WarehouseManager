@@ -52,7 +52,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:text="1 Assigned"
+                    android:text="0 Assigned"
                     android:textFontWeight="700" />
 
             </LinearLayout>
