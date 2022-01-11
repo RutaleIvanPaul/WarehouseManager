@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.common.di
 
 
+import io.ramani.ramaniWarehouse.app.assignmentreport.di.assignmentReportModule
 import io.ramani.ramaniWarehouse.app.assignstock.di.assignStockModule
 import io.ramani.ramaniWarehouse.app.auth.di.authModule
 import io.ramani.ramaniWarehouse.app.common.di.datetime.dateTimeModule
@@ -29,5 +30,6 @@ val appModule = Kodein.Module("appModule") {
     import(stockReceiveModule)
     import(returnStockModule)
     import(assignStockModule)
+    import(assignmentReportModule)
     import(confirmReceiveModule)
 }
