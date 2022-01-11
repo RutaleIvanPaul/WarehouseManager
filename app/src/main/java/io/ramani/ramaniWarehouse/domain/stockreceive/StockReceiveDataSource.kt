@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.domain.auth
+package io.ramani.ramaniWarehouse.domain.stockreceive
 
 import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel

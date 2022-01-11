@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
-import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setArgs
@@ -30,7 +28,6 @@ class InvoiceBottomSheetFragment : BaseBottomSheetDialogFragment() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
-    private lateinit var flow: AuthFlow
     private var purchaseId = ""
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,8 +39,7 @@ class InvoiceBottomSheetFragment : BaseBottomSheetDialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        flow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
-        purchaseId = arguments?.getString(PURCHASE_ID_ARG,"")?:""
+        purchaseId = arguments?.getString(PURCHASE_ID_ARG, "") ?: ""
         initSubscribers()
     }
 

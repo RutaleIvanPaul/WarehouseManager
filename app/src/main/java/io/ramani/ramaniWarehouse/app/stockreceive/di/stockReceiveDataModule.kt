@@ -10,6 +10,8 @@ import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.SupplierProductRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ServiceHelper
+import io.ramani.ramaniWarehouse.data.stockreceive.StockReceiveRemoteDataSource
+import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
 import io.ramani.ramaniWarehouse.data.stockreceive.StockReceiveApi
 import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
