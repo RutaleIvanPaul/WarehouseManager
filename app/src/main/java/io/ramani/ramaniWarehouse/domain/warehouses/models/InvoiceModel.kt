@@ -7,9 +7,11 @@ import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 data class InvoiceModel(
 
     val invoiceId: String? = null,
-    val purchaseOrderId : String? = null,
+    val purchaseOrderId: String? = null,
     val createdAt: Long? = null,
+    val distributorId: String? = null,
     val distributorName: String? = null,
+    val supplierId: String? = null,
     val supplierName: String? = null,
     val invoiceAmount: Double? = null,
     val products: List<ProductModel>? = null,
@@ -18,6 +20,8 @@ data class InvoiceModel(
         parcel.readString(),
         parcel.readString(),
         parcel.readLong(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
@@ -51,9 +55,11 @@ data class InvoiceModel(
 
     class Builder : IBuilder<InvoiceModel> {
         private var invoiceId: String? = null
-        private var purchaseOrderId : String? = null
+        private var purchaseOrderId: String? = null
         private var createdAt: Long? = null
+        private var distributorId: String? = null
         private var distributorName: String? = null
+        private var supplierId: String? = null
         private var supplierName: String? = null
         private var invoiceAmount: Double? = null
         private var products: List<ProductModel>? = null
@@ -63,9 +69,9 @@ data class InvoiceModel(
             return this
         }
 
-         fun purchaseOrderId (purchaseOrderId : String?): Builder {
-            this.purchaseOrderId  = purchaseOrderId
-             return this
+        fun purchaseOrderId(purchaseOrderId: String?): Builder {
+            this.purchaseOrderId = purchaseOrderId
+            return this
         }
 
         fun createdAt(createdAt: Long?): Builder {
@@ -73,8 +79,18 @@ data class InvoiceModel(
             return this
         }
 
+        fun distributorId(distributorId: String?): Builder {
+            this.distributorId = distributorId
+            return this
+        }
+
         fun distributorName(distributorName: String?): Builder {
             this.distributorName = distributorName
+            return this
+        }
+
+        fun supplierId(supplierId: String?): Builder {
+            this.supplierId = supplierId
             return this
         }
 
@@ -95,9 +111,11 @@ data class InvoiceModel(
 
         override fun build(): InvoiceModel = InvoiceModel(
             invoiceId,
-            purchaseOrderId ,
+            purchaseOrderId,
             createdAt,
+            distributorId,
             distributorName,
+            supplierId,
             supplierName,
             invoiceAmount,
             products

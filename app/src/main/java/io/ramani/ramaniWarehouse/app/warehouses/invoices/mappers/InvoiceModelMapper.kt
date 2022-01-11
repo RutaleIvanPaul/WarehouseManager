@@ -16,10 +16,12 @@ class InvoiceModelMapper(
     override fun mapFrom(from: InvoiceModel): InvoiceModelView =
         InvoiceModelView.Builder()
             .createdAt(dateFormatter.convertToDateWithDashes(from.createdAt ?: 0L))
+            .distributorId(from.distributorId)
             .distributorName(from.distributorName)
             .invoiceAmount(from.invoiceAmount)
             .invoiceId(from.invoiceId)
             .products(from.products?.mapFromWith(productModelMapper))
+            .supplierId(from.supplierId)
             .supplierName(from.supplierName)
             .purchaseOrderId(from.purchaseOrderId)
             .build()
