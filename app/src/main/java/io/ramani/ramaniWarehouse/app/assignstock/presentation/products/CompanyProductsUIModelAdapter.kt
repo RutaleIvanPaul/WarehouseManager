@@ -27,11 +27,11 @@ import androidx.core.content.ContextCompat.getDrawable
 
 
 class CompanyProductsUIModelAdapter(
-    data: MutableList<RemoteProductModel>,
-    val onItemClick: (RemoteProductModel) -> Unit
+    data: MutableList<ProductsUIModel>,
+    val onItemClick: (ProductsUIModel) -> Unit
 ) :
-    BaseQuickAdapter<RemoteProductModel, BaseViewHolder>(R.layout.item_company_product, data) {
-    override fun convert(helper: BaseViewHolder, item: RemoteProductModel) {
+    BaseQuickAdapter<ProductsUIModel, BaseViewHolder>(R.layout.item_company_product, data) {
+    override fun convert(helper: BaseViewHolder, item: ProductsUIModel) {
         with(helper) {
             setText(R.id.product_name, item.name)
             setText(R.id.product_description, item.supplierProductName)
@@ -46,7 +46,7 @@ class CompanyProductsUIModelAdapter(
         }
     }
 
-    private fun showDialog(item: RemoteProductModel) {
+    private fun showDialog(item: ProductsUIModel) {
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)

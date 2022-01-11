@@ -14,8 +14,8 @@ class GetCompanyProductsUseCase(
     threadExecutor: ThreadExecutor,
     postThreadExecutor: PostThreadExecutor,
     private val assignStockDataSource: AssignStockDataSource
-): BaseSingleUseCase<List<RemoteProductModel>, GetProductsRequestModel>(threadExecutor,postThreadExecutor) {
-    override fun buildUseCaseSingle(params: GetProductsRequestModel?): Single<List<RemoteProductModel>> {
+): BaseSingleUseCase<List<ProductEntity>, GetProductsRequestModel>(threadExecutor,postThreadExecutor) {
+    override fun buildUseCaseSingle(params: GetProductsRequestModel?): Single<List<ProductEntity>> {
        return assignStockDataSource.getProducts(params!!.companyId)
     }
 }

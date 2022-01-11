@@ -19,7 +19,7 @@ val assignStockDomainModule = Kodein.Module("assignStockDomainModule") {
         GetSalesPersonUseCase(instance(), instance(), instance("assignStockRemoteDataSource"))
     }
 
-    bind<BaseSingleUseCase<List<RemoteProductModel>, GetProductsRequestModel>>("getCompanyProductsUseCase") with provider {
+    bind<BaseSingleUseCase<List<ProductEntity>, GetProductsRequestModel>>("getCompanyProductsUseCase") with provider {
         GetCompanyProductsUseCase(
             instance(), instance(),instance("assignStockRemoteDataSource")
         )

@@ -13,7 +13,7 @@ class AssignStockRepository(
     override fun getSalesPerson(companyId: String): Single<List<SalesPersonModel>>  =
         assignStockRemoteDataSource.getSalesPerson(companyId)
 
-    override fun getProducts(companyId: String): Single<List<RemoteProductModel>> =
+    override fun getProducts(companyId: String): Single<List<ProductEntity>> =
         assignStockRemoteDataSource.getProducts(companyId)
 
 }

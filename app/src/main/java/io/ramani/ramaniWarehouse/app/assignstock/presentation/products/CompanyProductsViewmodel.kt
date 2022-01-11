@@ -14,6 +14,7 @@ import io.ramani.ramaniWarehouse.data.stockassignment.model.GetProductsRequestMo
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
+import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
@@ -21,7 +22,7 @@ import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvide
 class CompanyProductsViewmodel(application: Application,
                                stringProvider: IStringProvider,
                                sessionManager: ISessionManager,
-                               private val getCompanyProductsUsecase: BaseSingleUseCase<List<RemoteProductModel>, GetProductsRequestModel>,
+                               private val getCompanyProductsUsecase: BaseSingleUseCase<List<ProductEntity>, GetProductsRequestModel>,
                                private val prefs: PrefsManager,
                                private val productUIModelMapper: ModelMapper<ProductEntity, ProductsUIModel>,
 
@@ -32,8 +33,8 @@ class CompanyProductsViewmodel(application: Application,
         val companyProductsListLiveData = MutableLiveData<ProductsUIModel>()
     }
 
-    val companyProductsListOriginal = mutableListOf<RemoteProductModel>()
-    val companyProductsListLiveData = MutableLiveData<List<RemoteProductModel>>()
+    val companyProductsListOriginal = mutableListOf<ProductsUIModel>()
+    val companyProductsListLiveData = MutableLiveData<List<ProductsUIModel>>()
     val stringName = MutableLiveData<String>()
 
     override fun start(args: Map<String, Any?>) {
@@ -54,8 +55,8 @@ class CompanyProductsViewmodel(application: Application,
                     isLoadingVisible = false
 
                     if(it.isNotEmpty()) {
-                        companyProductsListOriginal.addAll(it)
-                        companyProductsListLiveData.postValue(it)
+                        companyProductsListOriginal.addAll(it.mapFromWith(productUIModelMapper))
+                        companyProductsListLiveData.postValue(companyProductsListOriginal.toMutableList())
                     }
                     else{
                         notifyError("Empty List",PresentationError.ERROR_TEXT)
@@ -72,7 +73,7 @@ class CompanyProductsViewmodel(application: Application,
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
-        private val getCompanyProductsUsecase: BaseSingleUseCase<List<RemoteProductModel>, GetProductsRequestModel>,
+        private val getCompanyProductsUsecase: BaseSingleUseCase<List<ProductEntity>, GetProductsRequestModel>,
         private val prefs: PrefsManager,
         private val productUIModelMapper: ModelMapper<ProductEntity, ProductsUIModel>,
     ): ViewModelProvider.Factory{

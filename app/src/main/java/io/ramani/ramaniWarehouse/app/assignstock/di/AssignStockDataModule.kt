@@ -20,7 +20,7 @@ val assignStockDataModule = Kodein.Module("assignStockDataModule") {
     }
 
     bind<AssignStockDataSource>("assignStockRemoteDataSource") with provider {
-        AssignStockRemoteDataSource(instance(), instance(), instance())
+        AssignStockRemoteDataSource(instance(), instance(), instance(), instance())
     }
 
     bind<ModelMapper<SalesPersonRemoteModel, SalesPersonModel>>() with provider {

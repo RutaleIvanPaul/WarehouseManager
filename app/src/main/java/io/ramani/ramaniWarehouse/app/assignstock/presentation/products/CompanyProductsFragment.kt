@@ -25,7 +25,7 @@ class CompanyProductsFragment : BaseFragment() {
     private lateinit var viewModel: CompanyProductsViewmodel
     override val baseViewModel: BaseViewModel?
         get() = viewModel
-    private val companyProductsList = mutableListOf<RemoteProductModel>()
+    private val companyProductsList = mutableListOf<ProductsUIModel>()
 
 
 
@@ -53,7 +53,7 @@ class CompanyProductsFragment : BaseFragment() {
                             newText,
                             ignoreCase = true
                         )
-                    } as MutableList<RemoteProductModel>)
+                    } as MutableList<ProductsUIModel>)
                 }
 
                 return true

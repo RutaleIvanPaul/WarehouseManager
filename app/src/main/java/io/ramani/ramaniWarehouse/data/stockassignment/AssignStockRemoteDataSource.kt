@@ -28,6 +28,7 @@ import retrofit2.HttpException
 class AssignStockRemoteDataSource(
     private val assignStockAPI: AssignStockAPI,
     private val salesPersonRemoteMapper: ModelMapper<SalesPersonRemoteModel, SalesPersonModel>,
+    private val productRemoteMapper: ModelMapper<RemoteProductModel, ProductEntity>,
     private val prefs: PrefsManager
 ): AssignStockDataSource, BaseRemoteDataSource() {
     override fun getSalesPerson(companyId: String): Single<List<SalesPersonModel>> =
@@ -68,12 +69,12 @@ class AssignStockRemoteDataSource(
             }
         )
 
-    override fun getProducts(companyId: String): Single<List<RemoteProductModel>> =
+    override fun getProducts(companyId: String): Single<List<ProductEntity>> =
         callSingle(
             assignStockAPI.getCompanyProducts(prefs.invalidate_cache_company_products.toString(),companyId).flatMap {
                 val data = it.data
                 if (data != null){
-                    Single.just(data)
+                    Single.just(data.mapFromWith(productRemoteMapper))
                 }else{
                     Single.error(ParseResponseException())
                 }
