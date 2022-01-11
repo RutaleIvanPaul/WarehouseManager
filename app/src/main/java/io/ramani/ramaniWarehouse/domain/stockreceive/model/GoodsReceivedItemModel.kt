@@ -8,6 +8,7 @@ import com.google.gson.Gson
 data class GoodsReceivedItemModel(
     val id: String = "",
     val productId: String = "",
+    val productName: String = "",
     val qtyAccepted: Int = 0,
     val qtyDeclined: Int = 0,
     val declinedReason: String = "",
@@ -17,6 +18,7 @@ data class GoodsReceivedItemModel(
     class Builder : IBuilder<GoodsReceivedItemModel> {
         private var id: String = ""
         private var productId: String = ""
+        private var productName: String = ""
         private var qtyAccepted: Int = 0
         private var qtyDeclined: Int = 0
         private var declinedReason: String = ""
@@ -29,6 +31,11 @@ data class GoodsReceivedItemModel(
 
         fun productId(productId: String): Builder {
             this.productId = productId
+            return this
+        }
+
+        fun productName(productName: String): Builder {
+            this.productName = productName
             return this
         }
 
@@ -56,6 +63,7 @@ data class GoodsReceivedItemModel(
             GoodsReceivedItemModel(
                 id,
                 productId,
+                productName,
                 qtyAccepted,
                 qtyDeclined,
                 declinedReason,
@@ -64,6 +72,7 @@ data class GoodsReceivedItemModel(
     }
 
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readInt(),
@@ -75,6 +84,7 @@ data class GoodsReceivedItemModel(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(productId)
+        parcel.writeString(productName)
         parcel.writeInt(qtyAccepted)
         parcel.writeInt(qtyDeclined)
         parcel.writeString(declinedReason)
