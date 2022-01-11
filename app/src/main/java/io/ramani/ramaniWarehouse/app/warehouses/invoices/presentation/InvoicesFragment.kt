@@ -10,8 +10,8 @@ import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow.InvoicesFlow
-import io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow.InvoicesFlowController
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.flow.InvoicesFlow
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.flow.InvoicesFlowController
 import kotlinx.android.synthetic.main.fragment_invoice.*
 import org.kodein.di.generic.factory
 
@@ -36,7 +36,7 @@ class InvoicesFragment : BaseFragment() {
         flow = InvoicesFlowController(baseActivity!!)
         viewModel.start()
         invoiceAdapter = InvoiceAdapter(viewModel.invoicesList) {
-            flow.openConfirmReceiveStock(it.createdAt, it.supplierName, it.purchaseOrderId)
+            flow.openConfirmReceiveStock(it)
         }
         initSubscribers()
     }

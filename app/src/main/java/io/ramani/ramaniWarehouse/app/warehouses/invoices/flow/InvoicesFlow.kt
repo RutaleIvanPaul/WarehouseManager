@@ -1,6 +1,8 @@
-package io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow
+package io.ramani.ramaniWarehouse.app.warehouses.invoices.flow
+
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.InvoiceModelView
 
 interface InvoicesFlow {
-    fun openConfirmReceiveStock(createdAt: String?, supplierName: String?, purchaseOrderId: String?)
+    fun openConfirmReceiveStock(invoiceModelView: InvoiceModelView?)
 
 }

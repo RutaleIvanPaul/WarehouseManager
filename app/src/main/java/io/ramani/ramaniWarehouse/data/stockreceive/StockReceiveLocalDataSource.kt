@@ -1,13 +1,11 @@
 package io.ramani.ramaniWarehouse.data.auth
 
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
 import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
-import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
 import io.reactivex.Single
-import okhttp3.RequestBody
 
 class StockReceiveLocalDataSource(
     private val prefsManager: Prefs

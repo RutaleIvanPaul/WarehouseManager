@@ -13,7 +13,7 @@ data class InvoiceModelView(
     val distributorName: String? = null,
     val supplierName: String? = null,
     val invoiceAmount: Double? = null,
-    val products: List<ProductModel>? = null
+    val products: List<ProductModelView>? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -22,7 +22,7 @@ data class InvoiceModelView(
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
-        parcel.createTypedArrayList(ProductModel)
+        parcel.createTypedArrayList(ProductModelView)
     ) {
     }
 
@@ -57,7 +57,7 @@ data class InvoiceModelView(
         private var distributorName: String? = null
         private var supplierName: String? = null
         private var invoiceAmount: Double? = null
-        private var products: List<ProductModel>? = null
+        private var products: List<ProductModelView>? = null
 
         fun invoiceId(invoiceId: String?): Builder {
             this.invoiceId = invoiceId
@@ -89,7 +89,7 @@ data class InvoiceModelView(
             return this
         }
 
-        fun products(products: List<ProductModel>?): Builder {
+        fun products(products: List<ProductModelView>?): Builder {
             this.products = products
             return this
         }

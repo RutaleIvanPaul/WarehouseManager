@@ -13,7 +13,7 @@ val confirmReceiveModule = Kodein.Module("confirmReceiveModule") {
     bind<ConfirmReceiveViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, ConfirmReceiveViewModel.Factory(
-                instance(), instance(), instance(), instance()
+                instance(), instance(), instance(), instance(),instance("getDeclineReasonsUseCase")
             )
         ).get(ConfirmReceiveViewModel::class.java)
     }
