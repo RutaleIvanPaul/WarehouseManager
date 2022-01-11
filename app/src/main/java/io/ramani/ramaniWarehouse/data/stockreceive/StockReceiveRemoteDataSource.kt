@@ -7,6 +7,8 @@ import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
+import io.ramani.ramaniWarehouse.data.stockreceive.StockReceiveApi
+import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
 import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel

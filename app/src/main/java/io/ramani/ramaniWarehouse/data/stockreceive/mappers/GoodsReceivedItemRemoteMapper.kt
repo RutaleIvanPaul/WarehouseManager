@@ -1,9 +1,7 @@
-package io.ramani.ramaniWarehouse.data.auth.mappers
+package io.ramani.ramaniWarehouse.data.stockreceive.mappers
 
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedItemRemoteModel
-import io.ramani.ramaniWarehouse.data.auth.model.SupplierProductRemoteModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedItemRemoteModel
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 
 class GoodsReceivedItemRemoteMapper : ModelMapper<GoodsReceivedItemRemoteModel, GoodsReceivedItemModel> {
@@ -11,6 +9,7 @@ class GoodsReceivedItemRemoteMapper : ModelMapper<GoodsReceivedItemRemoteModel, 
         GoodsReceivedItemModel.Builder()
             .id(from.id)
             .productId(from.productId)
+            .productName(from.productName)
             .qtyAccepted(from.qtyAccepted)
             .qtyDeclined(from.qtyDeclined)
             .declinedReason(from.declinedReason)
@@ -21,6 +20,7 @@ class GoodsReceivedItemRemoteMapper : ModelMapper<GoodsReceivedItemRemoteModel, 
         GoodsReceivedItemRemoteModel(
             to.id,
             to.productId,
+            to.productName,
             to.qtyAccepted,
             to.qtyDeclined,
             to.declinedReason,
