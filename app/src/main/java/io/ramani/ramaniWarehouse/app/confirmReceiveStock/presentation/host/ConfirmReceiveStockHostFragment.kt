@@ -10,7 +10,6 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setArgs
-import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -99,6 +98,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 1 -> {
                     if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
                         turnMarkOneToGreen()
+                        stock_receive_now_host_indicator_2.visible()
                         stock_receive_now_host_viewpager.currentItem++
                         stock_receive_now_host_next_button.text =
                             getString(R.string.done).capitalize()
@@ -113,6 +113,9 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                             RECEIVE_MODELS.refreshHostReceiveProductListLiveData.postValue(true)
                         }
                     }
+                }
+                else -> {
+
                 }
             }
 //            if (stock_receive_now_host_viewpager.currentItem < 2) {
@@ -165,6 +168,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     override fun onBackButtonPressed(): Boolean {
         if (stock_receive_now_host_viewpager.currentItem > 0) {
+            stock_receive_now_host_next_button.text = getString(R.string.continue_)
             stock_receive_now_host_viewpager.currentItem--
             return true
         } else {

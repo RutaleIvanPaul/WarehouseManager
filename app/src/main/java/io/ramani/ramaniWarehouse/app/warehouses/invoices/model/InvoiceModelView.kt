@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.warehouses.invoices.model
 
+import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
 import io.ramani.ramaniWarehouse.domain.warehouses.models.ProductModel
@@ -13,7 +14,11 @@ data class InvoiceModelView(
     val distributorName: String? = null,
     val supplierName: String? = null,
     val invoiceAmount: Double? = null,
-    val products: List<ProductModelView>? = null
+    val products: List<ProductModelView>? = null,
+    var storeKeeperName:String?=null,
+    var deliveryPersonName:String?=null,
+    var storeKeeperSign:Bitmap?=null,
+    var deliveryPersonSign: Bitmap?=null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
