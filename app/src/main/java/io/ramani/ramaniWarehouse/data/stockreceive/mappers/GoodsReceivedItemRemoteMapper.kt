@@ -9,6 +9,7 @@ class GoodsReceivedItemRemoteMapper : ModelMapper<GoodsReceivedItemRemoteModel, 
         GoodsReceivedItemModel.Builder()
             .id(from.id)
             .productId(from.productId)
+            .productName(from.productName)
             .qtyAccepted(from.qtyAccepted)
             .qtyDeclined(from.qtyDeclined)
             .declinedReason(from.declinedReason)
@@ -19,6 +20,7 @@ class GoodsReceivedItemRemoteMapper : ModelMapper<GoodsReceivedItemRemoteModel, 
         GoodsReceivedItemRemoteModel(
             to.id,
             to.productId,
+            to.productName,
             to.qtyAccepted,
             to.qtyDeclined,
             to.declinedReason,

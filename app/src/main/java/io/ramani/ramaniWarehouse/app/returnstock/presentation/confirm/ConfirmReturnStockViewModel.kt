@@ -16,20 +16,26 @@ import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
+import io.reactivex.rxkotlin.subscribeBy
 
 class ConfirmReturnStockViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
     private val postReturnedStockUseCase: BaseSingleUseCase<PostReturnItemsResponse, PostReturnItems>,
-    private val dateFormatter: DateFormatter,
+    val dateFormatter: DateFormatter,
     private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
     var userModel: UserModel? = null
-    var warehouseModel: WarehouseModel? = null
     val onItemsReturnedLiveData = MutableLiveData<Boolean>()
+    val loadedUserDetails = MutableLiveData<UserModel>()
+
     override fun start(args: Map<String, Any?>) {
+        sessionManager.getLoggedInUser().subscribeBy {
+            userModel = it
+            loadedUserDetails.postValue(userModel)
+        }
     }
 
     class Factory(
@@ -37,7 +43,7 @@ class ConfirmReturnStockViewModel(
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val postReturnedStockUseCase: BaseSingleUseCase<PostReturnItemsResponse, PostReturnItems>,
-        private val dateFormatter: DateFormatter,
+        val dateFormatter: DateFormatter,
         private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>
     ) : ViewModelProvider.Factory {
 

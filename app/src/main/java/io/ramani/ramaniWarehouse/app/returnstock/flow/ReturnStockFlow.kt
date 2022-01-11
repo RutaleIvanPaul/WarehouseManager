@@ -4,4 +4,5 @@ interface ReturnStockFlow {
     fun openSalesPersonBottomSheet()
     fun openReturnStockSignPad(signee: String)
     fun openReturnSuccess()
+    fun openReturnedStockPrintScreen()
 }

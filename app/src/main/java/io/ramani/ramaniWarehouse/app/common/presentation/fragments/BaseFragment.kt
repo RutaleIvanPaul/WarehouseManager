@@ -8,7 +8,6 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
@@ -23,6 +22,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.NavigationEv
 import io.ramani.ramaniWarehouse.app.entities.ValidationError
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
+import io.ramani.ramaniWarehouse.app.assignmentreport.presentation.AssignmentReportFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoLogger
@@ -114,9 +114,8 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
         super.onDestroy()
     }
 
-    protected open fun pop() {
-
-
+    protected fun pop() {
+        baseActivity?.navigationManager?.remove(this)
     }
 
     protected open fun initNavigationManager(navigationManager: NavigationManager) {}

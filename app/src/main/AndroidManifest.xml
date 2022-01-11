@@ -9,6 +9,8 @@
         tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- CLOUDPOS_PRINTER -->
+    <uses-permission android:name="android.permission.CLOUDPOS_PRINTER" />
 
     <uses-feature
         android:name="android.hardware.camera"

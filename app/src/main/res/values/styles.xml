@@ -58,6 +58,10 @@
         <item name="android:textSize">10sp</item>
     </style>
 
+    <style name="LargeTextLabel" parent="NormalTextLabel">
+        <item name="android:textSize">14sp</item>
+    </style>
+
     <style name="NormalActionButton" parent="BoldTextLabel">
         <item name="android:layout_height">30dp</item>
         <item name="android:background">@drawable/green_stroke_action_button</item>

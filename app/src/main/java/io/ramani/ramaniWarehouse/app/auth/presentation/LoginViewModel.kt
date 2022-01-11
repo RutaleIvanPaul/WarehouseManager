@@ -52,7 +52,6 @@ class LoginViewModel(
                 prefs.currentUser = it.toString()
                 prefs.accessToken = it.token
                 loginActionLiveData.postValue(it)
-                Log.d("ALLAH", "login SUCCESS: $it")
             }, onError = {
                 isLoadingVisible = false
                 notifyError(
