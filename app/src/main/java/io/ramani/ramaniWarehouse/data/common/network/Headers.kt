@@ -7,5 +7,4 @@ object Headers {
     const val HEADER_ACCEPT = "Accept"
     const val HEADER_CONTENT_TYPE_VALUE = "application/json"
     const val HEADER_CLIENT = "client"
-    const val INVALIDATE_CACHE = "invalidate_cache"
 }
