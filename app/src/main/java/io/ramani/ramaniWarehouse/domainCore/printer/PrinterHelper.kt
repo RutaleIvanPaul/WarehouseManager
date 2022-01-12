@@ -23,5 +23,11 @@ class PrinterHelper(
         }
     }
 
+    fun printText(string: String){
+        if (isFamocoDevice()){
+            pX400Printer.printText(string)
+        }
+    }
+
 
 }

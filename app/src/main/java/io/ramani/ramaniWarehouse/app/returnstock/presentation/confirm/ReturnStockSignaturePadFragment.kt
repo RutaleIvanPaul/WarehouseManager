@@ -62,7 +62,7 @@ class ReturnStockSignaturePadFragment : BaseBottomSheetDialogFragment() {
             if (!isSigned) {
                 errorDialog("Please sign and click confirm.")
             } else {
-                val bitmap = return_stock_signature_pad.signatureBitmap
+                val bitmap = return_stock_signature_pad.transparentSignatureBitmap
 
                 when (arguments?.getString("signee")) {
                     ReturnStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN -> ReturnStockViewModel.signedLiveData.postValue(Pair(

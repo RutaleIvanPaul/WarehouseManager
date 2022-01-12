@@ -47,6 +47,10 @@ class ConfirmReturnStockViewModel(
         printerHelper.printBitmap(bitmap)
     }
 
+    fun printText(receiptText:String){
+        printerHelper.printText(receiptText)
+    }
+
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
