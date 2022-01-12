@@ -52,29 +52,57 @@ class ReturnReceiptFragment : BaseFragment() {
         subscribeObservers()
 
         return_stock_print_receipt.setOnClickListener {
-            val  view = scrollview
-            val bitmap = Bitmap.createBitmap(view.width,view.height, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-            val bgDrawable = view.background
-            if (bgDrawable!=null){
-                bgDrawable.draw(canvas)
-            }
-            else{
-                canvas.drawColor(Color.WHITE)
-            }
-            view.draw(canvas)
+//            val  view = scrollview
+//            val bitmap = Bitmap.createBitmap(view.width,view.height, Bitmap.Config.ARGB_8888)
+//            val canvas = Canvas(bitmap)
+//            val bgDrawable = view.background
+//            if (bgDrawable!=null){
+//                bgDrawable.draw(canvas)
+//            }
+//            else{
+//                canvas.drawColor(Color.WHITE)
+//            }
+//            view.draw(canvas)
+//
+//            val scaledBitmap = Bitmap.createScaledBitmap(bitmap,400,view.height,false)
 
-            screenshot.setImageBitmap(bitmap)
-
-            val scaledBitmap = Bitmap.createScaledBitmap(bitmap,400,view.height,false)
-
-            viewModel.printBitmap(scaledBitmap)
+            printReturnReceipt(viewModel)
         }
 
         return_stock_done.setOnClickListener {
             flow.openMainNav()
         }
     }
+
+    private fun printReturnReceipt(viewModel: ConfirmReturnStockViewModel) {
+        viewModel.printText(getTextBeforeImages())
+        viewModel.printText(getString(R.string.store_keeper)+": "+storekeeper_text.text.toString()+ "\n")
+        viewModel.printBitmap(Bitmap.createScaledBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper!!,400,200,false))
+        viewModel.printText(getString(R.string.assigned_to)+": "+assignee_text.text.toString()+ "\n")
+        viewModel.printBitmap(Bitmap.createScaledBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson!!,400,200,false))
+        viewModel.printText("\n"+getString(R.string.end_goods_returned)+"\n\n")
+
+    }
+
+    private fun getTextBeforeImages() =
+        getString(R.string.start_of_goods_returned)+"\n\n"+
+                company_name.text.toString()+"\n\n"+
+        getString(R.string.goods_issued_note)+"\n\n"+
+                date.text.toString()+"\n"+
+                "--------------------------------"+"\n"+
+                getString(R.string.goods_returned) + "\n"+
+                "--------------------------------"+"\n\n"+
+                getGoodsReturnedString()
+
+
+    private fun getGoodsReturnedString(): String {
+        var goodsReturnedText = ""
+        ReturnStockViewModel.returnItemDetails.returnItems.forEach { item ->
+            goodsReturnedText += item.productName +" ---------- "+item.quantity+" Pcs\n"
+        }
+        return goodsReturnedText
+    }
+
 
     private fun subscribeObservers() {
         viewModel.loadedUserDetails.observe(this,{

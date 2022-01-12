@@ -34,7 +34,8 @@ class PX400Printer(var context: Context) {
     fun printText(msg: String?) {
         try {
             val format = Format()
-            format.setParameter(Format.FORMAT_FONT_SIZE, Format.FORMAT_FONT_SIZE_SMALL)
+            format.setParameter(Format.FORMAT_FONT_SIZE, Format.FORMAT_FONT_SIZE_MEDIUM)
+            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
             device?.printText(format, msg)
             Log.d("Printer Work","Print Text  succeed!")
         } catch (ex: DeviceException) {
