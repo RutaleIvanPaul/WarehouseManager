@@ -90,10 +90,9 @@
     <string name="end_goods_returned">*** END OF GOODS RETURNED ***</string>
 
 
+    <string name="goods">Goods</string>
     <string name="quantity">Quantity</string>
-
     <string name="no_stocks">No stocks</string>
-
     <!-- Warning Messages -->
     <string name="warning_select_supplier">Please select supplier</string>
     <string name="warning_add_product">Please add one more of product</string>
@@ -131,7 +130,6 @@
     <string name="christian_michael">Christian Michael</string>
     <string name="assigned_to_signature">Assigned to Signature</string>
     <string name="store_keeper_signature">Store Keeper Signature</string>
-    <string name="goods">Goods</string>
     <string name="returned">Returned</string>
     <string name="view_receipt">View Receipt</string>
     <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
