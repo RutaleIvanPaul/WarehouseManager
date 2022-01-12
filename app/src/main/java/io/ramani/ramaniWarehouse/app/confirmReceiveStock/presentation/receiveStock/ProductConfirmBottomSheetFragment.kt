@@ -147,6 +147,12 @@ class ProductConfirmBottomSheetFragment(
                 }
             }
         }
+
+        temp_et.doAfterTextChanged { text ->
+            if (text.isNullOrBlank()) {
+                temp_et.setText("0")
+            }
+        }
         decline_reason.text = RECEIVE_MODELS.declineReasons.firstOrNull() ?: ""
         decline_reason.setOnClickListener {
             decline_reason.showSelectPopUp(RECEIVE_MODELS.declineReasons,
@@ -158,6 +164,7 @@ class ProductConfirmBottomSheetFragment(
         }
         receive_btn.setOnSingleClickListener {
             selectedProduct?.isReceived = true
+            selectedProduct?.temperature = temp_et.text.toString()
             RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
                 ?.map {
                     it.copy(selectedProduct)

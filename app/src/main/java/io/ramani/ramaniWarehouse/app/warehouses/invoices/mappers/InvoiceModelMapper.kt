@@ -24,5 +24,6 @@ class InvoiceModelMapper(
             .supplierId(from.supplierId)
             .supplierName(from.supplierName)
             .purchaseOrderId(from.purchaseOrderId)
+            .serverCreatedAtDateTime(from.serverCreatedAtDateTime)
             .build()
 }

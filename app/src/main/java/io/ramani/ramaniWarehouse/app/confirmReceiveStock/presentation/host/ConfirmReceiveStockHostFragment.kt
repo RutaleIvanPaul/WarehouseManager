@@ -1,11 +1,14 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.host
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
+import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
@@ -24,6 +27,11 @@ import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.InvoiceModelView
 import kotlinx.android.synthetic.main.fragment_signin_sheet.loader
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import org.kodein.di.generic.factory
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
+
 
 private const val INVOICE_MODEL_VIEW_ARG = "invoice_model_view_arg"
 
@@ -60,7 +68,17 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
         subscribeError(viewModel)
         observerError(viewModel, this)
         observeRefreshedProductList()
+        observeOnGoodsPosted()
         viewModel.start()
+    }
+
+    private fun observeOnGoodsPosted() {
+        viewModel.postGoodsReceivedActionLiveData.observe(this,{
+            DrawableCompat.setTint(
+                stock_receive_now_host_indicator_2.drawable,
+                ContextCompat.getColor(requireContext(), R.color.ramani_green)
+            )
+        })
     }
 
     private fun observeRefreshedProductList() {
@@ -115,13 +133,54 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                     }
                 }
                 else -> {
-
+                    viewModel.postGoodsReceived(
+                        createFileFromBitmap(RECEIVE_MODELS.invoiceModelView?.storeKeeperSign),
+                        createFileFromBitmap(RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign)
+                    )
                 }
             }
 //            if (stock_receive_now_host_viewpager.currentItem < 2) {
 //                stock_receive_now_host_viewpager.currentItem++
 //            }
         }
+    }
+
+    private fun createFileFromBitmap(signature: Bitmap?): File? {
+        //create a file to write bitmap data
+        if (signature != null) {
+            var file: File? = null
+            return try {
+                val directory = File(
+                    "${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).absolutePath}/${BuildConfig.APP_NAME}/"
+                )
+
+                if (!directory.exists())
+                    directory.mkdir()
+
+                val file = File(directory, "signature_${Calendar.getInstance().timeInMillis}.png")
+                file.createNewFile()
+
+                //Convert bitmap to byte array
+                val bos = ByteArrayOutputStream()
+                signature?.compress(
+                    Bitmap.CompressFormat.PNG,
+                    0,
+                    bos
+                ) // YOU can also save it in JPEG
+                val bitmapdata = bos.toByteArray()
+
+                //write the bytes in file
+                val fos = FileOutputStream(file)
+                fos.write(bitmapdata)
+                fos.flush()
+                fos.close()
+                return file
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return file // it will return null
+            }
+        }
+        return null
     }
 
     private fun initTabLayout() {

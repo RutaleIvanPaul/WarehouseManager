@@ -40,7 +40,7 @@ class ReceiveProductAdapter(
 
             productName.text = ""
             productQty.text = item.productName
-            productStatus.text = item.temp
+            productStatus.text = item.temperature
 
             setGone(R.id.status_received_iv, true)
             setGone(R.id.separator, true)

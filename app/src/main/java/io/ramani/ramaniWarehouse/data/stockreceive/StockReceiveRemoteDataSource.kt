@@ -1,15 +1,10 @@
 package io.ramani.ramaniWarehouse.data.stockreceive
 
-import io.ramani.ramaniWarehouse.data.auth.StockReceiveApi
 import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
-import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
 import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
-import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
-import io.ramani.ramaniWarehouse.data.stockreceive.StockReceiveApi
-import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
@@ -19,15 +14,20 @@ import io.ramani.ramaniWarehouse.domain.entities.exceptions.AccountNotActiveExce
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.InvalidLoginException
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.NotAuthorizedException
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.ParseResponseException
+import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import io.reactivex.Single
+import okhttp3.MediaType
+import okhttp3.RequestBody
 import retrofit2.HttpException
+import java.io.File
 
 class StockReceiveRemoteDataSource(
     private val stockReceiveApi: StockReceiveApi,
     private val supplierRemoteMapper: ModelMapper<SupplierRemoteModel, SupplierModel>,
     private val goodsReceivedRemoteMapper: ModelMapper<GoodsReceivedRemoteModel, GoodsReceivedModel>,
-    ) : StockReceiveDataSource, BaseRemoteDataSource() {
+) : StockReceiveDataSource, BaseRemoteDataSource() {
     override fun getSuppliers(companyId: String, page: Int, size: Int) =
         callSingle(
             stockReceiveApi.getSuppliers(companyId, page, size).flatMap {
@@ -113,10 +113,26 @@ class StockReceiveRemoteDataSource(
         distributorId: String,
         date: String,
         time: String,
-        deliveryPersonName: String
+        deliveryPersonName: String,
+        supplierId: String?,
+        items: String?,
+        storeKeeperSignature: File?,
+        deliveryPersonSignature: File?
     ): Single<GoodsReceivedModel> =
         callSingle(
-            stockReceiveApi.postGoodsReceived(invoiceId, warehouseManagerId, warehouseId, distributorId, date, time, deliveryPersonName).flatMap {
+            stockReceiveApi.postGoodsReceived(
+                invoiceId,
+                warehouseManagerId,
+                warehouseId,
+                distributorId,
+                date,
+                time,
+                deliveryPersonName,
+                supplierId,
+                items,
+                createBitmapRequest(storeKeeperSignature),
+                createBitmapRequest(deliveryPersonSignature)
+            ).flatMap {
                 val data = it.data
                 if (data != null) {
                     Single.just(data.mapFromWith(goodsReceivedRemoteMapper))
@@ -153,4 +169,13 @@ class StockReceiveRemoteDataSource(
                 }
         )
 
+    private fun createBitmapRequest(signature: File?): RequestBody? =
+        if (signature != null) {
+            RequestBody.create(
+                MediaType.parse("image/*"),
+                signature
+            )
+        } else {
+            null
+        }
 }

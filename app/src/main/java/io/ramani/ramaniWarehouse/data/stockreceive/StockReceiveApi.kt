@@ -1,9 +1,10 @@
 package io.ramani.ramaniWarehouse.data.stockreceive
 
-import io.ramani.ramaniWarehouse.data.stockreceive.model.GetSupplierRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
 import io.ramani.ramaniWarehouse.data.entities.BaseResponse
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GetSupplierRemoteModel
 import io.reactivex.Single
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface StockReceiveApi {
@@ -27,6 +28,10 @@ interface StockReceiveApi {
         @Part("date") date: String,
         @Part("time") time: String,
         @Part("deliveryPersonName") deliveryPersonName: String,
+        @Part("supplierId") supplierId: String?,
+        @Part("items") items: String?,
+        @Part("storeKeeperSignature") storeKeeperSignature: RequestBody?,
+        @Part("deliveryPersonSignature") deliveryPersonSignature: RequestBody?
     ): Single<BaseResponse<GoodsReceivedRemoteModel>>
 
 }

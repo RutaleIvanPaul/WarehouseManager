@@ -1,7 +1,8 @@
-package io.ramani.ramaniWarehouse.data.auth.model
+package io.ramani.ramaniWarehouse.data.stockreceive.model
 
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
-import okhttp3.RequestBody
+import java.io.File
 
 data class GoodsReceivedRequestModel(
     val invoiceId: String,
@@ -11,6 +12,10 @@ data class GoodsReceivedRequestModel(
     val date: String,
     val time: String,
     val deliveryPersonName: String,
-):Params {
+    val supplierId: String? = null,
+    val items: List<ProductModelView>? = null,
+    val storeKeeperSignature: File? = null,
+    val deliveryPersonSignature: File? = null
+) : Params {
 
 }

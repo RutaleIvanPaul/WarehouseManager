@@ -19,7 +19,8 @@ data class InvoiceModelView(
     var storeKeeperName: String? = null,
     var deliveryPersonName: String? = null,
     var storeKeeperSign: Bitmap? = null,
-    var deliveryPersonSign: Bitmap? = null
+    var deliveryPersonSign: Bitmap? = null,
+    val serverCreatedAtDateTime: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -68,6 +69,7 @@ data class InvoiceModelView(
         private var supplierName: String? = null
         private var invoiceAmount: Double? = null
         private var products: List<ProductModelView>? = null
+        private var serverCreatedAtDateTime: String? = null
 
         fun invoiceId(invoiceId: String?): Builder {
             this.invoiceId = invoiceId
@@ -114,6 +116,11 @@ data class InvoiceModelView(
             return this
         }
 
+        fun serverCreatedAtDateTime(serverCreatedAtDateTime: String?): Builder {
+            this.serverCreatedAtDateTime = serverCreatedAtDateTime
+            return this
+        }
+
         override fun build(): InvoiceModelView = InvoiceModelView(
             invoiceId,
             purchaseOrderId,
@@ -123,7 +130,8 @@ data class InvoiceModelView(
             supplierId,
             supplierName,
             invoiceAmount,
-            products
+            products,
+            serverCreatedAtDateTime = serverCreatedAtDateTime
         )
 
     }

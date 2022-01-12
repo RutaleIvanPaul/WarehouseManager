@@ -15,6 +15,7 @@ data class InvoiceModel(
     val supplierName: String? = null,
     val invoiceAmount: Double? = null,
     val products: List<ProductModel>? = null,
+    val serverCreatedAtDateTime: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -25,7 +26,8 @@ data class InvoiceModel(
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
-        parcel.createTypedArrayList(ProductModel)
+        parcel.createTypedArrayList(ProductModel),
+        parcel.readString()
     ) {
     }
 
@@ -37,6 +39,7 @@ data class InvoiceModel(
         parcel.writeString(supplierName)
         parcel.writeValue(invoiceAmount)
         parcel.writeTypedList(products)
+        parcel.writeString(serverCreatedAtDateTime)
     }
 
     override fun describeContents(): Int {
@@ -63,6 +66,7 @@ data class InvoiceModel(
         private var supplierName: String? = null
         private var invoiceAmount: Double? = null
         private var products: List<ProductModel>? = null
+        private var serverCreatedAtDateTime:String?=null
 
         fun invoiceId(invoiceId: String?): Builder {
             this.invoiceId = invoiceId
@@ -109,6 +113,11 @@ data class InvoiceModel(
             return this
         }
 
+        fun serverCreatedAtDateTime(serverCreatedAtDateTime:String?):Builder{
+            this.serverCreatedAtDateTime = serverCreatedAtDateTime
+            return this
+        }
+
         override fun build(): InvoiceModel = InvoiceModel(
             invoiceId,
             purchaseOrderId,
@@ -118,7 +127,8 @@ data class InvoiceModel(
             supplierId,
             supplierName,
             invoiceAmount,
-            products
+            products,
+            serverCreatedAtDateTime
         )
 
     }

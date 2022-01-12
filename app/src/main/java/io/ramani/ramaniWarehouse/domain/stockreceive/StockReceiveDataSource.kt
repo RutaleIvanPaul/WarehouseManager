@@ -1,11 +1,9 @@
 package io.ramani.ramaniWarehouse.domain.stockreceive
 
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
 import io.reactivex.Single
-import okhttp3.RequestBody
-import retrofit2.http.Part
+import java.io.File
 
 interface StockReceiveDataSource {
     fun getSuppliers(companyId: String, page: Int, size: Int): Single<List<SupplierModel>>
@@ -17,7 +15,11 @@ interface StockReceiveDataSource {
         distributorId: String,
         date: String,
         time: String,
-        deliveryPersonName: String
+        deliveryPersonName: String,
+        supplierId: String? = null,
+        items: String? = null,
+        storeKeeperSignature: File? = null,
+        deliveryPersonSignature: File? = null
     ): Single<GoodsReceivedModel>
 
 }

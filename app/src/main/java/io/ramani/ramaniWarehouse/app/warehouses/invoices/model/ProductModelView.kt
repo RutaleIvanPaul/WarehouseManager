@@ -15,7 +15,7 @@ data class ProductModelView(
     var quantityDeclined: Double? = null,
     var isReceived: Boolean? = null,
     var declineReason: String? = null,
-    var temp: String? = null,
+    var temperature: String? = null,
     var viewType: Int = TYPE.PRODUCT
 ) : Parcelable, MultiItemEntity {
 
@@ -44,7 +44,7 @@ data class ProductModelView(
         this.isReceived = productModelView?.isReceived
         this.price = productModelView?.price
         this.quantityAccepted = productModelView?.quantityAccepted
-        this.temp = productModelView?.temp
+        this.temperature = productModelView?.temperature
 
     }
 
@@ -142,7 +142,7 @@ data class ProductModelView(
         parcel.writeValue(quantityDeclined)
         parcel.writeValue(isReceived)
         parcel.writeString(declineReason)
-        parcel.writeString(temp)
+        parcel.writeString(temperature)
     }
 
     override fun describeContents(): Int {
