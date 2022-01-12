@@ -77,10 +77,10 @@ class ReturnReceiptFragment : BaseFragment() {
     private fun printReturnReceipt(viewModel: ConfirmReturnStockViewModel) {
         viewModel.printText(getTextBeforeImages())
         viewModel.printText(getString(R.string.store_keeper)+": "+storekeeper_text.text.toString()+ "\n")
-        viewModel.printBitmap(Bitmap.createScaledBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper!!,400,200,false))
+        viewModel.printBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper!!)
         viewModel.printText(getString(R.string.assigned_to)+": "+assignee_text.text.toString()+ "\n")
-        viewModel.printBitmap(Bitmap.createScaledBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson!!,400,200,false))
-        viewModel.printText("\n"+getString(R.string.end_goods_returned)+"\n\n")
+        viewModel.printBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson!!)
+        viewModel.printText("\n"+getString(R.string.end_goods_returned)+"\n\n\n\n\n")
 
     }
 
