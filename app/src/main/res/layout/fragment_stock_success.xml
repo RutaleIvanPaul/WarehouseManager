@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_circle_check" />
+
+    <TextView style="@style/BoldTextLabel"
+        android:textSize="18sp"
+        android:layout_marginTop="30dp"
+        android:text="@string/assignment_success" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/stock_receive_success_print"
+        style="@style/GreenFillActionButton"
+        android:layout_marginTop="30dp"
+        android:paddingStart="60dp"
+        android:paddingEnd="60dp"
+        android:text="@string/print" />
+
+</LinearLayout>

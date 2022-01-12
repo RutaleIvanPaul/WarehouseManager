@@ -1,7 +1,6 @@
 package io.ramani.ramaniWarehouse.data.stockreceive.model
 
 import com.google.gson.annotations.SerializedName
-import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
 
 data class GetSupplierRemoteModel(
     @SerializedName("docs")

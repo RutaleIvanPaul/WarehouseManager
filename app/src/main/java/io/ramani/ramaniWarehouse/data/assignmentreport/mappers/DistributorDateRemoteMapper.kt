@@ -5,6 +5,7 @@ import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedItemRemote
 import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.auth.model.*
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import kotlin.collections.ArrayList
 
 class DistributorDateRemoteMapper(

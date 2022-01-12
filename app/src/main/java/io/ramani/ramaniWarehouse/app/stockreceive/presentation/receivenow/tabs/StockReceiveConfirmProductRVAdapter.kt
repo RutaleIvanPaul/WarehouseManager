@@ -15,8 +15,8 @@ class StockReceiveConfirmProductRVAdapter(
     override fun convert(helper: BaseViewHolder, item: SelectedProductModel) {
         with(helper) {
             setText(R.id.item_product_confirm_row_product_name, item.product?.name ?: "")
-            setText(R.id.item_product_confirm_row_agreed_amount, item.accepted.toString())
-            setText(R.id.item_product_confirm_row_declined_amount, item.declined.toString())
+            setText(R.id.item_product_confirm_row_agreed_amount, item.accepted.toString() + " Pc")
+            setText(R.id.item_product_confirm_row_declined_amount, item.declined.toString() + " Pc")
 
             getView<TextView>(R.id.item_product_confirm_row_edit_action).setOnSingleClickListener {
                 onItemClick(item)

@@ -1,7 +1,7 @@
 package io.ramani.ramaniWarehouse.data.stockreceive.mappers
 
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedItemRemoteModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 
 class GoodsReceivedItemRemoteMapper : ModelMapper<GoodsReceivedItemRemoteModel, GoodsReceivedItemModel> {
