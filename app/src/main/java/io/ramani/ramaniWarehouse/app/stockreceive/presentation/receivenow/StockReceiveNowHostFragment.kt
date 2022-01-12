@@ -131,7 +131,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
         })
 
         viewModel.postGoodsReceivedActionLiveData.observe(this, {
-            STOCK_RECEIVE_MODEL.clearData()
+            //STOCK_RECEIVE_MODEL.clearData()
 
             // Navigate to Success page
             flow.openReceiveSuccessPage(it)

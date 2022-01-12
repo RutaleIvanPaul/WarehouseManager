@@ -41,6 +41,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDial
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL.Companion.DATA_DATE
 import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL.Companion.DATA_SUPPLIER
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
@@ -75,7 +76,9 @@ class StockReceiveSupplierFragment : BaseFragment() {
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
 
         // Initialize UI
-        supplier_receiving_date_label.text = dateFormatter.getCalendarTimeString(Date())
+        val now = Date()
+        STOCK_RECEIVE_MODEL.setData(DATA_DATE, now)
+        supplier_receiving_date_label.text = dateFormatter.getCalendarTimeString(now)
 
         supplier_receiving_select_supplier_spinner.setOnSpinnerItemSelectedListener<String> { oldIndex, oldItem, newIndex, newItem ->
             supplier_receiving_select_supplier_spinner.isSelected = true

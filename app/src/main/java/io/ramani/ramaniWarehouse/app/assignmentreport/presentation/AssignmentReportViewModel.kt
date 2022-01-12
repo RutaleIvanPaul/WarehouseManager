@@ -107,8 +107,10 @@ class AssignmentReportViewModel(
                             stockList.add(newStock)
                         }
                     }
-                    getDistributorDateActionLiveData.postValue(stockList)
                 }
+
+                getDistributorDateActionLiveData.postValue(stockList)
+
             }, onError = {
                 isLoadingVisible = false
                 notifyErrorObserver(

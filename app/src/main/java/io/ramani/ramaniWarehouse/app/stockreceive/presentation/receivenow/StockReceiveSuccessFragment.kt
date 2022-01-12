@@ -15,7 +15,7 @@ import org.kodein.di.generic.factory
 
 class StockReceiveSuccessFragment : BaseFragment() {
     companion object {
-        const val PARAM_RETURNED_DATA = "Returned_Stock"
+        private const val PARAM_RETURNED_DATA = "Returned_Stock"
 
         fun newInstance(goodsReceivedModel: GoodsReceivedModel): StockReceiveSuccessFragment {
             val fragment = StockReceiveSuccessFragment()
@@ -49,7 +49,9 @@ class StockReceiveSuccessFragment : BaseFragment() {
 
         // Back button handler
         stock_receive_success_print.setOnSingleClickListener {
-
+            arguments?.getParcelable<GoodsReceivedModel>(PARAM_RETURNED_DATA)?.let {
+                flow.openPrintPage(it)
+            }
         }
     }
 }

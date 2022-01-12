@@ -6,4 +6,6 @@ interface StockReceiveFlow {
     fun openReceiveNow()
     fun openSignaturePad(what: String)
     fun openReceiveSuccessPage(goodsReceivedModel: GoodsReceivedModel)
+    fun openPrintPage(goodsReceivedModel: GoodsReceivedModel)
+    fun openRootPage()
 }
