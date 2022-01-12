@@ -22,5 +22,7 @@ data class ProductsUIModel(
     val supplierProductName: String,
     val units: String,
     val vat: String,
-    val vatCategory: String
+    val vatCategory: String,
+    var isAssigned: Boolean? = false,
+    var assignedNumber: Int? = 0
 )

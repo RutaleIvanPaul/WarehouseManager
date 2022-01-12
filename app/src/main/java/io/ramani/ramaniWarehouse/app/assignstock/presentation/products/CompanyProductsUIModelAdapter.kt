@@ -33,16 +33,24 @@ class CompanyProductsUIModelAdapter(
     BaseQuickAdapter<ProductsUIModel, BaseViewHolder>(R.layout.item_company_product, data) {
     override fun convert(helper: BaseViewHolder, item: ProductsUIModel) {
         with(helper) {
+            Log.e("11111", item.isAssigned.toString())
+            Log.e("11111", "item.isAssigned.toString()")
             setText(R.id.product_name, item.name)
-            setText(R.id.product_description, item.supplierProductName)
-            helper.getView<ImageView>(R.id.product_image).apply {
-                loadImage(item.imagePath)
-
-            }.setOnClickListener(View.OnClickListener { showDialog(item) })
-
-            helper.itemView.setOnSingleClickListener {
+            setText(R.id.product_description, item.supplierName)
+            setText(R.id.product_assigned_number, "${item.assignedNumber.toString()} Assigned")
+            getView<Button>(R.id.product_assign_button).setOnSingleClickListener {
+                onItemClick(item)
 
             }
+            helper.getView<ImageView>(R.id.product_image).apply {
+                loadImage(item.imagePath)
+            }
+
+//            }.setOnClickListener(View.OnClickListener { showDialog(item) })
+
+//            helper.itemView.setOnSingleClickListener {
+//
+//            }
         }
     }
 
@@ -67,6 +75,7 @@ class CompanyProductsUIModelAdapter(
         else {
             secondaryUnits.setOnClickListener(View.OnClickListener {
                 secondaryUnits.background = getDrawable(context, R.drawable.round_white_outline_with_no_borders)
+                secondaryUnits.text = item.secondaryUnitName
                 primaryUnits.background = getDrawable(context, R.drawable.round_grey_outline_edit)
             })
 
@@ -76,7 +85,9 @@ class CompanyProductsUIModelAdapter(
             })
         }
         productImage.apply { loadImage(item.imagePath) }
-        assignProductButton.setOnClickListener(View.OnClickListener { dialog.dismiss() })
+        assignProductButton.setOnClickListener(View.OnClickListener {
+            dialog.dismiss()
+        })
         dialog.show()
 
     }

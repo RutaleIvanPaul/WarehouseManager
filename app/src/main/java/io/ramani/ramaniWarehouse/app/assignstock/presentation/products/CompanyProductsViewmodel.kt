@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.map
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
@@ -31,6 +32,7 @@ class CompanyProductsViewmodel(application: Application,
     companion object{
         val noProductSelectedLiveData = MutableLiveData<Boolean>()
         val companyProductsListLiveData = MutableLiveData<ProductsUIModel>()
+        val numberOfAssignedProductsLiveData = MutableLiveData<Int>()
     }
 
     val companyProductsListOriginal = mutableListOf<ProductsUIModel>()
@@ -39,9 +41,16 @@ class CompanyProductsViewmodel(application: Application,
 
     override fun start(args: Map<String, Any?>) {
         TODO("Not yet implemented")
+
     }
-    fun nothing(){
-        Log.e("111111", "111111 was clicked")
+    fun notifyLiveDataOfAssignmentChange(id: String, numberAssigned: Int){
+        companyProductsListLiveData.map {
+            it.forEach{
+                it.isAssigned = it._id == id
+                if(it.isAssigned!!) it.assignedNumber = numberAssigned
+            }
+        }
+        numberOfAssignedProductsLiveData.postValue(numberOfAssignedProductsLiveData.value?.inc())
     }
 
     fun getCompanyProducts(){
@@ -55,6 +64,7 @@ class CompanyProductsViewmodel(application: Application,
                     isLoadingVisible = false
 
                     if(it.isNotEmpty()) {
+                        numberOfAssignedProductsLiveData.postValue(0)
                         companyProductsListOriginal.addAll(it.mapFromWith(productUIModelMapper))
                         companyProductsListLiveData.postValue(companyProductsListOriginal.toMutableList())
                     }

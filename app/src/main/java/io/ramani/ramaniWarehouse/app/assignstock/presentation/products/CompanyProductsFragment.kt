@@ -1,15 +1,24 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.products
 
+import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.view.Window
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.mapper.ProductUIMapper
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
@@ -32,7 +41,15 @@ class CompanyProductsFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        companyProductsUIModelAdapter = CompanyProductsUIModelAdapter(companyProductsList, onItemClick = {})
+        companyProductsUIModelAdapter = CompanyProductsUIModelAdapter(companyProductsList, onItemClick = {
+
+            Log.e("222222","item clicked")
+            Log.e("222222",it.isAssigned.toString())
+            showDialog(it)
+            viewModel.companyProductsListLiveData.observeForever({
+                companyProductsUIModelAdapter.notifyDataSetChanged()
+            })
+        })
     }
 
     override fun initView(view: View?) {
@@ -79,7 +96,65 @@ class CompanyProductsFragment : BaseFragment() {
                 CompanyProductsViewmodel.noProductSelectedLiveData.postValue(false)
             }
         })
+
+        CompanyProductsViewmodel.numberOfAssignedProductsLiveData.observe(this, {
+            total_assigned_products.setText("${CompanyProductsViewmodel.numberOfAssignedProductsLiveData.value.toString()} Assigned")
+
+        })
     }
+
+    private fun showDialog(item: ProductsUIModel) {
+        val context = requireContext()
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_assign_products)
+        val body = dialog.findViewById(R.id.layout_custom_rewards_dialogue_box_product_id) as TextView
+        val primaryUnits = dialog.findViewById(R.id.dialogue_custom_forms_custom_price_button) as TextView
+        val secondaryUnits = dialog.findViewById(R.id.dialogue_custom_forms_qty_button) as TextView
+        val assignmentQuantity = dialog.findViewById(R.id.layout_first_edit_text_dialogue_edit_text) as EditText
+        val productImage = dialog.findViewById(R.id.price_img) as ImageView
+        val assignProductButton = dialog.findViewById(R.id.custom_products_assign_button) as Button
+
+        body.text = item.name
+        primaryUnits.text = item.units
+        if (!item.hasSecondaryUnitConversion){
+            primaryUnits.layoutParams.width = 600
+            secondaryUnits.visibility = View.GONE
+
+        }
+        else {
+            secondaryUnits.setOnClickListener(View.OnClickListener {
+                secondaryUnits.background = ContextCompat.getDrawable(
+                    context,
+                    R.drawable.round_white_outline_with_no_borders
+                )
+                secondaryUnits.text = item.secondaryUnitName
+                primaryUnits.background =
+                    ContextCompat.getDrawable(context, R.drawable.round_grey_outline_edit)
+            })
+
+            primaryUnits.setOnClickListener(View.OnClickListener {
+                primaryUnits.background = ContextCompat.getDrawable(
+                    context,
+                    R.drawable.round_white_outline_with_no_borders
+                )
+                secondaryUnits.background =
+                    ContextCompat.getDrawable(context, R.drawable.round_grey_outline_edit)
+            })
+        }
+        productImage.apply { loadImage(item.imagePath) }
+        assignProductButton.setOnClickListener(View.OnClickListener {
+            companyProductsList.remove(item)
+            item.isAssigned = true
+            viewModel.notifyLiveDataOfAssignmentChange(item._id, assignmentQuantity.text.toString().toInt())
+
+            dialog.dismiss()
+        })
+        dialog.show()
+
+    }
+
 
     override fun onResume() {
         super.onResume()

@@ -69,7 +69,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layout_custom_rewards_dialogue_box_product_id"
                     android:layout_marginTop="15dp"
-                    android:background="@drawable/round_grey_outline_edit"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -164,7 +163,6 @@
                 android:textFontWeight="700"
                 android:textStyle="normal"
                 android:textSize="16sp"
-                android:onClick="@{() -> viewmodel.nothing()}"
                 />
 
 
