@@ -71,7 +71,7 @@ class ConfirmReceiveViewModel(
     }
 
     fun validateQty(quantity: Double?, acceptedQty: Double, declinedQty: Double): Boolean =
-        quantity!! >= (acceptedQty + declinedQty)
+        quantity!! == (acceptedQty + declinedQty)
 
     /**
      * Post Goods Received

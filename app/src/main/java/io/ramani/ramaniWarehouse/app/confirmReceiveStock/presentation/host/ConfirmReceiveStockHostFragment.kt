@@ -105,6 +105,9 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
+        stock_receive_now_host_back.setOnClickListener {
+            onBackButtonPressed()
+        }
         flow = ReceiveStockFlowController(baseActivity!!)
         initTabLayout()
         stock_receive_now_host_next_button.setOnClickListener {

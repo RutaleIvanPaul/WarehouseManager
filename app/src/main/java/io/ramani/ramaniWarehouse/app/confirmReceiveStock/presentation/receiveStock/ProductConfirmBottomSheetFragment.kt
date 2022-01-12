@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
@@ -163,14 +164,28 @@ class ProductConfirmBottomSheetFragment(
                 })
         }
         receive_btn.setOnSingleClickListener {
-            selectedProduct?.isReceived = true
-            selectedProduct?.temperature = temp_et.text.toString()
-            RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
-                ?.map {
-                    it.copy(selectedProduct)
-                }
-            onReceiveClicked(selectedProduct?.productId ?: "")
-            dismiss()
+            if (qty_accepted.error == null && qty_declined.error == null && viewModel.validateQty(
+                    selectedProduct?.quantity,
+                    qty_accepted.text.toString().toDouble(),
+                    qty_declined.text.toString().toDouble()
+                )
+            ) {
+                selectedProduct?.isReceived = true
+                selectedProduct?.temperature = temp_et.text.toString()
+                RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
+                    ?.map {
+                        it.copy(selectedProduct)
+                    }
+                onReceiveClicked(selectedProduct?.productId ?: "")
+                dismiss()
+            } else {
+                Toast.makeText(
+                    requireContext(), getString(R.string.qty_validation).replacePlaceHolderWithText(
+                        StringsPlaceHolders.QTY_VALIDATION,
+                        "${selectedProduct?.quantity}"
+                    ), Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 
