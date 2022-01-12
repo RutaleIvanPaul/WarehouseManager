@@ -20,6 +20,7 @@ import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmRet
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domainCore.date.now
+import io.ramani.ramaniWarehouse.domainCore.printer.PX400Printer
 import kotlinx.android.synthetic.main.fragment_return_receipt.*
 import kotlinx.android.synthetic.main.fragment_return_success.*
 import org.kodein.di.generic.factory
@@ -32,6 +33,7 @@ class ReturnReceiptFragment : BaseFragment() {
 
     private lateinit var confirmReturnItemsAdapter: ConfirmReturnItemsAdapter
     private lateinit var flow: AuthFlow
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +65,10 @@ class ReturnReceiptFragment : BaseFragment() {
             view.draw(canvas)
 
             screenshot.setImageBitmap(bitmap)
+
+            val scaledBitmap = Bitmap.createScaledBitmap(bitmap,400,view.height,false)
+
+            viewModel.printBitmap(scaledBitmap)
         }
 
         return_stock_done.setOnClickListener {
