@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -9,7 +10,9 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.data.common.network.HeadersProvider
+import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
@@ -18,7 +21,9 @@ import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
+import io.ramani.ramaniWarehouse.domainCore.date.now
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
+import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 import java.io.File
 
@@ -29,7 +34,8 @@ class ConfirmReceiveViewModel(
     private val headersProvider: HeadersProvider,
     private val declineReasonsUseCase: BaseSingleUseCase<List<String>, Params>,
     private val postGoodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>,
-    private val dateFormatter: DateFormatter
+    private val dateFormatter: DateFormatter,
+    private val printerHelper: PrinterHelper
 ) : BaseViewModel(application, stringProvider, sessionManager) {
     var token = ""
     var storeKeeperName = ""
@@ -48,6 +54,7 @@ class ConfirmReceiveViewModel(
         }
 
         getDeclineReasons()
+        printerHelper.open()
     }
 
     fun getUrl(purchaseId: String?): Pair<String, Map<String, String>> {
@@ -118,6 +125,18 @@ class ConfirmReceiveViewModel(
         }
     }
 
+    fun printBitmap(bitmap: Bitmap){
+        printerHelper.printBitmap(bitmap)
+    }
+
+    fun printText(receiptText:String){
+        printerHelper.printText(receiptText)
+    }
+
+    fun getNowCalendarDate(): String =
+        dateFormatter.convertToCalendarFormatDate(now())
+
+
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
@@ -125,7 +144,8 @@ class ConfirmReceiveViewModel(
         private val headersProvider: HeadersProvider,
         private val declineReasonsUseCase: BaseSingleUseCase<List<String>, Params>,
         private val postGoodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>,
-        private val dateFormatter: DateFormatter
+        private val dateFormatter: DateFormatter,
+        private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -137,7 +157,8 @@ class ConfirmReceiveViewModel(
                     headersProvider,
                     declineReasonsUseCase,
                     postGoodsReceivedUseCase,
-                    dateFormatter
+                    dateFormatter,
+                    printerHelper
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

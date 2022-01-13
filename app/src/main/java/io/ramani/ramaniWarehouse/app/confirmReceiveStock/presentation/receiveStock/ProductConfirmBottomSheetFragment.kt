@@ -97,6 +97,7 @@ class ProductConfirmBottomSheetFragment(
                             selectedProduct?.quantityAccepted =
                                 qty_accepted.text.toString().toDouble()
                             qty_accepted.error = null
+                            qty_declined.error = null
                             percent_delivered.text = calculatePercentage(selectedProduct)
                         } else {
                             qty_accepted.error =
@@ -130,6 +131,7 @@ class ProductConfirmBottomSheetFragment(
                             selectedProduct?.quantityDeclined =
                                 qty_declined.text.toString().toDouble()
                             qty_declined.error = null
+                            qty_accepted.error = null
                             percent_delivered.text = calculatePercentage(selectedProduct)
                         } else {
                             qty_declined.error =

@@ -58,6 +58,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        flow = ReceiveStockFlowController(baseActivity!!)
         initArgs()
         initSubscribers()
     }
@@ -73,13 +74,13 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     }
 
     private fun observeOnGoodsPosted() {
-        viewModel.postGoodsReceivedActionLiveData.observe(this,{
+        viewModel.postGoodsReceivedActionLiveData.observe(this, {
             DrawableCompat.setTint(
                 stock_receive_now_host_indicator_2.drawable,
                 ContextCompat.getColor(requireContext(), R.color.ramani_green)
             )
+            flow.openReceiveSuccess()
         })
-        flow.openReceiveSuccess()
     }
 
     private fun observeRefreshedProductList() {

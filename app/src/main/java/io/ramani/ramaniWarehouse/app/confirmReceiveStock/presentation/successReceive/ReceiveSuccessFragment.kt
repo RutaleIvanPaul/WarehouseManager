@@ -1,23 +1,24 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.successReceive
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.View
+import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
-import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlow
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlowController
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
 import kotlinx.android.synthetic.main.fragment_return_success.*
 import org.kodein.di.generic.factory
 
 class ReceiveSuccessFragment : BaseFragment() {
-    private val viewModelProvider: (Fragment) -> ReceiveSuccessViewModel by factory()
-    private lateinit var viewModel: ReceiveSuccessViewModel
+    private val viewModelProvider: (Fragment) -> ConfirmReceiveViewModel by factory()
+    private lateinit var viewModel: ConfirmReceiveViewModel
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
-    private lateinit var flow:ReturnStockFlow
+    private lateinit var flow: ReceiveStockFlow
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,15 +27,14 @@ class ReceiveSuccessFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
-        flow = ReturnStockFlowcontroller(baseActivity!!, R.id.main_fragment_container)
+        flow = ReceiveStockFlowController(baseActivity!!)
         return_stock_view_receipt.setOnClickListener {
-            flow.openReturnedStockPrintScreen()
+            flow.openReceiveReceipt()
         }
     }
 
 
     override fun getLayoutResId(): Int = R.layout.fragment_return_success
-
 
 
     companion object {

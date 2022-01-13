@@ -13,6 +13,7 @@ import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlowController
+import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
@@ -48,7 +49,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
     }
 
     private fun subscribeWhenReceiveSign() {
-        StockReceiveNowViewModel.signedLiveData.observe(this, {
+        STOCK_RECEIVE_MODEL.signedLiveData.observe(this, {
 
             if (it.first == StockReceiveSignaturePadSheetFragment.PARAM_STORE_KEEPER_SIGN) {
                 stock_receive_confirm_store_keeper_name.isEnabled = false

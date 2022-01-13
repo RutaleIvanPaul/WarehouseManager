@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow
 
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveReceipt.ReceiveReceiptFragment
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveStock.ProductConfirmBottomSheetFragment
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.successReceive.ReceiveSuccessFragment
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.supplier.InvoiceBottomSheetFragment
@@ -27,6 +28,14 @@ class ReceiveStockFlowController(private val activity: BaseActivity) : ReceiveSt
         activity?.navigationManager?.open(
             fragment,
             openMethod = NavigationManager.OpenMethod.ADD
+        )
+    }
+
+    override fun openReceiveReceipt() {
+        val fragment = ReceiveReceiptFragment.newInstance()
+        activity?.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.REPLACE
         )
     }
 }
