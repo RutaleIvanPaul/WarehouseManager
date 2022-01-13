@@ -79,6 +79,8 @@
     <string name="delivery_person">Delivery Person</string>
     <string name="delivery_person_hint">Enter delivery person name</string>
 
+    <string name="assignment_success">Assignment Success</string>
+
     <!-- Assignment Report -->
     <string name="assigned">Assigned</string>
     <string name="pick_date">Pick Date</string>
@@ -93,6 +95,7 @@
     <string name="goods">Goods</string>
     <string name="quantity">Quantity</string>
     <string name="no_stocks">No stocks</string>
+
     <!-- Warning Messages -->
     <string name="warning_select_supplier">Please select supplier</string>
     <string name="warning_add_product">Please add one more of product</string>
