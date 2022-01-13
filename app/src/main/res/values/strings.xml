@@ -1,4 +1,4 @@
-   <resources>
+<resources>
     <string name="app_name">Ramani Warehouse</string>
     <string name="yes">yes</string>
     <string name="an_error_has_occured_please_try_again">An error has occurred. Please try again</string>
@@ -132,6 +132,9 @@
     <string name="qty_declined">Qty Declined</string>
     <string name="decline_reason">Decline Reason</string>
     <string name="clear_signature">Clear Signature</string>
+    <string name="missing_product_selection">Select at least one product to proceed</string>
+    <string name="hint_qty">Eg. 19</string>
+    <string name="assign_product">Assign Product</string>
     <string name="start_of_goods_returned">***START OF GOODS RETURNED***</string>
     <string name="end_of_goods_returned">***END OF GOODS RETURNED***</string>
     <string name="company_logo">company logo</string>
@@ -145,8 +148,9 @@
     <string name="returned">Returned</string>
     <string name="view_receipt">View Receipt</string>
     <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
-       <string name="no_printer">Could not Find Printer Connected to device.</string>
-       <string name="printer_opened">Printer Opened</string>
-       <string name="printed">Printed.</string>
+    <string name="assign_success">Assignment Successful</string>
+    <string name="no_printer">Could not Find Printer Connected to device.</string>
+    <string name="printer_opened">Printer Opened</string>
+    <string name="printed">Printed.</string>
 
-   </resources>
+</resources>

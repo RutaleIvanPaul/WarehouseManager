@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.data.stockreceive
 
+
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRemoteModel
 import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
 import io.ramani.ramaniWarehouse.data.stockreceive.model.SupplierRemoteModel
