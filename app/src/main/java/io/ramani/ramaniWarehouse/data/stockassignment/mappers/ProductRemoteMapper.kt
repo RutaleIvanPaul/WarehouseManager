@@ -4,7 +4,6 @@ import io.ramani.ramaniWarehouse.data.stockassignment.model.ProductCategory
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.Reward
 import io.ramani.ramaniWarehouse.data.stockassignment.model.SalesPersonRemoteModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductCategoryEntity
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity

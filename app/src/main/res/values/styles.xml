@@ -269,7 +269,18 @@
         <item name="android:paddingEnd">10dp</item>
         <item name="fontFamily">@font/galvji</item>
         <item name="android:textStyle">bold</item>
+    </style>
 
+    <style name="ReceiptText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="ReceiptText.SmallTextLabel" parent="SmallTextLabel">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
 </resources>
