@@ -5,4 +5,5 @@ interface AssignStockFlow {
     fun openAssignStockSignPad(signee: String)
     fun openAssignSuccess()
     fun openAssignedStockPrintScreen()
+
 }
