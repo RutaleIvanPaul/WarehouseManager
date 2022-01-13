@@ -10,14 +10,11 @@ import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.ConfirmAssignedStockFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.CompanyProductsFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonFragment
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveProductsFragment
-import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveSupplierFragment
 import kotlinx.android.synthetic.main.fragment_assign_stock.*
 import kotlinx.android.synthetic.main.fragment_assign_stock.assign_stock_host_next_button
 
@@ -42,6 +39,7 @@ class AssignStockFragment : BaseFragment() {
 
     private var salespersonFragment: AssignStockSalesPersonFragment? = null
     private var productsFragment: CompanyProductsFragment? = null
+    private var confirmAssignmentFragment: ConfirmAssignedStockFragment? = null
 
 
     override fun getLayoutResId() = R.layout.fragment_assign_stock
@@ -52,6 +50,7 @@ class AssignStockFragment : BaseFragment() {
         viewModel = ViewModelProvider(this).get(AssignStockViewModel::class.java)
         initTabLayout()
         subscribeObservers()
+        viewModel.start()
     }
 
     private fun subscribeObservers() {
@@ -87,11 +86,12 @@ class AssignStockFragment : BaseFragment() {
     private fun initTabLayout() {
         salespersonFragment = AssignStockSalesPersonFragment.newInstance()
         productsFragment = CompanyProductsFragment.newInstance()
+        confirmAssignmentFragment = ConfirmAssignedStockFragment()
 
         val adapter = TabPagerAdapter(activity)
         adapter.addFragment(salespersonFragment!!, getString(R.string.salesperson))
         adapter.addFragment(productsFragment!!, getString(R.string.products))
-        adapter.addFragment(StockReceiveSupplierFragment.newInstance(), getString(R.string.confirm))
+        adapter.addFragment(confirmAssignmentFragment!!, getString(R.string.confirm))
 
         assign_stock_viewpager.adapter = adapter
         assign_stock_viewpager.currentItem = 0

@@ -1,6 +1,8 @@
 package io.ramani.ramaniWarehouse.data.stockassignment
 
 import io.ramani.ramaniWarehouse.data.stockassignment.model.AllProducts
+import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItems
+import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItemsResponse
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.domain.stockassignment.AssignStockDataSource
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
@@ -15,5 +17,8 @@ class AssignStockRepository(
 
     override fun getProducts(companyId: String): Single<List<ProductEntity>> =
         assignStockRemoteDataSource.getProducts(companyId)
+
+    override fun postAssignedStock(postAssignedItems: PostAssignedItems): Single<PostAssignedItemsResponse> =
+        assignStockRemoteDataSource.postAssignedStock(postAssignedItems)
 
 }

@@ -31,6 +31,7 @@
     <color name = "ramani_green">#FF1BBD1B</color>
     <color name = "dark_green">#5DB075</color>
     <color name = "light_green">#87be61</color>
+    <color name = "text_green">#04C401</color>
 
     <color name = "light_lime_green">#eafee4</color>
     <color name = "light_lime_yellow">#75C152</color>
@@ -71,6 +72,7 @@
     <color name="title_grey_color">#B3B4B4</color>
 
     <color name="custom_black">#292C34</color>
+    <color name="black_text">#31373B</color>
     <color name="light_grey_edit">#F7F8F9</color>
 
     <color name="edit_pric_bg">#D9DBDD</color>

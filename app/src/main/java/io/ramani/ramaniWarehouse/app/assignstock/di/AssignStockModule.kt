@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.assignstocksalesperson.mapper.SalesPersonRVMapper
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.assignstocksalesperson.model.SalesPersonRVModel
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.ConfirmAssignedStockViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.CompanyProductsViewmodel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.mapper.ProdcutCategoryUIMapper
@@ -13,11 +14,9 @@ import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.mapper.Re
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductCategoryUIModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.RewardUIModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.mapper.ReturnItemsMapper
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.products.SelectReturnItemsViewmodel
-import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
-import io.ramani.ramaniWarehouse.data.returnStock.model.OfProducts
-import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.AssignSuccessViewModel
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.mappers.AssignedItemsMapper
+import io.ramani.ramaniWarehouse.data.stockassignment.model.ConfirmProducts
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductCategoryEntity
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
@@ -37,7 +36,7 @@ val assignStockModule = Kodein.Module("assignStockModule") {
     bind<AssignStockViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, AssignStockViewModel.Factory(
-                instance(), instance(), instance()
+                instance(), instance(), instance(), instance("postAssignedStockUseCase"), instance(), instance(), instance()
             )
         ).get(AssignStockViewModel::class.java)
     }
@@ -80,5 +79,28 @@ val assignStockModule = Kodein.Module("assignStockModule") {
 
     bind<ModelMapper<RewardEntity, RewardUIModel>>() with provider {
         RewardUIMapper()
+    }
+
+    bind<ModelMapper<ProductsUIModel, ConfirmProducts>>() with provider {
+        AssignedItemsMapper()
+    }
+
+    bind<ConfirmAssignedStockViewModel>() with factory{ fragment: Fragment ->
+        ViewModelProvider(
+            fragment, ConfirmAssignedStockViewModel.Factory(
+                instance(), instance(), instance(), instance("postAssignedStockUseCase")
+                , instance(), instance()
+            )
+        ).get(ConfirmAssignedStockViewModel::class.java)
+
+    }
+
+    bind<AssignSuccessViewModel>() with factory{ fragment: Fragment ->
+        ViewModelProvider(
+            fragment, AssignSuccessViewModel.Factory(
+                instance(), instance(), instance()
+            )
+        ).get(AssignSuccessViewModel::class.java)
+
     }
 }

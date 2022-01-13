@@ -1,4 +1,4 @@
-<resources>
+   <resources>
     <string name="app_name">Ramani Warehouse</string>
     <string name="yes">yes</string>
     <string name="an_error_has_occured_please_try_again">An error has occurred. Please try again</string>
@@ -41,6 +41,7 @@
     <string name="edit">Edit</string>
     <string name="sign">Sign</string>
     <string name="signed">Signed</string>
+    <string name="print">Print</string>
 
     <!-- Receive Stock -->
     <string name="receive_stock">Receive Stock</string>
@@ -72,13 +73,24 @@
     <string name="expire_date">Expire Date</string>
 
     <string name="confirm">Confirm</string>
-    <string name="print">Print</string>
 
     <string name="store_keeper">Store Keeper</string>
     <string name="store_keeper_hint">Enter store keeper name</string>
     <string name="delivery_person">Delivery Person</string>
     <string name="delivery_person_hint">Enter delivery person name</string>
 
+    <!-- Assignment Report -->
+    <string name="assigned">Assigned</string>
+    <string name="pick_date">Pick Date</string>
+
+    <string name="start_goods_issued">*** START OF GOODS ISSUED ***</string>
+    <string name="start_goods_returned">*** START OF GOODS RETURNED ***</string>
+
+    <string name="end_goods_issued">*** END OF GOODS ISSUED ***</string>
+    <string name="end_goods_returned">*** END OF GOODS RETURNED ***</string>
+    <string name="goods">Goods</string>
+    <string name="quantity">Quantity</string>
+    <string name="no_stocks">No stocks</string>
     <!-- Warning Messages -->
     <string name="warning_select_supplier">Please select supplier</string>
     <string name="warning_add_product">Please add one more of product</string>
@@ -96,7 +108,7 @@
 
     <string name="warning_no_signed_store_keeper">Please enter store keeper name and sign</string>
     <string name="warning_no_signed_delivery_person">Please enter delivery person name and sign</string>
-    <string name="quantity">5</string>
+    <string name="quantity_5">5</string>
     <string name="order_from">Order from: {{warehouse}}</string>
     <string name="date">Date:</string>
     <string name="invoice">Invoice:</string>
@@ -105,9 +117,33 @@
     <string name="no_data_available">No Data Available</string>
     <string name="missing_quantity">Cannot Confirm without entering quantity</string>
     <string name="proforma_invoice">Proforma Invoice</string>
+    <string name="qty">qty</string>
+    <string name="status">status</string>
+    <string name="receive">Receive</string>
+    <string name="received">Received</string>
+    <string name="incoming">Incoming</string>
+    <string name="percent_delivered">Percent delievered</string>
+    <string name="batch_no">Batch No.</string>
+    <string name="qty_accepted">Qty Accepted</string>
+    <string name="qty_declined">Qty Declined</string>
+    <string name="decline_reason">Decline Reason</string>
     <string name="clear_signature">Clear Signature</string>
     <string name="missing_product_selection">Select at least one product to proceed</string>
     <string name="hint_qty">Eg. 19</string>
     <string name="assign_product">Assign Product</string>
+    <string name="start_of_goods_returned">***START OF GOODS RETURNED***</string>
+    <string name="end_of_goods_returned">***END OF GOODS RETURNED***</string>
+    <string name="company_logo">company logo</string>
+    <string name="goods_issued_note">Goods Issued Note</string>
+    <string name="masyl_general_enteprices">Masyl General Enteprices</string>
+    <string name="date_24_july_2021">Date: 24 July 2021</string>
+    <string name="assigned_to">Assigned to</string>
+    <string name="christian_michael">Christian Michael</string>
+    <string name="assigned_to_signature">Assigned to Signature</string>
+    <string name="store_keeper_signature">Store Keeper Signature</string>
+    <string name="returned">Returned</string>
+    <string name="view_receipt">View Receipt</string>
+    <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
+       <string name="assign_success">Assignment Successful</string>
 
-</resources>
+   </resources>

@@ -35,12 +35,14 @@ class CompanyProductsFragment : BaseFragment() {
     override val baseViewModel: BaseViewModel?
         get() = viewModel
     private val companyProductsList = mutableListOf<ProductsUIModel>()
+    private val selectedCompanyProductsList = mutableListOf<ProductsUIModel>()
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        viewModel.start()
         companyProductsUIModelAdapter = CompanyProductsUIModelAdapter(companyProductsList, onItemClick = {
 
             Log.e("222222","item clicked")
@@ -84,9 +86,6 @@ class CompanyProductsFragment : BaseFragment() {
         viewModel.companyProductsListLiveData.observe(this,{
             companyProductsList.clear()
             companyProductsList.addAll(it)
-            it.forEach {
-                companyProductsList.add(it)
-            }
             companyProductsUIModelAdapter.notifyDataSetChanged()
         })
 
@@ -147,7 +146,12 @@ class CompanyProductsFragment : BaseFragment() {
         assignProductButton.setOnClickListener(View.OnClickListener {
             companyProductsList.remove(item)
             item.isAssigned = true
+            item.assignedNumber = assignmentQuantity.text.toString().toInt()
+            Log.e("3333333", item.assignedNumber.toString())
             viewModel.notifyLiveDataOfAssignmentChange(item._id, assignmentQuantity.text.toString().toInt())
+            selectedCompanyProductsList.add(item)
+            viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
+            Log.e("11111111111 list", selectedCompanyProductsList.toString())
 
             dialog.dismiss()
         })

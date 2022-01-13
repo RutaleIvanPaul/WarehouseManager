@@ -1,7 +1,7 @@
 package io.ramani.ramaniWarehouse.domain.auth.useCase
 
 import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRequestModel
-import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor

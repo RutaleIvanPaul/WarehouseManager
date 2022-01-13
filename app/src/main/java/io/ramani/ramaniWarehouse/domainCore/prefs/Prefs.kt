@@ -1,5 +1,7 @@
 package io.ramani.ramaniWarehouse.domainCore.prefs
 
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
+
 /**
  * Created by Amr on 10/5/17.
  */

@@ -41,6 +41,7 @@ class ReturnStockViewModel(
         val returnItemDetails: ReturnItemDetails = ReturnItemDetails()
         val returnItemsChangedLiveData = MutableLiveData<Boolean>()
         var signedLiveData = MutableLiveData<Pair<String, Bitmap>>()
+        val pushBackToStart = MutableLiveData<Boolean>()
     }
 
     var userModel: UserModel? = null

@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.map
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -19,6 +21,7 @@ import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
+import io.reactivex.rxkotlin.subscribeBy
 
 class CompanyProductsViewmodel(application: Application,
                                stringProvider: IStringProvider,
@@ -28,6 +31,9 @@ class CompanyProductsViewmodel(application: Application,
                                private val productUIModelMapper: ModelMapper<ProductEntity, ProductsUIModel>,
 
 ): BaseViewModel(application, stringProvider, sessionManager) {
+    var companyId = ""
+    var warehouseId = ""
+    var salesPersonUID = ""
 
     companion object{
         val noProductSelectedLiveData = MutableLiveData<Boolean>()
@@ -36,11 +42,22 @@ class CompanyProductsViewmodel(application: Application,
     }
 
     val companyProductsListOriginal = mutableListOf<ProductsUIModel>()
+    val companyProductsListSelection = mutableListOf<ProductsUIModel>()
     val companyProductsListLiveData = MutableLiveData<List<ProductsUIModel>>()
+    val assignedCompanyProductsListLiveData = MutableLiveData<List<ProductsUIModel>>()
+
     val stringName = MutableLiveData<String>()
 
     override fun start(args: Map<String, Any?>) {
-        TODO("Not yet implemented")
+
+        sessionManager.getLoggedInUser().subscribeBy {
+            salesPersonUID = it.uuid
+            companyId = it.companyId
+        }
+
+        sessionManager.getCurrentWarehouse().subscribeBy {
+            warehouseId = it.id ?: ""
+        }
 
     }
     fun notifyLiveDataOfAssignmentChange(id: String, numberAssigned: Int){
@@ -53,11 +70,18 @@ class CompanyProductsViewmodel(application: Application,
         numberOfAssignedProductsLiveData.postValue(numberOfAssignedProductsLiveData.value?.inc())
     }
 
+    fun saveAllAssignedProducts(selection: List<ProductsUIModel>){
+        companyProductsListSelection.addAll(selection)
+        assignedCompanyProductsListLiveData.postValue(companyProductsListSelection.toMutableList())
+        ASSGNMENT_RECEIVE_MODELS.productsSelection.postValue(selection)
+
+    }
+
     fun getCompanyProducts(){
             val single = getCompanyProductsUsecase
                 .getSingle(
                     //TO DO HERE
-                    GetProductsRequestModel("601ffa4d279d812ed25a7f9b"))
+                    GetProductsRequestModel(companyId))
             subscribeSingle(
                 single,
                 onSuccess = {

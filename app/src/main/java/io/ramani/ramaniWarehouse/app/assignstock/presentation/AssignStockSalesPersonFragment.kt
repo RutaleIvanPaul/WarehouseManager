@@ -14,6 +14,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import kotlinx.android.synthetic.main.fragment_sales_person.*
 import org.kodein.di.generic.factory
@@ -68,7 +69,12 @@ class AssignStockSalesPersonFragment : BaseFragment() {
     private fun subscribeObservers() {
 
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
-            select_salesperson_spinner.text = it
+            if (it != null) {
+                select_salesperson_spinner.text = it
+                ReturnStockViewModel.allowToGoNext.postValue(Pair(0, true))
+            } else {
+                ReturnStockViewModel.allowToGoNext.postValue(Pair(0, false))
+            }
         })
     }
 

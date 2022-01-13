@@ -4,6 +4,7 @@ import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ReturnStockSignaturePadFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ReturnSuccessFragment
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.returnreceipt.ReturnReceiptFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonBottomSheetFragment
 
 class ReturnStockFlowcontroller(
@@ -24,7 +25,15 @@ class ReturnStockFlowcontroller(
         val fragment = ReturnSuccessFragment.newInstance()
         activity?.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.ADD,
+            openMethod = NavigationManager.OpenMethod.ADD
+        )
+    }
+
+    override fun openReturnedStockPrintScreen() {
+        val fragment = ReturnReceiptFragment.newInstance()
+        activity?.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.REPLACE
         )
     }
 }

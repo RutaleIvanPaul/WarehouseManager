@@ -1,16 +1,18 @@
 package io.ramani.ramaniWarehouse.app.stockreceive.di
 
 import io.ramani.ramaniWarehouse.data.auth.*
-import io.ramani.ramaniWarehouse.data.auth.mappers.GoodsReceivedItemRemoteMapper
+import io.ramani.ramaniWarehouse.data.stockreceive.mappers.GoodsReceivedItemRemoteMapper
 import io.ramani.ramaniWarehouse.data.auth.mappers.GoodsReceivedRemoteMapper
 import io.ramani.ramaniWarehouse.data.auth.mappers.SupplierProductRemoteMapper
 import io.ramani.ramaniWarehouse.data.auth.mappers.SupplierRemoteMapper
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedItemRemoteModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedItemRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.SupplierProductRemoteModel
 import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
 import io.ramani.ramaniWarehouse.data.common.network.ServiceHelper
-import io.ramani.ramaniWarehouse.domain.auth.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.data.stockreceive.StockReceiveRemoteDataSource
+import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.data.stockreceive.StockReceiveApi
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
