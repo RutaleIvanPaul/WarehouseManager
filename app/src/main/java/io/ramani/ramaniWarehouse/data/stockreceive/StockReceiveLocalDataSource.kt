@@ -1,9 +1,9 @@
-package io.ramani.ramaniWarehouse.data.auth
+package io.ramani.ramaniWarehouse.data.stockreceive
 
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import io.reactivex.Single
 import java.io.File

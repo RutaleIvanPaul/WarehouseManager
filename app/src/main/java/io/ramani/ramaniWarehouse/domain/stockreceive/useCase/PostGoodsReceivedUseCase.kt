@@ -3,11 +3,11 @@ package io.ramani.ramaniWarehouse.domain.stockreceive.useCase
 import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor
 import io.ramani.ramaniWarehouse.domain.base.executor.ThreadExecutor
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.reactivex.Single
 
 class PostGoodsReceivedUseCase(

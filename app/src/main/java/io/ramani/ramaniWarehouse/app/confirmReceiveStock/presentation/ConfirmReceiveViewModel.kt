@@ -12,7 +12,7 @@ import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.data.common.network.HeadersProvider
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.Params

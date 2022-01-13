@@ -9,19 +9,19 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.data.auth.model.GetSupplierRequestModel
-import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
-import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GetSupplierRequestModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedSupplierDataModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedSupplierDataModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SignatureInfo
+import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
 import okhttp3.MediaType
 import okhttp3.RequestBody
@@ -72,7 +72,7 @@ class StockReceiveNowViewModel(
         //postGoodsReceived()
     }
 
-    private fun getSuppliers(companyId: String, page: Int, size: Int) {
+    fun getSuppliers(companyId: String, page: Int, size: Int) {
         isLoadingVisible = true
 
         val single = getSupplierUseCase.getSingle(GetSupplierRequestModel(companyId, page, size))
@@ -83,8 +83,11 @@ class StockReceiveNowViewModel(
             getSuppliersActionLiveData.postValue(it)
         }, onError = {
             isLoadingVisible = false
-            notifyErrorObserver(it.message
-                ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
+            notifyErrorObserver(
+                it.message
+                    ?: getString(R.string.an_error_has_occured_please_try_again),
+                PresentationError.ERROR_TEXT
+            )
         })
     }
 
@@ -98,8 +101,11 @@ class StockReceiveNowViewModel(
             getDeclineReasonsActionLiveData.postValue(it)
         }, onError = {
             isLoadingVisible = false
-            notifyErrorObserver(it.message
-                ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
+            notifyErrorObserver(
+                it.message
+                    ?: getString(R.string.an_error_has_occured_please_try_again),
+                PresentationError.ERROR_TEXT
+            )
         })
     }
 
@@ -114,48 +120,48 @@ class StockReceiveNowViewModel(
     /**
      * Post Goods Received
      */
-    fun postGoodsReceived() {
-        isLoadingVisible = true
+//    fun postGoodsReceived() {
+//        isLoadingVisible = true
+//
+//        // Create request body
+//        var requestBody:Map<String, RequestBody>? = null
+//        if (supplierData.supplier != null) {
+//            requestBody = supplierData.createRequestBody(
+//                prefs.currentWarehouse,
+//                prefs.currentUser,
+//                "613f3aa92aa50d36120b7c67"
+//            )
+//        } else {
+//            requestBody = makeParam()
+//        }
+//
+//        val request = GoodsReceivedRequestModel(
+//            "",
+//            userId,
+//            warehouseId,
+//            companyId,
+//            "",
+//            "",
+//            "adrian"
+//        )
+//        val single = postGoodsReceivedUseCase.getSingle(request)
+//        subscribeSingle(single, onSuccess = {
+//            isLoadingVisible = false
+//
+//            postGoodsReceivedActionLiveData.postValue(it)
+//        }, onError = {
+//            isLoadingVisible = false
+//            notifyErrorObserver(
+//                it.message
+//                    ?: getString(R.string.an_error_has_occured_please_try_again),
+//                PresentationError.ERROR_TEXT
+//            )
+//        })
+//
+//    }
 
-        // Create request body
-        var requestBody:Map<String, RequestBody>? = null
-        if (supplierData.supplier != null) {
-            requestBody = supplierData.createRequestBody(
-                prefs.currentWarehouse,
-                prefs.currentUser,
-                "613f3aa92aa50d36120b7c67"
-            )
-        } else {
-            requestBody = makeParam()
-        }
-
-        val request = GoodsReceivedRequestModel(
-            "",
-            userId,
-            warehouseId,
-            companyId,
-            "",
-            "",
-            "adrian"
-        )
-        val single = postGoodsReceivedUseCase.getSingle(request)
-        subscribeSingle(single, onSuccess = {
-            isLoadingVisible = false
-
-            postGoodsReceivedActionLiveData.postValue(it)
-        }, onError = {
-            isLoadingVisible = false
-            notifyErrorObserver(
-                it.message
-                    ?: getString(R.string.an_error_has_occured_please_try_again),
-                PresentationError.ERROR_TEXT
-            )
-        })
-
-    }
-
-    private fun makeParam():HashMap<String, RequestBody> {
-        val map:HashMap<String, RequestBody> = HashMap<String, RequestBody>()
+    private fun makeParam(): HashMap<String, RequestBody> {
+        val map: HashMap<String, RequestBody> = HashMap<String, RequestBody>()
 
         map["warehouseId"] = createTextFormData(prefs.currentWarehouse)
         map["distributorId"] = createTextFormData("613f3aa92aa50d36120b7c67")
@@ -165,7 +171,8 @@ class StockReceiveNowViewModel(
         map["date"] = createTextFormData("")
         return map
     }
-    private fun createTextFormData(value:String): RequestBody {
+
+    private fun createTextFormData(value: String): RequestBody {
         return RequestBody.create(MediaType.parse("text/plain"), value)
     }
 
@@ -231,11 +238,15 @@ class StockReceiveNowViewModel(
 
         // Selected Supplier Data
         var supplierData = SelectedSupplierDataModel()
-        var allowToGoNextLiveData = MutableLiveData<Pair<Int, Boolean>>()      // Allow event to go next on each page
-        var updateProductRequestLiveData = MutableLiveData<SelectedProductModel>()      // Update product request
-        var updateProductCompletedLiveData = MutableLiveData<SelectedProductModel>()      // Update product request
+        var allowToGoNextLiveData =
+            MutableLiveData<Pair<Int, Boolean>>()      // Allow event to go next on each page
+        var updateProductRequestLiveData =
+            MutableLiveData<SelectedProductModel>()      // Update product request
+        var updateProductCompletedLiveData =
+            MutableLiveData<SelectedProductModel>()      // Update product request
 
-        var signedLiveData = MutableLiveData<Pair<String, Bitmap>>()      // Event triggered when sign is completed
+        var signedLiveData =
+            MutableLiveData<Pair<String, Bitmap>>()      // Event triggered when sign is completed
 
     }
 }

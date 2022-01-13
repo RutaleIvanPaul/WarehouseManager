@@ -106,7 +106,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
                 true
             }
 
-        viewModel.getSuppliers(1, 200)
+//        viewModel.getSuppliers(1, 200)
     }
 
     override fun onPause() {

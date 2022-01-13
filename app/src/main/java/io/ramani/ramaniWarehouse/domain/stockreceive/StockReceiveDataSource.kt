@@ -1,7 +1,7 @@
 package io.ramani.ramaniWarehouse.domain.stockreceive
 
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.reactivex.Single
 import java.io.File
 
