@@ -14,6 +14,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveNowViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment
+import io.ramani.ramaniWarehouse.domainCore.printer.processForPrinting
 import kotlinx.android.synthetic.main.fragment_return_stock_signature_pad.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_signature_sheet.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_signature_sheet.stock_receive_signature_pad_clear
@@ -62,7 +63,7 @@ class ReturnStockSignaturePadFragment : BaseBottomSheetDialogFragment() {
             if (!isSigned) {
                 errorDialog("Please sign and click confirm.")
             } else {
-                val bitmap = return_stock_signature_pad.transparentSignatureBitmap
+                val bitmap = return_stock_signature_pad.signatureBitmap.processForPrinting()
 
                 when (arguments?.getString("signee")) {
                     ReturnStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN -> ReturnStockViewModel.signedLiveData.postValue(Pair(

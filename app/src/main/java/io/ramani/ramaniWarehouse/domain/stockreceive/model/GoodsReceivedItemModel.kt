@@ -1,9 +1,8 @@
-package io.ramani.ramaniWarehouse.domain.auth.model
+package io.ramani.ramaniWarehouse.domain.stockreceive.model
 
 import android.os.Parcel
 import android.os.Parcelable
 import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
-import com.google.gson.Gson
 
 data class GoodsReceivedItemModel(
     val id: String = "",

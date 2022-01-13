@@ -1,9 +1,11 @@
-package io.ramani.ramaniWarehouse.app.auth.flow
+package io.ramani.ramaniWarehouse.app.stockreceive.flow
 
-import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 
 interface StockReceiveFlow {
     fun openReceiveNow()
     fun openSignaturePad(what: String)
-    fun pop(fragment: BaseFragment)
+    fun openReceiveSuccessPage(goodsReceivedModel: GoodsReceivedModel)
+    fun openPrintPage(goodsReceivedModel: GoodsReceivedModel)
+    fun openRootPage()
 }
