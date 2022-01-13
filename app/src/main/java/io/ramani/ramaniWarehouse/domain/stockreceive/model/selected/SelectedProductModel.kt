@@ -1,8 +1,6 @@
 package io.ramani.ramaniWarehouse.domain.stockreceive.model.selected
 
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierProductModel
-import java.util.*
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierProductModel
 
 /**
  * @description     Selected product & properties

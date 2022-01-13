@@ -1,8 +1,8 @@
-package io.ramani.ramaniWarehouse.domain.auth.useCase
+package io.ramani.ramaniWarehouse.domain.stockreceive.useCase
 
-import io.ramani.ramaniWarehouse.data.auth.model.GoodsReceivedRequestModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor
 import io.ramani.ramaniWarehouse.domain.base.executor.ThreadExecutor
@@ -17,14 +17,6 @@ class PostGoodsReceivedUseCase(
     postThreadExecutor
 ) {
     override fun buildUseCaseSingle(params: GoodsReceivedRequestModel?): Single<GoodsReceivedModel> =
-        stockReceiveDataSource.postGoodsReceived(
-            params?.invoiceId!!,
-            params.warehouseManagerId,
-            params.warehouseId,
-            params.distributorId,
-            params.date,
-            params.time,
-            params.deliveryPersonName
-        )
+        stockReceiveDataSource.postGoodsReceived(params!!.body)
 
 }

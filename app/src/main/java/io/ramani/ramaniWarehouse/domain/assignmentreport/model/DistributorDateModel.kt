@@ -2,7 +2,7 @@ package io.ramani.ramaniWarehouse.domain.assignmentreport.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
 data class DistributorDateModel(

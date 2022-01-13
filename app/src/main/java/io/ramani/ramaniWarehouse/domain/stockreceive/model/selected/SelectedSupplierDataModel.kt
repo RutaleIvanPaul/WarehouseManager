@@ -1,14 +1,17 @@
 package io.ramani.ramaniWarehouse.domain.stockreceive.model.selected
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import com.google.gson.Gson
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
+import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import okhttp3.MediaType
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
+import okhttp3.MultipartBody
+import java.text.SimpleDateFormat
 
 class SelectedSupplierDataModel {
     var supplier: SupplierModel? = null
@@ -30,53 +33,56 @@ class SelectedSupplierDataModel {
         deliveryPersonData = null
     }
 
-    fun createRequestBody(warehouseId: String, warehouseManagerId: String, distributorId: String): Map<String, RequestBody> {
-        val map:HashMap<String,RequestBody> = HashMap<String, RequestBody>()
+    @SuppressLint("SimpleDateFormat")
+    fun createRequestBody(warehouseId: String, warehouseManagerId: String, distributorId: String): RequestBody {
+        val confirmDate = date ?: Date()
 
-        map["warehouseId"] = createTextFormData(warehouseId)
-        map["distributorId"] = createTextFormData(distributorId)
-        map["warehouseManagerId"] = createTextFormData(warehouseManagerId)
-        map["supplierId"] = createTextFormData(supplier!!.id)
-        map["time"] = createTextFormData("")
-        map["date"] = createTextFormData("")
+        val time = SimpleDateFormat("HH:mm:ss").format(confirmDate)
+        val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(confirmDate)
 
-        // Add product
-        map["items[]"] = createTextFormData(Gson().toJson(products))
+        val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("invoiceId", "")
+            .addFormDataPart("warehouseId", warehouseId)
+            .addFormDataPart("distributorId", distributorId)
+            .addFormDataPart("supplierId", supplier!!.id)
+            .addFormDataPart("warehouseManagerId", warehouseManagerId)
+            .addFormDataPart("time", time /* "10:39:49" */)
+            .addFormDataPart("date", date /* "2021-10-19T23:00:00.000Z" */)
+            .addFormDataPart("items", Gson().toJson(products))
 
-        // Append document images
         documents?.let {
-            map["supportingDocument"] = createImageFormData(it[0])
-
+            builder.addFormDataPart(
+                "supportingDocument", "",
+                RequestBody.create(
+                    MediaType.parse("application/octet-stream"),
+                    File(it[0])
+                )
+            )
         }
 
-        // Append store keeper signature
         storeKeeperData?.let {
-            map["storeKeeperName"] = createTextFormData(it.name)
-            map["storeKeeperSignature"] = createImageFormData(it.bitmap!!)
+            builder.addFormDataPart("storeKeeperName", it.name)
+            builder.addFormDataPart(
+                "storeKeeperSignature", "",
+                createImageFormData(it.bitmap!!)
+            )
         }
 
-        // Append delivery person signature
         deliveryPersonData?.let {
-            map["deliveryPersonName"] = createTextFormData(it.name)
-            map["deliveryPersonSignature"] = createImageFormData(it.bitmap!!)
+            builder.addFormDataPart("deliveryPersonName", it.name)
+            builder.addFormDataPart(
+                    "deliveryPersonSignature", "",
+                        createImageFormData(it.bitmap!!)
+                )
         }
 
-        return map;
-    }
-
-    private fun createTextFormData(value:String): RequestBody {
-        return RequestBody.create(MediaType.parse("text/plain"), value)
-    }
-
-    private fun createImageFormData(filePath: String): RequestBody {
-        val file = File(filePath)
-        return RequestBody.create(MediaType.parse("multipart/form-data"), file)
+        return builder.build();
     }
 
     private fun createImageFormData(bitmap: Bitmap): RequestBody {
         val bos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        return RequestBody.create(MediaType.parse("multipart/form-data"), bos.toByteArray())
+        return RequestBody.create(MediaType.parse("application/octet-stream"), bos.toByteArray())
     }
 
 }
