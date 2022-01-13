@@ -1,9 +1,12 @@
 package io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 import io.ramani.ramaniWarehouse.data.returnStock.model.OfProducts
@@ -16,6 +19,8 @@ import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
+import io.ramani.ramaniWarehouse.domainCore.printer.PX400Printer
+import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 
 class ConfirmReturnStockViewModel(
@@ -24,7 +29,8 @@ class ConfirmReturnStockViewModel(
     sessionManager: ISessionManager,
     private val postReturnedStockUseCase: BaseSingleUseCase<PostReturnItemsResponse, PostReturnItems>,
     val dateFormatter: DateFormatter,
-    private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>
+    private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>,
+    private val printerHelper: PrinterHelper
 ) : BaseViewModel(application, stringProvider, sessionManager) {
 
     var userModel: UserModel? = null
@@ -36,6 +42,21 @@ class ConfirmReturnStockViewModel(
             userModel = it
             loadedUserDetails.postValue(userModel)
         }
+        printerHelper.open()
+    }
+
+    fun printBitmap(bitmap: Bitmap){
+        val printBitmap = printerHelper.printBitmap(bitmap)
+        if(!printBitmap.status){
+            notifyErrorObserver(printBitmap.error, PresentationError.ERROR_TEXT)
+        }
+    }
+
+    fun printText(receiptText:String){
+        val printText = printerHelper.printText(receiptText)
+        if(!printText.status){
+            notifyErrorObserver(printText.error, PresentationError.ERROR_TEXT)
+        }
     }
 
     class Factory(
@@ -44,7 +65,8 @@ class ConfirmReturnStockViewModel(
         private val sessionManager: ISessionManager,
         private val postReturnedStockUseCase: BaseSingleUseCase<PostReturnItemsResponse, PostReturnItems>,
         val dateFormatter: DateFormatter,
-        private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>
+        private val returnItemsMapper: ModelMapper<AvailableProductItem, OfProducts>,
+        private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -55,7 +77,8 @@ class ConfirmReturnStockViewModel(
                     sessionManager,
                     postReturnedStockUseCase,
                     dateFormatter,
-                    returnItemsMapper
+                    returnItemsMapper,
+                    printerHelper
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

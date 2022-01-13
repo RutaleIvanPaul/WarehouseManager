@@ -59,7 +59,7 @@ val returnStockModule = Kodein.Module("returnStockModule") {
         ViewModelProvider(
             fragment,ConfirmReturnStockViewModel.Factory(
                 instance(), instance(), instance(), instance("postReturnedStockUseCase")
-                , instance(), instance()
+                , instance(), instance(), instance()
             )
         ).get(ConfirmReturnStockViewModel::class.java)
 

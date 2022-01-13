@@ -8,8 +8,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".app.returnstock.presentation.returnreceipt.ReturnReceiptFragment">
 
+    <RelativeLayout
+        android:id="@+id/buttons_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/return_stock_print_receipt"
+            style="@style/BlueStrokeActionButton"
+            android:layout_width="129dp"
+            android:layout_height="43dp"
+            android:layout_alignParentStart="true"
+            android:text="@string/print" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/return_stock_done"
+            style="@style/BlueStrokeActionButton"
+            android:layout_width="129dp"
+            android:layout_height="43dp"
+            android:layout_alignParentEnd="true"
+            android:text="@string/done" />
+
+    </RelativeLayout>
+
     <ScrollView
         android:id="@+id/scrollview"
+        app:layout_constraintTop_toBottomOf="@+id/buttons_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,8 +51,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:textColor="@color/black"
         android:text="@string/start_of_goods_returned"
-        android:textColor="#61636C"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -197,13 +226,13 @@
         android:orientation="horizontal">
 
         <TextView
+            style="@style/BoldTextLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="10dp"
             android:layout_marginBottom="15dp"
-            style="@style/BoldTextLabel"
             android:text="@string/goods" />
 
         <TextView
@@ -231,48 +260,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:textColor="#61636C"
+        android:textColor="@color/black"
         android:text="@string/end_of_goods_returned"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf = "@+id/returned_items_RV" />
 
-    <ImageView
-        android:id="@+id/screenshot"
-        app:layout_constraintTop_toBottomOf="@+id/bottomText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </ScrollView>
-
-    <RelativeLayout
-        android:id="@+id/buttons_section"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="60dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@+id/scrollview"
-        android:orientation="horizontal">
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/return_stock_print_receipt"
-            style="@style/GreenFillActionButton"
-            android:layout_width="129dp"
-            android:layout_height="43dp"
-            android:layout_alignParentStart="true"
-            android:text="@string/print" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/return_stock_done"
-            style="@style/GreenFillActionButton"
-            android:layout_width="129dp"
-            android:layout_height="43dp"
-            android:layout_alignParentEnd="true"
-            android:text="@string/done" />
-
-    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
