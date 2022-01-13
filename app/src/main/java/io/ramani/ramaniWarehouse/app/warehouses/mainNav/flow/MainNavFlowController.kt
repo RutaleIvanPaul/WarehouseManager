@@ -6,6 +6,7 @@ import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.host.StockReceiveMainFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockFragment
+import io.ramani.ramaniWarehouse.app.stockStockAssignmentReport.presentation.StockStockAssignmentReportFragment
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.presentation.InvoicesFragment
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.WarehouseBottomSheetFragment
 import org.jetbrains.anko.AnkoLogger
@@ -47,6 +48,14 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
 
     override fun openAssignmentReport() {
         val fragment = AssignmentReportFragment.newInstance()
+        activity.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.ADD
+        )
+    }
+
+    override fun openStockAssignmentReport() {
+        val fragment = StockStockAssignmentReportFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
             openMethod = NavigationManager.OpenMethod.ADD

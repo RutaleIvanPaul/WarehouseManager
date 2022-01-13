@@ -2,7 +2,7 @@ package io.ramani.ramaniWarehouse.domain.stockassignmentreport.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
 data class StockAssignmentReportDistributorDateModel(
@@ -10,6 +10,7 @@ data class StockAssignmentReportDistributorDateModel(
     val assigner: String = "",
     val dateStockTaken: String = "",
     val comment: String = "",
+    val companyId: String = "",
     val timestamp: String = "",
 
     var listOfProducts: List<GoodsReceivedItemModel> = ArrayList(),
@@ -30,6 +31,7 @@ data class StockAssignmentReportDistributorDateModel(
         private var assigner: String = ""
         private var dateStockTaken: String = ""
         private var comment: String = ""
+        private var companyId: String = ""
         private var timestamp: String = ""
 
         private var listOfProducts: List<GoodsReceivedItemModel> = ArrayList()
@@ -47,8 +49,23 @@ data class StockAssignmentReportDistributorDateModel(
             return this
         }
 
+        fun companyId(id: String): Builder {
+            this.companyId = id
+            return this
+        }
+
         fun assigner(supplierName: String): Builder {
             this.assigner = supplierName
+            return this
+        }
+
+        fun salesPersonUUID(uuid: String): Builder {
+            this.salesPersonUID = uuid
+            return this
+        }
+
+        fun stockAssignmentType(stockAssignmentType: String): Builder {
+            this.stockAssignmentType = stockAssignmentType
             return this
         }
 
@@ -94,6 +111,7 @@ data class StockAssignmentReportDistributorDateModel(
                 assigner,
                 dateStockTaken,
                 comment,
+                companyId,
                 timestamp,
                 listOfProducts,
                 name,
@@ -106,6 +124,7 @@ data class StockAssignmentReportDistributorDateModel(
     }
 
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
