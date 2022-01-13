@@ -1,7 +1,6 @@
 package io.ramani.ramaniWarehouse.data.assignmentreport.model
 
 import com.google.gson.annotations.SerializedName
-import io.ramani.ramaniWarehouse.data.auth.model.SupplierRemoteModel
 
 data class GetDistributorDateRemoteModel(
     @SerializedName("docs")

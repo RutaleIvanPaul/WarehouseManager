@@ -12,7 +12,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleC
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import kotlinx.android.synthetic.main.fragment_assignment_report_detail.*
 import kotlinx.android.synthetic.main.item_assignment_report_detail_item_row.view.*
 import org.kodein.di.generic.factory
