@@ -6,6 +6,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -113,6 +114,7 @@ class ConfirmReturnStockFragment : BaseFragment() {
                 ReturnStockViewModel.allowToGoNext.postValue(Pair(2,true))
             }
         })
+
 
     }
 

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnItemsAdapter
@@ -115,6 +116,14 @@ class ReturnReceiptFragment : BaseFragment() {
                 assignee_image.setImageBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson)
             }
         })
+
+        observerError(viewModel, this)
+    }
+
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
     }
 
     override fun getLayoutResId(): Int  =  R.layout.fragment_return_receipt

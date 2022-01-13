@@ -5,6 +5,8 @@ import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 import io.ramani.ramaniWarehouse.data.returnStock.model.OfProducts
@@ -44,11 +46,17 @@ class ConfirmReturnStockViewModel(
     }
 
     fun printBitmap(bitmap: Bitmap){
-        printerHelper.printBitmap(bitmap)
+        val printBitmap = printerHelper.printBitmap(bitmap)
+        if(!printBitmap.status){
+            notifyErrorObserver(printBitmap.error, PresentationError.ERROR_TEXT)
+        }
     }
 
     fun printText(receiptText:String){
-        printerHelper.printText(receiptText)
+        val printText = printerHelper.printText(receiptText)
+        if(!printText.status){
+            notifyErrorObserver(printText.error, PresentationError.ERROR_TEXT)
+        }
     }
 
     class Factory(

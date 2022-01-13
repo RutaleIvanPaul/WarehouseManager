@@ -11,12 +11,14 @@ import com.cloudpos.printer.PrinterDevice
 
 class PX400Printer(var context: Context) {
     private var device: PrinterDevice? = null
+    private val TAG = "Printer Work"
+
     fun open() {
         try {
             device?.open()
-            Log.d("Printer Work","Open Printer succeed!")
+            Log.d(TAG,"Open Printer succeed!")
         } catch (ex: DeviceException) {
-            Log.d("Printer Work","Open Printer Failed!")
+            Log.d(TAG,"Open Printer Failed!")
             ex.printStackTrace()
         }
     }
@@ -24,9 +26,9 @@ class PX400Printer(var context: Context) {
     fun close() {
         try {
             device?.close()
-            Log.d("Printer Work","Close Printer succeed!")
+            Log.d(TAG,"Close Printer succeed!")
         } catch (ex: DeviceException) {
-            Log.d("Printer Work","Close Printer Failed!")
+            Log.d(TAG,"Close Printer Failed!")
             ex.printStackTrace()
         }
     }
@@ -37,9 +39,9 @@ class PX400Printer(var context: Context) {
             format.setParameter(Format.FORMAT_FONT_SIZE, Format.FORMAT_FONT_SIZE_MEDIUM)
             format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
             device?.printText(format, msg)
-            Log.d("Printer Work","Print Text  succeed!")
+            Log.d(TAG,"Print Text  succeed!")
         } catch (ex: DeviceException) {
-            Log.d("Printer Work","Print Text Failed!")
+            Log.d(TAG,"Print Text Failed!")
             ex.printStackTrace()
         }
     }
@@ -50,17 +52,20 @@ class PX400Printer(var context: Context) {
             format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
             format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
             device?.printBitmap(format,bitmap)
-            Log.d("Printer Work","Print Bitmap  succeed!")
+            Log.d(TAG,"Print Bitmap  succeed!")
         } catch (ex: DeviceException) {
-            Log.d("Printer Work","Print Bitmap Failed!")
+            Log.d(TAG,"Print Bitmap Failed!")
             ex.printStackTrace()
         }
     }
 
     init {
         if (device == null) {
-            device = POSTerminal.getInstance(context)
-                .getDevice("cloudpos.device.printer") as PrinterDevice
+            val printerDevice = POSTerminal.getInstance(context)
+                .getDevice("cloudpos.device.printer")
+            if(printerDevice != null) {
+                device = printerDevice as PrinterDevice
+            }
         }
     }
 }
