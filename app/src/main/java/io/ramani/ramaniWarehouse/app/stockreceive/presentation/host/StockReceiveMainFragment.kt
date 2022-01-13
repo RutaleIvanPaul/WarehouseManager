@@ -5,11 +5,11 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.code95.android.app.auth.flow.StockReceiveFlowController
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlowController
 import com.google.android.material.tabs.TabLayoutMediator
 import androidx.lifecycle.Observer
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.auth.flow.StockReceiveFlow
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment

@@ -1,11 +1,12 @@
-package io.ramani.ramaniWarehouse.data.auth
+package io.ramani.ramaniWarehouse.data.stockreceive
 
 import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.auth.model.SupplierModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.reactivex.Single
+import okhttp3.RequestBody
 
 class StockReceiveLocalDataSource(
     private val prefsManager: Prefs
@@ -18,15 +19,7 @@ class StockReceiveLocalDataSource(
         TODO("Not yet implemented")
     }
 
-    override fun postGoodsReceived(
-        invoiceId: String,
-        warehouseManagerId: String,
-        warehouseId: String,
-        distributorId: String,
-        date: String,
-        time: String,
-        deliveryPersonName: String
-    ): Single<GoodsReceivedModel> {
+    override fun postGoodsReceived(body: RequestBody): Single<GoodsReceivedModel> {
         TODO("Not yet implemented")
     }
 
