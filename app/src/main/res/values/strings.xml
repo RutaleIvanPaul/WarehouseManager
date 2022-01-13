@@ -148,5 +148,6 @@
     <string name="missing_store_keeper_signature">Missing store keeper signature</string>
     <string name="missing_delivery_person_signature">Missing delivery person signature</string>
     <string name="temp">Temprature</string>
+    <string name="receive_success">Receive success</string>
 
 </resources>

@@ -79,6 +79,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 ContextCompat.getColor(requireContext(), R.color.ramani_green)
             )
         })
+        flow.openReceiveSuccess()
     }
 
     private fun observeRefreshedProductList() {
