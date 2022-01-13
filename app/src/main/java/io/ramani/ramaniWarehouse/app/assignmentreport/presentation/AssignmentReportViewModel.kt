@@ -13,8 +13,8 @@ import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import io.reactivex.rxkotlin.subscribeBy
 
 class AssignmentReportViewModel(
@@ -107,8 +107,10 @@ class AssignmentReportViewModel(
                             stockList.add(newStock)
                         }
                     }
-                    getDistributorDateActionLiveData.postValue(stockList)
                 }
+
+                getDistributorDateActionLiveData.postValue(stockList)
+
             }, onError = {
                 isLoadingVisible = false
                 notifyErrorObserver(
