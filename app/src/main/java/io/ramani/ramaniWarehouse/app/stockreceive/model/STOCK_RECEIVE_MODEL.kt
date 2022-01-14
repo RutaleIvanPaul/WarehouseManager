@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.stockreceive.model
 
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
+import io.ramani.ramaniWarehouse.domain.base.SingleLiveEvent
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedSupplierDataModel
