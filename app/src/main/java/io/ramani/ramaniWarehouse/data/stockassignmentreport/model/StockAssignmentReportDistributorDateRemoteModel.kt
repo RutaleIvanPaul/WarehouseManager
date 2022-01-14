@@ -1,8 +1,7 @@
 package io.ramani.ramaniWarehouse.data.stockassignmentreport.model
 
 import com.google.gson.annotations.SerializedName
-import io.ramani.ramaniWarehouse.data.assignmentreport.model.DistributorDateRemoteModel
-import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedItemRemoteModel
+
 
 data class StockAssignmentReportDistributorDateRemoteModel(
     @SerializedName("_id")
@@ -24,7 +23,7 @@ data class StockAssignmentReportDistributorDateRemoteModel(
     val dateStockTaken: String = "",
 
     @SerializedName("listOfProducts")
-    val listOfProducts: List<StockAssignmentReportDistributorDateRemoteModel> = ArrayList(),
+    val listOfProducts: List<ProductReceivedItemRemoteModel> = ArrayList(),
 
     @SerializedName("name")
     val name: String = "",

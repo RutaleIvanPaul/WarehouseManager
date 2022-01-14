@@ -31,7 +31,7 @@ class StockStockAssignmentReportRemoteDataSource(
                 Log.e("555555", data.toString())
                 if (data != null) {
 //                    Single.just(data.listOfProducts)
-                    Single.just(data.listOfProducts.mapFromWith(distributorDateRemoteMapper))
+                    Single.just(data.mapFromWith(distributorDateRemoteMapper))
                 } else {
                     Single.error(ParseResponseException())
                 }

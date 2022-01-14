@@ -10,7 +10,7 @@ import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
 
 
-val assignmentReportModule = Kodein.Module("stockAssignmentReportModule") {
+val stockAssignmentReportModule = Kodein.Module("stockAssignmentReportModule") {
     import(stockAssignmentReportDataModule)
     import(stockAssignmentReportDomainModule)
 

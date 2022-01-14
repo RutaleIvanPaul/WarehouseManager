@@ -10,10 +10,13 @@ import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationErro
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.assignmentreport.model.DistributorDateRequestModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
+import io.ramani.ramaniWarehouse.data.stockassignmentreport.model.StockAssignmentReportDistributorDateRequestModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -22,7 +25,7 @@ class StockAssignmentReportViewModel(
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
     private val prefs: PrefsManager,
-    private val getDistributorDateUseCase: BaseSingleUseCase<List<DistributorDateModel>, DistributorDateRequestModel>,
+    private val getDistributorDateUseCase: BaseSingleUseCase<List<StockAssignmentReportDistributorDateModel>, StockAssignmentReportDistributorDateRequestModel>,
 
     ) : BaseViewModel(application, stringProvider, sessionManager) {
     var userId = ""
@@ -36,8 +39,8 @@ class StockAssignmentReportViewModel(
 
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
 
-    var stockList: ArrayList<DistributorDateModel> = ArrayList()
-    val getDistributorDateActionLiveData = MutableLiveData<List<DistributorDateModel>>()
+    var stockList: ArrayList<StockAssignmentReportDistributorDateModel> = ArrayList()
+    val getDistributorDateActionLiveData = MutableLiveData<List<StockAssignmentReportDistributorDateModel>>()
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
@@ -69,10 +72,13 @@ class StockAssignmentReportViewModel(
             isLoadingVisible = true
 
             val single = getDistributorDateUseCase.getSingle(
-                DistributorDateRequestModel(
-                    companyId /* "601ffa4d279d812ed25a7f9b" */,
+                StockAssignmentReportDistributorDateRequestModel(
                     userId /* "618cdad48f172b7b7e399349" */,
-                    date/* "2021-10-19" */, page, size
+                    warehouseId,
+                    "2020-10-19",
+                    "2022-10-19"
+//                    date/* "2021-10-19" */,
+//                    date/* "2021-10-19" */,
                 )
             )
 
@@ -83,27 +89,31 @@ class StockAssignmentReportViewModel(
 
                 if (it.isNotEmpty()) {
                     for (stock in it) {
-                        val newStock = DistributorDateModel(
+                        val newStock = StockAssignmentReportDistributorDateModel(
                             stock.id,
-                            stock.supplierName,
-                            stock.date, stock.time,
+                            stock.assigner,
+                            stock.dateStockTaken,
+                            stock.comment,
+                            stock.companyId,
+                            stock.timestamp,
                             ArrayList(),
-                            stock.deliveryPersonName,
-                            stock.warehouseManagerName,
-                            stock.supportingDocument,
+                            stock.name,
+                            stock.__v,
+                            stock.salesPersonUID,
+                            stock.stockAssignmentType,
                             stock.storeKeeperSignature,
-                            stock.deliveryPersonSignature
+                            stock.salesPersonSignature
                         )
 
-                        val availableItems = ArrayList<GoodsReceivedItemModel>()
-                        for (item in stock.items) {
-                            if ((isOnlyAccepted && item.qtyAccepted > 0) || (!isOnlyAccepted && item.qtyDeclined > 0)) {
+                        val availableItems = ArrayList<ProductReceivedItemModel>()
+                        for (item in stock.listOfProducts) {
+                            if ((isOnlyAccepted && item.quantity > 0) || (!isOnlyAccepted && item.quantity > 0)) {
                                 availableItems.add(item)
                             }
                         }
 
                         if (availableItems.isNotEmpty()) {
-                            newStock.items = availableItems
+                            newStock.listOfProducts = availableItems
                             stockList.add(newStock)
                         }
                     }
@@ -127,7 +137,7 @@ class StockAssignmentReportViewModel(
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val prefs: PrefsManager,
-        private val getDistributorDateUseCase: BaseSingleUseCase<List<DistributorDateModel>, DistributorDateRequestModel>
+        private val getDistributorDateUseCase: BaseSingleUseCase<List<StockAssignmentReportDistributorDateModel>, StockAssignmentReportDistributorDateRequestModel>
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {

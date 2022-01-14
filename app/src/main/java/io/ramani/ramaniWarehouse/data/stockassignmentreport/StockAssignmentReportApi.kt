@@ -13,5 +13,5 @@ interface StockAssignmentReportApi {
         @Query("warehouseId") warehouseId: String,
         @Query("startDate") startDate: String,
         @Query("endDate") endDate: String
-    ): Single<BaseResponse<StockAssignmentReportDistributorDateRemoteModel>>
+    ): Single<BaseResponse<List<StockAssignmentReportDistributorDateRemoteModel>>>
 }

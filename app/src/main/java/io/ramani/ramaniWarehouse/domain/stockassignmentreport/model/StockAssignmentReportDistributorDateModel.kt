@@ -13,7 +13,7 @@ data class StockAssignmentReportDistributorDateModel(
     val companyId: String = "",
     val timestamp: String = "",
 
-    var listOfProducts: List<GoodsReceivedItemModel> = ArrayList(),
+    var listOfProducts: List<ProductReceivedItemModel> = ArrayList(),
 
     val name: String = "",
     val __v: String = "",
@@ -34,7 +34,7 @@ data class StockAssignmentReportDistributorDateModel(
         private var companyId: String = ""
         private var timestamp: String = ""
 
-        private var listOfProducts: List<GoodsReceivedItemModel> = ArrayList()
+        private var listOfProducts: List<ProductReceivedItemModel> = ArrayList()
 
         private var name: String = ""
         private var __v: String = ""
@@ -79,7 +79,7 @@ data class StockAssignmentReportDistributorDateModel(
             return this
         }
 
-        fun listOfProducts(items: List<GoodsReceivedItemModel>): Builder {
+        fun listOfProducts(items: List<ProductReceivedItemModel>): Builder {
             this.listOfProducts = items
             return this
         }
@@ -130,7 +130,7 @@ data class StockAssignmentReportDistributorDateModel(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.createTypedArrayList(GoodsReceivedItemModel) ?: ArrayList(),
+        parcel.createTypedArrayList(ProductReceivedItemModel) ?: ArrayList(),
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",

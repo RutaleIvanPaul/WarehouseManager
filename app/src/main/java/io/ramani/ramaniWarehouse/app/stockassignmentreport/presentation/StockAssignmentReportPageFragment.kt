@@ -21,6 +21,12 @@ import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAss
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportViewModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import kotlinx.android.synthetic.main.fragment_assignment_report_page.*
+import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_datepick_layout
+import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_list
+import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_loader
+import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_no_stock
+import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_pick_date
+import kotlinx.android.synthetic.main.fragment_stock_assignment_report_page.*
 import java.util.Calendar
 
 class StockStockAssignmentReportPageFragment : BaseFragment() {
@@ -41,7 +47,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
 
     private lateinit var flow: StockAssignmentReportFlow
 
-    override fun getLayoutResId(): Int = R.layout.fragment_assignment_report_page
+    override fun getLayoutResId(): Int = R.layout.fragment_stock_assignment_report_page
 
     private val dateFormatter: DateFormatter by instance()
 
@@ -70,6 +76,15 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         updatePickDate()
 
         assignment_report_datepick_layout.setOnClickListener {
+            DatePickerDialog(requireActivity(),
+                dateSetListener,
+                // set DatePickerDialog to point to today's date when it loads up
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
+
+        assignment_report_end_datepick_layout.setOnClickListener {
             DatePickerDialog(requireActivity(),
                 dateSetListener,
                 // set DatePickerDialog to point to today's date when it loads up

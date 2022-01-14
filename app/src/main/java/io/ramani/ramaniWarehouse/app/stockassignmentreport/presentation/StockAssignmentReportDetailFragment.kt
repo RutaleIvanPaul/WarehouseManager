@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.app.StockAssignmentReport.presentation
+package io.ramani.ramaniWarehouse.app.stockassignmentReport.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -12,6 +12,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleC
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportViewModel
+import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import kotlinx.android.synthetic.main.fragment_assignment_report_detail.*
@@ -86,10 +87,10 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
     }
 
-    private fun addItems(item: GoodsReceivedItemModel) {
+    private fun addItems(item: ProductReceivedItemModel) {
         val itemView = LinearLayout.inflate(requireContext(), R.layout.item_assignment_report_detail_item_row, null)
         itemView.assignment_report_detail_item_row_name.text = item.productName
-        itemView.assignment_report_detail_item_row_quantity.text = if (isAssignedStock) item.qtyAccepted.toString() + " pcs" else item.qtyDeclined.toString() + " pcs"
+        itemView.assignment_report_detail_item_row_quantity.text = item.quantity.toString() + " pcs"
         assignment_report_detail_items_container.addView(itemView)
     }
 
