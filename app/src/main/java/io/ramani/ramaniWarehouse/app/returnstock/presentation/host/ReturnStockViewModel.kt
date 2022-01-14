@@ -38,7 +38,6 @@ class ReturnStockViewModel(
 ) {
     companion object {
         var allowToGoNext = MutableLiveData<Pair<Int, Boolean>>()
-        val returnItemDetails: ReturnItemDetails = ReturnItemDetails()
         val returnItemsChangedLiveData = MutableLiveData<Boolean>()
         var signedLiveData = MutableLiveData<Pair<String, Bitmap>>()
         val pushBackToStart = MutableLiveData<Boolean>()
@@ -58,20 +57,19 @@ class ReturnStockViewModel(
     }
 
     fun returnStock() {
-        val returnItems = returnItemDetails
         val single = postReturnedStockUseCase.getSingle(
             PostReturnItems(
-                returnItems.storekeeperName,
+                ReturnItemDetails.storekeeperName,
                 "",
                 userModel!!.companyId,
                 dateFormatter.convertToCalendarFormatDate(now()),
-                returnItems.returnItems.mapFromWith(returnItemsMapper),
-                returnItems.salespersonName,
+                ReturnItemDetails.returnItems.mapFromWith(returnItemsMapper),
+                ReturnItemDetails.salespersonName,
                 userModel!!.uuid,
                 warehouseModel!!.id!!,
                 "return",
-                returnItems.signatureInfoStoreKeeper,
-                returnItems.signatureInfoSalesPerson
+                ReturnItemDetails.signatureInfoStoreKeeper,
+                ReturnItemDetails.signatureInfoSalesPerson
             )
         )
         subscribeSingle(

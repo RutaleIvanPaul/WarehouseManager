@@ -18,6 +18,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnItemsAdapter
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnStockViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domainCore.date.now
@@ -40,7 +41,7 @@ class ReturnReceiptFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         confirmReturnItemsAdapter =
-            ConfirmReturnItemsAdapter(ReturnStockViewModel.returnItemDetails.returnItems) {}
+            ConfirmReturnItemsAdapter(ReturnItemDetails.returnItems) {}
         viewModel = viewModelProvider(this)
         viewModel.start()
     }
@@ -53,20 +54,6 @@ class ReturnReceiptFragment : BaseFragment() {
         subscribeObservers()
 
         return_stock_print_receipt.setOnClickListener {
-//            val  view = scrollview
-//            val bitmap = Bitmap.createBitmap(view.width,view.height, Bitmap.Config.ARGB_8888)
-//            val canvas = Canvas(bitmap)
-//            val bgDrawable = view.background
-//            if (bgDrawable!=null){
-//                bgDrawable.draw(canvas)
-//            }
-//            else{
-//                canvas.drawColor(Color.WHITE)
-//            }
-//            view.draw(canvas)
-//
-//            val scaledBitmap = Bitmap.createScaledBitmap(bitmap,400,view.height,false)
-
             printReturnReceipt(viewModel)
         }
 
@@ -78,9 +65,9 @@ class ReturnReceiptFragment : BaseFragment() {
     private fun printReturnReceipt(viewModel: ConfirmReturnStockViewModel) {
         viewModel.printText(getTextBeforeImages())
         viewModel.printText(getString(R.string.store_keeper)+": "+storekeeper_text.text.toString()+ "\n")
-        viewModel.printBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper!!)
+        viewModel.printBitmap(ReturnItemDetails.signatureInfoStoreKeeper!!)
         viewModel.printText(getString(R.string.assigned_to)+": "+assignee_text.text.toString()+ "\n")
-        viewModel.printBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson!!)
+        viewModel.printBitmap(ReturnItemDetails.signatureInfoSalesPerson!!)
         viewModel.printText("\n"+getString(R.string.end_goods_returned)+"\n\n\n\n\n")
 
     }
@@ -98,7 +85,7 @@ class ReturnReceiptFragment : BaseFragment() {
 
     private fun getGoodsReturnedString(): String {
         var goodsReturnedText = ""
-        ReturnStockViewModel.returnItemDetails.returnItems.forEach { item ->
+        ReturnItemDetails.returnItems.forEach { item ->
             goodsReturnedText += item.productName +" ---------- "+item.quantity+" Pcs\n"
         }
         return goodsReturnedText
@@ -110,10 +97,10 @@ class ReturnReceiptFragment : BaseFragment() {
             if (it != null) {
                 company_name.setText(it.companyName)
                 date.setText("Date: ${viewModel.dateFormatter.convertToCalendarFormatDate(now())}")
-                storekeeper_text.setText(ReturnStockViewModel.returnItemDetails.storekeeperName)
-                assignee_text.setText(ReturnStockViewModel.returnItemDetails.salespersonName)
-                storekeeper_image.setImageBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper)
-                assignee_image.setImageBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson)
+                storekeeper_text.setText(ReturnItemDetails.storekeeperName)
+                assignee_text.setText(ReturnItemDetails.salespersonName)
+                storekeeper_image.setImageBitmap(ReturnItemDetails.signatureInfoStoreKeeper)
+                assignee_image.setImageBitmap(ReturnItemDetails.signatureInfoSalesPerson)
             }
         })
 

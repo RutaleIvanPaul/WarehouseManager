@@ -1,20 +1,16 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.products
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.map
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSGNMENT_RECEIVE_MODELS
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.stockassignment.model.GetProductsRequestModel
-import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
@@ -73,7 +69,7 @@ class CompanyProductsViewmodel(application: Application,
     fun saveAllAssignedProducts(selection: List<ProductsUIModel>){
         companyProductsListSelection.addAll(selection)
         assignedCompanyProductsListLiveData.postValue(companyProductsListSelection.toMutableList())
-        ASSGNMENT_RECEIVE_MODELS.productsSelection.postValue(selection)
+        ASSIGNMENT_RECEIVE_MODELS.productsSelection.postValue(selection)
 
     }
 

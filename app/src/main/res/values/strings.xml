@@ -90,6 +90,8 @@
 
     <string name="end_goods_issued">*** END OF GOODS ISSUED ***</string>
     <string name="end_goods_returned">*** END OF GOODS RETURNED ***</string>
+
+
     <string name="goods">Goods</string>
     <string name="goods_returned">Goods Returned</string>
     <string name="quantity">Quantity</string>
@@ -121,16 +123,6 @@
     <string name="no_data_available">No Data Available</string>
     <string name="missing_quantity">Cannot Confirm without entering quantity</string>
     <string name="proforma_invoice">Proforma Invoice</string>
-    <string name="qty">qty</string>
-    <string name="status">status</string>
-    <string name="receive">Receive</string>
-    <string name="received">Received</string>
-    <string name="incoming">Incoming</string>
-    <string name="percent_delivered">Percent delievered</string>
-    <string name="batch_no">Batch No.</string>
-    <string name="qty_accepted">Qty Accepted</string>
-    <string name="qty_declined">Qty Declined</string>
-    <string name="decline_reason">Decline Reason</string>
     <string name="clear_signature">Clear Signature</string>
     <string name="missing_product_selection">Select at least one product to proceed</string>
     <string name="hint_qty">Eg. 19</string>
@@ -148,6 +140,21 @@
     <string name="returned">Returned</string>
     <string name="view_receipt">View Receipt</string>
     <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
+    <string name="qty">qty</string>
+    <string name="status">status</string>
+    <string name="receive">Receive</string>
+    <string name="received">Received</string>
+    <string name="incoming">Incoming</string>
+    <string name="percent_delivered">Percent delievered</string>
+    <string name="batch_no">Batch No.</string>
+    <string name="qty_accepted">Qty Accepted</string>
+    <string name="qty_declined">Qty Declined</string>
+    <string name="decline_reason">Decline Reason</string>
+    <string name="qty_validation">Accepted added to declined quantity should equal to {{product_qty}}</string>
+    <string name="missing_store_keeper_signature">Missing store keeper signature</string>
+    <string name="missing_delivery_person_signature">Missing delivery person signature</string>
+    <string name="temp">Temprature</string>
+    <string name="receive_success">Receive success</string>
     <string name="assign_success">Assignment Successful</string>
     <string name="no_printer">Could not Find Printer Connected to device.</string>
     <string name="printer_opened">Printer Opened</string>

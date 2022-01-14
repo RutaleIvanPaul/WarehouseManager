@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableStockReturnedListItem
@@ -37,7 +38,7 @@ class SelectReturnItemsViewmodel(application: Application,
     fun getAvaialableStock(){
             val single = getAvailableStockUsecase
                 .getSingle(
-                    GetAvailableStockRequestModel(ReturnStockViewModel.returnItemDetails.salespersonUuid))
+                    GetAvailableStockRequestModel(ReturnItemDetails.salespersonUuid))
             subscribeSingle(
                 single,
                 onSuccess = {

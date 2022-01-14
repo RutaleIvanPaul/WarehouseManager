@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSGNMENT_RECEIVE_MODELS
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -44,6 +44,7 @@ class AssignStockViewModel(
         val assignedItemsChangedLiveData = MutableLiveData<Boolean>()
         var signedLiveData = MutableLiveData<Pair<String, Bitmap>>()
         val pushBackToStart = MutableLiveData<Boolean>()
+        val selectedSalespersonLiveData = MutableLiveData<String>()
     }
 
     var userModel: UserModel? = null
@@ -68,7 +69,7 @@ class AssignStockViewModel(
                 "",
                 userModel!!.companyId,
                 dateFormatter.convertToCalendarFormatDate(now()),
-                ASSGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
+                ASSIGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
                 assignedItems.salespersonName,
                 userModel!!.uuid,
                 warehouseModel!!.id!!,

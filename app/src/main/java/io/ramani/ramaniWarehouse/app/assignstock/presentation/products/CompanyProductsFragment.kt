@@ -7,11 +7,13 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.Window
 import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.mapper.ProductUIMapper
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
@@ -22,7 +24,9 @@ import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapToWith
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
+import kotlinx.android.synthetic.main.fragment_assign_stock.*
 import kotlinx.android.synthetic.main.fragment_stock_assign_product.*
+import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
 
 
@@ -158,6 +162,7 @@ class CompanyProductsFragment : BaseFragment() {
                 selectedCompanyProductsList.add(item)
                 viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
                 companyProductsUIModelAdapter.notifyDataSetChanged()
+                AssignStockViewModel.allowToGoNext.postValue(Pair(1,true))
 
                 dialog.dismiss()
             }
@@ -165,6 +170,7 @@ class CompanyProductsFragment : BaseFragment() {
         dialog.show()
 
     }
+
 
 
     override fun onResume() {
@@ -179,4 +185,5 @@ class CompanyProductsFragment : BaseFragment() {
         fun newInstance() = CompanyProductsFragment()
 
     }
+
 }
