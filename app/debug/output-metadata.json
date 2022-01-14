@@ -11,13 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-<<<<<<< HEAD
-      "versionCode": 16,
-      "versionName": "0.1.6",
-=======
       "versionCode": 17,
       "versionName": "0.1.7",
->>>>>>> 3582de19a8968993c7b016ac3a647ed1beb735dd
       "outputFile": "app-debug.apk"
     }
   ],
