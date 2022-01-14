@@ -38,7 +38,7 @@
                     android:id="@+id/price_img"
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/azam_img" />
+                     />
 
                 <TextView
                     android:id="@+id/layout_custom_rewards_dialogue_box_product_id"
