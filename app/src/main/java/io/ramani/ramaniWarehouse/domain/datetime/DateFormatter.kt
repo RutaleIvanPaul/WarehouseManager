@@ -255,3 +255,7 @@ private fun parseDate(date: String, pattern: String) =
 private fun dateTimeFormatter(pattern: String) =
     DateTimeFormatterBuilder().appendPattern(pattern).toFormatter()
 
+fun getServerTimeFromServerDate(createdAt: String?): String =
+    //2021-12-22T16:31:03.823Z
+    createdAt?.split("T")?.get(1)?.split(".")?.get(0) ?: ""
+
