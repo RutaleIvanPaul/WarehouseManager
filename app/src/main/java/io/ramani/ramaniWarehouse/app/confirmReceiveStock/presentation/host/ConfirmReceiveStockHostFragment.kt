@@ -139,8 +139,8 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 }
                 else -> {
                     viewModel.postGoodsReceived(
-                        createFileFromBitmap(RECEIVE_MODELS.invoiceModelView?.storeKeeperSign),
-                        createFileFromBitmap(RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign)
+                        RECEIVE_MODELS.invoiceModelView?.storeKeeperSign,
+                        RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign
                     )
                 }
             }

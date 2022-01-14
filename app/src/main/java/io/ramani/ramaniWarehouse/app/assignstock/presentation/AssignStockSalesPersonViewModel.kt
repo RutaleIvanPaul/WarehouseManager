@@ -6,8 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.assignstocksalesperson.model.SalesPersonRVModel
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.model.SalespersonRVModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.GetSalespeopleRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.GetSalesPersonRequestModel
@@ -45,6 +49,7 @@ class AssignStockSalesPersonViewModel(
 
     fun getSalespeople() {
         sessionManager.getLoggedInUser().subscribeBy {
+            AssignStockViewModel.assignedItemDetails.storekeeperName = it.userName
             val single = getSalesPeopleUsecase.getSingle(GetSalesPersonRequestModel(it.companyId))
             subscribeSingle(single,
                 onSuccess = {
@@ -69,6 +74,9 @@ class AssignStockSalesPersonViewModel(
             it.isSelected = it.id == selectedSalespersonRV.id
         }
         selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
+        SalesPersonViewModel.selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
+        AssignStockViewModel.assignedItemDetails.salespersonName = selectedSalespersonRV.name!!
+        AssignStockViewModel.assignedItemDetails.salespersonUuid = selectedSalespersonRV.id!!
     }
 
     fun getDate(timInMillis: Long): String =

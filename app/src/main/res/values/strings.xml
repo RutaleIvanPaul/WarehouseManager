@@ -124,6 +124,9 @@
     <string name="missing_quantity">Cannot Confirm without entering quantity</string>
     <string name="proforma_invoice">Proforma Invoice</string>
     <string name="clear_signature">Clear Signature</string>
+    <string name="missing_product_selection">Select at least one product to proceed</string>
+    <string name="hint_qty">Eg. 19</string>
+    <string name="assign_product">Assign Product</string>
     <string name="start_of_goods_returned">***START OF GOODS RETURNED***</string>
     <string name="end_of_goods_returned">***END OF GOODS RETURNED***</string>
     <string name="company_logo">company logo</string>
@@ -152,5 +155,9 @@
     <string name="missing_delivery_person_signature">Missing delivery person signature</string>
     <string name="temp">Temprature</string>
     <string name="receive_success">Receive success</string>
+    <string name="assign_success">Assignment Successful</string>
+    <string name="no_printer">Could not Find Printer Connected to device.</string>
+    <string name="printer_opened">Printer Opened</string>
+    <string name="printed">Printed.</string>
 
 </resources>
