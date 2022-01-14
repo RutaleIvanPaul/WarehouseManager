@@ -1,19 +1,16 @@
 package io.ramani.ramaniWarehouse.domain.datetime
 
 import android.annotation.SuppressLint
-import io.ramani.ramaniWarehouse.domainCore.datetime.IDateFormatter
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_24_hours
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_AM_PM
+import io.ramani.ramaniWarehouse.domainCore.datetime.IDateFormatter
 import io.ramani.ramaniWarehouse.domainCore.datetime.IDateTimeManager
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 import org.joda.time.format.DateTimeFormatterBuilder
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.TimeZone
-import java.util.Locale
-import java.util.Date
+import java.util.*
 
 /**
  * Created by raede on 27/10/2017.
@@ -128,6 +125,10 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         val simpleDateFormat = SimpleDateFormat(CALENDAR_FORMAT)
         return simpleDateFormat.format(date)
     }
+
+    fun getServerTimeFromServerDate(createdAt: String?): String =
+        //2021-12-22T16:31:03.823Z
+        createdAt?.split("T")?.get(1)?.split(".")?.get(0) ?: ""
 
 }
 

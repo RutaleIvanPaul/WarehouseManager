@@ -10,8 +10,12 @@ data class InvoiceRemoteModel(
     val purchaseOrderId: String? = null,
     @SerializedName("created_at")
     val createdAt: String? = null,
+    @SerializedName("distributorId")
+    val distributorId: String? = null,
     @SerializedName("distributorName")
     val distributorName: String? = null,
+    @SerializedName("supplierId")
+    val supplierId: String? = null,
     @SerializedName("supplierName")
     val supplierName: String? = null,
     @SerializedName("invoiceAmount")

@@ -4,7 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
+import android.widget.Toast
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
@@ -13,6 +14,8 @@ import io.ramani.ramaniWarehouse.app.common.presentation.extensions.gone
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.showSelectPopUp
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
+import io.ramani.ramaniWarehouse.app.common.presentation.language.StringsPlaceHolders
+import io.ramani.ramaniWarehouse.app.common.presentation.language.replacePlaceHolderWithText
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
@@ -79,26 +82,78 @@ class ProductConfirmBottomSheetFragment(
         product_name.text = selectedProduct?.productName
         qty_incoming.text = "${selectedProduct?.quantity} ${selectedProduct?.unit}"
         percent_delivered.text = calculatePercentage(selectedProduct)
-        qty_accepted.doOnTextChanged { text, _, _, _ ->
-            if (!text.isNullOrBlank()) {
-                if (text.toString().toDouble() > -1) {
-                    selectedProduct?.quantityAccepted = qty_accepted.text.toString().toDouble()
-                    percent_delivered.text = calculatePercentage(selectedProduct)
+        var lastKnownAcceptedText = ""
+        qty_accepted.doAfterTextChanged { text ->
+            if (text.toString() != lastKnownAcceptedText) {
+                lastKnownAcceptedText = text.toString()
+                if (!text.isNullOrBlank()) {
+                    if (text.toString().toDouble() > -1) {
+                        if (viewModel.validateQty(
+                                selectedProduct?.quantity,
+                                text.toString().toDouble(),
+                                qty_declined.text.toString().toDouble()
+                            )
+                        ) {
+                            selectedProduct?.quantityAccepted =
+                                qty_accepted.text.toString().toDouble()
+                            qty_accepted.error = null
+                            qty_declined.error = null
+                            percent_delivered.text = calculatePercentage(selectedProduct)
+                        } else {
+                            qty_accepted.error =
+                                getString(R.string.qty_validation).replacePlaceHolderWithText(
+                                    StringsPlaceHolders.QTY_VALIDATION,
+                                    "${selectedProduct?.quantity}"
+                                )
+                        }
+                    } else {
+                        qty_accepted.setText("0")
+                    }
                 } else {
                     qty_accepted.setText("0")
                 }
             }
         }
-        qty_declined.doOnTextChanged { text, _, _, _ ->
-            if (!text.isNullOrBlank()) {
-                if (text.toString().toDouble() > -1) {
-                    selectedProduct?.quantityDeclined = qty_declined.text.toString().toDouble()
-                    percent_delivered.text = calculatePercentage(selectedProduct)
-                    decline_reason_layout.visible()
+        var lastKnownDeclineText = ""
+        qty_declined.doAfterTextChanged { text ->
+            if (text.toString() != lastKnownDeclineText) {
+                lastKnownDeclineText = text.toString()
+                if (!text.isNullOrBlank()) {
+                    if (text.toString().toDouble() > 0) {
+                        percent_delivered.text = calculatePercentage(selectedProduct)
+                        decline_reason_layout.visible()
+                        if (viewModel.validateQty(
+                                selectedProduct?.quantity,
+                                text.toString().toDouble(),
+                                qty_accepted.text.toString().toDouble()
+                            )
+                        ) {
+                            selectedProduct?.quantityDeclined =
+                                qty_declined.text.toString().toDouble()
+                            qty_declined.error = null
+                            qty_accepted.error = null
+                            percent_delivered.text = calculatePercentage(selectedProduct)
+                        } else {
+                            qty_declined.error =
+                                getString(R.string.qty_validation).replacePlaceHolderWithText(
+                                    StringsPlaceHolders.QTY_VALIDATION,
+                                    "${selectedProduct?.quantity}"
+                                )
+                        }
+                    } else {
+                        decline_reason_layout.gone()
+                        qty_declined.setText("0")
+                    }
                 } else {
                     decline_reason_layout.gone()
                     qty_declined.setText("0")
                 }
+            }
+        }
+
+        temp_et.doAfterTextChanged { text ->
+            if (text.isNullOrBlank()) {
+                temp_et.setText("0")
             }
         }
         decline_reason.text = RECEIVE_MODELS.declineReasons.firstOrNull() ?: ""
@@ -111,13 +166,28 @@ class ProductConfirmBottomSheetFragment(
                 })
         }
         receive_btn.setOnSingleClickListener {
-            selectedProduct?.isReceived = true
-            RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
-                ?.map {
-                    it.copy(selectedProduct)
-                }
-            onReceiveClicked(selectedProduct?.productId ?: "")
-            dismiss()
+            if (qty_accepted.error == null && qty_declined.error == null && viewModel.validateQty(
+                    selectedProduct?.quantity,
+                    qty_accepted.text.toString().toDouble(),
+                    qty_declined.text.toString().toDouble()
+                )
+            ) {
+                selectedProduct?.isReceived = true
+                selectedProduct?.temperature = temp_et.text.toString()
+                RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
+                    ?.map {
+                        it.copy(selectedProduct)
+                    }
+                onReceiveClicked(selectedProduct?.productId ?: "")
+                dismiss()
+            } else {
+                Toast.makeText(
+                    requireContext(), getString(R.string.qty_validation).replacePlaceHolderWithText(
+                        StringsPlaceHolders.QTY_VALIDATION,
+                        "${selectedProduct?.quantity}"
+                    ), Toast.LENGTH_SHORT
+                ).show()
+            }
         }
     }
 

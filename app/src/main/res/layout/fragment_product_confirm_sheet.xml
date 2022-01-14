@@ -14,7 +14,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_8sdp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -104,6 +105,35 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
+            android:textColor="@color/grey_separator"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="@string/temp"
+            android:textColor="@color/grey_separator" />
+
+        <EditText
+            android:id="@+id/temp_et"
+            style="@style/CustomSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:minEms="10"
+            android:text="0"
+            android:gravity="center"
+            android:inputType="number"
             android:textColor="@color/grey_separator"
             android:textStyle="bold" />
 

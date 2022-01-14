@@ -74,14 +74,14 @@
                 <View
                     android:id="@+id/proforma_invoice_view"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_300sdp"
-                    android:background="@android:color/transparent"
-                    android:elevation="@dimen/_10sdp"/>
+                    android:layout_height="@dimen/_600sdp"
+                    android:background="@drawable/rounded_border_button_green"
+                    android:elevation="@dimen/_10sdp" />
 
                 <io.ramani.android.app.pdfviewer.PdfViewerWidget
                     android:id="@+id/proforma_invoice_iv"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_300sdp" />
+                    android:layout_height="@dimen/_600sdp" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

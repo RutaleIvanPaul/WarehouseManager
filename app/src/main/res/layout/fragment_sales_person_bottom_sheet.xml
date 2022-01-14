@@ -32,21 +32,6 @@
             android:layout_marginBottom="25dp"
             />
 
-        <TextView
-            android:id="@+id/confirm_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="25dp"
-            android:background="@drawable/rounded_button_green"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/okay_title"
-            android:textColor="@color/white"
-            android:textSize="13dp" />
-
     </LinearLayout>
 
     <ProgressBar

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlow
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showDatePicker
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
@@ -71,9 +72,9 @@ class AssignStockSalesPersonFragment : BaseFragment() {
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
             if (it != null) {
                 select_salesperson_spinner.text = it
-                ReturnStockViewModel.allowToGoNext.postValue(Pair(0, true))
+                AssignStockViewModel.allowToGoNext.postValue(Pair(0, true))
             } else {
-                ReturnStockViewModel.allowToGoNext.postValue(Pair(0, false))
+                AssignStockViewModel.allowToGoNext.postValue(Pair(0, false))
             }
         })
     }

@@ -9,6 +9,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlow
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlowController
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
 import kotlinx.android.synthetic.main.fragment_supplier_confirm_receive.*
 import org.kodein.di.generic.factory
@@ -65,12 +66,16 @@ class SupplierConfirmReceiveFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
-        val data = viewModel.getUrl(purchaseId)
-        proforma_invoice_iv.fromUrl(data.first, data.second)
+        showInvoice()
         supplier_receiving_date_label.text = createdAt
         supplier_receiving_tv.text = supplierName
         proforma_invoice_view.setOnClickListener {
             flow.openInvoiceFragment(purchaseId ?: "")
         }
+    }
+
+    private fun showInvoice() {
+        val data = viewModel.getUrl(RECEIVE_MODELS.invoiceModelView?.purchaseOrderId)
+        proforma_invoice_iv.fromUrl(data.first, data.second)
     }
 }
