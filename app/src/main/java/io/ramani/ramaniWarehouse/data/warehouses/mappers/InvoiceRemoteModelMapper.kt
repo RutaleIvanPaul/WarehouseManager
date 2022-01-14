@@ -15,11 +15,14 @@ class InvoiceRemoteModelMapper(
     override fun mapFrom(from: InvoiceRemoteModel): InvoiceModel =
         InvoiceModel.Builder()
             .createdAt(dateFormatter.getDateInMillisFromServerDate(from.createdAt ?: ""))
+            .distributorId(from.distributorId)
             .distributorName(from.distributorName)
             .invoiceAmount(from.invoiceAmount)
             .invoiceId(from.invoiceId)
+            .supplierId(from.supplierId)
             .supplierName(from.supplierName)
             .products(from.products?.mapFromWith(productRemoteModelMapper))
             .purchaseOrderId(from.purchaseOrderId)
+            .serverCreatedAtDateTime(from.createdAt)
             .build()
 }

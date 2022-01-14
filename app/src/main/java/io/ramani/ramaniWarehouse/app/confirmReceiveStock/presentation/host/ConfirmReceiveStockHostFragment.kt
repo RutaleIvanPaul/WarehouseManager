@@ -1,16 +1,18 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.host
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Environment
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
+import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setArgs
-import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -18,12 +20,18 @@ import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlow
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlowController
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
-import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveStock.ConfirmReceiveStockFragment
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.confirmStock.ConfirmReceiveStockFragment
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveStock.ReceiveStockFragment
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.supplier.SupplierConfirmReceiveFragment
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.InvoiceModelView
 import kotlinx.android.synthetic.main.fragment_signin_sheet.loader
 import kotlinx.android.synthetic.main.fragment_stock_receive_now_host.*
 import org.kodein.di.generic.factory
+import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.util.*
+
 
 private const val INVOICE_MODEL_VIEW_ARG = "invoice_model_view_arg"
 
@@ -50,6 +58,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        flow = ReceiveStockFlowController(baseActivity!!)
         initArgs()
         initSubscribers()
     }
@@ -60,7 +69,18 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
         subscribeError(viewModel)
         observerError(viewModel, this)
         observeRefreshedProductList()
+        observeOnGoodsPosted()
         viewModel.start()
+    }
+
+    private fun observeOnGoodsPosted() {
+        viewModel.postGoodsReceivedActionLiveData.observe(this, {
+            DrawableCompat.setTint(
+                stock_receive_now_host_indicator_2.drawable,
+                ContextCompat.getColor(requireContext(), R.color.ramani_green)
+            )
+            flow.openReceiveSuccess()
+        })
     }
 
     private fun observeRefreshedProductList() {
@@ -87,9 +107,12 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
+        stock_receive_now_host_back.setOnClickListener {
+            onBackButtonPressed()
+        }
         flow = ReceiveStockFlowController(baseActivity!!)
         initTabLayout()
-        stock_receive_now_host_next_button.setOnSingleClickListener {
+        stock_receive_now_host_next_button.setOnClickListener {
             when (stock_receive_now_host_viewpager.currentItem) {
                 0 -> {
                     stock_receive_now_host_viewpager.currentItem++
@@ -98,7 +121,10 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 1 -> {
                     if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
                         turnMarkOneToGreen()
+                        stock_receive_now_host_indicator_2.visible()
                         stock_receive_now_host_viewpager.currentItem++
+                        stock_receive_now_host_next_button.text =
+                            getString(R.string.done).capitalize()
                     } else {
                         flow.openConfirmProductSheet(
                             RECEIVE_MODELS.invoiceModelView?.products?.first { it.isReceived == false }?.productId
@@ -106,12 +132,16 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                         ) {
                             if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
                                 turnMarkOneToGreen()
-                                stock_receive_now_host_next_button.text =
-                                    getString(R.string.done).capitalize()
                             }
-                            RECEIVE_MODELS.refreshReceiveProductListLiveData.postValue(true)
+                            RECEIVE_MODELS.refreshHostReceiveProductListLiveData.postValue(true)
                         }
                     }
+                }
+                else -> {
+                    viewModel.postGoodsReceived(
+                        RECEIVE_MODELS.invoiceModelView?.storeKeeperSign,
+                        RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign
+                    )
                 }
             }
 //            if (stock_receive_now_host_viewpager.currentItem < 2) {
@@ -135,7 +165,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
             ), getString(R.string.supplier)
         )
         adapter.addFragment(
-            ConfirmReceiveStockFragment.newInstance(), getString(R.string.products)
+            ReceiveStockFragment.newInstance(), getString(R.string.products)
         )
 
         adapter.addFragment(
@@ -152,6 +182,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
             tab.text = adapter.getTabTitle(position)
         }.attach()
         stock_receive_now_host_tablayout.touchables.map { it.isClickable = false }
+        stock_receive_now_host_viewpager.offscreenPageLimit = 2
     }
 
     private fun turnMarkOneToGreen() {
@@ -163,6 +194,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     override fun onBackButtonPressed(): Boolean {
         if (stock_receive_now_host_viewpager.currentItem > 0) {
+            stock_receive_now_host_next_button.text = getString(R.string.continue_)
             stock_receive_now_host_viewpager.currentItem--
             return true
         } else {

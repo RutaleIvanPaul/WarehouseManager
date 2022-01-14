@@ -11,13 +11,13 @@ import io.ramani.ramaniWarehouse.app.confirmReceiveStock.flow.ReceiveStockFlowCo
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
-import kotlinx.android.synthetic.main.fragment_confirm_stock_receive.*
+import kotlinx.android.synthetic.main.fragment_receive_product.*
 import org.kodein.di.generic.factory
 
 
-class ConfirmReceiveStockFragment : BaseFragment() {
+class ReceiveStockFragment : BaseFragment() {
     companion object {
-        fun newInstance() = ConfirmReceiveStockFragment()
+        fun newInstance() = ReceiveStockFragment()
     }
 
     private val viewModelProvider: (Fragment) -> ConfirmReceiveViewModel by factory()
@@ -26,9 +26,9 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         get() = viewModel
     private lateinit var flow: ReceiveStockFlow
 
-    override fun getLayoutResId(): Int = R.layout.fragment_confirm_stock_receive
+    override fun getLayoutResId(): Int = R.layout.fragment_receive_product
 
-    private lateinit var productsAdapter: ConfirmReceiveProductAdapter
+    private lateinit var productsAdapter: ReceiveProductAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
@@ -64,7 +64,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         products.addAll(
             RECEIVE_MODELS.invoiceModelView?.products?.toMutableList() ?: mutableListOf()
         )
-        productsAdapter = ConfirmReceiveProductAdapter(products) {
+        productsAdapter = ReceiveProductAdapter(products) {
             flow.openConfirmProductSheet(it.productId ?: "") {
                 productsAdapter.notifyDataSetChanged()
                 RECEIVE_MODELS.refreshReceiveProductListLiveData.postValue(true)
@@ -76,7 +76,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
     }
 
     private fun observeOnRefreshReceivingProductList() {
-        RECEIVE_MODELS.refreshReceiveProductListLiveData.observe(this, {
+        RECEIVE_MODELS.refreshHostReceiveProductListLiveData.observe(this, {
             productsAdapter.notifyDataSetChanged()
         })
     }

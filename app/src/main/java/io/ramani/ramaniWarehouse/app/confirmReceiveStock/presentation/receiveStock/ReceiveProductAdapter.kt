@@ -10,7 +10,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleC
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
 import org.jetbrains.anko.textColor
 
-class ConfirmReceiveProductAdapter(
+class ReceiveProductAdapter(
     data: MutableList<ProductModelView>,
     private val onReceiveClicked: (ProductModelView) -> Unit
 ) :
@@ -40,7 +40,7 @@ class ConfirmReceiveProductAdapter(
 
             productName.text = ""
             productQty.text = item.productName
-            productStatus.text = item.temp
+            productStatus.text = item.temperature
 
             setGone(R.id.status_received_iv, true)
             setGone(R.id.separator, true)

@@ -175,6 +175,8 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     fun getLoggedInUser() = sessionManager.getLoggedInUser()
 
+    fun getCurrentWarehouse() = sessionManager.getCurrentWarehouse()
+
     fun logout(message: String? = "", onLogOutComplete: (String?) -> Unit = defaultOnLogout) {
         sessionManager.logout().subscribe {
             onLogOutComplete(message)
