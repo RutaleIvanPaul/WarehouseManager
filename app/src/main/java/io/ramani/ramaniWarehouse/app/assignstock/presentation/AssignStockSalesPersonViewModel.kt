@@ -74,7 +74,7 @@ class AssignStockSalesPersonViewModel(
             it.isSelected = it.id == selectedSalespersonRV.id
         }
         selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
-        SalesPersonViewModel.selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
+        AssignStockViewModel.selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
         AssignStockViewModel.assignedItemDetails.salespersonName = selectedSalespersonRV.name!!
         AssignStockViewModel.assignedItemDetails.salespersonUuid = selectedSalespersonRV.id!!
     }

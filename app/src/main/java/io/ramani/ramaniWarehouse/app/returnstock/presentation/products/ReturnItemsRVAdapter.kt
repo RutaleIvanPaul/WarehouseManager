@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showErrorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 
@@ -19,38 +20,33 @@ class ReturnItemsRVAdapter(
     val onItemClick: (AvailableProductItem) -> Unit
 ) :
     BaseQuickAdapter<AvailableProductItem, BaseViewHolder>(R.layout.available_stock_return_item, data) {
-    val returnItems = ReturnStockViewModel.returnItemDetails.returnItems
+    val returnItems = ReturnItemDetails.returnItems
     override fun convert(helper: BaseViewHolder, item: AvailableProductItem) {
         with(helper) {
             val editQuantityEditText = getView<EditText>(R.id.return_stock_edit_quantity)
             val confirmQuantityButton = getView<Button>(R.id.return_stock_confirm_quantity_button)
             setText(R.id.return_product_name, item.productName)
-            if(returnItems.filter { it.id == item.id }.isNotEmpty()){
-                setText(R.id.return_stock_confirm_quantity_button,context.getString(R.string.Confirmed))
-                setTextColor(R.id.return_stock_confirm_quantity_button,context.resources.getColor(R.color.light_green))
-                editQuantityEditText.setText(item.quantity.toString())
-            }
+//            if(returnItems.filter { it.id == item.id }.isNotEmpty()){
+//                setText(R.id.return_stock_confirm_quantity_button,context.getString(R.string.Confirmed))
+//                setTextColor(R.id.return_stock_confirm_quantity_button,context.resources.getColor(R.color.light_green))
+//                editQuantityEditText.setText(item.quantity.toString())
+//            }
 
             confirmQuantityButton.setOnClickListener {
 
                 if(editQuantityEditText.text.isNullOrEmpty()){
                     SelectReturnItemsViewmodel.missingValueLiveData.postValue(true)
                 }else {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        returnItems.removeIf { itemFromList -> item.id == itemFromList.id }
-                    } else {
-                        returnItems.forEach {
-                            if (it.id == item.id) {
-                                remove(it)
-                            }
-                        }
-                    }
+
                     item.quantity = editQuantityEditText.text.toString().toInt()
 
-                    returnItems.add(item)
+                    if(!returnItems.filter { it.id == item.id }.isNotEmpty()) {
+                        returnItems.add(item)
+                    }
                     ReturnStockViewModel.returnItemsChangedLiveData.postValue(true)
                     setText(R.id.return_stock_confirm_quantity_button,context.getString(R.string.Confirmed))
                     setTextColor(R.id.return_stock_confirm_quantity_button,context.resources.getColor(R.color.light_green))
+                    setEnabled(R.id.return_stock_confirm_quantity_button, false)
                 }
             }
 
@@ -70,6 +66,9 @@ class ReturnItemsRVAdapter(
                 override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                     setText(R.id.return_stock_confirm_quantity_button,context.getString(R.string.confirm))
                     setTextColor(R.id.return_stock_confirm_quantity_button,context.resources.getColor(R.color.button_599BCB))
+                    if(!editQuantityEditText.text.isNullOrEmpty()){
+                        setEnabled(R.id.return_stock_confirm_quantity_button, true)
+                    }
                 }
 
                 override fun afterTextChanged(p0: Editable?) {

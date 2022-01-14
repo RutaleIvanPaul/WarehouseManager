@@ -27,8 +27,11 @@ class SalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment() {
             viewModel.onSalespersonSelected(it)
             dismiss()
         }
-        viewModel.getSalespeople()
+        if(SalesPersonViewModel.salesPeopleList.isEmpty()) {
+            viewModel.getSalespeople()
+        }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

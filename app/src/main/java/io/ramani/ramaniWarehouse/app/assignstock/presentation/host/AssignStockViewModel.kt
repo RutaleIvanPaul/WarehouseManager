@@ -42,6 +42,7 @@ class AssignStockViewModel(
         val assignedItemsChangedLiveData = MutableLiveData<Boolean>()
         var signedLiveData = MutableLiveData<Pair<String, Bitmap>>()
         val pushBackToStart = MutableLiveData<Boolean>()
+        val selectedSalespersonLiveData = MutableLiveData<String>()
     }
 
     var userModel: UserModel? = null
