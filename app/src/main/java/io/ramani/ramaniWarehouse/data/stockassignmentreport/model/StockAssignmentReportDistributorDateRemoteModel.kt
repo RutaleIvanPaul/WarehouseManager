@@ -39,9 +39,9 @@ data class StockAssignmentReportDistributorDateRemoteModel(
     val timestamp: String = "",
 
     @SerializedName("storeKeeperSignature")
-    val storeKeeperSignature: List<String> = ArrayList(),
+    val storeKeeperSignature: String = "",
 
     @SerializedName("salesPersonSignature")
-    val salesPersonSignature: List<String> = ArrayList(),
+    val salesPersonSignature: String = "",
 
     )

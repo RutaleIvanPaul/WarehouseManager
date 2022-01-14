@@ -23,16 +23,17 @@ class StockAssignmentReportDistributorDateRemoteMapper(
         }
 
         return StockAssignmentReportDistributorDateModel.Builder()
-                .id(from.id)
-                .assigner(from.assigner)
-                .dateStockTaken(from.dateStockTaken)
-                .timeStamp(from.timestamp)
-                .listOfProducts(items)
-                .storeKeeperSignature(from.storeKeeperSignature)
-                .salesPersonSignature(from.salesPersonSignature)
-                .salesPersonUUID(from.salesPersonUID)
-                .stockAssignmentType(from.salesPersonUID)
-                .build()
+            .id(from.id)
+            .assigner(from.assigner)
+            .dateStockTaken(from.dateStockTaken)
+            .timeStamp(from.timestamp)
+            .listOfProducts(items)
+            .name(from.name)
+            .storeKeeperSignature(from.storeKeeperSignature)
+            .salesPersonSignature(from.salesPersonSignature)
+            .salesPersonUUID(from.salesPersonUID)
+            .stockAssignmentType(from.salesPersonUID)
+            .build()
         }
 
     override fun mapTo(to: StockAssignmentReportDistributorDateModel): StockAssignmentReportDistributorDateRemoteModel {

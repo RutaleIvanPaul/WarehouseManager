@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.app.stockassignmentReport.presentation
+package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.os.Bundle
 import android.view.View
@@ -72,9 +72,9 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
         stock?.let {
             if (!it.storeKeeperSignature.isNullOrEmpty())
-                assignment_report_detail_store_keeper_signature.loadImage(it.storeKeeperSignature[0])
+                assignment_report_detail_store_keeper_signature.loadImage(it.salesPersonSignature)
             if (!it.salesPersonSignature.isNullOrEmpty())
-                assignment_report_detail_delivery_person_signature.loadImage(it.salesPersonSignature[0])
+                assignment_report_detail_delivery_person_signature.loadImage(it.salesPersonSignature)
 
             assignment_report_detail_issued_date.text = "Date: " + it.dateStockTaken
 

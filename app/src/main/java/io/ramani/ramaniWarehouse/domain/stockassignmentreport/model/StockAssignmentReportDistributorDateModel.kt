@@ -21,8 +21,8 @@ data class StockAssignmentReportDistributorDateModel(
 
     val stockAssignmentType: String = "",
 
-    val storeKeeperSignature: List<String> = ArrayList(),
-    val salesPersonSignature: List<String> = ArrayList(),
+    val storeKeeperSignature: String = "",
+    val salesPersonSignature: String = "",
 
     ) : Parcelable {
 
@@ -41,8 +41,8 @@ data class StockAssignmentReportDistributorDateModel(
         private var salesPersonUID: String = ""
         private var stockAssignmentType: String = ""
 
-        private var storeKeeperSignature: List<String> = ArrayList()
-        private var salesPersonSignature: List<String> = ArrayList()
+        private var storeKeeperSignature: String = ""
+        private var salesPersonSignature: String = ""
 
         fun id(id: String): Builder {
             this.id = id
@@ -85,12 +85,12 @@ data class StockAssignmentReportDistributorDateModel(
         }
 
 
-        fun storeKeeperSignature(storeKeeperSignature: List<String>): Builder {
+        fun storeKeeperSignature(storeKeeperSignature: String = ""): Builder {
             this.storeKeeperSignature = storeKeeperSignature
             return this
         }
 
-        fun salesPersonSignature(deliveryPersonSignature: List<String>): Builder {
+        fun salesPersonSignature(deliveryPersonSignature: String = ""): Builder {
             this.salesPersonSignature = deliveryPersonSignature
             return this
         }
@@ -135,8 +135,8 @@ data class StockAssignmentReportDistributorDateModel(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        parcel.createStringArrayList() ?: ArrayList(),
-        parcel.createStringArrayList() ?: ArrayList(),
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
     ) {
     }
 
@@ -151,8 +151,8 @@ data class StockAssignmentReportDistributorDateModel(
         parcel.writeString(__v)
         parcel.writeString(salesPersonUID)
         parcel.writeString(stockAssignmentType)
-        parcel.writeStringList(storeKeeperSignature)
-        parcel.writeStringList(salesPersonSignature)
+        parcel.writeString(storeKeeperSignature)
+        parcel.writeString(salesPersonSignature)
     }
 
     override fun describeContents(): Int {

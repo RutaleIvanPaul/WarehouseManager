@@ -5,7 +5,7 @@ import io.ramani.ramaniWarehouse.app.auth.presentation.LoginFragment
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
-import io.ramani.ramaniWarehouse.app.stockassignmentReport.presentation.StockAssignmentReportDetailFragment
+import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportDetailFragment
 import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import org.jetbrains.anko.AnkoLogger

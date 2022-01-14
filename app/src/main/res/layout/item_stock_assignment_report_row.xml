@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginTop="10dp"
+    android:background="@drawable/item_outline_round_dark"
+    android:paddingStart="20dp"
+    android:paddingTop="10dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="10dp">
+
+    <TextView
+        android:id="@+id/item_stock_assignment_report_row_name"
+        style="@style/NormalTextLabel"
+        android:layout_centerVertical="true"
+        android:text="Claudian Bernet" />
+
+    <TextView
+        android:id="@+id/item_stock_assignment_report_row_time"
+        style="@style/NormalTextLabel"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:text="11:40" />
+
+</RelativeLayout>
