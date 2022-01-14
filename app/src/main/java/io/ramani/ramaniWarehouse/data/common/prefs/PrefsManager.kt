@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.data.common.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 
 /**
@@ -38,6 +39,17 @@ open class PrefsManager(context: Context) : Prefs {
         get() = sharedPrefs.getString(PrefsConstants.PREF_CURRENT_WAREHOUSE, null) ?: ""
         set(value) {
             sharedPrefs.edit().putString(PrefsConstants.PREF_CURRENT_WAREHOUSE, value).apply()
+        }
+//    override var currentProducts: List<ProductsUIModel>?
+//        get() =  sharedPrefs.getList(PrefsConstants.PREF_CURRENT_PRODUCTS, null) ?: null
+//
+//        set(value) {}
+
+    override var invalidate_cache_company_products: Boolean
+        get() = sharedPrefs.getBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS,false)
+        set(value) {
+            sharedPrefs.edit()
+                .putBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS, value).apply()
         }
 
     override var invalidate_cache_available_products: Boolean

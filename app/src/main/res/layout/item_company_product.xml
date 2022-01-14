@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        app:cardElevation="0dp"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="5dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/product_image"
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:scaleType="fitXY"
+                android:background="@color/light_grey_bg"
+                android:src="@drawable/azam_img"/>
+
+            <TextView
+                android:id="@+id/product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ProductTitle"
+                android:text="Hadi Bag"
+                android:layout_marginTop="10dp"
+                android:textFontWeight="400"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="10dp"/>
+
+            <TextView
+                android:id="@+id/product_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ProductDesc"
+                android:text="Wheat Flour"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:textFontWeight="400"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:gravity="right">
+
+                    <TextView
+                        android:id="@+id/product_assigned_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        style="@style/AssignedTrigger"
+                        android:text="0 Assigned"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:gravity="right">
+
+
+
+                    <Button
+                        android:id="@+id/product_assign_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:background="@drawable/assgn_button"
+                        android:text="assign"
+                        android:paddingRight="5dp"
+                        android:paddingLeft="5dp"
+                        android:drawableRight="@drawable/ic_baseline_add_24"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false"
+                        android:layout_gravity="right"
+                        android:fontFamily="@font/galvji"
+                        android:textFontWeight="700"
+                        android:textStyle="normal"
+                        android:textSize="8sp"
+                        />
+
+                </LinearLayout>
+
+
+
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

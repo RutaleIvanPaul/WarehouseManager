@@ -219,4 +219,68 @@
         <item name="cornerSizeBottomLeft">0dp</item>
     </style>
 
+    <style name="AssignedTriggerCloseToSearch">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">false</item>
+        <item name="android:textColor">#599BCB</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:paddingStart">2dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="fontFamily">@font/galvji</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="ProductTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">false</item>
+        <item name="android:textColor">#292C34</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingStart">2dp</item>
+        <item name="fontFamily">@font/galvji</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="ProductDesc">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">false</item>
+        <item name="android:textColor">#9B9C9B</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingStart">2dp</item>
+        <item name="fontFamily">@font/galvji</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:textStyle">normal</item>
+
+    </style>
+
+
+    <style name="AssignedTrigger">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">false</item>
+        <item name="android:textColor">#599BCB</item>
+        <item name="android:textSize">10sp</item>
+        <item name="android:paddingStart">2dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="fontFamily">@font/galvji</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ReceiptText">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="ReceiptText.SmallTextLabel" parent="SmallTextLabel">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

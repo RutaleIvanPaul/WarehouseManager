@@ -19,8 +19,8 @@ android {
         applicationId "io.ramani.ramaniWarehouse"
         minSdk 21
         targetSdk 31
-        versionCode 12
-        versionName "0.1.2"
+        versionCode 14
+        versionName "0.1.4"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,9 +49,14 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        dataBinding true
+    }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
 
 }
 
@@ -161,8 +166,6 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
-
-    //WizarPOS SDK
-//    implementation(name: 'cloudpossdk-1.5.2', ext: 'aar')
-
+    // Famoco Printer
+     implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
 }

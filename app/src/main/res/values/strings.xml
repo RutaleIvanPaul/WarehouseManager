@@ -93,6 +93,7 @@
 
 
     <string name="goods">Goods</string>
+    <string name="goods_returned">Goods Returned</string>
     <string name="quantity">Quantity</string>
     <string name="no_stocks">No stocks</string>
 
@@ -123,11 +124,14 @@
     <string name="missing_quantity">Cannot Confirm without entering quantity</string>
     <string name="proforma_invoice">Proforma Invoice</string>
     <string name="clear_signature">Clear Signature</string>
+    <string name="missing_product_selection">Select at least one product to proceed</string>
+    <string name="hint_qty">Eg. 19</string>
+    <string name="assign_product">Assign Product</string>
     <string name="start_of_goods_returned">***START OF GOODS RETURNED***</string>
     <string name="end_of_goods_returned">***END OF GOODS RETURNED***</string>
     <string name="company_logo">company logo</string>
     <string name="goods_issued_note">Goods Issued Note</string>
-    <string name="masyl_general_enteprices">Masyl General Enteprices</string>
+    <string name="masyl_general_enteprices">Masyl General Enteprises</string>
     <string name="date_24_july_2021">Date: 24 July 2021</string>
     <string name="assigned_to">Assigned to</string>
     <string name="christian_michael">Christian Michael</string>
@@ -150,5 +154,9 @@
     <string name="missing_store_keeper_signature">Missing store keeper signature</string>
     <string name="missing_delivery_person_signature">Missing delivery person signature</string>
     <string name="temp">Temprature</string>
+    <string name="assign_success">Assignment Successful</string>
+    <string name="no_printer">Could not Find Printer Connected to device.</string>
+    <string name="printer_opened">Printer Opened</string>
+    <string name="printed">Printed.</string>
 
 </resources>
