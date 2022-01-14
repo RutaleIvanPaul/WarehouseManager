@@ -147,11 +147,9 @@ class CompanyProductsFragment : BaseFragment() {
             companyProductsList.remove(item)
             item.isAssigned = true
             item.assignedNumber = assignmentQuantity.text.toString().toInt()
-            Log.e("3333333", item.assignedNumber.toString())
             viewModel.notifyLiveDataOfAssignmentChange(item._id, assignmentQuantity.text.toString().toInt())
             selectedCompanyProductsList.add(item)
             viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
-            Log.e("11111111111 list", selectedCompanyProductsList.toString())
 
             dialog.dismiss()
         })
