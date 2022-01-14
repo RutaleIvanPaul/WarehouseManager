@@ -36,8 +36,6 @@ class CompanyProductsUIModelAdapter(
     @SuppressLint("ResourceAsColor")
     override fun convert(helper: BaseViewHolder, item: ProductsUIModel) {
         with(helper) {
-            Log.e("11111", item.isAssigned.toString())
-            Log.e("11111", "item.isAssigned.toString()")
             setText(R.id.product_name, item.name)
             setText(R.id.product_description, item.supplierName)
             setText(R.id.product_assigned_number, "${item.assignedNumber.toString()} Assigned")
@@ -47,7 +45,7 @@ class CompanyProductsUIModelAdapter(
             }
             getView<AppCompatButton>(R.id.product_assign_button).apply {
                 if(item.assignedNumber!! >= 1) {
-                    setBackgroundColor(R.color.secondary_blue)
+                    setBackgroundResource(R.drawable.assgn_button)
                     setText(R.string.edit_assignment)
                 }
 

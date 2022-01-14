@@ -2,11 +2,13 @@ package io.ramani.ramaniWarehouse.app.assignstock.presentation.host
 
 import android.app.Application
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -59,17 +61,18 @@ class AssignStockViewModel(
 
     fun assignStock() {
         val assignedItems = assignedItemDetails
+
         val single = postAssignedStockUseCase.getSingle(
             PostAssignedItems(
                 assignedItems.storekeeperName,
                 "",
                 userModel!!.companyId,
                 dateFormatter.convertToCalendarFormatDate(now()),
-                assignedItems.assignedItems.mapFromWith(assignedItemsMapper),
+                ASSGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
                 assignedItems.salespersonName,
                 userModel!!.uuid,
                 warehouseModel!!.id!!,
-                "assign",
+                "assignment",
                 assignedItems.signatureInfoStoreKeeper,
                 assignedItems.signatureInfoSalesPerson
             )
@@ -77,6 +80,7 @@ class AssignStockViewModel(
         subscribeSingle(
             single,
             onSuccess = {
+                Log.e("6666", it.toString())
                 isLoadingVisible = false
                 onItemsAssignedLiveData.postValue(true)
                 prefs.invalidate_cache_company_products = true

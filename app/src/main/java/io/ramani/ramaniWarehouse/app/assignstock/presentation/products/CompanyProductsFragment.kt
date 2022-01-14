@@ -6,10 +6,7 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.Window
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -24,6 +21,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapToWith
+import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import kotlinx.android.synthetic.main.fragment_stock_assign_product.*
 import org.kodein.di.generic.factory
 
@@ -45,12 +43,8 @@ class CompanyProductsFragment : BaseFragment() {
         viewModel.start()
         companyProductsUIModelAdapter = CompanyProductsUIModelAdapter(companyProductsList, onItemClick = {
 
-//            Log.e("222222","item clicked")
-//            Log.e("222222",it.isAssigned.toString())
             showDialog(it)
-//            viewModel.companyProductsListLiveData.observeForever({
-//                companyProductsUIModelAdapter.notifyDataSetChanged()
-//            })
+
         })
     }
 
@@ -147,17 +141,27 @@ class CompanyProductsFragment : BaseFragment() {
         }
         productImage.apply { loadImage(item.imagePath) }
         assignProductButton.setOnClickListener(View.OnClickListener {
-//            viewModel.companyProductsListOriginal?.find { it._id == item._id }?.isAssigned = true
             selectedCompanyProductsList?.find { it._id == item._id }?.isAssigned = true
-            selectedCompanyProductsList?.find { it._id == item._id }?.assignedNumber = assignmentQuantity.text.toString().toInt()
-            viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedNumber = assignmentQuantity.text.toString().toInt()
+            selectedCompanyProductsList?.find { it._id == item._id }?.assignedNumber = assignmentQuantity.text?.toString()?.toInt()?: 0
+            if(assignmentQuantity.text.trim().toString().isNullOrEmpty()){
+                Toast.makeText(context, R.string.record_assignemnt_number, Toast.LENGTH_LONG).show()
 
-            viewModel.notifyLiveDataOfAssignmentChange(item._id, assignmentQuantity.text.toString().toInt())
-            selectedCompanyProductsList.add(item)
-            viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
-            companyProductsUIModelAdapter.notifyDataSetChanged()
+            }
+            else {
+                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedNumber =
+                    assignmentQuantity.text.trim().toString()?.toInt() ?: 0
 
-            dialog.dismiss()
+
+                viewModel.notifyLiveDataOfAssignmentChange(
+                    item._id,
+                    assignmentQuantity.text.toString().toInt() ?: 0
+                )
+                selectedCompanyProductsList.add(item)
+                viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
+                companyProductsUIModelAdapter.notifyDataSetChanged()
+
+                dialog.dismiss()
+            }
         })
         dialog.show()
 
