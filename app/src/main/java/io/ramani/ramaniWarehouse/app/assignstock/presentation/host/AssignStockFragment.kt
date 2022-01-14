@@ -17,6 +17,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_assign_stock.*
 import kotlinx.android.synthetic.main.fragment_assign_stock.assign_stock_host_next_button
+import kotlinx.android.synthetic.main.fragment_return_stock.*
 
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
@@ -51,6 +52,24 @@ class AssignStockFragment : BaseFragment() {
         initTabLayout()
         subscribeObservers()
         viewModel.start()
+        assign_stock_host_next_button.setOnClickListener {
+            when (assign_stock_viewpager.currentItem) {
+                0 -> {
+                    assign_stock_host_next_button.text = getText(R.string.next)
+                    assign_stock_viewpager.currentItem++
+                    AssignStockViewModel.allowToGoNext.postValue(Pair(1,false))
+                }
+                1 -> {
+                    assign_stock_host_next_button.text = getText(R.string.done)
+                    assign_stock_viewpager.currentItem++
+                    AssignStockViewModel.allowToGoNext.postValue(Pair(1,false))
+                }
+                else -> {
+                    assign_stock_host_next_button.text = getText(R.string.done)
+                    viewModel.assignStock()
+                }
+            }
+        }
     }
 
     private fun subscribeObservers() {
@@ -58,6 +77,7 @@ class AssignStockFragment : BaseFragment() {
             if (it != null) {
                 assign_stock_host_next_button.apply {
                     isEnabled = true
+                    allowToGoNext()
                     backgroundDrawable =
                         getDrawable(requireContext(), R.drawable.green_stroke_action_button)
                     setTextColor(
@@ -82,6 +102,21 @@ class AssignStockFragment : BaseFragment() {
             }
         })
     }
+
+    private fun allowToGoNext() {
+        assign_stock_host_next_button.apply {
+            isEnabled = true
+            backgroundDrawable =
+                getDrawable(requireContext(), R.drawable.green_stroke_action_button)
+            setTextColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.light_lime_yellow
+                )
+            )
+        }
+    }
+
 
     private fun initTabLayout() {
         salespersonFragment = AssignStockSalesPersonFragment.newInstance()

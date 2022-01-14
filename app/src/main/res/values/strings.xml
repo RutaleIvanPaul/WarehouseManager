@@ -1,4 +1,4 @@
-   <resources>
+<resources>
     <string name="app_name">Ramani Warehouse</string>
     <string name="yes">yes</string>
     <string name="an_error_has_occured_please_try_again">An error has occurred. Please try again</string>
@@ -93,6 +93,7 @@
     <string name="end_goods_issued">*** END OF GOODS ISSUED ***</string>
     <string name="end_goods_returned">*** END OF GOODS RETURNED ***</string>
     <string name="goods">Goods</string>
+    <string name="goods_returned">Goods Returned</string>
     <string name="quantity">Quantity</string>
     <string name="no_stocks">No stocks</string>
 
@@ -140,7 +141,7 @@
     <string name="end_of_goods_returned">***END OF GOODS RETURNED***</string>
     <string name="company_logo">company logo</string>
     <string name="goods_issued_note">Goods Issued Note</string>
-    <string name="masyl_general_enteprices">Masyl General Enteprices</string>
+    <string name="masyl_general_enteprices">Masyl General Enteprises</string>
     <string name="date_24_july_2021">Date: 24 July 2021</string>
     <string name="assigned_to">Assigned to</string>
     <string name="christian_michael">Christian Michael</string>
@@ -149,6 +150,9 @@
     <string name="returned">Returned</string>
     <string name="view_receipt">View Receipt</string>
     <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
-       <string name="assign_success">Assignment Successful</string>
+    <string name="assign_success">Assignment Successful</string>
+    <string name="no_printer">Could not Find Printer Connected to device.</string>
+    <string name="printer_opened">Printer Opened</string>
+    <string name="printed">Printed.</string>
 
-   </resources>
+</resources>

@@ -45,6 +45,7 @@ class StockReceiveNowViewModel(
     var userId = ""
     var companyId = ""
     var warehouseId = ""
+    var userName = ""
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
@@ -56,6 +57,7 @@ class StockReceiveNowViewModel(
         */
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
+            userName = it.userName
             companyId = it.companyId
         }
 
