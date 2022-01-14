@@ -61,12 +61,12 @@ class CompanyProductsViewmodel(application: Application,
 
     }
     fun notifyLiveDataOfAssignmentChange(id: String, numberAssigned: Int){
-        companyProductsListLiveData.map {
-            it.forEach{
-                it.isAssigned = it._id == id
-                if(it.isAssigned!!) it.assignedNumber = numberAssigned
-            }
-        }
+//        companyProductsListLiveData.map {
+//            it.forEach{
+//                it.isAssigned = it._id == id
+//                if(it.isAssigned!!) it.assignedNumber = numberAssigned
+//            }
+//        }
         numberOfAssignedProductsLiveData.postValue(numberOfAssignedProductsLiveData.value?.inc())
     }
 

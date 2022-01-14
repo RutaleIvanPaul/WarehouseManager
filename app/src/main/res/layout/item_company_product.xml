@@ -80,11 +80,11 @@
 
 
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/product_assign_button"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:background="@drawable/assgn_button"
+                        android:background="@drawable/button_round_coral_green"
                         android:text="assign"
                         android:paddingRight="5dp"
                         android:paddingLeft="5dp"

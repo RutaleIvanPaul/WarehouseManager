@@ -111,6 +111,7 @@ class AssignStockRemoteDataSource(
             assignStockAPI.postAssignedStock(
                 createTextFormData(postAssignedItems.assigner),
                 createTextFormData(postAssignedItems.companyId),
+                createTextFormData(postAssignedItems.comment),
                 createTextFormData(postAssignedItems.dateStockTaken),
                 createTextFormData(postAssignedItems.name),
                 createTextFormData(postAssignedItems.salesPersonUID),

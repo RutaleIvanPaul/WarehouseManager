@@ -45,12 +45,12 @@ class CompanyProductsFragment : BaseFragment() {
         viewModel.start()
         companyProductsUIModelAdapter = CompanyProductsUIModelAdapter(companyProductsList, onItemClick = {
 
-            Log.e("222222","item clicked")
-            Log.e("222222",it.isAssigned.toString())
+//            Log.e("222222","item clicked")
+//            Log.e("222222",it.isAssigned.toString())
             showDialog(it)
-            viewModel.companyProductsListLiveData.observeForever({
-                companyProductsUIModelAdapter.notifyDataSetChanged()
-            })
+//            viewModel.companyProductsListLiveData.observeForever({
+//                companyProductsUIModelAdapter.notifyDataSetChanged()
+//            })
         })
     }
 
@@ -106,7 +106,7 @@ class CompanyProductsFragment : BaseFragment() {
         val context = requireContext()
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_assign_products)
         val body = dialog.findViewById(R.id.layout_custom_rewards_dialogue_box_product_id) as TextView
         val primaryUnits = dialog.findViewById(R.id.dialogue_custom_forms_custom_price_button) as TextView
@@ -114,6 +114,9 @@ class CompanyProductsFragment : BaseFragment() {
         val assignmentQuantity = dialog.findViewById(R.id.layout_first_edit_text_dialogue_edit_text) as EditText
         val productImage = dialog.findViewById(R.id.price_img) as ImageView
         val assignProductButton = dialog.findViewById(R.id.custom_products_assign_button) as Button
+        if(item.assignedNumber != 0) assignmentQuantity.setText(item.assignedNumber.toString())
+
+
 
         body.text = item.name
         primaryUnits.text = item.units
@@ -144,14 +147,15 @@ class CompanyProductsFragment : BaseFragment() {
         }
         productImage.apply { loadImage(item.imagePath) }
         assignProductButton.setOnClickListener(View.OnClickListener {
-            companyProductsList.remove(item)
-            item.isAssigned = true
-            item.assignedNumber = assignmentQuantity.text.toString().toInt()
-            Log.e("3333333", item.assignedNumber.toString())
+//            viewModel.companyProductsListOriginal?.find { it._id == item._id }?.isAssigned = true
+            selectedCompanyProductsList?.find { it._id == item._id }?.isAssigned = true
+            selectedCompanyProductsList?.find { it._id == item._id }?.assignedNumber = assignmentQuantity.text.toString().toInt()
+            viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedNumber = assignmentQuantity.text.toString().toInt()
+
             viewModel.notifyLiveDataOfAssignmentChange(item._id, assignmentQuantity.text.toString().toInt())
             selectedCompanyProductsList.add(item)
             viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
-            Log.e("11111111111 list", selectedCompanyProductsList.toString())
+            companyProductsUIModelAdapter.notifyDataSetChanged()
 
             dialog.dismiss()
         })
