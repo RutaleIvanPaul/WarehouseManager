@@ -2,37 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_title"
-    android:layout_width="match_parent"
+    android:layout_width="200dp"
     android:layout_height="50dp"
-    android:background="@color/light_grey"
+    android:background="@color/white"
     android:orientation="horizontal"
     app:layout_constraintTop_toBottomOf="@+id/horizontal_line">
 
     <TextView
         android:id="@+id/product_name"
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginStart="10dp"
-        android:text="@string/goods" />
+        android:text="Nguvu Blend 100g"
+        android:textColor="@color/black"
+        android:textSize="9sp" />
 
     <TextView
         android:id="@+id/declined_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
-        android:text="@string/declined" />
+        android:text="@string/declined"
+        android:textColor="@color/black"
+        android:textSize="9sp" />
 
     <TextView
         android:id="@+id/accepted_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="45dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="30dp"
+        android:layout_marginEnd="10dp"
         android:layout_toStartOf="@+id/declined_tv"
-        android:text="@string/accepted" />
+        android:text="@string/accepted"
+        android:textColor="@color/black"
+        android:textSize="9sp" />
 
 </RelativeLayout>

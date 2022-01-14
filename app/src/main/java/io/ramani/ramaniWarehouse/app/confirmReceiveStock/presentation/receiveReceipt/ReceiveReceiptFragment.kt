@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveRe
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ class ReceiveReceiptFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requireActivity().window.setFormat(PixelFormat.RGBA_8888)
         viewModel = viewModelProvider(this)
         viewModel.start()
     }
@@ -48,55 +50,14 @@ class ReceiveReceiptFragment : BaseFragment() {
             val view = scrollview
             val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
-//            val bgDrawable = view.background
-//            if (bgDrawable!=null){
-//                bgDrawable.draw(canvas)
-//            }
-//            else{
-//                canvas.drawColor(Color.WHITE)
-//            }
             view.draw(canvas)
             viewModel.printBitmap(bitmap)
-//
-//            val scaledBitmap = Bitmap.createScaledBitmap(bitmap,400,view.height,false)
-
-//            printReturnReceipt()
         }
 
         return_stock_done.setOnClickListener {
             flow.openMainNav()
         }
     }
-
-//    private fun printReturnReceipt() {
-//        viewModel.printText(getTextBeforeImages())
-//        viewModel.printText(getString(R.string.store_keeper) + ": " + storekeeper_text.text.toString() + "\n")
-//        viewModel.printBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper!!)
-//        viewModel.printText(getString(R.string.assigned_to) + ": " + assignee_text.text.toString() + "\n")
-//        viewModel.printBitmap(ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson!!)
-//        viewModel.printText("\n" + getString(R.string.end_goods_returned) + "\n\n\n\n\n")
-//
-//    }
-
-//    private fun getTextBeforeImages() =
-//        getString(R.string.start_of_goods_returned) + "\n\n" +
-//                company_name.text.toString() + "\n\n" +
-//                getString(R.string.goods_issued_note) + "\n\n" +
-//                date.text.toString() + "\n" +
-//                "--------------------------------" + "\n" +
-//                getString(R.string.goods_returned) + "\n" +
-//                "--------------------------------" + "\n\n" +
-//                getGoodsReturnedString()
-
-
-//    private fun getGoodsReturnedString(): String {
-//        var goodsReturnedText = ""
-//        ReturnStockViewModel.returnItemDetails.returnItems.forEach { item ->
-//            goodsReturnedText += item.productName + " ---------- " + item.quantity + " Pcs\n"
-//        }
-//        return goodsReturnedText
-//    }
-
 
     private fun initPrintingView() {
         if (viewModel.loggedInUser != null) {
