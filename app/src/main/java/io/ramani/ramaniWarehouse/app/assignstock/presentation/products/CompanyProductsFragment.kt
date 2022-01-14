@@ -151,7 +151,6 @@ class CompanyProductsFragment : BaseFragment() {
                 viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedNumber =
                     assignmentQuantity.text.trim().toString()?.toInt() ?: 0
 
-
                 viewModel.notifyLiveDataOfAssignmentChange(
                     item._id,
                     assignmentQuantity.text.toString().toInt() ?: 0
