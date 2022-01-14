@@ -6,7 +6,7 @@ import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.CompanyPr
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.domain.base.SingleLiveEvent
 
-class ASSGNMENT_RECEIVE_MODELS {
+class ASSIGNMENT_RECEIVE_MODELS {
     companion object {
         var stockAssignModelView: AssignStockViewModel? = null
         var companyProductsViewModel: CompanyProductsViewmodel? = null

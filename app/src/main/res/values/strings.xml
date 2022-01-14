@@ -161,5 +161,7 @@
     <string name="no_printer">Could not Find Printer Connected to device.</string>
     <string name="printer_opened">Printer Opened</string>
     <string name="printed">Printed.</string>
+    <string name="edit_assignment">Edit</string>
+    <string name="record_assignemnt_number">Please enter number to assign</string>
 
 </resources>
