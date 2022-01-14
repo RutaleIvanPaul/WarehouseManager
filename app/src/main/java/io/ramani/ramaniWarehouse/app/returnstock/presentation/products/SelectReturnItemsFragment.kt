@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.returnstock.presentation.products
 
 import android.os.Bundle
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -38,6 +39,7 @@ class SelectReturnItemsFragment : BaseFragment() {
         return_items_RV.layoutManager = LinearLayoutManager(requireContext())
         return_items_RV.adapter = returnItemsRVAdapter
         subscribeObservers()
+
 
         return_items_searchbar.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean  = false
