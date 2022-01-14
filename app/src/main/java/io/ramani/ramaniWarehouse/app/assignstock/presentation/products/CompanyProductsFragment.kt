@@ -145,6 +145,7 @@ class CompanyProductsFragment : BaseFragment() {
         }
         productImage.apply { loadImage(item.imagePath) }
         assignProductButton.setOnClickListener(View.OnClickListener {
+
             selectedCompanyProductsList?.find { it._id == item._id }?.isAssigned = true
             selectedCompanyProductsList?.find { it._id == item._id }?.assignedNumber = assignmentQuantity.text?.toString()?.toInt()?: 0
             if(assignmentQuantity.text.trim().toString().isNullOrEmpty()){

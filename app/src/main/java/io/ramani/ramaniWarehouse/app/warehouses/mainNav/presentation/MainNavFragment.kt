@@ -82,7 +82,7 @@ class MainNavFragment : BaseFragment() {
         }
 
         assignment_report_button.setOnSingleClickListener {
-            flow.openAssignmentReport()
+            flow.openStockAssignmentReport()
         }
     }
 
