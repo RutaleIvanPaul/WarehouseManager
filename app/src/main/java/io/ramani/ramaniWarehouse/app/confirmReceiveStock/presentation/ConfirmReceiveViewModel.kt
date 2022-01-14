@@ -1,9 +1,11 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation
 
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
@@ -12,15 +14,18 @@ import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.data.common.network.HeadersProvider
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
-import io.ramani.ramaniWarehouse.domain.auth.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
-import java.io.File
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.ByteArrayOutputStream
 
 class ConfirmReceiveViewModel(
     application: Application,
@@ -76,7 +81,7 @@ class ConfirmReceiveViewModel(
     /**
      * Post Goods Received
      */
-    fun postGoodsReceived(storeKeeperSignature: File?, deliveryPersonSignature: File?) {
+    fun postGoodsReceived(storeKeeperSignature: Bitmap?, deliveryPersonSignature: Bitmap?) {
         if (storeKeeperSignature == null) {
             notifyErrorObserver(
                 stringProvider.getString(R.string.missing_store_keeper_signature),
@@ -88,25 +93,19 @@ class ConfirmReceiveViewModel(
                 PresentationError.ERROR_TEXT
             )
         } else {
+
             isLoadingVisible = true
             val request = GoodsReceivedRequestModel(
-                RECEIVE_MODELS.invoiceModelView?.invoiceId ?: "",
-                loggedInUser.uuid,
-                currentWarehoues.id ?: "",
-                RECEIVE_MODELS.invoiceModelView?.distributorId ?: "",
-                RECEIVE_MODELS.invoiceModelView?.serverCreatedAtDateTime ?: "",
-                dateFormatter.getServerTimeFromServerDate(RECEIVE_MODELS.invoiceModelView?.serverCreatedAtDateTime),
-                RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: "",
-                RECEIVE_MODELS.invoiceModelView?.supplierId,
-                RECEIVE_MODELS.invoiceModelView?.products,
-                storeKeeperSignature,
-                deliveryPersonSignature
+                createRequestBody(
+                    storeKeeperSignature,
+                    deliveryPersonSignature
+                )
             )
             val single = postGoodsReceivedUseCase.getSingle(request)
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
 
-            postGoodsReceivedActionLiveData.postValue(it)
+                postGoodsReceivedActionLiveData.postValue(it)
             }, onError = {
                 isLoadingVisible = false
                 notifyErrorObserver(
@@ -116,6 +115,53 @@ class ConfirmReceiveViewModel(
                 )
             })
         }
+    }
+
+    private fun createRequestBody(
+        storeKeeperSignature: Bitmap?,
+        deliveryPersonSignature: Bitmap?
+    ): RequestBody {
+        val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("invoiceId", RECEIVE_MODELS.invoiceModelView?.invoiceId ?: "")
+            .addFormDataPart("warehouseId", currentWarehoues.id ?: "")
+            .addFormDataPart("distributorId", RECEIVE_MODELS.invoiceModelView?.distributorId ?: "")
+            .addFormDataPart("supplierId", RECEIVE_MODELS.invoiceModelView?.supplierId)
+            .addFormDataPart("warehouseManagerId", loggedInUser.uuid)
+            .addFormDataPart(
+                "time",
+                dateFormatter.getServerTimeFromServerDate(RECEIVE_MODELS.invoiceModelView?.serverCreatedAtDateTime) /* "10:39:49" */
+            )
+            .addFormDataPart(
+                "date",
+                RECEIVE_MODELS.invoiceModelView?.serverCreatedAtDateTime
+                    ?: "" /* "2021-10-19T23:00:00.000Z" */
+            )
+            .addFormDataPart("items", Gson().toJson(RECEIVE_MODELS.invoiceModelView?.products))
+        builder.addFormDataPart("storeKeeperName", RECEIVE_MODELS.invoiceModelView?.storeKeeperName)
+        storeKeeperSignature?.let {
+            builder.addFormDataPart(
+                "storeKeeperSignature", "",
+                createImageFormData(storeKeeperSignature)
+            )
+        }
+        builder.addFormDataPart(
+            "deliveryPersonName",
+            RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: ""
+        )
+        deliveryPersonSignature?.let {
+            builder.addFormDataPart(
+                "deliveryPersonSignature", "",
+                createImageFormData(deliveryPersonSignature)
+            )
+        }
+
+        return builder.build()
+    }
+
+    private fun createImageFormData(bitmap: Bitmap): RequestBody {
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        return RequestBody.create(MediaType.parse("application/octet-stream"), bos.toByteArray())
     }
 
     class Factory(

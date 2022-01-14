@@ -9,8 +9,8 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
-import io.ramani.ramaniWarehouse.data.auth.model.GetSupplierRequestModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GetSupplierRequestModel
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase

@@ -73,7 +73,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     }
 
     private fun observeOnGoodsPosted() {
-        viewModel.postGoodsReceivedActionLiveData.observe(this,{
+        viewModel.postGoodsReceivedActionLiveData.observe(this, {
             DrawableCompat.setTint(
                 stock_receive_now_host_indicator_2.drawable,
                 ContextCompat.getColor(requireContext(), R.color.ramani_green)
@@ -137,8 +137,8 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 }
                 else -> {
                     viewModel.postGoodsReceived(
-                        createFileFromBitmap(RECEIVE_MODELS.invoiceModelView?.storeKeeperSign),
-                        createFileFromBitmap(RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign)
+                        RECEIVE_MODELS.invoiceModelView?.storeKeeperSign,
+                        RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign
                     )
                 }
             }
