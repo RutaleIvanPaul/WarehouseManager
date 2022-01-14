@@ -89,7 +89,7 @@ val assignStockModule = Kodein.Module("assignStockModule") {
         ViewModelProvider(
             fragment, ConfirmAssignedStockViewModel.Factory(
                 instance(), instance(), instance(), instance("postAssignedStockUseCase")
-                , instance(), instance()
+                , instance(), instance(), instance()
             )
         ).get(ConfirmAssignedStockViewModel::class.java)
 

@@ -40,7 +40,7 @@ class AssignStockViewModel(
 ) {
     companion object {
         var allowToGoNext = MutableLiveData<Pair<Int, Boolean>>()
-        val assignedItemDetails: AssignedItemDetails = AssignedItemDetails()
+        val assignedItemDetails: AssignedItemDetails = AssignedItemDetails
         val assignedItemsChangedLiveData = MutableLiveData<Boolean>()
         var signedLiveData = MutableLiveData<Pair<String, Bitmap>>()
         val pushBackToStart = MutableLiveData<Boolean>()

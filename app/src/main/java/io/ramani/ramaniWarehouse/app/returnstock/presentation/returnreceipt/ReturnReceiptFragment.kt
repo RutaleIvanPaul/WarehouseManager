@@ -37,7 +37,6 @@ class ReturnReceiptFragment : BaseFragment() {
     private lateinit var flow: AuthFlow
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         confirmReturnItemsAdapter =

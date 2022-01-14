@@ -95,6 +95,7 @@
 
 
     <string name="goods">Goods</string>
+    <string name="goods_issued">Goods Issued</string>
     <string name="goods_returned">Goods Returned</string>
     <string name="quantity">Quantity</string>
     <string name="no_stocks">No stocks</string>
@@ -130,7 +131,9 @@
     <string name="hint_qty">Eg. 19</string>
     <string name="assign_product">Assign Product</string>
     <string name="start_of_goods_returned">***START OF GOODS RETURNED***</string>
+    <string name="start_of_goods_assigned">***START OF GOODS ASSIGNED***</string>
     <string name="end_of_goods_returned">***END OF GOODS RETURNED***</string>
+    <string name="end_of_goods_assigned">***END OF GOODS ASSIGNED***</string>
     <string name="company_logo">company logo</string>
     <string name="goods_issued_note">Goods Issued Note</string>
     <string name="masyl_general_enteprices">Masyl General Enteprises</string>
@@ -140,6 +143,7 @@
     <string name="assigned_to_signature">Assigned to Signature</string>
     <string name="store_keeper_signature">Store Keeper Signature</string>
     <string name="returned">Returned</string>
+    <string name="assigned_label">Assigned</string>
     <string name="view_receipt">View Receipt</string>
     <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
     <string name="qty">qty</string>

@@ -45,8 +45,8 @@ class CompanyProductsUIModelAdapter(
             }
             getView<AppCompatButton>(R.id.product_assign_button).apply {
                 if(item.assignedNumber!! >= 1) {
-                    setBackgroundResource(R.drawable.assgn_button)
-                    setText(R.string.edit_assignment)
+                    this.setBackgroundResource(R.drawable.assgn_button)
+                    this.setText(R.string.edit_assignment)
                 }
 
             }

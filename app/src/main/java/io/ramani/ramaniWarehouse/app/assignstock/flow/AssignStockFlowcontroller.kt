@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.assignstock.flow
 
+import io.ramani.ramaniWarehouse.app.AssignedStock.presentation.assignmentreceipt.AssignmentReceiptFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonBottomSheetFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.AssignSuccessFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.AssignedStockSignaturePadFragment
@@ -8,6 +9,7 @@ import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ReturnStockSignaturePadFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ReturnSuccessFragment
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.returnreceipt.ReturnReceiptFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonBottomSheetFragment
 
 class AssignStockFlowcontroller(
@@ -34,6 +36,10 @@ class AssignStockFlowcontroller(
     }
 
     override fun openAssignedStockPrintScreen() {
-        TODO("Not yet implemented")
+        val fragment = AssignmentReceiptFragment.newInstance()
+        activity?.navigationManager?.open(
+            fragment,
+            openMethod = NavigationManager.OpenMethod.REPLACE
+        )
     }
 }
