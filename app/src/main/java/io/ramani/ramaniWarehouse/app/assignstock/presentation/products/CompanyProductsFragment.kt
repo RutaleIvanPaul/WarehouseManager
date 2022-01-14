@@ -6,15 +6,14 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.Window
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.mapper.ProductUIMapper
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
@@ -24,7 +23,10 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapToWith
+import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
+import kotlinx.android.synthetic.main.fragment_assign_stock.*
 import kotlinx.android.synthetic.main.fragment_stock_assign_product.*
+import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
 
 
@@ -45,12 +47,8 @@ class CompanyProductsFragment : BaseFragment() {
         viewModel.start()
         companyProductsUIModelAdapter = CompanyProductsUIModelAdapter(companyProductsList, onItemClick = {
 
-            Log.e("222222","item clicked")
-            Log.e("222222",it.isAssigned.toString())
             showDialog(it)
-            viewModel.companyProductsListLiveData.observeForever({
-                companyProductsUIModelAdapter.notifyDataSetChanged()
-            })
+
         })
     }
 
@@ -106,7 +104,7 @@ class CompanyProductsFragment : BaseFragment() {
         val context = requireContext()
         val dialog = Dialog(context)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
+        dialog.setCancelable(true)
         dialog.setContentView(R.layout.dialog_assign_products)
         val body = dialog.findViewById(R.id.layout_custom_rewards_dialogue_box_product_id) as TextView
         val primaryUnits = dialog.findViewById(R.id.dialogue_custom_forms_custom_price_button) as TextView
@@ -114,6 +112,9 @@ class CompanyProductsFragment : BaseFragment() {
         val assignmentQuantity = dialog.findViewById(R.id.layout_first_edit_text_dialogue_edit_text) as EditText
         val productImage = dialog.findViewById(R.id.price_img) as ImageView
         val assignProductButton = dialog.findViewById(R.id.custom_products_assign_button) as Button
+        if(item.assignedNumber != 0) assignmentQuantity.setText(item.assignedNumber.toString())
+
+
 
         body.text = item.name
         primaryUnits.text = item.units
@@ -144,20 +145,32 @@ class CompanyProductsFragment : BaseFragment() {
         }
         productImage.apply { loadImage(item.imagePath) }
         assignProductButton.setOnClickListener(View.OnClickListener {
-            companyProductsList.remove(item)
-            item.isAssigned = true
-            item.assignedNumber = assignmentQuantity.text.toString().toInt()
-            Log.e("3333333", item.assignedNumber.toString())
-            viewModel.notifyLiveDataOfAssignmentChange(item._id, assignmentQuantity.text.toString().toInt())
-            selectedCompanyProductsList.add(item)
-            viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
-            Log.e("11111111111 list", selectedCompanyProductsList.toString())
+            selectedCompanyProductsList?.find { it._id == item._id }?.isAssigned = true
+            selectedCompanyProductsList?.find { it._id == item._id }?.assignedNumber = assignmentQuantity.text?.toString()?.toInt()?: 0
+            if(assignmentQuantity.text.trim().toString().isNullOrEmpty()){
+                Toast.makeText(context, R.string.record_assignemnt_number, Toast.LENGTH_LONG).show()
 
-            dialog.dismiss()
+            }
+            else {
+                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedNumber =
+                    assignmentQuantity.text.trim().toString()?.toInt() ?: 0
+
+                viewModel.notifyLiveDataOfAssignmentChange(
+                    item._id,
+                    assignmentQuantity.text.toString().toInt() ?: 0
+                )
+                selectedCompanyProductsList.add(item)
+                viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
+                companyProductsUIModelAdapter.notifyDataSetChanged()
+                AssignStockViewModel.allowToGoNext.postValue(Pair(1,true))
+
+                dialog.dismiss()
+            }
         })
         dialog.show()
 
     }
+
 
 
     override fun onResume() {
@@ -172,4 +185,5 @@ class CompanyProductsFragment : BaseFragment() {
         fun newInstance() = CompanyProductsFragment()
 
     }
+
 }

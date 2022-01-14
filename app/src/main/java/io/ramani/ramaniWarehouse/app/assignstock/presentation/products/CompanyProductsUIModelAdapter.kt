@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.products
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Build
 import android.text.Editable
@@ -22,6 +23,7 @@ import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
 import android.widget.LinearLayout.LayoutParams
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
 
@@ -31,15 +33,21 @@ class CompanyProductsUIModelAdapter(
     val onItemClick: (ProductsUIModel) -> Unit
 ) :
     BaseQuickAdapter<ProductsUIModel, BaseViewHolder>(R.layout.item_company_product, data) {
+    @SuppressLint("ResourceAsColor")
     override fun convert(helper: BaseViewHolder, item: ProductsUIModel) {
         with(helper) {
-            Log.e("11111", item.isAssigned.toString())
-            Log.e("11111", "item.isAssigned.toString()")
             setText(R.id.product_name, item.name)
             setText(R.id.product_description, item.supplierName)
             setText(R.id.product_assigned_number, "${item.assignedNumber.toString()} Assigned")
-            getView<Button>(R.id.product_assign_button).setOnSingleClickListener {
+            getView<AppCompatButton>(R.id.product_assign_button).setOnSingleClickListener {
                 onItemClick(item)
+
+            }
+            getView<AppCompatButton>(R.id.product_assign_button).apply {
+                if(item.assignedNumber!! >= 1) {
+                    setBackgroundResource(R.drawable.assgn_button)
+                    setText(R.string.edit_assignment)
+                }
 
             }
             helper.getView<ImageView>(R.id.product_image).apply {

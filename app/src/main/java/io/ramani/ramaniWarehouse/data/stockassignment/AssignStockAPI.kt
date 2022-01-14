@@ -25,6 +25,7 @@ interface AssignStockAPI {
     fun postAssignedStock(
         @Part("assigner") assigner: RequestBody,
         @Part("companyId") companyId: RequestBody,
+        @Part("comment") comment: RequestBody,
         @Part("dateStockTaken") dateStockTaken: RequestBody,
         @Part("name") name: RequestBody,
         @Part("salesPersonUID") salesPersonUID: RequestBody,
