@@ -1,10 +1,13 @@
 package io.ramani.ramaniWarehouse.app.assignmentreport.flow
 
 import io.ramani.ramaniWarehouse.app.assignmentreport.presentation.AssignmentReportDetailFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.AssignSuccessFragment
 import io.ramani.ramaniWarehouse.app.auth.presentation.LoginFragment
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ReturnSuccessFragment
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.returnreceipt.ReturnReceiptFragment
 import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import org.jetbrains.anko.AnkoLogger
 
@@ -28,5 +31,6 @@ class AssignmentReportFlowController(
             openMethod = NavigationManager.OpenMethod.ADD
         )
     }
+
 
 }

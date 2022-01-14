@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlow
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
@@ -40,7 +41,8 @@ class ConfirmAssignedStockFragment : BaseFragment() {
             ConfirmAssignedItemsAdapter(selectedCompanyProductsList, {})
 
         ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever({
-            Log.e("cccc", it.toString())
+            Log.e("xxxxx Confirm ", it.toString())
+
             confirmAssignedItemsAdapter.notifyDataSetChanged()
         })
 
@@ -72,7 +74,8 @@ class ConfirmAssignedStockFragment : BaseFragment() {
         })
 
         ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever({
-            Log.e("bbbbbb", it.toString())
+            AssignedItemDetails.assignedItems = it.toMutableList()
+
             selectedCompanyProductsList.clear()
             selectedCompanyProductsList.addAll(it)
             confirmAssignedItemsAdapter.notifyDataSetChanged()
