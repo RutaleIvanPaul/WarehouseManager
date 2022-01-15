@@ -6,11 +6,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import kotlinx.android.synthetic.main.fragment_confirm_return_stock.*
 import org.kodein.di.generic.factory
@@ -30,7 +32,7 @@ class ConfirmReturnStockFragment : BaseFragment() {
         viewModel = viewModelProvider(this)
 
         confirmReturnItemsAdapter =
-            ConfirmReturnItemsAdapter(ReturnStockViewModel.returnItemDetails.returnItems) {}
+            ConfirmReturnItemsAdapter(ReturnItemDetails.returnItems) {}
     }
 
 
@@ -83,7 +85,7 @@ class ConfirmReturnStockFragment : BaseFragment() {
                     )
                 )
 
-                ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper = it.second
+                ReturnItemDetails.signatureInfoStoreKeeper = it.second
 
             } else if (it.first == ReturnStockSignaturePadFragment.PARAM_SALESPERSON_SIGN) {
 
@@ -102,26 +104,27 @@ class ConfirmReturnStockFragment : BaseFragment() {
                     )
                 )
 
-                ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson = it.second
+                ReturnItemDetails.signatureInfoSalesPerson = it.second
 
             }
 
             if(
-                ReturnStockViewModel.returnItemDetails.signatureInfoSalesPerson != null &&
-                ReturnStockViewModel.returnItemDetails.signatureInfoStoreKeeper != null
+                ReturnItemDetails.signatureInfoSalesPerson != null &&
+                ReturnItemDetails.signatureInfoStoreKeeper != null
             ){
                 ReturnStockViewModel.allowToGoNext.postValue(Pair(2,true))
             }
         })
+
 
     }
 
     override fun onResume() {
         super.onResume()
         confirm_return_store_keeper_name.text =
-            ReturnStockViewModel.returnItemDetails.storekeeperName
+            ReturnItemDetails.storekeeperName
         confirm_return_salesperson_name.text =
-            ReturnStockViewModel.returnItemDetails.salespersonName
+            ReturnItemDetails.salespersonName
     }
 
     companion object {

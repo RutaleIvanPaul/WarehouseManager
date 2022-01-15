@@ -8,12 +8,14 @@ import android.view.ViewGroup
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlow
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showDatePicker
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import kotlinx.android.synthetic.main.fragment_sales_person.*
 import org.kodein.di.generic.factory
@@ -68,7 +70,12 @@ class AssignStockSalesPersonFragment : BaseFragment() {
     private fun subscribeObservers() {
 
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
-            select_salesperson_spinner.text = it
+            if (it != null) {
+                select_salesperson_spinner.text = it
+                AssignStockViewModel.allowToGoNext.postValue(Pair(0, true))
+            } else {
+                AssignStockViewModel.allowToGoNext.postValue(Pair(0, false))
+            }
         })
     }
 

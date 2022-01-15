@@ -55,13 +55,19 @@ class SalesPersonFragment : BaseFragment() {
             }
         }
 
-        select_salesperson_spinner.text = ""
         SalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
 
         select_salesperson_spinner.setOnSingleClickListener {
             flow.openSalesPersonBottomSheet()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        SalesPersonViewModel.salesPeopleList.clear()
         viewModel.getSalespeople()
+        select_salesperson_spinner.text = ""
+
     }
 
     private fun subscribeObservers() {
@@ -71,6 +77,7 @@ class SalesPersonFragment : BaseFragment() {
                 select_salesperson_spinner.text = it
                 ReturnStockViewModel.allowToGoNext.postValue(Pair(0, true))
             } else {
+                select_salesperson_spinner.text = ""
                 ReturnStockViewModel.allowToGoNext.postValue(Pair(0, false))
             }
         })

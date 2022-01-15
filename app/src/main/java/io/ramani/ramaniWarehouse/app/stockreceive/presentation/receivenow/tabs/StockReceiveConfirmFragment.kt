@@ -47,6 +47,7 @@ class StockReceiveConfirmFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        viewModel.start()
 
         subscribeObservers()
     }
@@ -118,22 +119,25 @@ class StockReceiveConfirmFragment : BaseFragment() {
         if (STOCK_RECEIVE_MODEL.supplierData.products != null) {
             STOCK_RECEIVE_MODEL.supplierData.products.let {
                 products = it as ArrayList<SelectedProductModel>
+
+                // Initialize List View
+                stock_receive_confirm_product_list.apply {
+                    layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+
+                    listAdapter = StockReceiveConfirmProductRVAdapter(products!!){
+                        STOCK_RECEIVE_MODEL.updateProductRequestLiveData.postValue(it)
+                    }
+
+                    adapter = listAdapter
+                    addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
+                }
             }
-        }
-
-        // Initialize List View
-        stock_receive_confirm_product_list.apply {
-            layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
-
-            listAdapter = StockReceiveConfirmProductRVAdapter(products!!){
-                STOCK_RECEIVE_MODEL.updateProductRequestLiveData.postValue(it)
-            }
-
-            adapter = listAdapter
-            addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
         }
 
         // Stock keeper sign
+        stock_receive_confirm_store_keeper_name.isEnabled = false
+        stock_receive_confirm_store_keeper_name.setText(viewModel.userName)
+
         stock_receive_confirm_sign_store_keeper.setOnSingleClickListener {
             val signedName = stock_receive_confirm_store_keeper_name.text.toString()
 

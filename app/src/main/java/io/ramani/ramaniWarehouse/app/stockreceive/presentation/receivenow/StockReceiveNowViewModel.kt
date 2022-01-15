@@ -9,19 +9,18 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
+import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GetSupplierRequestModel
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
-import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
-import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
+import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniWarehouse.domain.base.v2.Params
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierProductModel
-import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
-import io.ramani.ramaniWarehouse.domain.base.v2.Params
+import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
 import okhttp3.RequestBody
-import kotlin.collections.ArrayList
 
 class StockReceiveNowViewModel(
     application: Application,
@@ -45,6 +44,7 @@ class StockReceiveNowViewModel(
     var userId = ""
     var companyId = ""
     var warehouseId = ""
+    var userName = ""
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
@@ -56,6 +56,7 @@ class StockReceiveNowViewModel(
         */
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
+            userName = it.userName
             companyId = it.companyId
         }
 
@@ -99,8 +100,11 @@ class StockReceiveNowViewModel(
             getDeclineReasonsActionLiveData.postValue(it)
         }, onError = {
             isLoadingVisible = false
-            notifyErrorObserver(it.message
-                ?: getString(R.string.an_error_has_occured_please_try_again), PresentationError.ERROR_TEXT)
+            notifyErrorObserver(
+                it.message
+                    ?: getString(R.string.an_error_has_occured_please_try_again),
+                PresentationError.ERROR_TEXT
+            )
         })
     }
 
@@ -127,7 +131,7 @@ class StockReceiveNowViewModel(
                 isLoadingVisible = true
 
                 // Create request body
-                val requestBody:RequestBody = STOCK_RECEIVE_MODEL.supplierData.createRequestBody(
+                val requestBody: RequestBody = STOCK_RECEIVE_MODEL.supplierData.createRequestBody(
                     warehouseId,
                     userId,
                     companyId

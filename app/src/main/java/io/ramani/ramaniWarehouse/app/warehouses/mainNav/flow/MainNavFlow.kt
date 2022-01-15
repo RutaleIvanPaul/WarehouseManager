@@ -9,5 +9,6 @@ interface MainNavFlow {
     fun openReturnStock()
     fun openStockReport()
     fun openAssignmentReport()
+    fun openStockAssignmentReport()
 
 }

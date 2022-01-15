@@ -11,6 +11,6 @@ data class ProductRemoteModel(
      val price: Double? = null,
     @SerializedName("qty")
      val quantity: Double? = null,
-    @SerializedName("unit")
+    @SerializedName("units")
     val unit: String? = null
 )

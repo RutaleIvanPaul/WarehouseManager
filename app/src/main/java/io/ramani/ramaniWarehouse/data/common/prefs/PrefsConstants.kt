@@ -9,5 +9,7 @@ object PrefsConstants {
     const val PREF_ACCESS_TOKEN = "access_token"
     const val PREF_REFRESH_TOKEN = "refresh_token"
     const val PREF_CURRENT_WAREHOUSE = "current_warehouse"
+    const val PREF_CURRENT_PRODUCTS = "current_products"
+    const val PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS = "invalidate_cache_company_products"
     const val PREF_INVALIDATE_CACHE_AVAILABLE_PRODUCTS = "invalidate_cache_available_products"
 }
