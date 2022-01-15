@@ -56,7 +56,7 @@ class CompanyProductsViewmodel(application: Application,
         }
 
     }
-    fun notifyLiveDataOfAssignmentChange(id: String, numberAssigned: Int){
+    fun notifyLiveDataOfAssignmentChange(){
 //        companyProductsListLiveData.map {
 //            it.forEach{
 //                it.isAssigned = it._id == id
@@ -67,8 +67,8 @@ class CompanyProductsViewmodel(application: Application,
     }
 
     fun saveAllAssignedProducts(selection: List<ProductsUIModel>){
-        companyProductsListSelection.addAll(selection)
-        assignedCompanyProductsListLiveData.postValue(companyProductsListSelection.toMutableList())
+//        companyProductsListSelection.addAll(selection)
+//        assignedCompanyProductsListLiveData.postValue(companyProductsListSelection.toMutableList())
         ASSIGNMENT_RECEIVE_MODELS.productsSelection.postValue(selection)
 
     }

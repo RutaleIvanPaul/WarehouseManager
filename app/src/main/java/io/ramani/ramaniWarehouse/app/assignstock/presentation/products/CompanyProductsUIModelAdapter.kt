@@ -26,6 +26,7 @@ import android.widget.LinearLayout.LayoutParams
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat.getColor
 import androidx.core.content.ContextCompat.getDrawable
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 
 
 class CompanyProductsUIModelAdapter(
@@ -39,19 +40,24 @@ class CompanyProductsUIModelAdapter(
             setText(R.id.product_name, item.name)
             setText(R.id.product_description, item.supplierName)
             setText(R.id.product_assigned_number, "${item.assignedNumber.toString()} Assigned")
-            getView<AppCompatButton>(R.id.product_assign_button).setOnSingleClickListener {
-                onItemClick(item)
 
-            }
-            getView<AppCompatButton>(R.id.product_assign_button).apply {
-                if(item.assignedNumber!! >= 1) {
+            //ASSIGNMENT_RECEIVE_MODELS.productsSelection.value?.contains(item) == true &&
+            Log.e("0000000000", "${item._id}  ${item.name} ${item.assignedNumber.toString()} ${item.isAssigned.toString()}" )
+
+            if((item.assignedNumber != 0 && item.isAssigned != false)) {
+                getView<AppCompatButton>(R.id.product_assign_button).apply {
                     this.setBackgroundResource(R.drawable.assgn_button)
                     this.setText(R.string.edit_assignment)
                 }
-
+                Log.e("item ${item.name}", item._id +" ${item.assignedNumber}" )
             }
+
             helper.getView<ImageView>(R.id.product_image).apply {
                 loadImage(item.imagePath)
+            }
+            getView<AppCompatButton>(R.id.product_assign_button).setOnSingleClickListener {
+                onItemClick(item)
+
             }
 
 //            }.setOnClickListener(View.OnClickListener { showDialog(item) })

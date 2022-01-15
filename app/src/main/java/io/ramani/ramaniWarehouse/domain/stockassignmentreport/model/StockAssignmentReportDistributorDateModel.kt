@@ -19,7 +19,7 @@ data class StockAssignmentReportDistributorDateModel(
     val __v: String = "",
     val salesPersonUID: String = "",
 
-    val stockAssignmentType: String = "",
+    val stockAssignmentType: String = "assignment",
 
     val storeKeeperSignature: String = "",
     val salesPersonSignature: String = "",

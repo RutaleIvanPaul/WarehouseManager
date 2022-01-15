@@ -12,6 +12,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheet
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.domainCore.printer.processForPrinting
 import kotlinx.android.synthetic.main.fragment_assign_stock_signature_pad.*
 
 import org.kodein.di.generic.factory
@@ -59,7 +60,7 @@ class AssignedStockSignaturePadFragment : BaseBottomSheetDialogFragment() {
             if (!isSigned) {
                 errorDialog("Please sign and click confirm.")
             } else {
-                val bitmap = assign_stock_signature_pad.signatureBitmap
+                val bitmap = assign_stock_signature_pad.signatureBitmap.processForPrinting()
 
                 when (arguments?.getString("signee")) {
                     AssignedStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN -> AssignStockViewModel.signedLiveData.postValue(Pair(
