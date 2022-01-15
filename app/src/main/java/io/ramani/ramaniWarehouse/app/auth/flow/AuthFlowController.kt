@@ -32,7 +32,8 @@ class AuthFlowController(
         val fragment = MainNavFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
-            openMethod = NavigationManager.OpenMethod.REPLACE
+            openMethod = NavigationManager.OpenMethod.REPLACE,
+            fragmentTag = MainNavFragment.TAG
         )
     }
 }

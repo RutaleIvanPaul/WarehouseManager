@@ -57,7 +57,6 @@ class ConfirmReturnStockFragment : BaseFragment() {
 
     private fun subscribeObservers() {
         viewModel.onItemsReturnedLiveData.observe(this, {
-//            onItemsReturned(it)
         })
 
         ReturnStockViewModel.returnItemsChangedLiveData.observe(this, {
@@ -68,51 +67,53 @@ class ConfirmReturnStockFragment : BaseFragment() {
         })
 
         ReturnStockViewModel.signedLiveData.observe(this, {
-            if (it.first == ReturnStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN) {
+            if(it!=null) {
+                if (it.first == ReturnStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN) {
 
-                confirm_return_sign_store_keeper.setCompoundDrawables(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_check_icon
-                    ), null, null, null
-                )
-                confirm_return_sign_store_keeper.setBackgroundResource(R.drawable.green_stroke_action_button)
-                confirm_return_sign_store_keeper.setText(R.string.signed)
-                confirm_return_sign_store_keeper.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.light_lime_yellow
+                    confirm_return_sign_store_keeper.setCompoundDrawables(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_check_icon
+                        ), null, null, null
                     )
-                )
-
-                ReturnItemDetails.signatureInfoStoreKeeper = it.second
-
-            } else if (it.first == ReturnStockSignaturePadFragment.PARAM_SALESPERSON_SIGN) {
-
-                confirm_return_sign_salesperson.setCompoundDrawables(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_check_icon
-                    ), null, null, null
-                )
-                confirm_return_sign_salesperson.setBackgroundResource(R.drawable.green_stroke_action_button)
-                confirm_return_sign_salesperson.setText(R.string.signed)
-                confirm_return_sign_salesperson.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.light_lime_yellow
+                    confirm_return_sign_store_keeper.setBackgroundResource(R.drawable.green_stroke_action_button)
+                    confirm_return_sign_store_keeper.setText(R.string.signed)
+                    confirm_return_sign_store_keeper.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.light_lime_yellow
+                        )
                     )
-                )
 
-                ReturnItemDetails.signatureInfoSalesPerson = it.second
+                    ReturnItemDetails.signatureInfoStoreKeeper = it.second
 
-            }
+                } else if (it.first == ReturnStockSignaturePadFragment.PARAM_SALESPERSON_SIGN) {
 
-            if(
-                ReturnItemDetails.signatureInfoSalesPerson != null &&
-                ReturnItemDetails.signatureInfoStoreKeeper != null
-            ){
-                ReturnStockViewModel.allowToGoNext.postValue(Pair(2,true))
+                    confirm_return_sign_salesperson.setCompoundDrawables(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_check_icon
+                        ), null, null, null
+                    )
+                    confirm_return_sign_salesperson.setBackgroundResource(R.drawable.green_stroke_action_button)
+                    confirm_return_sign_salesperson.setText(R.string.signed)
+                    confirm_return_sign_salesperson.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.light_lime_yellow
+                        )
+                    )
+
+                    ReturnItemDetails.signatureInfoSalesPerson = it.second
+
+                }
+
+                if (
+                    ReturnItemDetails.signatureInfoSalesPerson != null &&
+                    ReturnItemDetails.signatureInfoStoreKeeper != null
+                ) {
+                    ReturnStockViewModel.allowToGoNext.postValue(Pair(2, true))
+                }
             }
         })
 

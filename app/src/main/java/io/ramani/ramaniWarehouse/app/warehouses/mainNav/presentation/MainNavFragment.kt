@@ -22,6 +22,7 @@ class MainNavFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = MainNavFragment()
+        const val TAG = "MainNavFragment"
     }
 
     private lateinit var flow: MainNavFlow
@@ -39,7 +40,7 @@ class MainNavFragment : BaseFragment() {
         MainNavViewModel.warehousesList.clear()
     }
 
-
+    override val navTag: String = TAG
     override fun initView(view: View?) {
         super.initView(view)
         flow = MainNavFlowController(baseActivity!!)
@@ -91,13 +92,13 @@ class MainNavFragment : BaseFragment() {
         subscribeLoadingError(viewModel)
         subscribeError(viewModel)
         observerError(viewModel, this)
-        observeLoadingVisible(viewModel,this)
+        observeLoadingVisible(viewModel, this)
         subscribeOnWarehousesLoaded()
         subscribeOnWarehousesSelected()
     }
 
     private fun subscribeOnWarehousesSelected() {
-        warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
+        warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
@@ -115,12 +116,12 @@ class MainNavFragment : BaseFragment() {
         MainNavViewModel.onWarehousesLoadedLiveData.observe(this, {
 
             if (MainNavViewModel.currentWarehouse != null) {
-                warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
+                warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
             }
 
-            warehouse_spinner.setOnSingleClickListener {
+            warehouses_spinner.setOnSingleClickListener {
                 flow.openWarehousesBottomSheet()
-                warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
+                warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
             }
         })
     }

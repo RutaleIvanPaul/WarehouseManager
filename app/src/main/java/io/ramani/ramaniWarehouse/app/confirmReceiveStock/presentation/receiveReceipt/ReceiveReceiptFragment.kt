@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
+import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavFragment
 import kotlinx.android.synthetic.main.fragment_receive_receipt.*
 import org.kodein.di.generic.factory
 
@@ -55,7 +57,11 @@ class ReceiveReceiptFragment : BaseFragment() {
         }
 
         return_stock_done.setOnClickListener {
-            flow.openMainNav()
+            (requireActivity() as BaseActivity).navigationManager?.popToFragment(
+                MainNavFragment.TAG,
+                false
+            )
+            RECEIVE_MODELS.reset()
         }
     }
 
