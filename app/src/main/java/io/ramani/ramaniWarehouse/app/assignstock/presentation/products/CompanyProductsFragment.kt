@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.mapper.ProductUIMapper
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
@@ -38,6 +39,7 @@ class CompanyProductsFragment : BaseFragment() {
         get() = viewModel
     private val companyProductsList = mutableListOf<ProductsUIModel>()
     private val selectedCompanyProductsList = mutableListOf<ProductsUIModel>()
+    private val assignedItemsList = mutableListOf<String>()
 
 
 
@@ -152,15 +154,17 @@ class CompanyProductsFragment : BaseFragment() {
 
             }
             else {
-//                selectedCompanyProductsList?.find { it._id == item._id}?.isAssigned = true
-//                selectedCompanyProductsList?.find { it == item }?.assignedNumber = assignmentQuantity.text?.toString()?.toInt()?: 0
+
                 viewModel.companyProductsListOriginal?.find { it._id == item._id }?.isAssigned = true
+                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedResource = 1
+                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedResourceID = R.drawable.assgn_button
+                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.displayText = "Edit"
 
                 viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedNumber =
                     assignmentQuantity.text.trim().toString()?.toInt() ?: 0
 
                 viewModel.notifyLiveDataOfAssignmentChange()
-                //selectedCompanyProductsList.add(item)
+                selectedCompanyProductsList.add(item)
                 viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
                 companyProductsUIModelAdapter.notifyDataSetChanged()
                 AssignStockViewModel.allowToGoNext.postValue(Pair(1,true))

@@ -72,7 +72,6 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         assignment_report_detail_end.text = getString(if (isAssignedStock) R.string.end_goods_issued else R.string.end_goods_returned)
 
         stock?.let {
-            Log.e("yyyyyyyyyy",it.toString())
             if (!it.storeKeeperSignature.isNullOrEmpty())
                 assignment_report_detail_store_keeper_signature.loadImage(it.salesPersonSignature)
             if (!it.salesPersonSignature.isNullOrEmpty())

@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model
 
+import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.data.stockassignment.model.AllProducts
 import io.ramani.ramaniWarehouse.data.stockassignment.model.ProductCategory
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
@@ -23,6 +24,9 @@ data class ProductsUIModel(
     val units: String,
     val vat: String,
     val vatCategory: String,
+    var displayText: String? = "Assign",
     var isAssigned: Boolean? = false,
-    var assignedNumber: Int? = 0
+    var assignedNumber: Int? = 0,
+    var assignedResource: Int? = 0,
+    var assignedResourceID: Int? = R.drawable.button_round_coral_green,
 )

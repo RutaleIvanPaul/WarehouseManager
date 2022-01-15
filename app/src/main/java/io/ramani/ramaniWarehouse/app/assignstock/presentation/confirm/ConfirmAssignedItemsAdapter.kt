@@ -12,8 +12,7 @@ class ConfirmAssignedItemsAdapter(
     val onItemClick: (ProductsUIModel) -> Unit
 ):BaseQuickAdapter<ProductsUIModel, BaseViewHolder>(R.layout.item_confirm_assigned_products,data) {
     override fun convert(holder: BaseViewHolder, item: ProductsUIModel) {
-        Log.e("cccccc", item.name)
-        Log.e("cccccc", "item.name")
+
         with(holder){
             setText(R.id.item_confirm_assigned_product_name,item.name)
             setText(R.id.item_confirm_assigned_product_quantity, "${item.assignedNumber} PC")

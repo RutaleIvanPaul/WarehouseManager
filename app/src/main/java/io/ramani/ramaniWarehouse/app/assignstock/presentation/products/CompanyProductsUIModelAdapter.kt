@@ -40,17 +40,21 @@ class CompanyProductsUIModelAdapter(
             setText(R.id.product_name, item.name)
             setText(R.id.product_description, item.supplierName)
             setText(R.id.product_assigned_number, "${item.assignedNumber.toString()} Assigned")
+            item.assignedResourceID?.let {
+                setBackgroundResource(R.id.product_assign_button, it)
 
-            //ASSIGNMENT_RECEIVE_MODELS.productsSelection.value?.contains(item) == true &&
-            Log.e("0000000000", "${item._id}  ${item.name} ${item.assignedNumber.toString()} ${item.isAssigned.toString()}" )
+            }
 
-            if((item.assignedNumber!! >= 1 && item.isAssigned == true) && (ASSIGNMENT_RECEIVE_MODELS.productsSelection.value?.filter { item.name == it.name }
-                    ?.contains(item) == true)) {
+            item.displayText?.let {
+                setText(R.id.product_assign_button, it)
+
+            }
+
+            if(item.assignedNumber!! >= 1 && item.isAssigned == true && ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.contains(item._id) == true && item.assignedResource == 1) {
                 getView<AppCompatButton>(R.id.product_assign_button).apply {
                     this.setBackgroundResource(R.drawable.assgn_button)
                     this.setText(R.string.edit_assignment)
                 }
-                Log.e("item ${item.name}", item._id +" ${item.assignedNumber}" )
             }
 
             helper.getView<ImageView>(R.id.product_image).apply {

@@ -62,6 +62,19 @@ class AssignStockViewModel(
 
     fun assignStock() {
         val assignedItems = assignedItemDetails
+        val gh =   PostAssignedItems(
+            assignedItems.storekeeperName,
+            "",
+            userModel!!.companyId,
+            dateFormatter.convertToCalendarFormatDate(now()),
+            ASSIGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
+            assignedItems.salespersonName,
+            userModel!!.uuid,
+            warehouseModel!!.id!!,
+            "assignment",
+            assignedItems.signatureInfoStoreKeeper,
+            assignedItems.signatureInfoSalesPerson
+        )
 
         val single = postAssignedStockUseCase.getSingle(
             PostAssignedItems(
@@ -81,7 +94,6 @@ class AssignStockViewModel(
         subscribeSingle(
             single,
             onSuccess = {
-                Log.e("6666", it.toString())
                 isLoadingVisible = false
                 onItemsAssignedLiveData.postValue(true)
                 prefs.invalidate_cache_company_products = true

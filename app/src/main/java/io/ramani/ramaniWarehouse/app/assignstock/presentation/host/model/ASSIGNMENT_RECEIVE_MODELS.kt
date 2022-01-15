@@ -10,7 +10,7 @@ class ASSIGNMENT_RECEIVE_MODELS {
     companion object {
         var stockAssignModelView: AssignStockViewModel? = null
         var companyProductsViewModel: CompanyProductsViewmodel? = null
-        val declineReasons = mutableListOf<String>()
+        val assignedItemsIDS = mutableListOf<String>()
         val refreshReceiveProductListLiveData = SingleLiveEvent<Boolean>()
         val productsSelection = MutableLiveData<List<ProductsUIModel>>()
     }

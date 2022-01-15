@@ -79,17 +79,9 @@ class AssignmentReceiptFragment : BaseFragment() {
     private fun getGoodsAssignedString(): String {
         var GoodsAssignedText = ""
         AssignedItemDetails.assignedItems.forEach { item ->
-            Log.e("yyyyy Reciept ", item.toString())
             GoodsAssignedText += item.name +" ---------- "+item.assignedNumber+" Pcs\n"
         }
 
-//        ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever {
-//            it.forEach { item ->
-//                Log.e("xxxxx Reciept ", it.toString())
-//                GoodsAssignedText += item.name +" ---------- "+item.assignedNumber+" Pcs\n"
-//            }
-//
-//        }
         return GoodsAssignedText
     }
 

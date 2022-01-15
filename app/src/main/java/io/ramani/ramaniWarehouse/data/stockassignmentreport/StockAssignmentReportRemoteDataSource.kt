@@ -28,7 +28,6 @@ class StockStockAssignmentReportRemoteDataSource(
         callSingle(
             StockAssignmentReportApi.getStockAssignmentReportDistributorDate(salesPersonUID, warehouseId, startDate, endDate).flatMap {
                 val data = it.data
-                Log.e("555555", data.toString())
                 if (data != null) {
 //                    Single.just(data.listOfProducts)
                     Single.just(data.mapFromWith(distributorDateRemoteMapper))
