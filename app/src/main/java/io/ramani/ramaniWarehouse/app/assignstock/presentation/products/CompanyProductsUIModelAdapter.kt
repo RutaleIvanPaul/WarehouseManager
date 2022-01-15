@@ -44,7 +44,8 @@ class CompanyProductsUIModelAdapter(
             //ASSIGNMENT_RECEIVE_MODELS.productsSelection.value?.contains(item) == true &&
             Log.e("0000000000", "${item._id}  ${item.name} ${item.assignedNumber.toString()} ${item.isAssigned.toString()}" )
 
-            if((item.assignedNumber != 0 && item.isAssigned != false)) {
+            if((item.assignedNumber!! >= 1 && item.isAssigned == true) && (ASSIGNMENT_RECEIVE_MODELS.productsSelection.value?.filter { item.name == it.name }
+                    ?.contains(item) == true)) {
                 getView<AppCompatButton>(R.id.product_assign_button).apply {
                     this.setBackgroundResource(R.drawable.assgn_button)
                     this.setText(R.string.edit_assignment)
