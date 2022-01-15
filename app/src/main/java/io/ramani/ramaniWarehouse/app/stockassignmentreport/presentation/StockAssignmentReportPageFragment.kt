@@ -20,7 +20,6 @@ import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportRVAdapter
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportViewModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
-import kotlinx.android.synthetic.main.fragment_assignment_report_page.*
 import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_datepick_layout
 import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_list
 import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_loader
@@ -73,11 +72,11 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         viewModel.start()
 
         // Initialize UI
-        updatePickDate()
+        updateStartPickDate()
 
         assignment_report_datepick_layout.setOnClickListener {
             DatePickerDialog(requireActivity(),
-                dateSetListener,
+                startDateSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -86,7 +85,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
 
         assignment_report_end_datepick_layout.setOnClickListener {
             DatePickerDialog(requireActivity(),
-                dateSetListener,
+                endDateSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -132,18 +131,32 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         errorDialog(error)
     }
 
-    private fun updatePickDate() {
+    private fun updateStartPickDate() {
         val timeString = dateFormatter.convertToDateWithDashes1(calendar.time.time)
         assignment_report_pick_date.text = timeString
         viewModel.getDistributorDate(timeString, isOnlyAssigned)
     }
 
-    private val dateSetListener =
+    private fun updateEndPickDate() {
+        val timeString = dateFormatter.convertToDateWithDashes1(calendar.time.time)
+        assignment_report_pick_date.text = timeString
+        viewModel.getDistributorDate(timeString, isOnlyAssigned)
+    }
+
+    private val startDateSetListener =
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updatePickDate()
+            updateStartPickDate()
+        }
+
+    private val endDateSetListener =
+        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, monthOfYear)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateEndPickDate()
         }
 
 }

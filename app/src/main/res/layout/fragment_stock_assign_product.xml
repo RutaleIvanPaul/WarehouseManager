@@ -29,7 +29,7 @@
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/company_products_searchbar"
-                android:layout_width="250dp"
+                android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:background="@drawable/search_bg"
                 android:clickable="false"

@@ -41,7 +41,6 @@ class ConfirmAssignedStockFragment : BaseFragment() {
             ConfirmAssignedItemsAdapter(selectedCompanyProductsList, {})
 
         ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever({
-            Log.e("xxxxx Confirm ", it.toString())
 
             confirmAssignedItemsAdapter.notifyDataSetChanged()
         })

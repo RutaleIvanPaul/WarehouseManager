@@ -56,7 +56,7 @@ class CompanyProductsViewmodel(application: Application,
         }
 
     }
-    fun notifyLiveDataOfAssignmentChange(id: String, numberAssigned: Int){
+    fun notifyLiveDataOfAssignmentChange(){
 //        companyProductsListLiveData.map {
 //            it.forEach{
 //                it.isAssigned = it._id == id
