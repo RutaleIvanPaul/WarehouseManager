@@ -98,7 +98,7 @@ class MainNavFragment : BaseFragment() {
     }
 
     private fun subscribeOnWarehousesSelected() {
-        warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
+        warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
@@ -116,12 +116,12 @@ class MainNavFragment : BaseFragment() {
         MainNavViewModel.onWarehousesLoadedLiveData.observe(this, {
 
             if (MainNavViewModel.currentWarehouse != null) {
-                warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
+                warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
             }
 
-            warehouse_spinner.setOnSingleClickListener {
+            warehouses_spinner.setOnSingleClickListener {
                 flow.openWarehousesBottomSheet()
-                warehouse_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
+                warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
             }
         })
     }
