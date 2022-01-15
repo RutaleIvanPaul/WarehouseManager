@@ -22,6 +22,7 @@ class MainNavFragment : BaseFragment() {
 
     companion object {
         fun newInstance() = MainNavFragment()
+        const val TAG = "MainNavFragment"
     }
 
     private lateinit var flow: MainNavFlow
@@ -39,7 +40,7 @@ class MainNavFragment : BaseFragment() {
         MainNavViewModel.warehousesList.clear()
     }
 
-
+    override val navTag: String = TAG
     override fun initView(view: View?) {
         super.initView(view)
         flow = MainNavFlowController(baseActivity!!)
@@ -91,7 +92,7 @@ class MainNavFragment : BaseFragment() {
         subscribeLoadingError(viewModel)
         subscribeError(viewModel)
         observerError(viewModel, this)
-        observeLoadingVisible(viewModel,this)
+        observeLoadingVisible(viewModel, this)
         subscribeOnWarehousesLoaded()
         subscribeOnWarehousesSelected()
     }

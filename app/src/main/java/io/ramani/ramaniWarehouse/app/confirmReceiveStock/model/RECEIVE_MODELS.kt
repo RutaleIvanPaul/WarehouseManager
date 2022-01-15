@@ -6,10 +6,18 @@ import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 
 class RECEIVE_MODELS {
     companion object {
+        fun reset() {
+            invoiceModelView = null
+            declineReasons = mutableListOf()
+            goodsReceivedModel = GoodsReceivedModel()
+            refreshReceiveProductListLiveData = SingleLiveEvent()
+            refreshHostReceiveProductListLiveData = SingleLiveEvent()
+        }
+
         var invoiceModelView: InvoiceModelView? = null
-        val declineReasons = mutableListOf<String>()
-        val goodsReceivedModel = GoodsReceivedModel()
-        val refreshReceiveProductListLiveData = SingleLiveEvent<Boolean>()
-        val refreshHostReceiveProductListLiveData = SingleLiveEvent<Boolean>()
+        var declineReasons = mutableListOf<String>()
+        var goodsReceivedModel = GoodsReceivedModel()
+        var refreshReceiveProductListLiveData = SingleLiveEvent<Boolean>()
+        var refreshHostReceiveProductListLiveData = SingleLiveEvent<Boolean>()
     }
 }

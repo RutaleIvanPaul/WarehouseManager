@@ -34,6 +34,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        STOCK_RECEIVE_MODEL.clearData()
         subscribeObservers()
         viewModel.start()
     }
