@@ -95,6 +95,8 @@ class AssignStockViewModel(
             single,
             onSuccess = {
                 isLoadingVisible = false
+                ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.postValue(0)
+                AssignedItemDetails.clearAssignedItemDetails()
                 onItemsAssignedLiveData.postValue(true)
                 prefs.invalidate_cache_company_products = true
             }, onError = {

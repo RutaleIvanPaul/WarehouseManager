@@ -96,8 +96,8 @@ class CompanyProductsFragment : BaseFragment() {
             }
         })
 
-        CompanyProductsViewmodel.numberOfAssignedProductsLiveData.observe(this, {
-            total_assigned_products.setText("${CompanyProductsViewmodel.numberOfAssignedProductsLiveData.value.toString()} Assigned")
+        ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.observe(this, {
+            total_assigned_products.setText("${ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.value.toString()} Assigned")
 
         })
     }
@@ -163,7 +163,7 @@ class CompanyProductsFragment : BaseFragment() {
                 viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedNumber =
                     assignmentQuantity.text.trim().toString()?.toInt() ?: 0
 
-                viewModel.notifyLiveDataOfAssignmentChange()
+                viewModel.notifyLiveDataOfAssignmentChange(item)
                 selectedCompanyProductsList.add(item)
                 viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
                 companyProductsUIModelAdapter.notifyDataSetChanged()

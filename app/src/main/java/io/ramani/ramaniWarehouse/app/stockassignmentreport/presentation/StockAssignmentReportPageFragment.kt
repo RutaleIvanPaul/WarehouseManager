@@ -54,6 +54,8 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
     private lateinit var listAdapter: StockAssignmentReportRVAdapter
     private var datas: ArrayList<StockAssignmentReportDistributorDateModel>? = null
     private var calendar = Calendar.getInstance()
+    private var startDate: String = calendar.time.toString()
+    private var endDate: String = calendar.time.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +75,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
 
         // Initialize UI
         updateStartPickDate()
+        updateEndPickDate()
 
         assignment_report_datepick_layout.setOnClickListener {
             DatePickerDialog(requireActivity(),
@@ -133,14 +136,16 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
 
     private fun updateStartPickDate() {
         val timeString = dateFormatter.convertToDateWithDashes1(calendar.time.time)
+        startDate = timeString
         assignment_report_pick_date.text = timeString
-        viewModel.getDistributorDate(timeString, isOnlyAssigned)
+        viewModel.getDistributorDate(startDate, endDate, isOnlyAssigned)
     }
 
     private fun updateEndPickDate() {
         val timeString = dateFormatter.convertToDateWithDashes1(calendar.time.time)
-        assignment_report_pick_date.text = timeString
-        viewModel.getDistributorDate(timeString, isOnlyAssigned)
+        endDate = timeString
+        assignment_report_end_pick_date.text = timeString
+        viewModel.getDistributorDate(startDate, endDate, isOnlyAssigned)
     }
 
     private val startDateSetListener =

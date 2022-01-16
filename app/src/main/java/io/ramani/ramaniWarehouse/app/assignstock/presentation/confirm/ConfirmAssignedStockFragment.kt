@@ -41,6 +41,7 @@ class ConfirmAssignedStockFragment : BaseFragment() {
             ConfirmAssignedItemsAdapter(selectedCompanyProductsList, {})
 
         ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever({
+            if(!it.isNullOrEmpty()) AssignStockViewModel.assignedItemsChangedLiveData.postValue(true)
 
             confirmAssignedItemsAdapter.notifyDataSetChanged()
         })
@@ -80,12 +81,12 @@ class ConfirmAssignedStockFragment : BaseFragment() {
             confirmAssignedItemsAdapter.notifyDataSetChanged()
         })
 
-//        AssignStockViewModel.assignedItemsChangedLiveData.observe(this, {
-//            if (it){
-//                AssignStockViewModel.allowToGoNext.postValue(Pair(1, true))
-//                confirmAssignedItemsAdapter.notifyDataSetChanged()
-//            }
-//        })
+        AssignStockViewModel.assignedItemsChangedLiveData.observe(this, {
+            if (it){
+                AssignStockViewModel.allowToGoNext.postValue(Pair(1, true))
+                confirmAssignedItemsAdapter.notifyDataSetChanged()
+            }
+        })
 
         AssignStockViewModel.signedLiveData.observe(this, {
             if (it.first == AssignedStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN) {

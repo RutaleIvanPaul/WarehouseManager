@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +19,7 @@ import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 
 class StockAssignmentReportViewModel(
@@ -25,11 +27,14 @@ class StockAssignmentReportViewModel(
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
     private val prefs: PrefsManager,
+    private val printerHelper: PrinterHelper,
     private val getDistributorDateUseCase: BaseSingleUseCase<List<StockAssignmentReportDistributorDateModel>, StockAssignmentReportDistributorDateRequestModel>,
 
     ) : BaseViewModel(application, stringProvider, sessionManager) {
     var userId = ""
     var companyId = ""
+    var companyName = ""
+    var userName = ""
     var warehouseId = ""
 
     var lastDate = ""
@@ -38,6 +43,7 @@ class StockAssignmentReportViewModel(
     var hasMore = true
 
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
+    val nameOfCompany = MutableLiveData<String>()
 
     var stockList: ArrayList<StockAssignmentReportDistributorDateModel> = ArrayList()
     val getDistributorDateActionLiveData = MutableLiveData<List<StockAssignmentReportDistributorDateModel>>()
@@ -53,30 +59,33 @@ class StockAssignmentReportViewModel(
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
+            companyName = it.companyName
+            userName = it.userName
+            nameOfCompany.postValue(it.companyName)
+
         }
 
         sessionManager.getCurrentWarehouse().subscribeBy {
             warehouseId = it.id ?: ""
         }
 
+        printerHelper.open()
+
+
+
     }
 
-    fun getDistributorDate(date: String, isOnlyAccepted: Boolean) {
+    fun getDistributorDate(startDate: String, endDate: String, isOnlyAccepted: Boolean) {
         // If date is changed, list should be cleared
-        if (date != lastDate) {
-            hasMore = true
-            stockList.clear()
-        }
 
-        if (hasMore) {
             isLoadingVisible = true
 
             val single = getDistributorDateUseCase.getSingle(
                 StockAssignmentReportDistributorDateRequestModel(
                     userId /* "618cdad48f172b7b7e399349" */,
                     warehouseId,
-                    "2020-10-19",
-                    "2022-10-19"
+                    startDate,
+                    endDate
 //                    date/* "2021-10-19" */,
 //                    date/* "2021-10-19" */,
                 )
@@ -129,6 +138,20 @@ class StockAssignmentReportViewModel(
                     PresentationError.ERROR_TEXT
                 )
             })
+
+    }
+
+    fun printBitmap(bitmap: Bitmap){
+        val printBitmap = printerHelper.printBitmap(bitmap)
+        if(!printBitmap.status){
+            notifyErrorObserver(printBitmap.error, PresentationError.ERROR_TEXT)
+        }
+    }
+
+    fun printText(receiptText:String){
+        val printText = printerHelper.printText(receiptText)
+        if(!printText.status){
+            notifyErrorObserver(printText.error, PresentationError.ERROR_TEXT)
         }
     }
 
@@ -137,6 +160,7 @@ class StockAssignmentReportViewModel(
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val prefs: PrefsManager,
+        private val printerHelper: PrinterHelper,
         private val getDistributorDateUseCase: BaseSingleUseCase<List<StockAssignmentReportDistributorDateModel>, StockAssignmentReportDistributorDateRequestModel>
     ) : ViewModelProvider.Factory {
 
@@ -147,6 +171,7 @@ class StockAssignmentReportViewModel(
                     stringProvider,
                     sessionManager,
                     prefs,
+                    printerHelper,
                     getDistributorDateUseCase
                 ) as T
             }

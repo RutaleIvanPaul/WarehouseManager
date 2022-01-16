@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.products
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -56,14 +57,18 @@ class CompanyProductsViewmodel(application: Application,
         }
 
     }
-    fun notifyLiveDataOfAssignmentChange(){
+    fun notifyLiveDataOfAssignmentChange(item: ProductsUIModel){
 //        companyProductsListLiveData.map {
 //            it.forEach{
 //                it.isAssigned = it._id == id
 //                if(it.isAssigned!!) it.assignedNumber = numberAssigned
 //            }
 //        }
-        numberOfAssignedProductsLiveData.postValue(numberOfAssignedProductsLiveData.value?.inc())
+        Log.e("11111111", ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.toString())
+        if(!ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.contains(item._id)) numberOfAssignedProductsLiveData.postValue(numberOfAssignedProductsLiveData.value?.inc())
+        ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.add(item._id)
+        Log.e("222222", ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.toString())
+        ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.postValue(numberOfAssignedProductsLiveData.value)
     }
 
     fun saveAllAssignedProducts(selection: List<ProductsUIModel>){

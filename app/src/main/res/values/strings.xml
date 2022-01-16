@@ -132,6 +132,7 @@
     <string name="assign_product">Assign Product</string>
     <string name="start_of_goods_returned">***START OF GOODS RETURNED***</string>
     <string name="start_of_goods_assigned">***START OF GOODS ASSIGNED***</string>
+    <string name="start_of_goods_issued">***START OF GOODS ISSUED***</string>
     <string name="end_of_goods_returned">***END OF GOODS RETURNED***</string>
     <string name="end_of_goods_assigned">***END OF GOODS ASSIGNED***</string>
     <string name="company_logo">company logo</string>
