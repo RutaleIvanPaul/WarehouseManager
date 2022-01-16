@@ -180,4 +180,13 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
         stock_receive_now_host_tablayout.touchables.forEach { it.isClickable = false }
     }
+
+    override fun onBackButtonPressed(): Boolean {
+        showConfirmDialog("Are you sure you want to cancel receive stocks?", onConfirmed = {
+            STOCK_RECEIVE_MODEL.clearData()
+            pop()
+        })
+
+        return true
+    }
 }

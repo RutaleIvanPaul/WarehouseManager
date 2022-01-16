@@ -1,202 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/assignment_report_detail_scrollview"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/assignment_report_detail_back"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="10dp"
-        android:paddingTop="20dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="20dp">
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:id="@+id/assignment_report_detail_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <ImageView style="@style/backButton" />
 
-            <ImageView style="@style/backButton" />
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginStart="5dp"
+            android:text="@string/assignment_report" />
+    </LinearLayout>
 
-            <TextView
-                style="@style/BoldTextLabel"
-                android:layout_marginStart="5dp"
-                android:text="@string/assignment_report" />
-        </LinearLayout>
+    <ScrollView
+        android:id="@+id/assignment_report_detail_scrollview"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/assignment_report_detail_back"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@+id/assignment_report_detail_print_button"
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
             android:orientation="vertical"
-            android:padding="20dp">
-
-            <TextView
-                android:id="@+id/assignment_report_detail_title"
-                style="@style/NormalTextLabel"
-                android:text="@string/start_goods_issued" />
-
-            <ImageView
-                android:layout_width="220dp"
-                android:layout_height="120dp"
-                android:src="@mipmap/ic_company_logo" />
-
-            <TextView
-                style="@style/LargeTextLabel"
-                android:layout_marginTop="10dp"
-                android:text="Masyl General Enterprises" />
-
-            <TextView
-                style="@style/NormalTextLabel"
-                android:layout_marginTop="20dp"
-                android:text="@string/goods_issued_note" />
-
-            <TextView
-                android:id="@+id/assignment_report_detail_issued_date"
-                style="@style/NormalTextLabel"
-                android:layout_marginTop="20dp"
-                android:text="Date: 24 July 2021" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.3dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/dark_grey" />
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_marginTop="20dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="5dp">
 
-                <!-- Store Keeper -->
+                <TextView
+                    android:id="@+id/assignment_report_detail_title"
+                    style="@style/NormalTextLabel"
+                    android:text="@string/start_goods_issued"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+                <ImageView
+                    android:layout_width="220dp"
+                    android:layout_height="120dp"
+                    android:src="@mipmap/ic_company_logo"
+                    android:visibility="gone" />
 
-                    <TextView
-                        style="@style/NormalTextLabel"
-                        android:text="@string/store_keeper" />
+                <TextView
+                    style="@style/LargeTextLabel"
+                    android:layout_marginTop="10dp"
+                    android:text="Masyl General Enterprises"
+                    android:textSize="9sp" />
 
-                    <TextView
-                        android:id="@+id/assignment_report_detail_store_keeper_name"
-                        style="@style/NormalTextLabel"
-                        android:layout_marginTop="10dp"
-                        android:text="Christian Michael"
-                        android:textColor="@color/mid_dark_grey" />
+                <TextView
+                    style="@style/NormalTextLabel"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/goods_issued_note"
+                    android:textSize="9sp" />
 
-                    <ImageView
-                        android:id="@+id/assignment_report_detail_store_keeper_signature"
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:scaleType="fitStart"
-                        android:src="@mipmap/ic_company_logo" />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/assignment_report_detail_issued_date"
+                    style="@style/NormalTextLabel"
+                    android:layout_marginTop="20dp"
+                    android:text="Date: 24 July 2021"
+                    android:textSize="9sp" />
 
                 <View
-                    android:layout_width="0.3dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@color/dark_grey" />
 
-                <!-- Assigned To -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Store Keeper -->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/NormalTextLabel"
+                            android:text="@string/store_keeper"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/assignment_report_detail_store_keeper_name"
+                            style="@style/NormalTextLabel"
+                            android:layout_marginTop="10dp"
+                            android:text="Christian Michael"
+                            android:textColor="@color/mid_dark_grey"
+                            android:textSize="9sp" />
+
+                        <ImageView
+                            android:id="@+id/assignment_report_detail_store_keeper_signature"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="5dp"
+                            android:scaleType="fitStart"
+                            android:src="@mipmap/ic_company_logo" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="0.3dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:background="@color/dark_grey" />
+
+                    <!-- Assigned To -->
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/NormalTextLabel"
+                            android:text="@string/assigned_to"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/assignment_report_detail_delivery_person_name"
+                            style="@style/NormalTextLabel"
+                            android:layout_marginTop="10dp"
+                            android:text="Claudian Bernet"
+                            android:textColor="@color/mid_dark_grey"
+                            android:textSize="9sp" />
+
+                        <ImageView
+                            android:id="@+id/assignment_report_detail_delivery_person_signature"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="5dp"
+                            android:scaleType="fitStart"
+                            android:src="@mipmap/ic_company_logo" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Items -->
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginTop="30dp"
                     android:orientation="vertical">
 
-                    <TextView
-                        style="@style/NormalTextLabel"
-                        android:text="@string/assigned_to" />
-
-                    <TextView
-                        android:id="@+id/assignment_report_detail_delivery_person_name"
-                        style="@style/NormalTextLabel"
-                        android:layout_marginTop="10dp"
-                        android:text="Claudian Bernet"
-                        android:textColor="@color/mid_dark_grey" />
-
-                    <ImageView
-                        android:id="@+id/assignment_report_detail_delivery_person_signature"
+                    <View
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:scaleType="fitStart"
-                        android:src="@mipmap/ic_company_logo" />
-                </LinearLayout>
-            </LinearLayout>
+                        android:layout_height="1dp"
+                        android:background="@color/mid_dark_grey" />
 
-            <!-- Items -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/light_grey"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:orientation="vertical">
+                        <TextView
+                            style="@style/BoldTextLabel"
+                            android:layout_width="0dp"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight="3"
+                            android:text="@string/goods"
+                            android:textSize="9sp" />
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/mid_dark_grey" />
+                        <TextView
+                            style="@style/BoldTextLabel"
+                            android:layout_width="0dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/quantity"
+                            android:textSize="9sp" />
+                    </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/light_grey"
-                    android:orientation="horizontal"
-                    android:padding="15dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="3"
-                        style="@style/BoldTextLabel"
-                        android:text="@string/goods" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        style="@style/BoldTextLabel"
-                        android:text="@string/quantity" />
+                    <LinearLayout
+                        android:id="@+id/assignment_report_detail_items_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/assignment_report_detail_items_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                <!-- Ends -->
+
+                <TextView
+                    android:id="@+id/assignment_report_detail_end"
+                    style="@style/NormalTextLabel"
+                    android:layout_marginTop="50dp"
+                    android:text="@string/end_goods_issued" />
+
+
             </LinearLayout>
-
-            <!-- Ends -->
-
-            <TextView
-                android:id="@+id/assignment_report_detail_end"
-                style="@style/NormalTextLabel"
-                android:text="@string/end_goods_issued"
-                android:layout_marginTop="50dp"/>
-
-            <!-- Print -->
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/assignment_report_detail_print_button"
-                style="@style/GreenFillActionButton"
-                android:layout_width="180dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/print" />
 
         </LinearLayout>
+    </ScrollView>
 
-    </LinearLayout>
-</ScrollView>
+    <!-- Print -->
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/assignment_report_detail_print_button"
+        style="@style/GreenFillActionButton"
+        android:layout_width="180dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/print" />
+
+</RelativeLayout>

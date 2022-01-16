@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.assignmentreport.presentation
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -50,6 +51,7 @@ class AssignmentReportDetailFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        requireActivity().window.setFormat(PixelFormat.RGBA_8888)
 
         arguments?.getBoolean(PARAM_IS_ASSIGNED_STOCK)?.let {
             isAssignedStock = it

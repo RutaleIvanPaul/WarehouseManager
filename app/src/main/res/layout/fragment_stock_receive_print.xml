@@ -6,9 +6,10 @@
 
     <ScrollView
         android:id="@+id/stock_receive_print_scrollview"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_above="@+id/stock_receive_print_print_button"
+        android:layout_above="@+id/stock_receive_action_buttons"
+        android:layout_centerHorizontal="true"
         android:background="@color/white">
 
         <LinearLayout
@@ -25,33 +26,38 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="5dp">
 
                 <TextView
                     style="@style/NormalTextLabel"
-                    android:text="@string/start_goods_issued" />
+                    android:text="@string/start_goods_issued"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:layout_width="220dp"
                     android:layout_height="120dp"
-                    android:visibility="gone"
-                    android:src="@mipmap/ic_company_logo" />
+                    android:src="@mipmap/ic_company_logo"
+                    android:visibility="gone" />
 
                 <TextView
                     style="@style/LargeTextLabel"
                     android:layout_marginTop="20dp"
-                    android:text="Masyl General Enterprises" />
+                    android:text="Masyl General Enterprises"
+                    android:textSize="9sp" />
 
                 <TextView
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="20dp"
-                    android:text="@string/goods_issued_note" />
+                    android:text="@string/goods_issued_note"
+                    android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/stock_receive_print_issued_date"
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="20dp"
-                    android:text="Date: 24 July 2021" />
+                    android:text="Date: 24 July 2021"
+                    android:textSize="9sp" />
 
                 <View
                     android:layout_width="match_parent"
@@ -75,28 +81,31 @@
 
                         <TextView
                             style="@style/NormalTextLabel"
-                            android:text="@string/store_keeper" />
+                            android:text="@string/store_keeper"
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/stock_receive_print_store_keeper_name"
                             style="@style/NormalTextLabel"
                             android:layout_marginTop="10dp"
                             android:text="Christian Michael"
-                            android:textColor="@color/mid_dark_grey" />
+                            android:textColor="@color/mid_dark_grey"
+                            android:textSize="11sp" />
 
                         <ImageView
                             android:id="@+id/stock_receive_print_store_keeper_signature"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:scaleType="fitXY"
+                            android:layout_marginTop="5dp"
                             android:src="@mipmap/ic_company_logo" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="0.3dp"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginEnd="30dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@color/dark_grey" />
 
                     <!-- Assigned To -->
@@ -109,20 +118,23 @@
 
                         <TextView
                             style="@style/NormalTextLabel"
-                            android:text="@string/assigned_to" />
+                            android:text="@string/assigned_to"
+                            android:textSize="11sp" />
 
                         <TextView
                             android:id="@+id/stock_receive_print_delivery_person_name"
                             style="@style/NormalTextLabel"
                             android:layout_marginTop="10dp"
                             android:text="Claudian Bernet"
-                            android:textColor="@color/mid_dark_grey" />
+                            android:textColor="@color/mid_dark_grey"
+                            android:textSize="11sp" />
 
                         <ImageView
                             android:id="@+id/stock_receive_print_delivery_person_signature"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:scaleType="fitXY"
+                            android:layout_marginTop="5dp"
                             android:src="@mipmap/ic_company_logo" />
                     </LinearLayout>
                 </LinearLayout>
@@ -144,28 +156,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/light_grey"
+                        android:gravity="center"
                         android:orientation="horizontal"
-                        android:padding="15dp">
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp">
 
                         <TextView
                             style="@style/BoldTextLabel"
                             android:layout_width="0dp"
                             android:layout_weight="2"
-                            android:text="@string/goods" />
+                            android:text="@string/goods"
+                            android:textSize="9dp" />
 
                         <TextView
                             style="@style/BoldTextLabel"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@string/accepted" />
+                            android:text="@string/accepted"
+                            android:textSize="9dp" />
 
                         <TextView
                             style="@style/BoldTextLabel"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@string/declined" />
+                            android:text="@string/declined"
+                            android:textSize="9dp" />
 
                     </LinearLayout>
 
@@ -181,23 +198,40 @@
                 <TextView
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="50dp"
-                    android:text="@string/end_goods_issued" />
+                    android:text="@string/end_goods_issued"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
-    <!-- Print -->
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/stock_receive_print_print_button"
-        style="@style/GreenFillActionButton"
-        android:layout_width="180dp"
+    <LinearLayout
+        android:id="@+id/stock_receive_action_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="20dp"
-        android:text="@string/print" />
+        android:gravity="center"
+        android:orientation="horizontal">
 
+        <!-- Print -->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/stock_receive_print_print_button"
+            style="@style/GreenFillActionButton"
+            android:layout_width="120dp"
+            android:text="@string/print" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/stock_receive_print_done_button"
+            style="@style/BlueStrokeActionButton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/done" />
+    </LinearLayout>
 </RelativeLayout>

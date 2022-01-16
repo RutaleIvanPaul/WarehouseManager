@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
@@ -49,6 +50,8 @@ class StockReceivePrintFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requireActivity().window.setFormat(PixelFormat.RGBA_8888)
+
         viewModel = viewModelProvider(this)
         viewModel.start()
 
@@ -96,7 +99,9 @@ class StockReceivePrintFragment : BaseFragment() {
             val canvas = Canvas(bitmap)
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
+        }
 
+        stock_receive_print_done_button.setOnSingleClickListener {
             showConfirmDialog("Are you all okay?", onConfirmed = {
                 STOCK_RECEIVE_MODEL.clearData()
                 flow.openRootPage()
