@@ -21,7 +21,7 @@ val assignmentReportModule = Kodein.Module("assignmentReportModule") {
     bind<AssignmentReportViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, AssignmentReportViewModel.Factory(
-                instance(), instance(), instance(), instance(), instance("getDistributorDateUseCase")
+                instance(), instance(), instance(), instance(), instance("getDistributorDateUseCase"), instance()
             )
         ).get(AssignmentReportViewModel::class.java)
     }
