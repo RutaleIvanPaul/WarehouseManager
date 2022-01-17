@@ -8,6 +8,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.io.toByteArray
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
@@ -122,11 +124,11 @@ class ConfirmReceiveViewModel(
     }
 
 
-    fun printBitmap(bitmap: Bitmap){
+    fun printBitmap(bitmap: Bitmap) {
         printerHelper.printBitmap(bitmap)
     }
 
-    fun printText(receiptText:String){
+    fun printText(receiptText: String) {
         printerHelper.printText(receiptText)
     }
 
@@ -177,7 +179,7 @@ class ConfirmReceiveViewModel(
     private fun createImageFormData(bitmap: Bitmap): RequestBody {
         val bos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        return RequestBody.create(MediaType.parse("application/octet-stream"), bos.toByteArray())
+        return RequestBody.create(MediaType.parse("image/*"), bitmap.toByteArray())
     }
 
     class Factory(
