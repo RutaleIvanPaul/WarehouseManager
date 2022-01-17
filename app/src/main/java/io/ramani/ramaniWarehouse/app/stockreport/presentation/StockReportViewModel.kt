@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
+package io.ramani.ramaniWarehouse.app.stockreport.presentation
 
 import android.annotation.SuppressLint
 import android.app.Application
@@ -9,29 +9,26 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.data.stockreport.model.DistributorDateRequestModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
-import io.ramani.ramaniWarehouse.data.stockassignmentreport.model.StockAssignmentReportDistributorDateRequestModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
+import io.ramani.ramaniWarehouse.domain.stockreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
-import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
-import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 
-class StockAssignmentReportViewModel(
+class StockReportViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
     private val prefs: PrefsManager,
-    private val printerHelper: PrinterHelper,
-    private val getDistributorDateUseCase: BaseSingleUseCase<List<StockAssignmentReportDistributorDateModel>, StockAssignmentReportDistributorDateRequestModel>,
-
+    private val getDistributorDateUseCase: BaseSingleUseCase<List<DistributorDateModel>, DistributorDateRequestModel>,
+    private val printerHelper: PrinterHelper
     ) : BaseViewModel(application, stringProvider, sessionManager) {
     var userId = ""
     var companyId = ""
-    var companyName = ""
-    var userName = ""
     var warehouseId = ""
 
     var lastDate = ""
@@ -40,26 +37,15 @@ class StockAssignmentReportViewModel(
     var hasMore = true
 
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
-    val nameOfCompany = MutableLiveData<String>()
 
-    var stockList: ArrayList<StockAssignmentReportDistributorDateModel> = ArrayList()
-    val getDistributorDateActionLiveData = MutableLiveData<List<StockAssignmentReportDistributorDateModel>>()
+    var stockList: ArrayList<DistributorDateModel> = ArrayList()
+    val getDistributorDateActionLiveData = MutableLiveData<List<DistributorDateModel>>()
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
-        /*
-        val user = getLoggedInUser()
-        subscribeSingle(user, onSuccess = {
-            getSuppliers(it.companyId, 1, 100)
-        })
-        */
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
-            companyName = it.companyName
-            userName = it.userName
-            nameOfCompany.postValue(it.companyName)
-
         }
 
         sessionManager.getCurrentWarehouse().subscribeBy {
@@ -67,24 +53,23 @@ class StockAssignmentReportViewModel(
         }
 
         printerHelper.open()
-
-
-
     }
 
-    fun getDistributorDate(startDate: String, endDate: String, isOnlyAccepted: Boolean) {
+    fun getDistributorDate(date: String, isOnlyAccepted: Boolean) {
         // If date is changed, list should be cleared
+        if (date != lastDate) {
+            hasMore = true
+            stockList.clear()
+        }
 
+        if (hasMore) {
             isLoadingVisible = true
 
             val single = getDistributorDateUseCase.getSingle(
-                StockAssignmentReportDistributorDateRequestModel(
+                DistributorDateRequestModel(
+                    companyId /* "601ffa4d279d812ed25a7f9b" */,
                     userId /* "618cdad48f172b7b7e399349" */,
-                    warehouseId,
-                    startDate,
-                    endDate
-//                    date/* "2021-10-19" */,
-//                    date/* "2021-10-19" */,
+                    date/* "2021-10-19" */, page, size
                 )
             )
 
@@ -95,31 +80,27 @@ class StockAssignmentReportViewModel(
 
                 if (it.isNotEmpty()) {
                     for (stock in it) {
-                        val newStock = StockAssignmentReportDistributorDateModel(
+                        val newStock = DistributorDateModel(
                             stock.id,
-                            stock.assigner,
-                            stock.dateStockTaken,
-                            stock.comment,
-                            stock.companyId,
-                            stock.timestamp,
+                            stock.supplierName,
+                            stock.date, stock.time,
                             ArrayList(),
-                            stock.name,
-                            stock.__v,
-                            stock.salesPersonUID,
-                            stock.stockAssignmentType,
+                            stock.deliveryPersonName,
+                            stock.warehouseManagerName,
+                            stock.supportingDocument,
                             stock.storeKeeperSignature,
-                            stock.salesPersonSignature
+                            stock.deliveryPersonSignature
                         )
 
-                        val availableItems = ArrayList<ProductReceivedItemModel>()
-                        for (item in stock.listOfProducts) {
-                            if ((isOnlyAccepted && item.quantity > 0) || (!isOnlyAccepted && item.quantity > 0)) {
+                        val availableItems = ArrayList<GoodsReceivedItemModel>()
+                        for (item in stock.items) {
+                            if ((isOnlyAccepted && item.qtyAccepted > 0) || (!isOnlyAccepted && item.qtyDeclined > 0)) {
                                 availableItems.add(item)
                             }
                         }
 
                         if (availableItems.isNotEmpty()) {
-                            newStock.listOfProducts = availableItems
+                            newStock.items = availableItems
                             stockList.add(newStock)
                         }
                     }
@@ -135,21 +116,11 @@ class StockAssignmentReportViewModel(
                     PresentationError.ERROR_TEXT
                 )
             })
-
-    }
-
-    fun printBitmap(bitmap: Bitmap?){
-        val printBitmap = bitmap?.let { printerHelper.printBitmap(it) }
-        if(!printBitmap?.status!!){
-            printBitmap?.let { notifyErrorObserver(it.error, PresentationError.ERROR_TEXT) }
         }
     }
 
-    fun printText(receiptText:String){
-        val printText = printerHelper.printText(receiptText)
-        if(!printText.status){
-            notifyErrorObserver(printText.error, PresentationError.ERROR_TEXT)
-        }
+    fun printBitmap(bitmap: Bitmap){
+        printerHelper.printBitmap(bitmap)
     }
 
     class Factory(
@@ -157,19 +128,19 @@ class StockAssignmentReportViewModel(
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val prefs: PrefsManager,
-        private val printerHelper: PrinterHelper,
-        private val getDistributorDateUseCase: BaseSingleUseCase<List<StockAssignmentReportDistributorDateModel>, StockAssignmentReportDistributorDateRequestModel>
+        private val getDistributorDateUseCase: BaseSingleUseCase<List<DistributorDateModel>, DistributorDateRequestModel>,
+        private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(StockAssignmentReportViewModel::class.java)) {
-                return StockAssignmentReportViewModel(
+            if (modelClass.isAssignableFrom(StockReportViewModel::class.java)) {
+                return StockReportViewModel(
                     application,
                     stringProvider,
                     sessionManager,
                     prefs,
-                    printerHelper,
-                    getDistributorDateUseCase
+                    getDistributorDateUseCase,
+                    printerHelper
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")
