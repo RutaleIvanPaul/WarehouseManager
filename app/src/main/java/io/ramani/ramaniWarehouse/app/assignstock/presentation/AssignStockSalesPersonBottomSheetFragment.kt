@@ -23,7 +23,7 @@ class AssignStockSalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment(
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
         salespersonBottomSheetRVAdapter =
-            AssignStockSalesPersonBottomSheetRVAdapter(AssignStockSalesPersonViewModel.salesPeopleList) {
+            AssignStockSalesPersonBottomSheetRVAdapter(AssignStockSalesPersonViewModel.salesPeopleList.distinct().toMutableList()) {
                 viewModel.onSalesPersonSelected(it)
                 dismiss()
             }

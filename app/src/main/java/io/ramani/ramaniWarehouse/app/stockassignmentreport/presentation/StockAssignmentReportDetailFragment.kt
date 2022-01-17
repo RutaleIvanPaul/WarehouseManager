@@ -1,13 +1,12 @@
 package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.ConfirmAssignedStockViewModel
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlow
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
@@ -27,6 +26,8 @@ import kotlinx.android.synthetic.main.fragment_return_receipt.*
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
 import kotlinx.android.synthetic.main.item_assignment_report_detail_item_row.view.*
 import org.kodein.di.generic.factory
+import java.io.IOException
+import java.net.URL
 
 class StockAssignmentReportDetailFragment : BaseFragment() {
 
@@ -53,6 +54,11 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
     private var isAssignedStock = true
     private var stock: StockAssignmentReportDistributorDateModel? = null
+    private val listOfProductsToPrint = mutableListOf<ProductReceivedItemModel>()
+    private var storeKeeperSignature: String? = null
+    private var salesPersonSignature: String? = null
+    private var storeKeeperName: String? = null
+    private var salesPersonName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,7 +100,13 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
             assignment_report_detail_store_keeper_name.text = it.assigner
             assignment_report_detail_delivery_person_name.text = it.name
 
+            salesPersonSignature = it.salesPersonSignature
+            storeKeeperSignature = it.storeKeeperSignature
+            storeKeeperName = it.assigner
+            salesPersonName = it.name
+
             it.listOfProducts.let {
+                listOfProductsToPrint.addAll(it.toMutableList())
                 for (item in it) {
                     addItems(item)
                 }
@@ -116,35 +128,45 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
     }
 
     private fun printAssignmentReceipt(viewModel: StockAssignmentReportViewModel) {
-        viewModel.printText(getString(R.string.start_of_goods_issued)+"\n\n")
-//        viewModel.printBitmap(AssignedItemDetails.signatureInfoStoreKeeper!!)
-//        viewModel.printText(getTextBeforeImages())
-//        viewModel.printText(getString(R.string.store_keeper)+": "+storekeeper_text.text.toString()+ "\n")
-//        viewModel.printBitmap(AssignedItemDetails.signatureInfoStoreKeeper!!)
-//        viewModel.printText(getString(R.string.assigned_to)+": "+assignee_text.text.toString()+ "\n")
-//        viewModel.printBitmap(AssignedItemDetails.signatureInfoSalesPerson!!)
+//        val storeKeeperUrl : URL = URL(storeKeeperSignature)
+//        val salesPersonUrl : URL = URL(salesPersonSignature)
+        viewModel.printText(getTextBeforeImages())
+        //storeKeeperUrl.let { viewModel.printBitmap(it.toBitmap()) }
+       // viewModel.printBitmap(R.mipmap.ic_company_logo)
+        viewModel.printText(getString(R.string.store_keeper)+": "+storeKeeperName+ "\n")
+        viewModel.printText(getString(R.string.assigned_to)+": "+salesPersonName+ "\n")
+        //salesPersonUrl.let { viewModel.printBitmap(it.toBitmap()) }
+
         viewModel.printText("\n"+getString(R.string.end_of_goods_assigned)+"\n\n\n\n\n")
 
     }
 
     private fun getTextBeforeImages() =
         getString(R.string.start_of_goods_issued)+"\n\n"+
-                company_name.text.toString()+"\n\n"+
+                viewModel.companyName+"\n\n"+
                 getString(R.string.goods_issued_note)+"\n\n"+
-                date.text.toString()+"\n"+
+                assignment_report_detail_issued_date.text.toString()+"\n"+
                 "--------------------------------"+"\n"+
                 getString(R.string.goods_issued) + "\n"+
                 "--------------------------------"+"\n\n"+
-                getGoodsAssignedString()
+                getProductDetailsString()
 
 
-    private fun getGoodsAssignedString(): String {
+    private fun getProductDetailsString(): String {
         var GoodsAssignedText = ""
-        AssignedItemDetails.assignedItems.forEach { item ->
-            GoodsAssignedText += item.name +" ---------- "+item.assignedNumber+" Pcs\n"
+        listOfProductsToPrint.forEach { item ->
+            GoodsAssignedText += item.productName +" ---------- "+item.quantity+" ${item.units}\n"
         }
 
         return GoodsAssignedText
+    }
+
+    fun URL.toBitmap(): Bitmap?{
+        return try {
+            BitmapFactory.decodeStream(openStream())
+        }catch (e: IOException){
+            null
+        }
     }
 
 }

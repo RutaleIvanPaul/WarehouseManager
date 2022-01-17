@@ -96,8 +96,8 @@ class CompanyProductsFragment : BaseFragment() {
             }
         })
 
-        ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.observe(this, {
-            total_assigned_products.setText("${ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.value.toString()} Assigned")
+        viewModel.numberOfAssignedProductsLiveData.observe(this, {
+            total_assigned_products.setText("${viewModel.numberOfAssignedProductsLiveData.value} Assigned")
 
         })
     }
@@ -180,7 +180,11 @@ class CompanyProductsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.getCompanyProducts()
+        viewModel.serverProductsLoaded.observeForever {
+            if(it == false){
+                viewModel.getCompanyProducts()
+            }
+        }
     }
 
     override fun getLayoutResId() = R.layout.fragment_stock_assign_product

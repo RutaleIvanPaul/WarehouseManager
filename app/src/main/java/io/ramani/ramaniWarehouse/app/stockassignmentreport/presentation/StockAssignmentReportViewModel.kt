@@ -141,10 +141,10 @@ class StockAssignmentReportViewModel(
 
     }
 
-    fun printBitmap(bitmap: Bitmap){
-        val printBitmap = printerHelper.printBitmap(bitmap)
-        if(!printBitmap.status){
-            notifyErrorObserver(printBitmap.error, PresentationError.ERROR_TEXT)
+    fun printBitmap(bitmap: Bitmap?){
+        val printBitmap = bitmap?.let { printerHelper.printBitmap(it) }
+        if(!printBitmap?.status!!){
+            printBitmap?.let { notifyErrorObserver(it.error, PresentationError.ERROR_TEXT) }
         }
     }
 

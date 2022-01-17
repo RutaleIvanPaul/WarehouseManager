@@ -32,7 +32,7 @@ interface AssignStockAPI {
         @Part("stockAssignmentType") stockAssignmentType: RequestBody,
         @Part("warehouseId") warehouseId: RequestBody,
         @Part("listOfProducts") listOfProducts: RequestBody,
-        @Part("storeKeeperSignature") storeKeeperSignature: RequestBody,
+        @Part("storeKeeperSignature")  storeKeeperSignature: RequestBody,
         @Part("salesPersonSignature") salesPersonSignature: RequestBody
     ): Single<BaseResponse<PostAssignedItemsResponse>>
 }
