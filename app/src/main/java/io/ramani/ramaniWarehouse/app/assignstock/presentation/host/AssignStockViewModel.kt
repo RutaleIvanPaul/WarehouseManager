@@ -65,20 +65,6 @@ class AssignStockViewModel(
 
     fun assignStock() {
         val assignedItems = assignedItemDetails
-        val gh =   PostAssignedItems(
-            assignedItems.storekeeperName,
-            "",
-            userModel!!.companyId,
-            dateFormatter.convertToCalendarFormatDate(now()),
-            ASSIGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
-            assignedItems.salespersonName,
-            userModel!!.uuid,
-            warehouseModel!!.id!!,
-            "assignment",
-            assignedItems.signatureInfoStoreKeeper,
-            assignedItems.signatureInfoSalesPerson
-        )
-        Log.e("111111111111", gh.toString())
 
 
         val single = postAssignedStockUseCase.getSingle(
