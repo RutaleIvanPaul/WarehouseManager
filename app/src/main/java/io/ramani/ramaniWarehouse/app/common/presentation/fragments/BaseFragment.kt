@@ -22,7 +22,6 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.NavigationEv
 import io.ramani.ramaniWarehouse.app.entities.ValidationError
 import com.google.android.material.snackbar.BaseTransientBottomBar
 import com.google.android.material.snackbar.Snackbar
-import io.ramani.ramaniWarehouse.app.assignmentreport.presentation.AssignmentReportFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoLogger

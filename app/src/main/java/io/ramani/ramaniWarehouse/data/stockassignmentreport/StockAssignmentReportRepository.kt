@@ -1,7 +1,5 @@
 package io.ramani.ramaniWarehouse.data.stockassignmentreport
 
-import io.ramani.ramaniWarehouse.domain.assignmentreport.AssignmentReportDataSource
-import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.StockAssignmentReportDataSource
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import io.reactivex.Single

@@ -1,6 +1,5 @@
 package io.ramani.ramaniWarehouse.data.stockassignmentreport
 
-import io.ramani.ramaniWarehouse.data.assignmentreport.model.GetDistributorDateRemoteModel
 import io.ramani.ramaniWarehouse.data.entities.BaseResponse
 import io.ramani.ramaniWarehouse.data.stockassignmentreport.model.StockAssignmentReportDistributorDateRemoteModel
 import io.reactivex.Single
