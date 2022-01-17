@@ -13,5 +13,6 @@ class ASSIGNMENT_RECEIVE_MODELS {
         val assignedItemsIDS = mutableListOf<String>()
         val refreshReceiveProductListLiveData = SingleLiveEvent<Boolean>()
         val productsSelection = MutableLiveData<List<ProductsUIModel>>()
+        val productsSelectionTotalNumber = MutableLiveData<Int>()
     }
 }

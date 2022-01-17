@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.products
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -34,13 +35,16 @@ class CompanyProductsViewmodel(application: Application,
     companion object{
         val noProductSelectedLiveData = MutableLiveData<Boolean>()
         val companyProductsListLiveData = MutableLiveData<ProductsUIModel>()
-        val numberOfAssignedProductsLiveData = MutableLiveData<Int>()
     }
 
     val companyProductsListOriginal = mutableListOf<ProductsUIModel>()
     val companyProductsListSelection = mutableListOf<ProductsUIModel>()
     val companyProductsListLiveData = MutableLiveData<List<ProductsUIModel>>()
     val assignedCompanyProductsListLiveData = MutableLiveData<List<ProductsUIModel>>()
+    val numberOfAssignedProductsLiveData = MutableLiveData<Int>()
+    val serverProductsLoaded = MutableLiveData<Boolean>()
+
+
 
     val stringName = MutableLiveData<String>()
 
@@ -55,21 +59,26 @@ class CompanyProductsViewmodel(application: Application,
             warehouseId = it.id ?: ""
         }
 
+        serverProductsLoaded.postValue(false)
+
     }
-    fun notifyLiveDataOfAssignmentChange(){
-//        companyProductsListLiveData.map {
-//            it.forEach{
-//                it.isAssigned = it._id == id
-//                if(it.isAssigned!!) it.assignedNumber = numberAssigned
-//            }
-//        }
-        numberOfAssignedProductsLiveData.postValue(numberOfAssignedProductsLiveData.value?.inc())
+    fun notifyLiveDataOfAssignmentChange(item: ProductsUIModel){
+        if(!ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.contains(item._id)) numberOfAssignedProductsLiveData.postValue(numberOfAssignedProductsLiveData.value?.inc())
+        ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.add(item._id)
+        ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.postValue(numberOfAssignedProductsLiveData.value)
+        if(numberOfAssignedProductsLiveData.value != ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.size){
+            numberOfAssignedProductsLiveData.postValue(ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.size)
+        }
+        numberOfAssignedProductsLiveData.postValue(ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.distinct().size)
+
+
     }
 
     fun saveAllAssignedProducts(selection: List<ProductsUIModel>){
         companyProductsListSelection.addAll(selection)
         assignedCompanyProductsListLiveData.postValue(companyProductsListSelection.toMutableList())
         ASSIGNMENT_RECEIVE_MODELS.productsSelection.postValue(selection)
+
 
     }
 
@@ -81,12 +90,15 @@ class CompanyProductsViewmodel(application: Application,
             subscribeSingle(
                 single,
                 onSuccess = {
+                    serverProductsLoaded.postValue(true)
+                    numberOfAssignedProductsLiveData.postValue(0)
+
                     isLoadingVisible = false
 
                     if(it.isNotEmpty()) {
                         numberOfAssignedProductsLiveData.postValue(0)
                         companyProductsListOriginal.addAll(it.mapFromWith(productUIModelMapper))
-                        companyProductsListLiveData.postValue(companyProductsListOriginal.toMutableList())
+                        companyProductsListLiveData.postValue(companyProductsListOriginal.toMutableList().distinct())
                     }
                     else{
                         notifyError("Empty List",PresentationError.ERROR_TEXT)

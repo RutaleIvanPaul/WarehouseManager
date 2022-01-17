@@ -32,7 +32,7 @@
                     android:id="@+id/assignment_report_pick_date"
                     style="@style/NormalTextLabel"
                     android:layout_centerVertical="true"
-                    android:text="12 sep 2021"
+                    android:text="12 sep 2022"
                     android:textColor="@color/black" />
 
                 <ImageView
@@ -69,7 +69,7 @@
                     android:id="@+id/assignment_report_end_pick_date"
                     style="@style/NormalTextLabel"
                     android:layout_centerVertical="true"
-                    android:text="12 sep 2021"
+                    android:text="12 sep 2022"
                     android:textColor="@color/black" />
 
                 <ImageView

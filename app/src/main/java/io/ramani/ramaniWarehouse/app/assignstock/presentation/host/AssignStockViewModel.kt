@@ -1,7 +1,10 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.host
 
 import android.app.Application
+import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Bitmap
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -62,19 +65,7 @@ class AssignStockViewModel(
 
     fun assignStock() {
         val assignedItems = assignedItemDetails
-        val gh =   PostAssignedItems(
-            assignedItems.storekeeperName,
-            "",
-            userModel!!.companyId,
-            dateFormatter.convertToCalendarFormatDate(now()),
-            ASSIGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
-            assignedItems.salespersonName,
-            userModel!!.uuid,
-            warehouseModel!!.id!!,
-            "assignment",
-            assignedItems.signatureInfoStoreKeeper,
-            assignedItems.signatureInfoSalesPerson
-        )
+
 
         val single = postAssignedStockUseCase.getSingle(
             PostAssignedItems(
@@ -95,6 +86,8 @@ class AssignStockViewModel(
             single,
             onSuccess = {
                 isLoadingVisible = false
+                ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.postValue(0)
+                AssignedItemDetails.clearAssignedItemDetails()
                 onItemsAssignedLiveData.postValue(true)
                 prefs.invalidate_cache_company_products = true
             }, onError = {
@@ -110,6 +103,7 @@ class AssignStockViewModel(
         )
 
     }
+
 
 
     class Factory(

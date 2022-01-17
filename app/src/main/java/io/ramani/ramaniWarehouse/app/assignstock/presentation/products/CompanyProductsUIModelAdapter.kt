@@ -65,11 +65,6 @@ class CompanyProductsUIModelAdapter(
 
             }
 
-//            }.setOnClickListener(View.OnClickListener { showDialog(item) })
-
-//            helper.itemView.setOnSingleClickListener {
-//
-//            }
         }
     }
 
