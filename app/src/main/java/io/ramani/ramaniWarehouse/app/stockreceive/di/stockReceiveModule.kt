@@ -31,7 +31,7 @@ val stockReceiveModule = Kodein.Module("stockReceiveModule") {
     bind<StockReceiveNowViewModel>() with factory { fragment: Fragment ->
         ViewModelProvider(
             fragment, StockReceiveNowViewModel.Factory(
-                instance(), instance(), instance(), instance(), instance("getSupplierUseCase"), instance("getDeclineReasonsUseCase"), instance("postGoodsReceivedUseCase")
+                instance(), instance(), instance(), instance(), instance("getSupplierUseCase"), instance("getDeclineReasonsUseCase"), instance("postGoodsReceivedUseCase"), instance()
             )
         ).get(StockReceiveNowViewModel::class.java)
     }

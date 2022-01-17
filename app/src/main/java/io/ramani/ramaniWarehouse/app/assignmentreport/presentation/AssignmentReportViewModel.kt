@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.assignmentreport.presentation
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +16,7 @@ import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 
 class AssignmentReportViewModel(
@@ -23,7 +25,7 @@ class AssignmentReportViewModel(
     sessionManager: ISessionManager,
     private val prefs: PrefsManager,
     private val getDistributorDateUseCase: BaseSingleUseCase<List<DistributorDateModel>, DistributorDateRequestModel>,
-
+    private val printerHelper: PrinterHelper
     ) : BaseViewModel(application, stringProvider, sessionManager) {
     var userId = ""
     var companyId = ""
@@ -41,12 +43,6 @@ class AssignmentReportViewModel(
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
-        /*
-        val user = getLoggedInUser()
-        subscribeSingle(user, onSuccess = {
-            getSuppliers(it.companyId, 1, 100)
-        })
-        */
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
@@ -56,6 +52,7 @@ class AssignmentReportViewModel(
             warehouseId = it.id ?: ""
         }
 
+        printerHelper.open()
     }
 
     fun getDistributorDate(date: String, isOnlyAccepted: Boolean) {
@@ -122,12 +119,17 @@ class AssignmentReportViewModel(
         }
     }
 
+    fun printBitmap(bitmap: Bitmap){
+        printerHelper.printBitmap(bitmap)
+    }
+
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val prefs: PrefsManager,
-        private val getDistributorDateUseCase: BaseSingleUseCase<List<DistributorDateModel>, DistributorDateRequestModel>
+        private val getDistributorDateUseCase: BaseSingleUseCase<List<DistributorDateModel>, DistributorDateRequestModel>,
+        private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -137,7 +139,8 @@ class AssignmentReportViewModel(
                     stringProvider,
                     sessionManager,
                     prefs,
-                    getDistributorDateUseCase
+                    getDistributorDateUseCase,
+                    printerHelper
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

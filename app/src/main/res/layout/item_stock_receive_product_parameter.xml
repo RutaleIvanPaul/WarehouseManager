@@ -22,6 +22,7 @@
         android:layout_width="0dp"
         android:layout_marginStart="15dp"
         android:layout_weight="1"
+        android:inputType="numberDecimal"
         android:hint="@string/size" />
 
     <ImageView

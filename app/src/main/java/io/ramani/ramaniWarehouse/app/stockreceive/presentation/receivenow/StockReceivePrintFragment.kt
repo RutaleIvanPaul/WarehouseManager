@@ -1,10 +1,14 @@
 package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -14,6 +18,7 @@ import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
+import kotlinx.android.synthetic.main.fragment_receive_receipt.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_print.*
 import kotlinx.android.synthetic.main.item_stock_receive_print_item_row.view.*
 import org.kodein.di.generic.factory
@@ -45,7 +50,10 @@ class StockReceivePrintFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requireActivity().window.setFormat(PixelFormat.RGBA_8888)
+
         viewModel = viewModelProvider(this)
+        viewModel.start()
 
         arguments?.getParcelable<GoodsReceivedModel>(PARAM_STOCK)?.let {
             stock = it
@@ -86,8 +94,18 @@ class StockReceivePrintFragment : BaseFragment() {
         }
 
         stock_receive_print_print_button.setOnSingleClickListener {
-            STOCK_RECEIVE_MODEL.clearData()
-            flow.openRootPage()
+            val scrollView = stock_receive_print_scrollview
+            val bitmap = Bitmap.createBitmap(scrollView.width, scrollView.height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            scrollView.draw(canvas)
+            viewModel.printBitmap(bitmap)
+        }
+
+        stock_receive_print_done_button.setOnSingleClickListener {
+            showConfirmDialog("Are you all okay?", onConfirmed = {
+                STOCK_RECEIVE_MODEL.clearData()
+                flow.openRootPage()
+            })
         }
     }
 
