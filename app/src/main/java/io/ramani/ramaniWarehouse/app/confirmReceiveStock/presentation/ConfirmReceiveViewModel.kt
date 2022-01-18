@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.common.io.toByteArray
 import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -158,7 +157,7 @@ class ConfirmReceiveViewModel(
         builder.addFormDataPart("storeKeeperName", RECEIVE_MODELS.invoiceModelView?.storeKeeperName)
         storeKeeperSignature?.let {
             builder.addFormDataPart(
-                "storeKeeperSignature", "",
+                "storeKeeperSignature", RECEIVE_MODELS.invoiceModelView?.storeKeeperName?:"",
                 createImageFormData(storeKeeperSignature)
             )
         }
@@ -168,7 +167,7 @@ class ConfirmReceiveViewModel(
         )
         deliveryPersonSignature?.let {
             builder.addFormDataPart(
-                "deliveryPersonSignature", "",
+                "deliveryPersonSignature", RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: "",
                 createImageFormData(deliveryPersonSignature)
             )
         }
@@ -177,9 +176,9 @@ class ConfirmReceiveViewModel(
     }
 
     private fun createImageFormData(bitmap: Bitmap): RequestBody {
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        return RequestBody.create(MediaType.parse("image/*"), bitmap.toByteArray())
+//        val bos = ByteArrayOutputStream()
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile())
     }
 
     class Factory(

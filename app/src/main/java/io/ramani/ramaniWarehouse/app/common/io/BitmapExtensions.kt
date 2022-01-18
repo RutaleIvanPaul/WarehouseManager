@@ -66,32 +66,6 @@ fun getPixelsFromDPs(context: Context, dps: Int): Int {
 fun Bitmap.toFile(fileName: String = "${Calendar.getInstance().timeInMillis}.jpg"): File? =
     bitmapToFile(this, fileName)
 
-fun Bitmap.toByteArray(fileName: String = "${Calendar.getInstance().timeInMillis}.jpg"): ByteArray? =
-    bitmapToByteArray(this, fileName)
-
-fun bitmapToByteArray(bitmap: Bitmap, fileName: String): ByteArray? {
-    var bitmapdata: ByteArray? = null
-    return try {
-        val directory =
-            File("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath}/${BuildConfig.APP_NAME}/")
-        if (!directory.exists())
-            directory.mkdir()
-
-        val file = File(directory, fileName)
-
-        file.createNewFile()
-
-        //Convert bitmap to byte array
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos) // YOU can also save it in JPEG
-        bitmapdata = bos.toByteArray()
-        bitmapdata
-    } catch (e: Exception) {
-        e.printStackTrace()
-        bitmapdata // it will return null
-    }
-}
-
 private fun bitmapToFile(
     bitmap: Bitmap,
     fileNameToSave: String

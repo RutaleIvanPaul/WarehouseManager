@@ -9,6 +9,6 @@
     </debug-overrides>
     <!--end for charles proxy code-block-->
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">https://8085-102-219-153-66.ngrok.io/</domain>
+        <domain includeSubdomains="true">https://752b-102-219-153-73.ngrok.io/</domain>
     </domain-config>
 </network-security-config>
