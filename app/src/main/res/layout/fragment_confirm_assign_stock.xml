@@ -92,7 +92,7 @@
    </ScrollView>
 
    <ProgressBar
-       android:id="@+id/stock_receive_confirm_loader"
+       android:id="@+id/stock_assigned_confirm_loader"
        android:layout_width="wrap_content"
        android:layout_height="wrap_content"
        android:layout_centerInParent="true"

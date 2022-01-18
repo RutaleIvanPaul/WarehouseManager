@@ -94,7 +94,7 @@ class StockAssignmentReportViewModel(
                 hasMore = it.isNotEmpty() && it.size >= size
 
                 if (it.isNotEmpty()) {
-                    for (stock in it) {
+                    for (stock in it.reversed().distinct()) {
                         val newStock = StockAssignmentReportDistributorDateModel(
                             stock.id,
                             stock.assigner,

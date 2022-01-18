@@ -47,6 +47,8 @@ class StockStockAssignmentReportFragment : BaseFragment() {
         }
 
         initTabLayout()
+        stock_report_title.setText(R.string.assignment_report)
+
     }
 
     private fun initSubscribers() {

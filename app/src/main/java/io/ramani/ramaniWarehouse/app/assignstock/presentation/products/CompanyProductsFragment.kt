@@ -180,6 +180,7 @@ class CompanyProductsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
+        viewModel.numberOfAssignedProductsLiveData.postValue(0)
         viewModel.serverProductsLoaded.observeForever {
             if(it == false){
                 viewModel.getCompanyProducts()

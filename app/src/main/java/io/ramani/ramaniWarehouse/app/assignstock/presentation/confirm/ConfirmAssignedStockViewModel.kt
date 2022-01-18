@@ -34,6 +34,8 @@ class ConfirmAssignedStockViewModel(
     var userModel: UserModel? = null
     val onItemsAssignedLiveData = MutableLiveData<Boolean>()
     val loadedUserDetails = MutableLiveData<UserModel>()
+    val loadingIndicatorForProductAssignment = MutableLiveData<Boolean>()
+
 
     override fun start(args: Map<String, Any?>) {
         sessionManager.getLoggedInUser().subscribeBy {
