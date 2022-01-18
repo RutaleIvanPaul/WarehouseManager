@@ -52,13 +52,8 @@ class SelectedSupplierDataModel {
             .addFormDataPart("items", Gson().toJson(products))
 
         documents?.let {
-            builder.addFormDataPart(
-                "supportingDocument", "",
-                RequestBody.create(
-                    MediaType.parse("application/octet-stream"),
-                    File(it[0])
-                )
-            )
+            val fileName = String.format("supportingDoc_%ld", confirmDate.time)
+            builder.addFormDataPart("supportingDocument", fileName, RequestBody.create(MediaType.parse("image/jpg"), File(it[0])))
         }
 
         storeKeeperData?.let {
