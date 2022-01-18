@@ -15,16 +15,8 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
-import kotlinx.android.synthetic.main.fragment_assignment_report_detail.assignment_report_detail_back
-import kotlinx.android.synthetic.main.fragment_assignment_report_detail.assignment_report_detail_delivery_person_signature
-import kotlinx.android.synthetic.main.fragment_assignment_report_detail.assignment_report_detail_end
-import kotlinx.android.synthetic.main.fragment_assignment_report_detail.assignment_report_detail_issued_date
-import kotlinx.android.synthetic.main.fragment_assignment_report_detail.assignment_report_detail_items_container
-import kotlinx.android.synthetic.main.fragment_assignment_report_detail.assignment_report_detail_store_keeper_signature
-import kotlinx.android.synthetic.main.fragment_assignment_report_detail.assignment_report_detail_title
-import kotlinx.android.synthetic.main.fragment_return_receipt.*
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
-import kotlinx.android.synthetic.main.item_assignment_report_detail_item_row.view.*
+import kotlinx.android.synthetic.main.item_stock_report_detail_item_row.view.*
 import org.kodein.di.generic.factory
 import java.io.IOException
 import java.net.URL
@@ -121,9 +113,9 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
     }
 
     private fun addItems(item: ProductReceivedItemModel) {
-        val itemView = LinearLayout.inflate(requireContext(), R.layout.item_assignment_report_detail_item_row, null)
-        itemView.assignment_report_detail_item_row_name.text = item.productName
-        itemView.assignment_report_detail_item_row_quantity.text = item.quantity.toString() + " pcs"
+        val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_report_detail_item_row, null)
+        itemView.stock_report_detail_item_row_name.text = item.productName
+        itemView.stock_report_detail_item_row_quantity.text = item.quantity.toString() + " pcs"
         assignment_report_detail_items_container.addView(itemView)
     }
 

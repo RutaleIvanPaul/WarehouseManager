@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.app.stockStockAssignmentReport.presentation
+package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -17,14 +17,7 @@ import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentR
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
-import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportRVAdapter
-import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportViewModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
-import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_datepick_layout
-import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_list
-import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_loader
-import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_no_stock
-import kotlinx.android.synthetic.main.fragment_assignment_report_page.assignment_report_pick_date
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_page.*
 import java.util.Calendar
 
@@ -110,7 +103,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         viewModel.getDistributorDateActionLiveData.observe(this, {
             assignment_report_no_stock.visibility = if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
 
-            datas = it as ArrayList<StockAssignmentReportDistributorDateModel>?
+            datas = it.distinct() as ArrayList<StockAssignmentReportDistributorDateModel>?
 
             assignment_report_list.apply {
                 layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
@@ -123,6 +116,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
             }
         })
     }
+
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
         super.setLoadingIndicatorVisible(visible)

@@ -13,6 +13,7 @@ import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.ConfirmAssignedStockFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.CompanyProductsFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
@@ -43,6 +44,7 @@ class AssignStockFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        ASSIGNMENT_RECEIVE_MODELS.resetAssignmentDetails()
     }
 
     private var salespersonFragment: AssignStockSalesPersonFragment? = null
@@ -197,6 +199,8 @@ class AssignStockFragment : BaseFragment() {
 
         assign_stock_viewpager.adapter = adapter
         assign_stock_viewpager.currentItem = 0
+        assign_stock_viewpager.isUserInputEnabled = false
+
         TabLayoutMediator(assign_stock_tablayout, assign_stock_viewpager) { tab, position ->
             tab.text = adapter.getTabTitle(position)
         }.attach()

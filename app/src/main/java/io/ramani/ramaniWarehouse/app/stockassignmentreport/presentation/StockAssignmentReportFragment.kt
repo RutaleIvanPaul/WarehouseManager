@@ -1,10 +1,8 @@
-package io.ramani.ramaniWarehouse.app.stockStockAssignmentReport.presentation
+package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlow
@@ -13,8 +11,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapte
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportViewModel
-import kotlinx.android.synthetic.main.fragment_assignment_report.*
+import kotlinx.android.synthetic.main.fragment_stock_report.*
 import org.kodein.di.generic.factory
 
 class StockStockAssignmentReportFragment : BaseFragment() {
@@ -29,7 +26,7 @@ class StockStockAssignmentReportFragment : BaseFragment() {
 
     private lateinit var flow: StockAssignmentReportFlow
 
-    override fun getLayoutResId(): Int = R.layout.fragment_assignment_report
+    override fun getLayoutResId(): Int = R.layout.fragment_stock_report
 
     private var assignedFragment: StockStockAssignmentReportPageFragment? = null
     private var returnedFragment: StockStockAssignmentReportPageFragment? = null
@@ -45,11 +42,13 @@ class StockStockAssignmentReportFragment : BaseFragment() {
         flow = StockAssignmentReportFlowController(baseActivity!!, R.id.main_fragment_container)
 
         // Back button handler
-        assignment_report_back.setOnSingleClickListener {
+        stock_report_back.setOnSingleClickListener {
             pop()
         }
 
         initTabLayout()
+        stock_report_title.setText(R.string.assignment_report)
+
     }
 
     private fun initSubscribers() {
@@ -70,11 +69,11 @@ class StockStockAssignmentReportFragment : BaseFragment() {
         adapter.addFragment(assignedFragment!!, getString(R.string.assigned))
         adapter.addFragment(returnedFragment!!, getString(R.string.returned))
 
-        assignment_report_viewpager.isUserInputEnabled = false
-        assignment_report_viewpager.adapter = adapter
-        assignment_report_viewpager.currentItem = 0
+        stock_report_viewpager.isUserInputEnabled = false
+        stock_report_viewpager.adapter = adapter
+        stock_report_viewpager.currentItem = 0
 
-        TabLayoutMediator(assignment_report_tablayout, assignment_report_viewpager) { tab, position ->
+        TabLayoutMediator(stock_report_tablayout, stock_report_viewpager) { tab, position ->
             tab.text = adapter.getTabTitle(position)
         }.attach()
     }

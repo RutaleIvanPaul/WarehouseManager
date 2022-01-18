@@ -1,6 +1,5 @@
 package io.ramani.ramaniWarehouse.domain.stockassignmentreport.usecase
 
-import io.ramani.ramaniWarehouse.data.assignmentreport.model.DistributorDateRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignmentreport.model.StockAssignmentReportDistributorDateRequestModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor

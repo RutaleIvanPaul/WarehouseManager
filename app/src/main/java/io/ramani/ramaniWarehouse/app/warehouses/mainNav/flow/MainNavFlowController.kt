@@ -1,15 +1,16 @@
 package io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow
 
-import io.ramani.ramaniWarehouse.app.assignmentreport.presentation.AssignmentReportFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
+import io.ramani.ramaniWarehouse.app.stockreport.presentation.StockReportFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.host.StockReceiveMainFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockFragment
-import io.ramani.ramaniWarehouse.app.stockStockAssignmentReport.presentation.StockStockAssignmentReportFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
-import io.ramani.ramaniWarehouse.app.warehouses.invoices.presentation.InvoicesFragment
+import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockStockAssignmentReportFragment
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.WarehouseBottomSheetFragment
 import org.jetbrains.anko.AnkoLogger
 
@@ -29,6 +30,8 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
     }
 
     override fun openAssignStock() {
+        AssignedItemDetails.clearAssignedItemDetails()
+        AssignStockViewModel.signedLiveData.postValue(null)
         val fragment = AssignStockFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
@@ -47,11 +50,7 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
     }
 
     override fun openStockReport() {
-        //TODO("Not yet implemented")
-    }
-
-    override fun openAssignmentReport() {
-        val fragment = AssignmentReportFragment.newInstance()
+        val fragment = StockReportFragment.newInstance()
         activity.navigationManager?.open(
             fragment,
             openMethod = NavigationManager.OpenMethod.ADD

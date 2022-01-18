@@ -23,6 +23,7 @@ import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockVi
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import io.ramani.ramaniWarehouse.domainCore.printer.PX400Printer
+import io.ramani.ramaniWarehouse.domainCore.printer.processForPrinting
 import kotlinx.android.synthetic.main.fragment_return_receipt.*
 import kotlinx.android.synthetic.main.fragment_return_success.*
 import org.kodein.di.generic.factory
@@ -53,7 +54,21 @@ class ReturnReceiptFragment : BaseFragment() {
         subscribeObservers()
 
         return_stock_print_receipt.setOnClickListener {
-            printReturnReceipt(viewModel)
+            val  view = scrollview
+            val bitmap = Bitmap.createBitmap(view.width,view.height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            val bgDrawable = view.background
+            if (bgDrawable!=null){
+                bgDrawable.draw(canvas)
+            }
+            else{
+                canvas.drawColor(Color.WHITE)
+            }
+            view.draw(canvas)
+
+//            screenshot.setImageBitmap(bitmap)
+//            printReturnReceipt(viewModel)
+            viewModel.printBitmap(bitmap)
         }
 
         return_stock_done.setOnClickListener {

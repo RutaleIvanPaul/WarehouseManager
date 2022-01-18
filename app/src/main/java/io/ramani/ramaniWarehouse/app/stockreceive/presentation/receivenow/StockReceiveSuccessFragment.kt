@@ -40,7 +40,6 @@ class StockReceiveSuccessFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-
     }
 
     override fun initView(view: View?) {

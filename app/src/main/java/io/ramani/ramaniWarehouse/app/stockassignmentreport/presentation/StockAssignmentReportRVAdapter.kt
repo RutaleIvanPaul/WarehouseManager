@@ -6,12 +6,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
-import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.datetime.getServerTimeFromServerDate
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
-import java.math.RoundingMode.valueOf
-import java.security.Timestamp
-import java.text.SimpleDateFormat
 
 
 class StockAssignmentReportRVAdapter(
