@@ -18,6 +18,7 @@
             style="@style/NormalTextLabel"
             android:layout_width="0dp"
             android:layout_weight="3"
+            android:fontFamily="@font/raleway_bold"
             android:text="@string/goods"
             android:textSize="9sp"
             android:textStyle="bold" />
@@ -27,6 +28,7 @@
             style="@style/NormalTextLabel"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:fontFamily="@font/raleway_bold"
             android:gravity="end"
             android:text="@string/quantity"
             android:textSize="9sp"
