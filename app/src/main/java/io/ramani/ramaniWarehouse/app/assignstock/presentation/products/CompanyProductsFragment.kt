@@ -19,6 +19,7 @@ import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.mapper.Pr
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
@@ -96,10 +97,16 @@ class CompanyProductsFragment : BaseFragment() {
             }
         })
 
-        viewModel.numberOfAssignedProductsLiveData.observe(this, {
-            total_assigned_products.setText("${viewModel.numberOfAssignedProductsLiveData.value} Assigned")
+        viewModel.startLoadingProducts.observeForever {
+            it?.apply(::setLoadingIndicatorVisible)
+        }
 
-        })
+        viewModel.noProducts.observeForever {
+            it?.apply({
+                no_products_data_tv.visible(true)
+            }
+            )
+        }
     }
 
     private fun showDialog(item: ProductsUIModel) {
@@ -168,6 +175,9 @@ class CompanyProductsFragment : BaseFragment() {
                 viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
                 companyProductsUIModelAdapter.notifyDataSetChanged()
                 AssignStockViewModel.allowToGoNext.postValue(Pair(1,true))
+                total_assigned_products.setText("${viewModel.companyProductsListOriginal?.filter { it.isAssigned == true }.count()} Assigned")
+
+
 
                 dialog.dismiss()
             }
@@ -180,12 +190,17 @@ class CompanyProductsFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.numberOfAssignedProductsLiveData.postValue(0)
+        viewModel.resetViewModelData()
         viewModel.serverProductsLoaded.observeForever {
             if(it == false){
                 viewModel.getCompanyProducts()
             }
         }
+    }
+
+    override fun setLoadingIndicatorVisible(visible: Boolean) {
+        super.setLoadingIndicatorVisible(visible)
+        stock_assigned_products_loader.visible(visible)
     }
 
     override fun getLayoutResId() = R.layout.fragment_stock_assign_product
