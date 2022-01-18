@@ -8,6 +8,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        staging {
+            storeFile file('D:\\AmrWork\\projects\\ramani-warehouse\\keystore\\RamaniWarehouse')
+            storePassword 'RamaniWarehouse'
+            keyAlias 'RamaniWarehouse'
+            keyPassword 'RamaniWarehouse'
+        }
+    }
     def TRUE = "true"
     def FALSE = "false"
     def BOOLEAN = "boolean"
@@ -19,8 +27,8 @@ android {
         applicationId "io.ramani.ramaniWarehouse"
         minSdk 21
         targetSdk 31
-        versionCode 22
-        versionName "0.2.2"
+        versionCode 24
+        versionName "0.2.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -42,6 +50,8 @@ android {
         staging {
             buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-staging.herokuapp.com/\""
             buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {

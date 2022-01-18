@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
@@ -27,7 +28,6 @@ import io.reactivex.rxkotlin.subscribeBy
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
 
 class ConfirmReceiveViewModel(
     application: Application,
@@ -122,11 +122,11 @@ class ConfirmReceiveViewModel(
     }
 
 
-    fun printBitmap(bitmap: Bitmap){
+    fun printBitmap(bitmap: Bitmap) {
         printerHelper.printBitmap(bitmap)
     }
 
-    fun printText(receiptText:String){
+    fun printText(receiptText: String) {
         printerHelper.printText(receiptText)
     }
 
@@ -156,7 +156,7 @@ class ConfirmReceiveViewModel(
         builder.addFormDataPart("storeKeeperName", RECEIVE_MODELS.invoiceModelView?.storeKeeperName)
         storeKeeperSignature?.let {
             builder.addFormDataPart(
-                "storeKeeperSignature", "",
+                "storeKeeperSignature", RECEIVE_MODELS.invoiceModelView?.storeKeeperName ?: "",
                 createImageFormData(storeKeeperSignature)
             )
         }
@@ -166,7 +166,8 @@ class ConfirmReceiveViewModel(
         )
         deliveryPersonSignature?.let {
             builder.addFormDataPart(
-                "deliveryPersonSignature", "",
+                "deliveryPersonSignature",
+                RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: "",
                 createImageFormData(deliveryPersonSignature)
             )
         }
@@ -175,9 +176,9 @@ class ConfirmReceiveViewModel(
     }
 
     private fun createImageFormData(bitmap: Bitmap): RequestBody {
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        return RequestBody.create(MediaType.parse("application/octet-stream"), bos.toByteArray())
+//        val bos = ByteArrayOutputStream()
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile())
     }
 
     class Factory(

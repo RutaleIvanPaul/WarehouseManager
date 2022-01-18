@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.domain.stockreceive.model.selected
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import com.google.gson.Gson
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import okhttp3.MediaType
@@ -51,38 +52,30 @@ class SelectedSupplierDataModel {
             .addFormDataPart("items", Gson().toJson(products))
 
         documents?.let {
-            builder.addFormDataPart(
-                "supportingDocument", "",
-                RequestBody.create(
-                    MediaType.parse("application/octet-stream"),
-                    File(it[0])
-                )
-            )
+            val fileName = String.format("supportingDoc_%ld", confirmDate.time)
+            builder.addFormDataPart("supportingDocument", fileName, RequestBody.create(MediaType.parse("image/jpg"), File(it[0])))
         }
 
         storeKeeperData?.let {
             builder.addFormDataPart("storeKeeperName", it.name)
-            builder.addFormDataPart(
-                "storeKeeperSignature", "",
-                createImageFormData(it.bitmap!!)
-            )
+            builder.addFormDataPart("storeKeeperSignature", it.name, createImageFormData(it.bitmap!!))
         }
 
         deliveryPersonData?.let {
             builder.addFormDataPart("deliveryPersonName", it.name)
-            builder.addFormDataPart(
-                    "deliveryPersonSignature", "",
-                        createImageFormData(it.bitmap!!)
-                )
+            builder.addFormDataPart("deliveryPersonSignature", it.name, createImageFormData(it.bitmap!!))
         }
 
         return builder.build();
     }
 
     private fun createImageFormData(bitmap: Bitmap): RequestBody {
+        /*
         val bos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         return RequestBody.create(MediaType.parse("application/octet-stream"), bos.toByteArray())
+         */
+        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile())
     }
 
 }
