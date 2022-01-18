@@ -44,20 +44,23 @@
                     style="@style/LargeTextLabel"
                     android:layout_marginTop="20dp"
                     android:text="Masyl General Enterprises"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="20dp"
                     android:text="@string/goods_issued_note"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/stock_receive_print_issued_date"
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="20dp"
                     android:text="Date: 24 July 2021"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
@@ -82,7 +85,8 @@
                         <TextView
                             style="@style/NormalTextLabel"
                             android:text="@string/store_keeper"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/stock_receive_print_store_keeper_name"
@@ -90,14 +94,15 @@
                             android:layout_marginTop="10dp"
                             android:text="Christian Michael"
                             android:textColor="@color/mid_dark_grey"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/stock_receive_print_store_keeper_signature"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:scaleType="fitXY"
                             android:layout_marginTop="5dp"
+                            android:scaleType="fitXY"
                             android:src="@mipmap/ic_company_logo" />
                     </LinearLayout>
 
@@ -119,7 +124,8 @@
                         <TextView
                             style="@style/NormalTextLabel"
                             android:text="@string/assigned_to"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/stock_receive_print_delivery_person_name"
@@ -127,14 +133,15 @@
                             android:layout_marginTop="10dp"
                             android:text="Claudian Bernet"
                             android:textColor="@color/mid_dark_grey"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/stock_receive_print_delivery_person_signature"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:scaleType="fitXY"
                             android:layout_marginTop="5dp"
+                            android:scaleType="fitXY"
                             android:src="@mipmap/ic_company_logo" />
                     </LinearLayout>
                 </LinearLayout>

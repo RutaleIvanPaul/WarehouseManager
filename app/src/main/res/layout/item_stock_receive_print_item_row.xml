@@ -17,7 +17,8 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:text="@string/goods"
-            android:textSize="9dp" />
+            android:textSize="9dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/stock_receive_print_item_row_accepted"
@@ -26,7 +27,8 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="@string/accepted"
-            android:textSize="9dp" />
+            android:textSize="9dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/stock_receive_print_item_row_declined"
@@ -35,7 +37,8 @@
             android:layout_weight="1"
             android:gravity="end"
             android:text="@string/declined"
-            android:textSize="9dp" />
+            android:textSize="9dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <View
