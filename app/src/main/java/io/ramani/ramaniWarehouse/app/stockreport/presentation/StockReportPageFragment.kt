@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
+package io.ramani.ramaniWarehouse.app.stockreport.presentation
 
 import android.app.DatePickerDialog
 import android.os.Bundle
@@ -13,42 +13,40 @@ import org.kodein.di.generic.instance
 import kotlin.collections.ArrayList
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlow
-import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlowController
+import io.ramani.ramaniWarehouse.app.stockreport.flow.StockReportFlow
+import io.ramani.ramaniWarehouse.app.stockreport.flow.StockReportFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
-import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
-import kotlinx.android.synthetic.main.fragment_stock_assignment_report_page.*
+import io.ramani.ramaniWarehouse.domain.stockreport.model.DistributorDateModel
+import kotlinx.android.synthetic.main.fragment_stock_report_page.*
 import java.util.Calendar
 
-class StockStockAssignmentReportPageFragment : BaseFragment() {
+class StockReportPageFragment : BaseFragment() {
     companion object {
         private const val PARAM_IS_ONLY_ASSIGNED = "isOnlyAssigned"
 
-        fun newInstance(isOnlyAssigned: Boolean) = StockStockAssignmentReportPageFragment().apply {
+        fun newInstance(isOnlyAssigned: Boolean) = StockReportPageFragment().apply {
             arguments = Bundle().apply {
                 putBoolean(PARAM_IS_ONLY_ASSIGNED, isOnlyAssigned)
             }
         }
     }
 
-    private val viewModelProvider: (Fragment) -> StockAssignmentReportViewModel by factory()
-    private lateinit var viewModel: StockAssignmentReportViewModel
+    private val viewModelProvider: (Fragment) -> StockReportViewModel by factory()
+    private lateinit var viewModel: StockReportViewModel
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
-    private lateinit var flow: StockAssignmentReportFlow
+    private lateinit var flow: StockReportFlow
 
-    override fun getLayoutResId(): Int = R.layout.fragment_stock_assignment_report_page
+    override fun getLayoutResId(): Int = R.layout.fragment_stock_report_page
 
     private val dateFormatter: DateFormatter by instance()
 
     private var isOnlyAssigned = true
-    private lateinit var listAdapter: StockAssignmentReportRVAdapter
-    private var datas: ArrayList<StockAssignmentReportDistributorDateModel>? = null
+    private lateinit var listAdapter: StockReportRVAdapter
+    private var datas: ArrayList<DistributorDateModel>? = null
     private var calendar = Calendar.getInstance()
-    private var startDate: String = calendar.time.toString()
-    private var endDate: String = calendar.time.toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,25 +61,15 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
-        flow = StockAssignmentReportFlowController(baseActivity!!, R.id.main_fragment_container)
+        flow = StockReportFlowController(baseActivity!!, R.id.main_fragment_container)
         viewModel.start()
 
         // Initialize UI
-        updateStartPickDate()
-        updateEndPickDate()
+        updatePickDate()
 
-        assignment_report_datepick_layout.setOnClickListener {
+        stock_report_datepick_layout.setOnClickListener {
             DatePickerDialog(requireActivity(),
-                startDateSetListener,
-                // set DatePickerDialog to point to today's date when it loads up
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)).show()
-        }
-
-        assignment_report_end_datepick_layout.setOnClickListener {
-            DatePickerDialog(requireActivity(),
-                endDateSetListener,
+                dateSetListener,
                 // set DatePickerDialog to point to today's date when it loads up
                 calendar.get(Calendar.YEAR),
                 calendar.get(Calendar.MONTH),
@@ -101,14 +89,14 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         })
 
         viewModel.getDistributorDateActionLiveData.observe(this, {
-            assignment_report_no_stock.visibility = if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
+            stock_report_no_stock.visibility = if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
 
-            datas = it as ArrayList<StockAssignmentReportDistributorDateModel>?
+            datas = it as ArrayList<DistributorDateModel>?
 
-            assignment_report_list.apply {
+            stock_report_list.apply {
                 layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
-                listAdapter = StockAssignmentReportRVAdapter(datas!!){
+                listAdapter = StockReportRVAdapter(datas!!){
                     flow.openDetail(isOnlyAssigned, it)
                 }
 
@@ -119,7 +107,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
         super.setLoadingIndicatorVisible(visible)
-        assignment_report_loader.visible(visible)
+        stock_report_loader.visible(visible)
     }
 
     override fun showError(error: String) {
@@ -127,34 +115,18 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         errorDialog(error)
     }
 
-    private fun updateStartPickDate() {
+    private fun updatePickDate() {
         val timeString = dateFormatter.convertToDateWithDashes1(calendar.time.time)
-        startDate = timeString
-        assignment_report_pick_date.text = timeString
-        viewModel.getDistributorDate(startDate, endDate, isOnlyAssigned)
+        stock_report_pick_date.text = timeString
+        viewModel.getDistributorDate(timeString, isOnlyAssigned)
     }
 
-    private fun updateEndPickDate() {
-        val timeString = dateFormatter.convertToDateWithDashes1(calendar.time.time)
-        endDate = timeString
-        assignment_report_end_pick_date.text = timeString
-        viewModel.getDistributorDate(startDate, endDate, isOnlyAssigned)
-    }
-
-    private val startDateSetListener =
+    private val dateSetListener =
         DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
             calendar.set(Calendar.YEAR, year)
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateStartPickDate()
-        }
-
-    private val endDateSetListener =
-        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
-            calendar.set(Calendar.YEAR, year)
-            calendar.set(Calendar.MONTH, monthOfYear)
-            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-            updateEndPickDate()
+            updatePickDate()
         }
 
 }

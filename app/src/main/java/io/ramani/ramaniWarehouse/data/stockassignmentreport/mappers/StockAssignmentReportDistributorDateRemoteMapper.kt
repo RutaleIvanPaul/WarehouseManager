@@ -1,15 +1,10 @@
 package io.ramani.ramaniWarehouse.data.stockassignmentreport.mappers
 
-import io.ramani.ramaniWarehouse.data.assignmentreport.model.DistributorDateRemoteModel
 import io.ramani.ramaniWarehouse.data.stockassignmentreport.model.ProductReceivedItemRemoteModel
 import io.ramani.ramaniWarehouse.data.stockassignmentreport.model.StockAssignmentReportDistributorDateRemoteModel
-import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedItemRemoteModel
-import io.ramani.ramaniWarehouse.domain.assignmentreport.model.DistributorDateModel
-import io.ramani.ramaniWarehouse.domain.auth.model.*
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
-import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import kotlin.collections.ArrayList
 
 class StockAssignmentReportDistributorDateRemoteMapper(

@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +20,7 @@ import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierProductModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
+import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 import okhttp3.RequestBody
 
@@ -29,7 +31,8 @@ class StockReceiveNowViewModel(
     private val prefs: PrefsManager,
     private val getSupplierUseCase: BaseSingleUseCase<List<SupplierModel>, GetSupplierRequestModel>,
     private val getDeclineReasonsUseCase: BaseSingleUseCase<List<String>, Params>,
-    private val postGoodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>
+    private val postGoodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>,
+    private val printerHelper: PrinterHelper
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
@@ -64,6 +67,7 @@ class StockReceiveNowViewModel(
             warehouseId = it.id ?: ""
         }
 
+        printerHelper.open()
         //postGoodsReceived()
     }
 
@@ -156,6 +160,10 @@ class StockReceiveNowViewModel(
         }
     }
 
+    fun printBitmap(bitmap: Bitmap){
+        printerHelper.printBitmap(bitmap)
+    }
+
     class Factory(
         private val application: Application,
         private val stringProvider: IStringProvider,
@@ -163,7 +171,8 @@ class StockReceiveNowViewModel(
         private val prefs: PrefsManager,
         private val getSupplierUseCase: BaseSingleUseCase<List<SupplierModel>, GetSupplierRequestModel>,
         private val getDeclineReasonsUseCase: BaseSingleUseCase<List<String>, Params>,
-        private val goodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>
+        private val goodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>,
+        private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -173,7 +182,8 @@ class StockReceiveNowViewModel(
                     stringProvider,
                     sessionManager,
                     prefs,
-                    getSupplierUseCase, getDeclineReasonsUseCase, goodsReceivedUseCase
+                    getSupplierUseCase, getDeclineReasonsUseCase, goodsReceivedUseCase,
+                    printerHelper
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")

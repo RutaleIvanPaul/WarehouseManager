@@ -105,7 +105,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
                 // There is no need to go ahead.
                 allowGo = false
 
-//                viewModel.postGoodsReceived()
+                viewModel.postGoodsReceived()
             }
 
             //    productsFragment?.updateView()
@@ -179,5 +179,14 @@ class StockReceiveNowHostFragment : BaseFragment() {
         }.attach()
 
         stock_receive_now_host_tablayout.touchables.forEach { it.isClickable = false }
+    }
+
+    override fun onBackButtonPressed(): Boolean {
+        showConfirmDialog("Are you sure you want to cancel receive stocks?", onConfirmed = {
+            STOCK_RECEIVE_MODEL.clearData()
+            pop()
+        })
+
+        return true
     }
 }
