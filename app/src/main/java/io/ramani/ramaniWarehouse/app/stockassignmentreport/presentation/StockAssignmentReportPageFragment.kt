@@ -103,7 +103,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         viewModel.getDistributorDateActionLiveData.observe(this, {
             assignment_report_no_stock.visibility = if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
 
-            datas = it as ArrayList<StockAssignmentReportDistributorDateModel>?
+            datas = it.distinct() as ArrayList<StockAssignmentReportDistributorDateModel>?
 
             assignment_report_list.apply {
                 layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
@@ -116,6 +116,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
             }
         })
     }
+
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
         super.setLoadingIndicatorVisible(visible)

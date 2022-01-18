@@ -1,7 +1,9 @@
 package io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow
 
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.stockreport.presentation.StockReportFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
@@ -28,6 +30,8 @@ class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, A
     }
 
     override fun openAssignStock() {
+        AssignedItemDetails.clearAssignedItemDetails()
+        AssignStockViewModel.signedLiveData.postValue(null)
         val fragment = AssignStockFragment.newInstance()
         activity.navigationManager?.open(
             fragment,

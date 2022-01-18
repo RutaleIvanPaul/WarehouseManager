@@ -24,6 +24,7 @@
             <ImageView style="@style/backButton" />
 
             <TextView
+                android:id="@+id/stock_report_title"
                 style="@style/BoldTextLabel"
                 android:layout_marginStart="5dp"
                 android:text="@string/stock_report" />

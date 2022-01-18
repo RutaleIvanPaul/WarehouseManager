@@ -14,9 +14,11 @@ import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockVi
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_confirm_assign_stock.*
+import kotlinx.android.synthetic.main.fragment_stock_assignment_report_page.*
 import org.kodein.di.generic.factory
 
 
@@ -74,10 +76,10 @@ class ConfirmAssignedStockFragment : BaseFragment() {
         })
 
         ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever({
-            AssignedItemDetails.assignedItems = it.toMutableList()
+            AssignedItemDetails.assignedItems = it.distinct().toMutableList()
 
             selectedCompanyProductsList.clear()
-            selectedCompanyProductsList.addAll(it)
+            selectedCompanyProductsList.addAll(it.distinct())
             confirmAssignedItemsAdapter.notifyDataSetChanged()
         })
 
@@ -88,55 +90,66 @@ class ConfirmAssignedStockFragment : BaseFragment() {
             }
         })
 
+        AssignStockViewModel.startLoading.observeForever {
+            it?.apply(::setLoadingIndicatorVisible)
+        }
+
         AssignStockViewModel.signedLiveData.observe(this, {
-            if (it.first == AssignedStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN) {
+            if(it != null) {
+                if (it.first == AssignedStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN) {
 
-                confirm_assign_sign_store_keeper.setCompoundDrawables(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_check_icon
-                    ), null, null, null
-                )
-                confirm_assign_sign_store_keeper.setBackgroundResource(R.drawable.green_stroke_action_button)
-                confirm_assign_sign_store_keeper.setText(R.string.signed)
-                confirm_assign_sign_store_keeper.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.light_lime_yellow
+                    confirm_assign_sign_store_keeper.setCompoundDrawables(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_check_icon
+                        ), null, null, null
                     )
-                )
-
-                AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper = it.second
-
-            } else if (it.first == AssignedStockSignaturePadFragment.PARAM_SALESPERSON_SIGN) {
-
-                confirm_assign_sign_salesperson.setCompoundDrawables(
-                    ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_check_icon
-                    ), null, null, null
-                )
-                confirm_assign_sign_salesperson.setBackgroundResource(R.drawable.green_stroke_action_button)
-                confirm_assign_sign_salesperson.setText(R.string.signed)
-                confirm_assign_sign_salesperson.setTextColor(
-                    ContextCompat.getColor(
-                        requireContext(),
-                        R.color.light_lime_yellow
+                    confirm_assign_sign_store_keeper.setBackgroundResource(R.drawable.green_stroke_action_button)
+                    confirm_assign_sign_store_keeper.setText(R.string.signed)
+                    confirm_assign_sign_store_keeper.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.light_lime_yellow
+                        )
                     )
-                )
 
-                AssignStockViewModel.assignedItemDetails.signatureInfoSalesPerson = it.second
+                    AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper = it.second
 
-            }
+                } else if (it.first == AssignedStockSignaturePadFragment.PARAM_SALESPERSON_SIGN) {
 
-            if(
-                AssignStockViewModel.assignedItemDetails.signatureInfoSalesPerson != null &&
-                AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper != null
-            ){
-                AssignStockViewModel.allowToGoNext.postValue(Pair(2,true))
+                    confirm_assign_sign_salesperson.setCompoundDrawables(
+                        ContextCompat.getDrawable(
+                            requireContext(),
+                            R.drawable.ic_check_icon
+                        ), null, null, null
+                    )
+                    confirm_assign_sign_salesperson.setBackgroundResource(R.drawable.green_stroke_action_button)
+                    confirm_assign_sign_salesperson.setText(R.string.signed)
+                    confirm_assign_sign_salesperson.setTextColor(
+                        ContextCompat.getColor(
+                            requireContext(),
+                            R.color.light_lime_yellow
+                        )
+                    )
+
+                    AssignStockViewModel.assignedItemDetails.signatureInfoSalesPerson = it.second
+
+                }
+
+                if (
+                    AssignStockViewModel.assignedItemDetails.signatureInfoSalesPerson != null &&
+                    AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper != null
+                ) {
+                    AssignStockViewModel.allowToGoNext.postValue(Pair(2, true))
+                }
             }
         })
 
+    }
+
+    override fun setLoadingIndicatorVisible(visible: Boolean) {
+        super.setLoadingIndicatorVisible(visible)
+        stock_assigned_confirm_loader.visible(visible)
     }
 
     override fun onResume() {
