@@ -28,7 +28,6 @@ import io.reactivex.rxkotlin.subscribeBy
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
 
 class ConfirmReceiveViewModel(
     application: Application,
@@ -157,7 +156,7 @@ class ConfirmReceiveViewModel(
         builder.addFormDataPart("storeKeeperName", RECEIVE_MODELS.invoiceModelView?.storeKeeperName)
         storeKeeperSignature?.let {
             builder.addFormDataPart(
-                "storeKeeperSignature", RECEIVE_MODELS.invoiceModelView?.storeKeeperName?:"",
+                "storeKeeperSignature", RECEIVE_MODELS.invoiceModelView?.storeKeeperName ?: "",
                 createImageFormData(storeKeeperSignature)
             )
         }
@@ -167,7 +166,8 @@ class ConfirmReceiveViewModel(
         )
         deliveryPersonSignature?.let {
             builder.addFormDataPart(
-                "deliveryPersonSignature", RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: "",
+                "deliveryPersonSignature",
+                RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: "",
                 createImageFormData(deliveryPersonSignature)
             )
         }
