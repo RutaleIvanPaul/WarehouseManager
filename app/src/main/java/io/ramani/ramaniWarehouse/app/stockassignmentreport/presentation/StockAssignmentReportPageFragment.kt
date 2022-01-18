@@ -117,6 +117,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         })
     }
 
+
     override fun setLoadingIndicatorVisible(visible: Boolean) {
         super.setLoadingIndicatorVisible(visible)
         assignment_report_loader.visible(visible)
