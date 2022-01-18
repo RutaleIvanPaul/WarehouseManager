@@ -13,13 +13,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
+import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnItemsAdapter
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnStockViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavFragment
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import io.ramani.ramaniWarehouse.domainCore.printer.PX400Printer
@@ -72,39 +75,12 @@ class ReturnReceiptFragment : BaseFragment() {
         }
 
         return_stock_done.setOnClickListener {
-            flow.openMainNav()
+            (requireActivity() as BaseActivity).navigationManager?.popToFragment(
+                MainNavFragment.TAG,
+                false
+            )
         }
     }
-
-    private fun printReturnReceipt(viewModel: ConfirmReturnStockViewModel) {
-        viewModel.printText(getTextBeforeImages())
-        viewModel.printText(getString(R.string.store_keeper)+": "+storekeeper_text.text.toString()+ "\n")
-        viewModel.printBitmap(ReturnItemDetails.signatureInfoStoreKeeper!!)
-        viewModel.printText(getString(R.string.assigned_to)+": "+assignee_text.text.toString()+ "\n")
-        viewModel.printBitmap(ReturnItemDetails.signatureInfoSalesPerson!!)
-        viewModel.printText("\n"+getString(R.string.end_goods_returned)+"\n\n\n\n\n")
-
-    }
-
-    private fun getTextBeforeImages() =
-        getString(R.string.start_of_goods_returned)+"\n\n"+
-                company_name.text.toString()+"\n\n"+
-        getString(R.string.goods_issued_note)+"\n\n"+
-                date.text.toString()+"\n"+
-                "--------------------------------"+"\n"+
-                getString(R.string.goods_returned) + "\n"+
-                "--------------------------------"+"\n\n"+
-                getGoodsReturnedString()
-
-
-    private fun getGoodsReturnedString(): String {
-        var goodsReturnedText = ""
-        ReturnItemDetails.returnItems.forEach { item ->
-            goodsReturnedText += item.productName +" ---------- "+item.quantity+" Pcs\n"
-        }
-        return goodsReturnedText
-    }
-
 
     private fun subscribeObservers() {
         viewModel.loadedUserDetails.observe(this,{
