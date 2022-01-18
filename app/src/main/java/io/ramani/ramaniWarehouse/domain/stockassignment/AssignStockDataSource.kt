@@ -9,10 +9,11 @@ import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
 import io.reactivex.Single
+import okhttp3.RequestBody
 
 interface AssignStockDataSource {
     fun getSalesPerson(companyId: String): Single<List<SalesPersonModel>>
     fun getProducts(companyId: String): Single<List<ProductEntity>>
-    fun postAssignedStock(postAssignedItems: PostAssignedItems): Single<PostAssignedItemsResponse>
+    fun postAssignedStock(body: RequestBody): Single<PostAssignedItemsResponse>
 
 }

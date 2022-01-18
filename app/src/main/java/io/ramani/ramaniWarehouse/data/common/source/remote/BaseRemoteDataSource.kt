@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.data.common.source.remote
 
 import android.graphics.Bitmap
 import com.google.gson.JsonSyntaxException
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.domain.base.exceptions.ItemNotFoundException
@@ -87,8 +88,6 @@ abstract class BaseRemoteDataSource {
     }
 
     fun createImageFormData(bitmap: Bitmap): RequestBody {
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        return RequestBody.create(MediaType.parse("multipart/form-data"), bos.toByteArray())
+        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile())
     }
 }
