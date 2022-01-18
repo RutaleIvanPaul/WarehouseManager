@@ -1,7 +1,7 @@
-package io.ramani.ramaniWarehouse.core.domain.presentation
+package io.ramani.ramaniWarehouse.domainCore.presentation
 
-import io.ramani.ramaniWarehouse.core.domain.exceptions.NotAuthenticatedException
-import io.ramani.ramaniWarehouse.core.domain.exceptions.PermissionsChangedException
+import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
+import io.ramani.ramaniWarehouse.domainCore.exceptions.PermissionsChangedException
 
 
 /**

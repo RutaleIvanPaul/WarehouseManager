@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.core.domain.extension
+package io.ramani.ramaniWarehouse.domainCore.extension
 
 import io.ramani.ramaniWarehouse.domainCore.datetime.FromServerDateTimeParser
 

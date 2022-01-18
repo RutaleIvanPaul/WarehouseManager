@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.domain.auth.manager
 
 import io.ramani.ramaniWarehouse.domain.auth.AuthDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
+import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -16,7 +17,7 @@ class SessionManager(
 
     override fun isUserLoggedIn(): Single<Boolean> =
         authDataSource.getCurrentUser().flatMap { user ->
-            Single.just(user?.id != null)
+            Single.just(user?.uuid != null)
         }
 
 
@@ -26,4 +27,7 @@ class SessionManager(
 
     override fun logout(): Completable =
         authDataSource.logout()
+
+    override fun getCurrentWarehouse(): Single<WarehouseModel> =
+        authDataSource.getCurrentWarehouse()
 }

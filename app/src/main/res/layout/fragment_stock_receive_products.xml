@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/products_scroll_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                style="@style/BoldTextLabel"
+                android:layout_centerVertical="true"
+                android:text="@string/add_product"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/products_added_amount"
+                style="@style/BoldTextLabel"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="@string/added"
+                android:textColor="@color/secondary_blue"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/layout_darkgrey_outline_grey_solid_middle"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="20dp"
+                android:paddingTop="15dp"
+                android:paddingEnd="20dp"
+                android:paddingBottom="15dp">
+
+                <TextView
+                    style="@style/BoldTextLabel"
+                    android:text="@string/product"
+                    android:textColor="@color/secondary_blue"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/products_reset_fields"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/ic_delete_icon" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:background="@color/light_grey" />
+
+            <!-- Contents -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <!-- Product Selector -->
+
+                <TextView
+                    style="@style/StockReceiveItemTitle"
+                    android:text="@string/product" />
+
+                <com.skydoves.powerspinner.PowerSpinnerView
+                    android:id="@+id/products_product_spinner"
+                    style="@style/StockReceiveSpinner"
+                    android:hint="@string/product" />
+
+                <!-- Units Selector -->
+
+                <TextView
+                    style="@style/StockReceiveItemTitle"
+                    android:text="@string/units" />
+
+                <com.skydoves.powerspinner.PowerSpinnerView
+                    android:id="@+id/products_units_spinner"
+                    style="@style/StockReceiveSpinner"
+                    android:hint="@string/units" />
+
+                <!-- Accepted & Declined -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/StockReceiveItemTitle"
+                            android:text="@string/accepted" />
+
+                        <EditText
+                            android:id="@+id/products_accepted_amount"
+                            style="@style/NormalEditText"
+                            android:layout_marginTop="10dp"
+                            android:hint="@string/accepted"
+                            android:inputType="number" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/StockReceiveItemTitle"
+                            android:text="@string/declined" />
+
+                        <EditText
+                            android:id="@+id/products_declined_amount"
+                            style="@style/NormalEditText"
+                            android:layout_marginTop="10dp"
+                            android:hint="@string/declined"
+                            android:inputType="number" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!-- Why Declined Selector -->
+
+                <TextView
+                    style="@style/StockReceiveItemTitle"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/why_declined" />
+
+                <com.skydoves.powerspinner.PowerSpinnerView
+                    android:id="@+id/products_why_declined_spinner"
+                    style="@style/StockReceiveSpinner"
+                    android:hint="@string/why_declined" />
+
+                <!-- Unit Price -->
+
+                <TextView
+                    style="@style/StockReceiveItemTitle"
+                    android:text="@string/unit_price" />
+
+                <EditText
+                    android:id="@+id/products_unit_price"
+                    style="@style/NormalEditText"
+                    android:layout_marginTop="10dp"
+                    android:hint="@string/unit_price"
+                    android:inputType="numberDecimal" />
+
+                <!-- Parameters Size -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center">
+
+                        <TextView
+                            style="@style/StockReceiveItemTitle"
+                            android:layout_width="0dp"
+                            android:layout_weight="2"
+                            android:layout_marginTop="0dp"
+                            android:text="@string/parameter" />
+
+                        <TextView
+                            style="@style/StockReceiveItemTitle"
+                            android:layout_width="0dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_weight="1"
+                            android:text="@string/size" />
+
+                        <TextView
+                            android:id="@+id/product_add_parameter"
+                            style="@style/BoldTextLabel"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5"
+                            android:text="@string/add_with_plus"
+                            android:textColor="@color/secondary_blue" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/products_parameter_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
+
+                <!-- Expire Date Selector -->
+
+                <TextView
+                    style="@style/StockReceiveItemTitle"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/expire_date" />
+
+                <RelativeLayout
+                    android:id="@+id/products_expire_date_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/item_outline_with_white_solid_round"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/products_expire_date"
+                        style="@style/NormalTextLabel"
+                        android:layout_centerVertical="true"
+                        android:text="12 sep 2021"
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@mipmap/ic_calendar_blue"
+                        app:tint="@color/dark_grey" />
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/products_add_product_button"
+                    style="@style/GreenFillActionButton"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/save" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

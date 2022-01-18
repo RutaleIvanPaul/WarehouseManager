@@ -1,8 +1,8 @@
 package io.ramani.ramaniWarehouse.app.common.di
 
-import io.ramani.ramaniWarehouse.domain.executor.BackgroundThreadExecutor
-import io.ramani.ramaniWarehouse.domain.executor.PostThreadExecutor
-import io.ramani.ramaniWarehouse.domain.executor.ThreadExecutor
+import io.ramani.ramaniWarehouse.domain.base.executor.BackgroundThreadExecutor
+import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor
+import io.ramani.ramaniWarehouse.domain.base.executor.ThreadExecutor
 import io.ramani.ramaniWarehouse.domain.executor.UiThreadExecutor
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind

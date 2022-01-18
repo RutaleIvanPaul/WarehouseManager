@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.core.domain.datetime
+package io.ramani.ramaniWarehouse.domainCore.datetime
 
 object DateTimeFormats {
     const val DEFAULT_DISPLAY_DATE_FORMAT = "dd MMM"

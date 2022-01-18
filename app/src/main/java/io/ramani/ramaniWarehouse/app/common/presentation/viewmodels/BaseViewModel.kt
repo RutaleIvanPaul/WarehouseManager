@@ -8,23 +8,23 @@ import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import io.ramani.ramaniWarehouse.app.App
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.App
 import io.ramani.ramaniWarehouse.app.common.download.IFilesDownloadManager
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.entities.ValidationError
 import io.ramani.ramaniWarehouse.app.main.presentation.MainActivity
-import io.ramani.ramaniWarehouse.core.domain.observers.DefaultCompletableObserver
-import io.ramani.ramaniWarehouse.core.domain.observers.DefaultMayeObserver
-import io.ramani.ramaniWarehouse.core.domain.observers.DefaultObserver
-import io.ramani.ramaniWarehouse.core.domain.observers.DefaultSingleObserver
-import io.ramani.ramaniWarehouse.core.domain.presentation.ErrorHandlerView
-import io.ramani.ramaniWarehouse.core.domain.presentation.GenericErrorHandlerView
-import io.ramani.ramaniWarehouse.core.domain.presentation.GenericErrors
-import io.ramani.ramaniWarehouse.core.domain.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.SingleLiveEvent
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.TokenAlreadyRefreshedException
+import io.ramani.ramaniWarehouse.domainCore.observers.DefaultCompletableObserver
+import io.ramani.ramaniWarehouse.domainCore.observers.DefaultMayeObserver
+import io.ramani.ramaniWarehouse.domainCore.observers.DefaultObserver
+import io.ramani.ramaniWarehouse.domainCore.observers.DefaultSingleObserver
+import io.ramani.ramaniWarehouse.domainCore.presentation.ErrorHandlerView
+import io.ramani.ramaniWarehouse.domainCore.presentation.GenericErrorHandlerView
+import io.ramani.ramaniWarehouse.domainCore.presentation.GenericErrors
+import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.reactivex.*
 import io.reactivex.disposables.Disposable
 import io.reactivex.subjects.PublishSubject
@@ -124,9 +124,9 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         getApplication<Application>().resources.getBoolean(R.bool.isTablet)
 
     protected fun getErrorMessage(throwable: Throwable): String {
-        return onError(throwable as HttpException)
-//        return throwable.message?.takeIf { it.isNotBlank() }
-//            ?: getString(R.string.an_error_has_occured_please_try_again)
+//        return onError(throwable as HttpException)
+        return throwable.message?.takeIf { it.isNotBlank() }
+            ?: getString(R.string.an_error_has_occured_please_try_again)
     }
 
     protected fun onError(throwable: Throwable, handleError: (Throwable) -> Unit = {}) {
@@ -174,6 +174,8 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     fun isUserLoggedIn() = sessionManager.isUserLoggedIn()
 
     fun getLoggedInUser() = sessionManager.getLoggedInUser()
+
+    fun getCurrentWarehouse() = sessionManager.getCurrentWarehouse()
 
     fun logout(message: String? = "", onLogOutComplete: (String?) -> Unit = defaultOnLogout) {
         sessionManager.logout().subscribe {
@@ -305,9 +307,11 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
     }
 
 
-    fun downloadFie(url: String, fileName: String, mimeType: String) {
+    fun downloadFie(url: String, fileName: String, mimeType: String, onComplete: (Uri) -> Unit) {
         val downloadManager: IFilesDownloadManager by getApplication<App>().kodein.instance()
-        downloadManager.enqueue(url, fileName, mimeType)
+        downloadManager.enqueue(url, fileName, mimeType) {
+            onComplete(it)
+        }
     }
 
     fun restart() {

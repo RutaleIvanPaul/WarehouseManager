@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.core.domain.extension
+package io.ramani.ramaniWarehouse.domainCore.extension
 
 inline fun <reified T> MutableList<T>.removeItem(item: T) =
         if (this.contains(item)) {

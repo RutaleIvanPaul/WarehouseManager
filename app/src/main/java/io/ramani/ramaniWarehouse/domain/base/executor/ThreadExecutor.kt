@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.domain.executor
+package io.ramani.ramaniWarehouse.domain.base.executor
 
 import io.reactivex.Scheduler
 

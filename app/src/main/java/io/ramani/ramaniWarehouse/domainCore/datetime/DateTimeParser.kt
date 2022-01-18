@@ -1,6 +1,4 @@
-package io.ramani.ramaniWarehouse.core.domain.datetime
-
-import io.ramani.ramaniWarehouse.core.domain.entities.IBuilder
+package io.ramani.ramaniWarehouse.domainCore.datetime
 
 /**
  * Created by Amr on 12/15/17.

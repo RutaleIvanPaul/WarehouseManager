@@ -4,10 +4,10 @@ import android.content.pm.ActivityInfo
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.RecyclerView
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
@@ -111,6 +111,10 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
             snackbar.removeCallback(callback)
         }
         super.onDestroy()
+    }
+
+    protected fun pop() {
+        baseActivity?.navigationManager?.remove(this)
     }
 
     protected open fun initNavigationManager(navigationManager: NavigationManager) {}
@@ -315,5 +319,19 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
 
     open fun onScroll(dx: Int, dy: Int) {
 
+    }
+
+    protected fun getFieldValueByInt(editText: EditText): Int {
+        if (editText.text.isNotBlank())
+            return editText.text.toString().toInt()
+        else
+            return -1
+    }
+
+    protected fun getFieldValueByDouble(editText: EditText): Double {
+        if (editText.text.isNotBlank())
+            return editText.text.toString().toDouble()
+        else
+            return -1.0
     }
 }

@@ -1,7 +1,7 @@
 package io.ramani.ramaniWarehouse.domain.base.mappers
 
-import io.ramani.ramaniWarehouse.domain.executor.PostThreadExecutor
-import io.ramani.ramaniWarehouse.domain.executor.ThreadExecutor
+import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor
+import io.ramani.ramaniWarehouse.domain.base.executor.ThreadExecutor
 import io.reactivex.Flowable
 import io.reactivex.Single
 

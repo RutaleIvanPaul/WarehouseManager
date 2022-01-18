@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Pick Date -->
+
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginTop="10dp"
+            android:text="@string/pickdate" />
+
+        <RelativeLayout
+            android:id="@+id/pick_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/item_outline_rounded_oval"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/return_stock_datepicker_text"
+                style="@style/NormalTextLabel"
+                android:layout_centerVertical="true"
+                android:text="12 sep 2021"
+                android:textColor="@color/dark_grey" />
+
+            <ImageView
+                android:layout_width="17dp"
+                android:layout_height="17dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="10dp"
+                android:src="@mipmap/ic_calendar_blue" />
+        </RelativeLayout>
+
+        <!-- Sales Person -->
+
+        <TextView
+            style="@style/BoldTextLabel"
+            android:layout_marginTop="20dp"
+            android:text="@string/salesperson" />
+
+        <com.skydoves.powerspinner.PowerSpinnerView
+            android:id="@+id/select_salesperson_spinner"
+            style="@style/CustomSpinnerRoundedOval"
+            android:layout_marginTop="10dp"
+            android:hint="@string/select_supplier" />
+
+    </LinearLayout>
+</ScrollView>

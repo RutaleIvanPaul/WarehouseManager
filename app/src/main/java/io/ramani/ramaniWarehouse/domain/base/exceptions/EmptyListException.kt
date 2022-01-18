@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.domain.entities.exceptions
+package io.ramani.ramaniWarehouse.domain.base.exceptions
 
 /**
  * Created by Amr on 10/24/17.

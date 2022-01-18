@@ -1,10 +1,10 @@
 package io.ramani.ramaniWarehouse.data.common.network
 
-import io.ramani.ramaniWarehouse.core.domain.presentation.language.IStringProvider
+import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.entities.BaseErrorResponse
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.*
-import io.ramani.ramaniWarehouse.core.domain.exceptions.NotAuthenticatedException
-import io.ramani.ramaniWarehouse.core.domain.exceptions.PermissionsChangedException
+import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
+import io.ramani.ramaniWarehouse.domainCore.exceptions.PermissionsChangedException
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketException

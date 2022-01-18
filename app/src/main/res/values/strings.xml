@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RamaniWarehouse</string>
+    <string name="app_name">Ramani Warehouse</string>
     <string name="yes">yes</string>
     <string name="an_error_has_occured_please_try_again">An error has occurred. Please try again</string>
     <string name="cancel">cancel</string>
@@ -7,4 +7,167 @@
     <string name="ok_button">ok</string>
     <string name="retry">retry</string>
     <string name="oops_no_signal_check_your_internet_connection">Oops no signal! check your internet connection</string>
+    <string name="title_sign_in">sign in</string>
+    <string name="confirm_title">Confirm</string>
+    <string name="title_welcome_to">Welcome to</string>
+    <string name="title_our_privacy_policy">our privacy policy</string>
+    <string name="required_field">This field is required</string>
+    <string name="logout">Logout</string>
+    <string name="confirm_logout">Are you sure you want to logout?</string>
+
+
+    <string name="salesperson">Salesperson</string>
+    <string name="pickdate">Pick Date</string>
+
+    <!-- Warehouse -->
+    <string name="warehouse">Warehouse</string>
+    <string name="ghala_brackets">(ghala)</string>
+    <string name="incoming_stock">Incoming stock from the supplier</string>
+    <string name="warehouse_stock">Warehouse Stock</string>
+    <string name="assign_stock">Assign Stock</string>
+    <string name="return_stock">Return Stock</string>
+    <string name="return_success">Return Success</string>
+    <string name="activities">Activities</string>
+    <string name="stock_report">Stock Report</string>
+    <string name="assignment_report">Assignment Report</string>
+    <string name="stock_management">Stock Management</string>
+
+
+    <!-- Common Text -->
+    <string name="continue_">Continue</string>
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="done">Done</string>
+    <string name="edit">Edit</string>
+    <string name="sign">Sign</string>
+    <string name="signed">Signed</string>
+    <string name="print">Print</string>
+
+    <!-- Receive Stock -->
+    <string name="receive_stock">Receive Stock</string>
+
+    <string name="ramani_orders">Ramani Orders</string>
+    <string name="others">Others</string>
+
+    <string name="receive_now">Receive Now</string>
+
+    <string name="supplier">Supplier</string>
+    <string name="receiving_date">Receiving Date</string>
+    <string name="select_supplier">Select Supplier</string>
+    <string name="supporting_document">Supporting Document</string>
+    <string name="take_picture_now">Take Picture Now</string>
+    <string name="confirm_delete_photo">Are you sure you want to delete this photo?</string>
+
+    <string name="products">Products</string>
+    <string name="added">Added</string>
+    <string name="product">Product</string>
+    <string name="add_product">Add Products</string>
+    <string name="units">Units</string>
+    <string name="accepted">Accepted</string>
+    <string name="declined">Declined</string>
+    <string name="why_declined">Why Declined</string>
+    <string name="unit_price">Unit Price</string>
+    <string name="parameter">Parameter</string>
+    <string name="size">Size</string>
+    <string name="add_with_plus">+ Add</string>
+    <string name="expire_date">Expire Date</string>
+
+    <string name="confirm">Confirm</string>
+
+    <string name="store_keeper">Store Keeper</string>
+    <string name="store_keeper_hint">Enter store keeper name</string>
+    <string name="delivery_person">Delivery Person</string>
+    <string name="delivery_person_hint">Enter delivery person name</string>
+
+    <string name="assignment_success">Assignment Success</string>
+
+    <!-- Assignment Report -->
+    <string name="assigned">Assigned</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="pick_start_date">Pick Start Date</string>
+    <string name="pick_end_date">Pick End Date</string>
+
+    <string name="start_goods_issued">*** START OF GOODS ISSUED ***</string>
+    <string name="start_goods_returned">*** START OF GOODS RETURNED ***</string>
+
+    <string name="end_goods_issued">*** END OF GOODS ISSUED ***</string>
+    <string name="end_goods_returned">*** END OF GOODS RETURNED ***</string>
+
+
+    <string name="goods">Goods</string>
+    <string name="goods_issued">Goods Issued</string>
+    <string name="goods_returned">Goods Returned</string>
+    <string name="quantity">Quantity</string>
+    <string name="no_stocks">No stocks</string>
+
+    <!-- Warning Messages -->
+    <string name="warning_select_supplier">Please select supplier</string>
+    <string name="warning_add_product">Please add one more of product</string>
+    <string name="warning_select_product">Please select product</string>
+    <string name="warning_select_unit">Please select unit</string>
+    <string name="warning_put_amount">You cannot add product without amount</string>
+    <string name="warning_select_declined_reason">Please select declined reason</string>
+    <string name="warning_invalid_unit">Invalid unit price</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="_4">4</string>
+    <string name="Confirmed">Confirmed</string>
+    <string name="okay_title">Okay</string>
+
+
+    <string name="warning_no_signed_store_keeper">Please enter store keeper name and sign</string>
+    <string name="warning_no_signed_delivery_person">Please enter delivery person name and sign</string>
+    <string name="quantity_5">5</string>
+    <string name="order_from">Order from: {{warehouse}}</string>
+    <string name="date">Date:</string>
+    <string name="invoice">Invoice:</string>
+    <string name="accept_confirm"><![CDATA[Accept & Confirm]]></string>
+    <string name="total_amount">Total Amount</string>
+    <string name="no_data_available">No Data Available</string>
+    <string name="missing_quantity">Cannot Confirm without entering quantity</string>
+    <string name="proforma_invoice">Proforma Invoice</string>
+    <string name="clear_signature">Clear Signature</string>
+    <string name="missing_product_selection">Select at least one product to proceed</string>
+    <string name="hint_qty">Eg. 19</string>
+    <string name="assign_product">Assign Product</string>
+    <string name="start_of_goods_returned">***START OF GOODS RETURNED***</string>
+    <string name="start_of_goods_assigned">***START OF GOODS ASSIGNED***</string>
+    <string name="start_of_goods_issued">***START OF GOODS ISSUED***</string>
+    <string name="end_of_goods_returned">***END OF GOODS RETURNED***</string>
+    <string name="end_of_goods_assigned">***END OF GOODS ASSIGNED***</string>
+    <string name="company_logo">company logo</string>
+    <string name="goods_issued_note">Goods Issued Note</string>
+    <string name="masyl_general_enteprices">Masyl General Enteprises</string>
+    <string name="date_24_july_2021">Date: 24 July 2021</string>
+    <string name="assigned_to">Assigned to</string>
+    <string name="christian_michael">Christian Michael</string>
+    <string name="assigned_to_signature">Assigned to Signature</string>
+    <string name="store_keeper_signature">Store Keeper Signature</string>
+    <string name="returned">Returned</string>
+    <string name="assigned_label">Assigned</string>
+    <string name="view_receipt">View Receipt</string>
+    <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
+    <string name="qty">qty</string>
+    <string name="status">status</string>
+    <string name="receive">Receive</string>
+    <string name="received">Received</string>
+    <string name="incoming">Incoming</string>
+    <string name="percent_delivered">Percent delievered</string>
+    <string name="batch_no">Batch No.</string>
+    <string name="qty_accepted">Qty Accepted</string>
+    <string name="qty_declined">Qty Declined</string>
+    <string name="decline_reason">Decline Reason</string>
+    <string name="qty_validation">Accepted added to declined quantity should equal to {{product_qty}}</string>
+    <string name="missing_store_keeper_signature">Missing store keeper signature</string>
+    <string name="missing_delivery_person_signature">Missing delivery person signature</string>
+    <string name="temp">Temprature</string>
+    <string name="receive_success">Receive success</string>
+    <string name="assign_success">Assignment Successful</string>
+    <string name="no_printer">Could not Find Printer Connected to device.</string>
+    <string name="printer_opened">Printer Opened</string>
+    <string name="printed">Printed.</string>
+    <string name="edit_assignment">Edit</string>
+    <string name="record_assignemnt_number">Please enter number to assign</string>
+    <string name="start_of_goods_received">***START OF GOODS RECEIVED***</string>
+    <string name="end_of_goods_received">***END OF GOODS RECEIVED***</string>
 </resources>

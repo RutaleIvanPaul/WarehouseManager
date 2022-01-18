@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.core.domain.validation
+package io.ramani.ramaniWarehouse.domainCore.validation
 
 import java.util.*
 import java.util.regex.Pattern

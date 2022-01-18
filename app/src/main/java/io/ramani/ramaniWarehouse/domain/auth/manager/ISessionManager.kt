@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.domain.auth.manager
 
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
+import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -14,6 +15,8 @@ interface ISessionManager {
     fun getLoggedInUser(): Single<UserModel>
 
     fun logout(): Completable
+
+    fun getCurrentWarehouse():Single<WarehouseModel>
 
 
 }

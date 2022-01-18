@@ -1,6 +1,6 @@
 package io.ramani.ramaniWarehouse.domain.entities
 
-import io.ramani.ramaniWarehouse.core.domain.entities.IBuilder
+import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
 data class PaginationMeta(val total: Int = 0,
                           val count: Int = 0,

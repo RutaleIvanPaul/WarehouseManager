@@ -8,8 +8,9 @@ import io.ramani.ramaniWarehouse.app.common.download.FilesDownloadManager
 import io.ramani.ramaniWarehouse.app.common.download.IFilesDownloadManager
 import io.ramani.ramaniWarehouse.app.common.download.IMediaDownloadManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivityLifeCycleCallbacks
-import io.ramani.ramaniWarehouse.core.domain.prefs.Prefs
+import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
+import io.ramani.ramaniWarehouse.domainCore.printer.PX400Printer
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -32,6 +33,7 @@ class App : Application(), KodeinAware {
         bind<Prefs>() with singleton { PrefsManager(this@App) }
         bind<IMediaDownloadManager>() with singleton { DownloadManager(this@App, instance(), instance()) }
         bind<IFilesDownloadManager>() with singleton { FilesDownloadManager(this@App, instance()) }
+        bind<PX400Printer>() with singleton { PX400Printer(this@App)}
         import(appModule)
     }
 

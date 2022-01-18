@@ -1,9 +1,9 @@
 package io.ramani.ramaniWarehouse.domain.datetime
 
 import android.annotation.SuppressLint
-import io.ramani.ramaniWarehouse.core.domain.datetime.IDateFormatter
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_24_hours
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_AM_PM
+import io.ramani.ramaniWarehouse.domainCore.datetime.IDateFormatter
 import io.ramani.ramaniWarehouse.domainCore.datetime.IDateTimeManager
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
@@ -26,23 +26,19 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         const val FULL_MONTH_FORMAT = "MMMM"
         const val FULL_MONTH_YEAR_FORMAT = "MMMM yyyy"
         const val SERVER_SEND_DATE_FORMAT = "dd/MM/yyyy"
-        const val SERVER_SEND_TIME_FORMAT = "HH:mm"
-        const val SERVER_SEND_TIME_WITH_SECONDS_FORMAT = "HH:mm:ss"
         const val DURATION_TIME_FORMAT = "mm:ss"
         const val SERVER_RECEIVE_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
         const val VIEW_DISPLAY_DATE_FORMAT = "hh:mm a • dd/MM, yyyy"
         const val SERVER_RECEIVE_TIME_FORMAT = "dd/MM/yyyy HH:mm:ss"
-        const val CHILD_DEVELOPMENT_FORMAT = "d MMM yyyy"
-        const val BILLING_DATE_DISPLAY_FORMAT = "dd MMM YYYY"
-        const val CALENDAR_FORMAT = "dd MMM yy"
-        const val HOLIDAY_DAYS_LIST_FORMAT = "dd MMM yyyy"
-        const val EVENT_FORMAT = "EEE, dd MMM"
+        const val CALENDAR_FORMAT = "dd MMM yyyy"
         const val UTC_TIME_ZONE = "UTC"
         const val MEDIA_DOWNLOAD_FORMAT = "yyyyMMdd"
         const val TIME_FORMAT_AM_PM = "hh:mm a"
         const val TIME_FORMAT_24_hours = "HH:mm"
         const val NEWS_FFED_DATE_FORMAT = "dd MMMM"
         const val ACTIVITY_DEADLINE_FORMAT = "EEE, dd MMM yy"
+        const val DATE_WITH_DASHES = "dd-MM-yyyy"
+        const val DATE_WITH_DASHES_1 = "yyyy-MM-dd"
     }
 
 
@@ -61,6 +57,10 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
 
     fun convertToServerDateFormat(date: Long): String = format(date, SERVER_RECEIVE_DATE_FORMAT)
     fun convertToDisplayDateFormat(date: Long): String = format(date, VIEW_DISPLAY_DATE_FORMAT)
+    fun convertToDateWithDashes(date: Long): String = format(date, DATE_WITH_DASHES)
+    fun convertToDateWithDashes1(date: Long): String = format(date, DATE_WITH_DASHES_1)
+    fun convertToCalendarFormatDate(date: Long): String = format(date, CALENDAR_FORMAT)
+
 
     fun getDateInMillisFromDate(date: String): Long {
         return try {
@@ -121,6 +121,14 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         }
     }
 
+    fun getCalendarTimeString(date: Date): String {
+        val simpleDateFormat = SimpleDateFormat(CALENDAR_FORMAT)
+        return simpleDateFormat.format(date)
+    }
+
+    fun getServerTimeFromServerDate(createdAt: String?): String =
+        //2021-12-22T16:31:03.823Z
+        createdAt?.split("T")?.get(1)?.split(".")?.get(0) ?: ""
 
 }
 
@@ -247,4 +255,8 @@ private fun parseDate(date: String, pattern: String) =
 
 private fun dateTimeFormatter(pattern: String) =
     DateTimeFormatterBuilder().appendPattern(pattern).toFormatter()
+
+fun getServerTimeFromServerDate(createdAt: String?): String =
+    //2021-12-22T16:31:03.823Z
+    createdAt?.split("T")?.get(1)?.split(".")?.get(0) ?: ""
 

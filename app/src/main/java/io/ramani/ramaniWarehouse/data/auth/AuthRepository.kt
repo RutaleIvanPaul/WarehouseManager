@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.data.auth
 
 import io.ramani.ramaniWarehouse.domain.auth.AuthDataSource
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
+import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import io.reactivex.Completable
 import io.reactivex.Single
 
@@ -10,6 +11,8 @@ class AuthRepository(
     private val localAuthDataSource: AuthDataSource
 ) :
     AuthDataSource {
+    override fun login(phone: String, password: String): Single<UserModel> =
+        remoteAuthDataSource.login(phone, password)
 
 
     override fun getCurrentUser(): Single<UserModel> =
@@ -23,5 +26,8 @@ class AuthRepository(
 
     override fun refreshAccessToken(token: String): Completable =
         localAuthDataSource.refreshAccessToken(token)
+
+    override fun getCurrentWarehouse(): Single<WarehouseModel> =
+        localAuthDataSource.getCurrentWarehouse()
 
 }

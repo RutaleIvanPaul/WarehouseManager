@@ -27,12 +27,12 @@ object OkHttpClientHelper {
                 addInterceptor(headersInterceptor)
                 addInterceptor(chuckInterceptor)
                 addInterceptor { chain ->
-                    val original = chain.request()
-                    val httpUrl = original.url()
-                    val newUrl = httpUrl.newBuilder().addQueryParameter("lang", prefsManager.language).build()
-                    val requestBuilder = original.newBuilder().url(newUrl)
-                    val req = requestBuilder.build()
-                    chain.proceed(req)
+//                    val original = chain.request()
+//                    val httpUrl = original.url()
+//                    val newUrl = httpUrl.newBuilder().addQueryParameter("lang", prefsManager.language).build()
+//                    val requestBuilder = original.newBuilder().url(newUrl)
+//                    val req = requestBuilder.build()
+                    chain.proceed(chain.request())
                 }
                 @Suppress("ConstantConditionIf")
                 if (BuildConfig.HTTP_LOGGING_ENABLED) {
