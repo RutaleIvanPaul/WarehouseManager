@@ -30,6 +30,7 @@
 
                 <TextView
                     style="@style/NormalTextLabel"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="@string/start_goods_issued"
                     android:textSize="11sp"
                     android:textStyle="bold" />
@@ -43,21 +44,27 @@
                 <TextView
                     style="@style/LargeTextLabel"
                     android:layout_marginTop="20dp"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="Masyl General Enterprises"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="20dp"
                     android:text="@string/goods_issued_note"
-                    android:textSize="9sp" />
+                    android:fontFamily="@font/raleway_bold"
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/stock_receive_print_issued_date"
                     style="@style/NormalTextLabel"
+                    android:fontFamily="@font/raleway_bold"
                     android:layout_marginTop="20dp"
                     android:text="Date: 24 July 2021"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
@@ -82,22 +89,26 @@
                         <TextView
                             style="@style/NormalTextLabel"
                             android:text="@string/store_keeper"
-                            android:textSize="11sp" />
+                            android:fontFamily="@font/raleway_bold"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/stock_receive_print_store_keeper_name"
                             style="@style/NormalTextLabel"
                             android:layout_marginTop="10dp"
+                            android:fontFamily="@font/raleway_bold"
                             android:text="Christian Michael"
                             android:textColor="@color/mid_dark_grey"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/stock_receive_print_store_keeper_signature"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:scaleType="fitXY"
                             android:layout_marginTop="5dp"
+                            android:scaleType="fitXY"
                             android:src="@mipmap/ic_company_logo" />
                     </LinearLayout>
 
@@ -119,22 +130,26 @@
                         <TextView
                             style="@style/NormalTextLabel"
                             android:text="@string/assigned_to"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            android:fontFamily="@font/raleway_bold"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/stock_receive_print_delivery_person_name"
                             style="@style/NormalTextLabel"
                             android:layout_marginTop="10dp"
                             android:text="Claudian Bernet"
+                            android:fontFamily="@font/raleway_bold"
                             android:textColor="@color/mid_dark_grey"
-                            android:textSize="11sp" />
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/stock_receive_print_delivery_person_signature"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
-                            android:scaleType="fitXY"
                             android:layout_marginTop="5dp"
+                            android:scaleType="fitXY"
                             android:src="@mipmap/ic_company_logo" />
                     </LinearLayout>
                 </LinearLayout>
@@ -200,6 +215,7 @@
                     android:layout_marginTop="50dp"
                     android:text="@string/end_goods_issued"
                     android:textSize="11sp"
+                    android:fontFamily="@font/raleway_bold"
                     android:textStyle="bold" />
 
             </LinearLayout>
