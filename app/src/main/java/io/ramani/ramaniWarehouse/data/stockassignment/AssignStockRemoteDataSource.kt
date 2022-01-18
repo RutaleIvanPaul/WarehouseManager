@@ -117,7 +117,7 @@ class AssignStockRemoteDataSource(
                 createTextFormData(postAssignedItems.salesPersonUID),
                 createTextFormData(postAssignedItems.stockAssignmentType),
                 createTextFormData(postAssignedItems.warehouseId),
-                createTextFormData(Gson().toJson(postAssignedItems.listOfProducts)),
+                createTextFormData(Gson().toJson(postAssignedItems.listOfProducts.distinct())),
                 createImageFormData(postAssignedItems.signatureInfoStoreKeeper!!),
                 createImageFormData(postAssignedItems.signatureInfoSalesPerson!!)
             ).flatMap {
