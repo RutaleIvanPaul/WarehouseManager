@@ -7,19 +7,19 @@ import io.ramani.ramaniWarehouse.domain.stockassignment.model.RewardEntity
 class RemoteRewardMapper(): ModelMapper<Reward, RewardEntity> {
     override fun mapFrom(from: Reward): RewardEntity {
         return RewardEntity(
-            from._id,
-            from.createdBy,
-            from.dateCreated,
-            from.isActive,
-            from.maxValue,
-            from.name,
-            from.rewardType,
-            from.rewardUnitPrice,
-            from.rewardUnits,
-            from.rewardValue,
-            from.triggerType,
-            from.triggerUnits,
-            from.triggerValue
+            from._id?:"",
+            from.createdBy?:"",
+            from.dateCreated?:"",
+            from.isActive?:false,
+            from.maxValue?:0,
+            from.name?:"",
+            from.rewardType?:"",
+            from.rewardUnitPrice?:0.0,
+            from.rewardUnits?:"",
+            from.rewardValue?:0,
+            from.triggerType?:"",
+            from.triggerUnits?:"",
+            from.triggerValue?:0
         )
     }
 
