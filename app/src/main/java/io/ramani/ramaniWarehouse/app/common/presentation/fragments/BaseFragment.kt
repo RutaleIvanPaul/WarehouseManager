@@ -325,7 +325,7 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
         if (editText.text.isNotBlank())
             return editText.text.toString().toInt()
         else
-            return -1
+            return 0
     }
 
     protected fun getFieldValueByDouble(editText: EditText): Double {
