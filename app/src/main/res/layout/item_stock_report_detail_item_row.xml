@@ -18,17 +18,21 @@
             style="@style/NormalTextLabel"
             android:layout_width="0dp"
             android:layout_weight="3"
+            android:fontFamily="@font/raleway_bold"
             android:text="@string/goods"
-            android:textSize="9sp" />
+            android:textSize="9sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/stock_report_detail_item_row_quantity"
             style="@style/NormalTextLabel"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:fontFamily="@font/raleway_bold"
             android:gravity="end"
             android:text="@string/quantity"
-            android:textSize="9sp" />
+            android:textSize="9sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <View
