@@ -68,6 +68,7 @@
                     android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/stock_receive_print_distributor_name"
                     style="@style/LargeTextLabel"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/raleway_bold"

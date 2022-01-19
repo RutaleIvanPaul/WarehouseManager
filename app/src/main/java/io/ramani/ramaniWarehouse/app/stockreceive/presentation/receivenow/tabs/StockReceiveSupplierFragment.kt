@@ -110,13 +110,15 @@ class StockReceiveSupplierFragment : BaseFragment() {
     }
 
     override fun onPause() {
-        supplier_receiving_select_supplier_spinner.dismiss()
+        if (supplier_receiving_select_supplier_spinner != null)
+            supplier_receiving_select_supplier_spinner.dismiss()
 
         super.onPause()
     }
 
     override fun onDestroy() {
-        supplier_receiving_select_supplier_spinner.dismiss()
+        if (supplier_receiving_select_supplier_spinner != null)
+            supplier_receiving_select_supplier_spinner.dismiss()
 
         super.onDestroy()
     }
