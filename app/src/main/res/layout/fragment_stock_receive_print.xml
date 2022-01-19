@@ -78,16 +78,16 @@
                 <TextView
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="20dp"
-                    android:text="@string/goods_issued_note"
                     android:fontFamily="@font/raleway_bold"
+                    android:text="@string/goods_issued_note"
                     android:textSize="9sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/stock_receive_print_issued_date"
                     style="@style/NormalTextLabel"
-                    android:fontFamily="@font/raleway_bold"
                     android:layout_marginTop="20dp"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="Date: 24 July 2021"
                     android:textSize="9sp"
                     android:textStyle="bold" />
@@ -114,8 +114,8 @@
 
                         <TextView
                             style="@style/NormalTextLabel"
-                            android:text="@string/store_keeper"
                             android:fontFamily="@font/raleway_bold"
+                            android:text="@string/store_keeper"
                             android:textSize="11sp"
                             android:textStyle="bold" />
 
@@ -124,8 +124,9 @@
                             style="@style/NormalTextLabel"
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/raleway_bold"
+                            android:gravity="center"
                             android:text="Christian Michael"
-                            android:textColor="@color/mid_dark_grey"
+                            android:textColor="@color/black"
                             android:textSize="11sp"
                             android:textStyle="bold" />
 
@@ -155,18 +156,19 @@
 
                         <TextView
                             style="@style/NormalTextLabel"
+                            android:fontFamily="@font/raleway_bold"
                             android:text="@string/assigned_to"
                             android:textSize="11sp"
-                            android:fontFamily="@font/raleway_bold"
                             android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/stock_receive_print_delivery_person_name"
                             style="@style/NormalTextLabel"
                             android:layout_marginTop="10dp"
-                            android:text="Claudian Bernet"
                             android:fontFamily="@font/raleway_bold"
-                            android:textColor="@color/mid_dark_grey"
+                            android:gravity="center"
+                            android:text="Claudian Bernet"
+                            android:textColor="@color/black"
                             android:textSize="11sp"
                             android:textStyle="bold" />
 
@@ -239,9 +241,9 @@
                 <TextView
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="50dp"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="@string/end_goods_issued"
                     android:textSize="11sp"
-                    android:fontFamily="@font/raleway_bold"
                     android:textStyle="bold" />
 
             </LinearLayout>
