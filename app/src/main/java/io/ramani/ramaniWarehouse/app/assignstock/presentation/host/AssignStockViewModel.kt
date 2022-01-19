@@ -16,6 +16,7 @@ import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.Pro
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
+import io.ramani.ramaniWarehouse.data.stockassignment.model.AssignProductsRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.ConfirmProducts
 import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItems
 import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItemsResponse
@@ -34,7 +35,7 @@ class AssignStockViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
-    private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, PostAssignedItems>,
+    private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>,
     private val dateFormatter: DateFormatter,
     private val assignedItemsMapper: ModelMapper<ProductsUIModel, ConfirmProducts>,
     private val prefs: PrefsManager
@@ -68,22 +69,28 @@ class AssignStockViewModel(
     fun assignStock() {
         startLoading.postValue(true)
         val assignedItems = assignedItemDetails
+        Log.e("111111 ASVM", assignedItems.toString())
+        Log.e("111111 ASVM SA", assignedItems.salespersonName)
+
+        val items = PostAssignedItems(
+            assignedItems.storekeeperName,
+            "",
+            userModel!!.companyId,
+            dateFormatter.convertToCalendarFormatDate(now()),
+            ASSIGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
+            assignedItems.salespersonName,
+            userModel!!.uuid,
+            warehouseModel!!.id!!,
+            "assignment",
+            assignedItems.signatureInfoStoreKeeper,
+            assignedItems.signatureInfoSalesPerson
+        )
+
+        val assignProductsRequestModel = AssignProductsRequestModel(items)
 
 
         val single = postAssignedStockUseCase.getSingle(
-            PostAssignedItems(
-                assignedItems.storekeeperName,
-                "",
-                userModel!!.companyId,
-                dateFormatter.convertToCalendarFormatDate(now()),
-                ASSIGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
-                assignedItems.salespersonName,
-                userModel!!.uuid,
-                warehouseModel!!.id!!,
-                "assignment",
-                assignedItems.signatureInfoStoreKeeper,
-                assignedItems.signatureInfoSalesPerson
-            )
+            assignProductsRequestModel
         )
         subscribeSingle(
             single,
@@ -91,7 +98,7 @@ class AssignStockViewModel(
                 isLoadingVisible = false
                 startLoading.postValue(false)
                 ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.postValue(0)
-                AssignedItemDetails.clearAssignedItemDetails()
+                //AssignedItemDetails.clearAssignedItemDetails()
                 onItemsAssignedLiveData.postValue(true)
                 prefs.invalidate_cache_company_products = true
             }, onError = {
@@ -115,7 +122,7 @@ class AssignStockViewModel(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
-        private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, PostAssignedItems>,
+        private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>,
         private val dateFormatter: DateFormatter,
         private val assignedItemsMapper: ModelMapper<ProductsUIModel, ConfirmProducts>,
         private val prefs: PrefsManager

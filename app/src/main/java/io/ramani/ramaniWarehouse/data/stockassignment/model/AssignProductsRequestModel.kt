@@ -4,7 +4,7 @@ import io.ramani.ramaniWarehouse.domain.base.v2.Params
 import okhttp3.RequestBody
 
 data class AssignProductsRequestModel(
-    val body: RequestBody
+    val postAssignmentItem: PostAssignedItems
 ) : Params {
 
 }

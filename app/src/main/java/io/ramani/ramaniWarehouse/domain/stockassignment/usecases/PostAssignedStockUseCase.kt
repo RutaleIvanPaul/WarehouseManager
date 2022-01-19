@@ -17,6 +17,6 @@ class PostAssignedStockUseCase(
     private val assignStockDataSource: AssignStockDataSource
 ):BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>(threadExecutor,postThreadExecutor) {
     override fun buildUseCaseSingle(params: AssignProductsRequestModel?): Single<PostAssignedItemsResponse> =
-        assignStockDataSource.postAssignedStock(params!!.body)
+        assignStockDataSource.postAssignedStock(params!!)
 
 }
