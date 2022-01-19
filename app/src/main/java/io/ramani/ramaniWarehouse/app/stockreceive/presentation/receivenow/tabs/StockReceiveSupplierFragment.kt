@@ -140,7 +140,6 @@ class StockReceiveSupplierFragment : BaseFragment() {
                 items.add(supplier.name)
 
             supplier_receiving_select_supplier_spinner.setItems(items)
-
         })
     }
 
@@ -257,7 +256,7 @@ class StockReceiveSupplierFragment : BaseFragment() {
 
     private fun checkIfGoNext() {
         STOCK_RECEIVE_MODEL.supplierData?.let {
-            if (it.supplier.isNotNull() && !it.documents.isNullOrEmpty())
+            if (it.supplier.isNotNull() /* && !it.documents.isNullOrEmpty() */)
                 STOCK_RECEIVE_MODEL.allowToGoNextLiveData.postValue(Pair(0, true))
         }
     }
