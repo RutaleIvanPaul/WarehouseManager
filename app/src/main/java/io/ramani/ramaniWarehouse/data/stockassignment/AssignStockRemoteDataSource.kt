@@ -170,61 +170,37 @@ class AssignStockRemoteDataSource(
                 "listOfProducts",
                 Gson().toJson(postAssignedItems.postAssignmentItem.listOfProducts)
             )
-            .addFormDataPart(
-                "storeKeeperSignature",
-                postAssignedItems.postAssignmentItem.signatureInfoSalesPerson.toString()
+        storeKeeperSignature?.let {
+            builder.addFormDataPart(
+                "storeKeeperSignature", postAssignedItems.postAssignmentItem.name ?: "sale001",
+                createOwnImageFormData(storeKeeperSignature)
             )
-            .addFormDataPart(
-                "storeKeeperSignature",
-                postAssignedItems.postAssignmentItem.signatureInfoStoreKeeper.toString()
+        }
+        deliveryPersonSignature?.let {
+            builder.addFormDataPart(
+                "deliveryPersonSignature",
+                postAssignedItems.postAssignmentItem.name ?: "del001",
+                createOwnImageFormData(deliveryPersonSignature)
             )
+        }
 
-//        storeKeeperSignature?.let {
-//            Log.e("111111 bitmap", it.toString())
-//            builder.addFormDataPart(
-//                "storeKeeperSignature", "jhhjkhjkh",
-//                createOwnImageFormData(
-//                    ASSIGNMENT_RECEIVE_MODELS.salesSign.value
-//                )
-//            )
-//        }
-//        /**
-//         *   storeKeeperSignature?.let {
-//        builder.addFormDataPart(
-//        "storeKeeperSignature", RECEIVE_MODELS.invoiceModelView?.storeKeeperName ?: "",
-//        createImageFormData(storeKeeperSignature)
-//        )
-//        }
-//         */
-//
-//        deliveryPersonSignature?.let {
-//            builder.addFormDataPart(
-//                "salesPersonSignature", AssignedItemDetails.salespersonName,
-//                //                    convertBitmapToFile(ASSIGNMENT_RECEIVE_MODELS.salesSign.value)
-//
-////                createOwnImageFormData(
-////                    //ASSIGNMENT_RECEIVE_MODELS.salesSign.value
-//////                    convertBitmapToFile(ASSIGNMENT_RECEIVE_MODELS.salesSign.value)
-////
-////                )
-//            )
-//        }
-//        return builder.build()
-//    }
+        return builder.build()
+    }
 
-//    private fun createOwnImageFormData(bitmap: Bitmap?): RequestBody {
-////        val bos = ByteArrayOutputStream()
-////        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-//        if(AssignedItemDetails.signatureInfoStoreKeeper == null){
-//            Log.e("11111111122", "null")
-//
-//        }
-//        else{
-//            Log.e("11111111122", "NOT null")
-//
-//        }
-//        return RequestBody.create(MediaType.parse("image/*"), AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper?.toFile())
-//    }
+
+     fun createOwnImageFormData(bitmap: Bitmap?): RequestBody {
+//        val bos = ByteArrayOutputStream()
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
+        if(AssignedItemDetails.signatureInfoStoreKeeper == null){
+            Log.e("11111111122", "null")
+
+        }
+        else{
+            Log.e("11111111122", "NOT null")
+
+        }
+        return RequestBody.create(MediaType.parse("image/*"), AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper?.toFile())
+    }
 
 //    private fun createOwnImageFormData(bitmap: Bitmap?): RequestBody {
 //        val bos = ByteArrayOutputStream()
@@ -240,7 +216,11 @@ class AssignStockRemoteDataSource(
 //        bitmap.compress(Bitmap.CompressFormat.PNG, 0, baos) // It can be also saved it as JPEG
 //        val bitmapdata = baos.toByteArray()
 //    }
+//
+//        return builder.build()
+//    }
 
-        return builder.build()
-    }
+//    fun convertBitMap(bitmap: Bitmap?): Unit{
+//        return bitmap?.compress(Bitmap.CompressFormat.PNG, 90, ByteArrayOutputStream());
+//    }
 }
