@@ -55,6 +55,10 @@ class StockReceiveConfirmFragment : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
+    }
+
+    override fun onResume() {
+        super.onResume()
 
         updateView()
     }

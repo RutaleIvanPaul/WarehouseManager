@@ -201,13 +201,13 @@ class StockReceiveProductsFragment : BaseFragment() {
         }
 
         val acceptedAmounts = getFieldValueByInt(products_accepted_amount)
-        val declinedAmouunts = getFieldValueByInt(products_declined_amount)
-        if (acceptedAmounts < 0 && declinedAmouunts < 0) {
+        val declinedAmounts = getFieldValueByInt(products_declined_amount)
+        if (acceptedAmounts <= 0 && declinedAmounts <= 0) {
             errorDialog(getString(R.string.warning_put_amount))
             return false
         }
 
-        if (declinedAmouunts > 0) {
+        if (declinedAmounts > 0) {
             if (products_why_declined_spinner.selectedIndex < 0) {
                 errorDialog(getString(R.string.warning_select_declined_reason))
                 return false
@@ -228,8 +228,8 @@ class StockReceiveProductsFragment : BaseFragment() {
                 availableProducts[products_product_spinner.selectedIndex],
                 products_units_spinner.text.toString(),
                 acceptedAmounts,
-                declinedAmouunts,
-                if (declinedAmouunts > 0) products_why_declined_spinner.text.toString() else "",
+                declinedAmounts,
+                if (declinedAmounts > 0) products_why_declined_spinner.text.toString() else "",
                 unitPrice,
                 null,
                 expireDate
@@ -239,8 +239,8 @@ class StockReceiveProductsFragment : BaseFragment() {
             updateNeedProduct?.product = availableProducts[products_product_spinner.selectedIndex]
             updateNeedProduct?.units = products_units_spinner.text.toString()
             updateNeedProduct?.accepted = acceptedAmounts
-            updateNeedProduct?.declined = declinedAmouunts
-            updateNeedProduct?.declinedReason = if (declinedAmouunts > 0) products_why_declined_spinner.text.toString() else ""
+            updateNeedProduct?.declined = declinedAmounts
+            updateNeedProduct?.declinedReason = if (declinedAmounts > 0) products_why_declined_spinner.text.toString() else ""
             updateNeedProduct?.unitPrice = unitPrice
             updateNeedProduct?.expireDate = expireDate
 
