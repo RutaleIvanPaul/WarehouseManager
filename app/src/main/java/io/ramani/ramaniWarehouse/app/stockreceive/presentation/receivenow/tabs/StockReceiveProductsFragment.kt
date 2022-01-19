@@ -118,17 +118,27 @@ class StockReceiveProductsFragment : BaseFragment() {
     }
 
     override fun onPause() {
-        products_product_spinner.dismiss()
-        products_units_spinner.dismiss()
-        products_why_declined_spinner.dismiss()
+        if (products_product_spinner != null)
+            products_product_spinner.dismiss()
+
+        if (products_units_spinner != null)
+            products_units_spinner.dismiss()
+
+        if (products_why_declined_spinner != null)
+            products_why_declined_spinner.dismiss()
 
         super.onPause()
     }
 
     override fun onDestroy() {
-        products_product_spinner.dismiss()
-        products_units_spinner.dismiss()
-        products_why_declined_spinner.dismiss()
+        if (products_product_spinner != null)
+            products_product_spinner.dismiss()
+
+        if (products_units_spinner != null)
+            products_units_spinner.dismiss()
+
+        if (products_why_declined_spinner != null)
+            products_why_declined_spinner.dismiss()
 
         super.onDestroy()
     }

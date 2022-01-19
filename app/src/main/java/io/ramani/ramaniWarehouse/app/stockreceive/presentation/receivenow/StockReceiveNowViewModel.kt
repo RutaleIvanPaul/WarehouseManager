@@ -46,6 +46,7 @@ class StockReceiveNowViewModel(
 
     var userId = ""
     var companyId = ""
+    var companyName = ""
     var warehouseId = ""
     var userName = ""
 
@@ -61,6 +62,7 @@ class StockReceiveNowViewModel(
             userId = it.uuid
             userName = it.userName
             companyId = it.companyId
+            companyName = it.companyName
         }
 
         sessionManager.getCurrentWarehouse().subscribeBy {

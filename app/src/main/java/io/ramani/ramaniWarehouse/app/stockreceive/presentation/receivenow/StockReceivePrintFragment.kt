@@ -65,8 +65,9 @@ class StockReceivePrintFragment : BaseFragment() {
         super.initView(view)
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
 
-        val supplierData = STOCK_RECEIVE_MODEL.supplierData
+        stock_receive_print_distributor_name.text = viewModel.companyName
 
+        val supplierData = STOCK_RECEIVE_MODEL.supplierData
         supplierData.apply {
             date?.let {
                 stock_receive_print_issued_date.text = String.format(Locale.getDefault(), "Date : %s", dateFormatter.convertToCalendarFormatDate(it.time))
@@ -114,8 +115,8 @@ class StockReceivePrintFragment : BaseFragment() {
     private fun addItems(item: SelectedProductModel) {
         val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_receive_print_item_row, null)
         itemView.stock_receive_print_item_row_name.text = item.product?.name ?: ""
-        itemView.stock_receive_print_item_row_accepted.text = String.format(Locale.getDefault(), "%d Pc", item.accepted)
-        itemView.stock_receive_print_item_row_declined.text = String.format(Locale.getDefault(), "%d Pc", item.declined)
+        itemView.stock_receive_print_item_row_accepted.text = String.format(Locale.getDefault(), "%d %s", item.accepted, item.units)
+        itemView.stock_receive_print_item_row_declined.text = String.format(Locale.getDefault(), "%d %s", item.declined, item.units)
         stock_receive_print_items_container.addView(itemView)
     }
 
