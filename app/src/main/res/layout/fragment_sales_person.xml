@@ -53,7 +53,7 @@
             android:id="@+id/select_salesperson_spinner"
             style="@style/CustomSpinnerRoundedOval"
             android:layout_marginTop="10dp"
-            android:hint="@string/select_supplier" />
+            android:hint="@string/select_sales_person" />
 
     </LinearLayout>
 </ScrollView>
