@@ -9,12 +9,12 @@ plugins {
 
 android {
     signingConfigs {
-        staging {
-            storeFile file('D:\\AmrWork\\projects\\ramani-warehouse\\keystore\\RamaniWarehouse')
-            storePassword 'RamaniWarehouse'
-            keyAlias 'RamaniWarehouse'
-            keyPassword 'RamaniWarehouse'
-        }
+//        staging {
+//            storeFile file('D:\\AmrWork\\projects\\ramani-warehouse\\keystore\\RamaniWarehouse')
+//            storePassword 'RamaniWarehouse'
+//            keyAlias 'RamaniWarehouse'
+//            keyPassword 'RamaniWarehouse'
+//        }
     }
     def TRUE = "true"
     def FALSE = "false"
