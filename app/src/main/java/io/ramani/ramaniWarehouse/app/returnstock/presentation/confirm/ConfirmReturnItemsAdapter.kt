@@ -12,7 +12,7 @@ class ConfirmReturnItemsAdapter(
     override fun convert(holder: BaseViewHolder, item: AvailableProductItem) {
         with(holder){
             setText(R.id.item_confirm_return_product_name,item.productName)
-            setText(R.id.item_confirm_return_product_quantity, "${item.quantity} Pc")
+            setText(R.id.item_confirm_return_product_quantity, "${item.quantity} ${item.units}")
         }
     }
 }
