@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model
 
+import android.content.Context
 import android.graphics.Bitmap
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
@@ -13,6 +14,7 @@ object AssignedItemDetails {
     var assignedItems: MutableList<ProductsUIModel> = mutableListOf()
     var signatureInfoStoreKeeper: Bitmap? = null
     var signatureInfoSalesPerson: Bitmap? = null
+    val context: Context? = null
 
     fun clearAssignedItemDetails(){
         storekeeperName = ""

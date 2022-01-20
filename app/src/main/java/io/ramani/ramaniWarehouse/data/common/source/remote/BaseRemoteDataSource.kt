@@ -2,7 +2,7 @@ package io.ramani.ramaniWarehouse.data.common.source.remote
 
 import android.graphics.Bitmap
 import com.google.gson.JsonSyntaxException
-import io.ramani.ramaniWarehouse.app.common.io.toFile
+import io.ramani.ramaniWarehouse.app.common.io.bitmaptoFile
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.domain.base.exceptions.ItemNotFoundException
@@ -15,7 +15,6 @@ import io.reactivex.Single
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.HttpException
-import java.io.ByteArrayOutputStream
 
 /**
  * Created by Amr on 12/30/17.
@@ -88,6 +87,6 @@ abstract class BaseRemoteDataSource {
     }
 
     fun createImageFormData(bitmap: Bitmap): RequestBody {
-        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile())
+        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.bitmaptoFile())
     }
 }

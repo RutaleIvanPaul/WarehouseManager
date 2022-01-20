@@ -1,48 +1,39 @@
 package io.ramani.ramaniWarehouse.data.stockassignment
 
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import com.google.gson.Gson
-import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
-import io.ramani.ramaniWarehouse.app.common.io.toFile
-import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
-import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
+import io.ramani.ramaniWarehouse.app.common.io.bitmaptoFile
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
-import io.ramani.ramaniWarehouse.data.returnStock.model.SalespeopleRemoteModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.*
-import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.entities.BaseErrorResponse
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.*
-import io.ramani.ramaniWarehouse.domain.returnStock.ReturnStockDataSource
-import io.ramani.ramaniWarehouse.domain.returnStock.model.SalespeopleModel
 import io.ramani.ramaniWarehouse.domain.stockassignment.AssignStockDataSource
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
-import io.ramani.ramaniWarehouse.domain.stockassignment.usecases.PostAssignedStockUseCase
 import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
-import io.ramani.ramaniWarehouse.domainCore.observers.DefaultSingleObserver
-import io.ramani.ramaniWarehouse.domainCore.presentation.ErrorHandlerView
-import io.reactivex.Flowable
 import io.reactivex.Single
-import io.reactivex.disposables.Disposable
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.HttpException
-import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.IOException
+import java.io.OutputStream
 
 class AssignStockRemoteDataSource(
     private val assignStockAPI: AssignStockAPI,
@@ -50,6 +41,9 @@ class AssignStockRemoteDataSource(
     private val productRemoteMapper: ModelMapper<RemoteProductModel, ProductEntity>,
     private val prefs: PrefsManager
 ): AssignStockDataSource, BaseRemoteDataSource() {
+//    val context: Context = TODO()
+//    val kodein by closestKodein(context)
+
     override fun getSalesPerson(companyId: String): Single<List<SalesPersonModel>> =
         callSingle(
             assignStockAPI.getSalesPerson(companyId).flatMap {
@@ -144,7 +138,7 @@ class AssignStockRemoteDataSource(
         )
         return callSingle(
             assignStockAPI.postAssignedStock(body).flatMap {
-                Log.e("111111111", it.data.toString())
+                Log.e("dataaaaaa", it.data.toString())
                 Single.just(it.data)
             }
         )
@@ -173,14 +167,14 @@ class AssignStockRemoteDataSource(
         storeKeeperSignature?.let {
             builder.addFormDataPart(
                 "storeKeeperSignature", postAssignedItems.postAssignmentItem.name ?: "sale001",
-                createOwnImageFormData(storeKeeperSignature)
+                saveBitmapQ(postAssignedItems.postAssignmentItem.context, storeKeeperSignature, "storeKeeperSignature")
             )
         }
         deliveryPersonSignature?.let {
             builder.addFormDataPart(
-                "deliveryPersonSignature",
-                postAssignedItems.postAssignmentItem.name ?: "del001",
-                createOwnImageFormData(deliveryPersonSignature)
+                "salesPersonSignature",
+                "salesPersonSignature_file" ?: "del001",
+                saveBitmapQ(postAssignedItems.postAssignmentItem.context, deliveryPersonSignature, "salesPeronSignature")
             )
         }
 
@@ -199,7 +193,7 @@ class AssignStockRemoteDataSource(
             Log.e("11111111122", "NOT null")
 
         }
-        return RequestBody.create(MediaType.parse("image/*"), AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper?.toFile())
+        return RequestBody.create(MediaType.parse("image/png"), AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper?.bitmaptoFile())
     }
 
 //    private fun createOwnImageFormData(bitmap: Bitmap?): RequestBody {
@@ -223,4 +217,156 @@ class AssignStockRemoteDataSource(
 //    fun convertBitMap(bitmap: Bitmap?): Unit{
 //        return bitmap?.compress(Bitmap.CompressFormat.PNG, 90, ByteArrayOutputStream());
 //    }
+
+//    private fun saveBitmapQ(context: Context?, fileName: String,
+//                            bitmap: Bitmap
+//    ) : RequestBody {
+//        //val relativeLocation = Environment.DIRECTORY_PICTURES
+//        var relativeLocation = Environment.DIRECTORY_PICTURES +"/${BuildConfig.APP_NAME}/"
+//        //Insted of Environment.DIRECTORY_PICTURES this can be any valid derectory like Environment.DIRECTORY_DCIM, Environment.DIRECTORY_DOWNLOADS etc..
+//        // And insted of "KrishanImages" this can be any directory name you want to create for saving images
+//        val contentValues = ContentValues()
+//        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$fileName}" + ".jpg") //this is the file name you want to save
+//        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg") // Content-Type
+//        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation)
+//
+//        val resolver = context?.contentResolver
+////    val resolver = appModule.createAnkoContext(app)
+//
+//        var stream: OutputStream? = null
+//        var uri: Uri? = null
+//
+//        try {
+//            val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+//            uri = resolver?.insert(contentUri, contentValues)
+//
+//            if (uri == null) {
+//                throw IOException("Failed to create new MediaStore record.")
+//            }
+//
+//            stream = resolver?.openOutputStream(uri)
+//
+//            if (stream == null) {
+//                throw IOException("Failed to get output stream.")
+//            }
+//
+//            if (bitmap.compress(Bitmap.CompressFormat.JPEG, 95, stream) == false) {
+//                throw IOException("Failed to save bitmap.")
+//            }
+//            else{
+//                return RequestBody.create(MediaType.parse("image/jpg"), bitmap.bitmaptoFile()!!)
+//            }
+//        } catch (e: IOException) {
+//            if (uri != null) {
+//                // Don't leave an orphan entry in the MediaStore
+//                resolver?.delete(uri, null, null)
+//            }
+//
+//            throw e
+//        } finally {
+//            if (stream != null) {
+//                stream!!.close()
+//            }
+//        }
+//    }
+
+    private fun saveBitmapQ(context: Context?,
+                            bitmap: Bitmap, fileName: String
+    ) : RequestBody {
+        //val relativeLocation = Environment.DIRECTORY_PICTURES
+        var relativeLocation = Environment.DIRECTORY_PICTURES +"/${BuildConfig.APP_NAME}/"
+        //Insted of Environment.DIRECTORY_PICTURES this can be any valid derectory like Environment.DIRECTORY_DCIM, Environment.DIRECTORY_DOWNLOADS etc..
+        // And insted of "KrishanImages" this can be any directory name you want to create for saving images
+        val contentValues = ContentValues()
+        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$fileName.jpg") //this is the file name you want to save
+        contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg") // Content-Type
+        contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation)
+
+        val resolver = context?.contentResolver
+        val file: File
+//    val resolver = appModule.createAnkoContext(app)
+
+        var stream: OutputStream? = null
+        var uri: Uri? = null
+
+        try {
+            val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            uri = resolver?.insert(contentUri, contentValues)
+
+            if (uri == null) {
+                throw IOException("Failed to create new MediaStore record.")
+            }
+
+            stream = resolver?.openOutputStream(uri)
+
+            file = File(uri.path)
+
+            return RequestBody.create(MediaType.parse("image/jpg"), file)
+
+        } catch (e: IOException) {
+            if (uri != null) {
+                // Don't leave an orphan entry in the MediaStore
+                resolver?.delete(uri, null, null)
+            }
+
+            throw e
+        } finally {
+            if (stream != null) {
+                stream!!.close()
+            }
+        }
+
+
+//        fun saveBitmap(context: Context?, fileName: String,
+//                       bitmap: Bitmap
+//        ) : RequestBody {
+//            var relativeLocation = Environment.DIRECTORY_PICTURES +"/${BuildConfig.APP_NAME}/"
+//
+//            val contentValues = ContentValues()
+//            contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$fileName}" + ".jpg") //this is the file name you want to save
+//            contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg") // Content-Type
+//            contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation)
+//
+//            val resolver = context?.contentResolver
+//
+//            var stream: OutputStream? = null
+//            var uri: Uri? = null
+//
+//            try {
+//                val contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+//                uri = resolver?.insert(contentUri, contentValues)
+//
+//                if (uri == null) {
+//                    throw IOException("Failed to create new MediaStore record.")
+//                }
+//
+//                stream = resolver?.openOutputStream(uri!!)
+//
+//                if (stream == null) {
+//                    throw IOException("Failed to get output stream.")
+//                }
+//
+//                if (bitmap.compress(Bitmap.CompressFormat.JPEG, 95, stream) == false) {
+//                    throw IOException("Failed to save bitmap.")
+//                }
+//                else{
+//                    return RequestBody.create(MediaType.parse("image/jpg"), bitmap.bitmaptoFile()!!)
+//                }
+//            } catch (e: IOException) {
+//                if (uri != null) {
+//                    // Don't leave an orphan entry in the MediaStore
+//                    resolver?.delete(uri!!, null, null)
+//                }
+//
+//                throw e
+//            } finally {
+//                if (stream != null) {
+//                    stream!!.close()
+//                }
+//            }
+//        }
+
+    }
+
+
 }

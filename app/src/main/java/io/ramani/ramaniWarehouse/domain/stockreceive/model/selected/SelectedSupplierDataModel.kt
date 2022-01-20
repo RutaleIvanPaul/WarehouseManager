@@ -3,12 +3,10 @@ package io.ramani.ramaniWarehouse.domain.stockreceive.model.selected
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import com.google.gson.Gson
-import io.ramani.ramaniWarehouse.app.common.io.toFile
-import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
+import io.ramani.ramaniWarehouse.app.common.io.bitmaptoFile
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import okhttp3.MediaType
 import okhttp3.RequestBody
-import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.*
 import okhttp3.MultipartBody
@@ -75,7 +73,7 @@ class SelectedSupplierDataModel {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         return RequestBody.create(MediaType.parse("application/octet-stream"), bos.toByteArray())
          */
-        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile())
+        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.bitmaptoFile())
     }
 
 }

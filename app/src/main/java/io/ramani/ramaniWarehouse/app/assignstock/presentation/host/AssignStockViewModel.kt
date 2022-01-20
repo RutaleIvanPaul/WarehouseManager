@@ -83,7 +83,8 @@ class AssignStockViewModel(
             warehouseModel!!.id!!,
             "assignment",
             assignedItems.signatureInfoStoreKeeper,
-            assignedItems.signatureInfoSalesPerson
+            assignedItems.signatureInfoSalesPerson,
+            getApplication()
         )
 
         val assignProductsRequestModel = AssignProductsRequestModel(items)
