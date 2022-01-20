@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.data.stockassignment.model
 import android.content.Context
 import android.graphics.Bitmap
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
+import java.io.File
 
 
 data class PostAssignedItems(
@@ -17,5 +18,7 @@ data class PostAssignedItems(
     val stockAssignmentType: String = "" ,
     var signatureInfoStoreKeeper: Bitmap?= null,
     var signatureInfoSalesPerson: Bitmap?= null,
+   var signatureInfoStoreKeeperFile: File?= null,
+    var signatureInfoSalesPersonFile: File?= null,
     val context: Context? = null
 ):Params

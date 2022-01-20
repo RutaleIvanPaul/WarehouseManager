@@ -11,16 +11,21 @@ import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
-import io.ramani.ramaniWarehouse.app.common.io.bitmaptoFile
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
-import io.ramani.ramaniWarehouse.data.stockassignment.model.*
+import io.ramani.ramaniWarehouse.data.stockassignment.model.AssignProductsRequestModel
+import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItemsResponse
+import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
+import io.ramani.ramaniWarehouse.data.stockassignment.model.SalesPersonRemoteModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.entities.BaseErrorResponse
-import io.ramani.ramaniWarehouse.domain.entities.exceptions.*
+import io.ramani.ramaniWarehouse.domain.entities.exceptions.AccountNotActiveException
+import io.ramani.ramaniWarehouse.domain.entities.exceptions.InvalidLoginException
+import io.ramani.ramaniWarehouse.domain.entities.exceptions.NotAuthorizedException
+import io.ramani.ramaniWarehouse.domain.entities.exceptions.ParseResponseException
 import io.ramani.ramaniWarehouse.domain.stockassignment.AssignStockDataSource
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
@@ -40,7 +45,7 @@ class AssignStockRemoteDataSource(
     private val salesPersonRemoteMapper: ModelMapper<SalesPersonRemoteModel, SalesPersonModel>,
     private val productRemoteMapper: ModelMapper<RemoteProductModel, ProductEntity>,
     private val prefs: PrefsManager
-): AssignStockDataSource, BaseRemoteDataSource() {
+) : AssignStockDataSource, BaseRemoteDataSource() {
 //    val context: Context = TODO()
 //    val kodein by closestKodein(context)
 
@@ -133,8 +138,8 @@ class AssignStockRemoteDataSource(
         }
         val body = createRequestBody(
             postAssignedItems,
-            AssignedItemDetails.signatureInfoStoreKeeper,
-            AssignedItemDetails.signatureInfoSalesPerson
+            AssignedItemDetails.signatureInfoStoreKeeperFile,
+            AssignedItemDetails.signatureInfoSalesPersonFile
         )
         return callSingle(
             assignStockAPI.postAssignedStock(body).flatMap {
@@ -145,8 +150,8 @@ class AssignStockRemoteDataSource(
     }
 
     private fun createRequestBody(
-        postAssignedItems: AssignProductsRequestModel, storeKeeperSignature: Bitmap?,
-        deliveryPersonSignature: Bitmap?
+        postAssignedItems: AssignProductsRequestModel, storeKeeperSignature: File?,
+        deliveryPersonSignature: File?
     ): RequestBody {
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("assigner", postAssignedItems.postAssignmentItem.assigner)
@@ -167,14 +172,16 @@ class AssignStockRemoteDataSource(
         storeKeeperSignature?.let {
             builder.addFormDataPart(
                 "storeKeeperSignature", postAssignedItems.postAssignmentItem.name ?: "sale001",
-                saveBitmapQ(postAssignedItems.postAssignmentItem.context, storeKeeperSignature, "storeKeeperSignature")
+                RequestBody.create(MediaType.parse("image/jpg"), storeKeeperSignature)
+//                saveBitmapQ(postAssignedItems.postAssignmentItem.context, storeKeeperSignature, "storeKeeperSignature")
             )
         }
         deliveryPersonSignature?.let {
             builder.addFormDataPart(
                 "salesPersonSignature",
                 "salesPersonSignature_file" ?: "del001",
-                saveBitmapQ(postAssignedItems.postAssignmentItem.context, deliveryPersonSignature, "salesPeronSignature")
+                RequestBody.create(MediaType.parse("image/jpg"), deliveryPersonSignature)
+//                saveBitmapQ(postAssignedItems.postAssignmentItem.context, deliveryPersonSignature, "salesPeronSignature")
             )
         }
 
@@ -182,18 +189,20 @@ class AssignStockRemoteDataSource(
     }
 
 
-     fun createOwnImageFormData(bitmap: Bitmap?): RequestBody {
+    fun createOwnImageFormData(bitmap: Bitmap?): RequestBody {
 //        val bos = ByteArrayOutputStream()
 //        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        if(AssignedItemDetails.signatureInfoStoreKeeper == null){
+        if (AssignedItemDetails.signatureInfoStoreKeeper == null) {
             Log.e("11111111122", "null")
 
-        }
-        else{
+        } else {
             Log.e("11111111122", "NOT null")
 
         }
-        return RequestBody.create(MediaType.parse("image/png"), AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper?.bitmaptoFile())
+        return RequestBody.create(
+            MediaType.parse("image/png"),
+            AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeperFile
+        )
     }
 
 //    private fun createOwnImageFormData(bitmap: Bitmap?): RequestBody {
@@ -270,15 +279,19 @@ class AssignStockRemoteDataSource(
 //        }
 //    }
 
-    private fun saveBitmapQ(context: Context?,
-                            bitmap: Bitmap, fileName: String
-    ) : RequestBody {
+    private fun saveBitmapQ(
+        context: Context?,
+        bitmap: Bitmap, fileName: String
+    ): RequestBody {
         //val relativeLocation = Environment.DIRECTORY_PICTURES
-        var relativeLocation = Environment.DIRECTORY_PICTURES +"/${BuildConfig.APP_NAME}/"
+        var relativeLocation = Environment.DIRECTORY_PICTURES + "/${BuildConfig.APP_NAME}/"
         //Insted of Environment.DIRECTORY_PICTURES this can be any valid derectory like Environment.DIRECTORY_DCIM, Environment.DIRECTORY_DOWNLOADS etc..
         // And insted of "KrishanImages" this can be any directory name you want to create for saving images
         val contentValues = ContentValues()
-        contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, "$fileName.jpg") //this is the file name you want to save
+        contentValues.put(
+            MediaStore.MediaColumns.DISPLAY_NAME,
+            "$fileName.jpg"
+        ) //this is the file name you want to save
         contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg") // Content-Type
         contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation)
 

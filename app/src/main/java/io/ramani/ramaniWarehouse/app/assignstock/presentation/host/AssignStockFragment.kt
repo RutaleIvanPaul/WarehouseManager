@@ -77,7 +77,7 @@ class AssignStockFragment : BaseFragment() {
                 }
                 else -> {
                     assign_stock_host_next_button.text = getText(R.string.done)
-                    viewModel.assignStock()
+                    viewModel.assignStock(requireContext())
                 }
             }
         }

@@ -1,9 +1,10 @@
 package io.ramani.ramaniWarehouse.domain.stockreceive.model.selected
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.graphics.Bitmap
 import com.google.gson.Gson
-import io.ramani.ramaniWarehouse.app.common.io.bitmaptoFile
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import okhttp3.MediaType
 import okhttp3.RequestBody
@@ -33,7 +34,7 @@ class SelectedSupplierDataModel {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun createRequestBody(warehouseId: String, warehouseManagerId: String, distributorId: String): RequestBody {
+    fun createRequestBody(context: Context,warehouseId: String, warehouseManagerId: String, distributorId: String): RequestBody {
         val confirmDate = date ?: Date()
 
         val time = SimpleDateFormat("HH:mm:ss").format(confirmDate)
@@ -56,24 +57,24 @@ class SelectedSupplierDataModel {
 
         storeKeeperData?.let {
             builder.addFormDataPart("storeKeeperName", it.name)
-            builder.addFormDataPart("storeKeeperSignature", it.name, createImageFormData(it.bitmap!!))
+            builder.addFormDataPart("storeKeeperSignature", it.name, createImageFormData(context,it.bitmap!!))
         }
 
         deliveryPersonData?.let {
             builder.addFormDataPart("deliveryPersonName", it.name)
-            builder.addFormDataPart("deliveryPersonSignature", it.name, createImageFormData(it.bitmap!!))
+            builder.addFormDataPart("deliveryPersonSignature", it.name, createImageFormData(context,it.bitmap!!))
         }
 
         return builder.build();
     }
 
-    private fun createImageFormData(bitmap: Bitmap): RequestBody {
+    private fun createImageFormData(context: Context,bitmap: Bitmap): RequestBody {
         /*
         val bos = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         return RequestBody.create(MediaType.parse("application/octet-stream"), bos.toByteArray())
          */
-        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.bitmaptoFile())
+        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile(context))
     }
 
 }

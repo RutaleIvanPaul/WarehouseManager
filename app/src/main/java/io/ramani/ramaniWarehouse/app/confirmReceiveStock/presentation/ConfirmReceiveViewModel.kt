@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation
 
 import android.app.Application
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.common.io.bitmaptoFile
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
@@ -85,7 +86,7 @@ class ConfirmReceiveViewModel(
     /**
      * Post Goods Received
      */
-    fun postGoodsReceived(storeKeeperSignature: Bitmap?, deliveryPersonSignature: Bitmap?) {
+    fun postGoodsReceived(context: Context,storeKeeperSignature: Bitmap?, deliveryPersonSignature: Bitmap?) {
         if (storeKeeperSignature == null) {
             notifyErrorObserver(
                 stringProvider.getString(R.string.missing_store_keeper_signature),
@@ -102,7 +103,8 @@ class ConfirmReceiveViewModel(
             val request = GoodsReceivedRequestModel(
                 createRequestBody(
                     storeKeeperSignature,
-                    deliveryPersonSignature
+                    deliveryPersonSignature,
+                    context
                 )
             )
             val single = postGoodsReceivedUseCase.getSingle(request)
@@ -135,7 +137,8 @@ class ConfirmReceiveViewModel(
 
     private fun createRequestBody(
         storeKeeperSignature: Bitmap?,
-        deliveryPersonSignature: Bitmap?
+        deliveryPersonSignature: Bitmap?,
+        context: Context
     ): RequestBody {
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("invoiceId", RECEIVE_MODELS.invoiceModelView?.invoiceId ?: "")
@@ -157,7 +160,7 @@ class ConfirmReceiveViewModel(
         storeKeeperSignature?.let {
             builder.addFormDataPart(
                 "storeKeeperSignature", RECEIVE_MODELS.invoiceModelView?.storeKeeperName ?: "",
-                createImageFormData(storeKeeperSignature)
+                createImageFormData(storeKeeperSignature,context)
             )
         }
         builder.addFormDataPart(
@@ -168,17 +171,17 @@ class ConfirmReceiveViewModel(
             builder.addFormDataPart(
                 "deliveryPersonSignature",
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: "",
-                createImageFormData(deliveryPersonSignature)
+                createImageFormData(deliveryPersonSignature,context)
             )
         }
 
         return builder.build()
     }
 
-    private fun createImageFormData(bitmap: Bitmap): RequestBody {
+    private fun createImageFormData(bitmap: Bitmap,context: Context): RequestBody {
 //        val bos = ByteArrayOutputStream()
 //        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.bitmaptoFile())
+        return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile(context))
     }
 
     class Factory(

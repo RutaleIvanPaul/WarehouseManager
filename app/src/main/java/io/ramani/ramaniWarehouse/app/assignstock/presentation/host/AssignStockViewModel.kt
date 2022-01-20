@@ -13,6 +13,7 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
@@ -66,7 +67,7 @@ class AssignStockViewModel(
         }
     }
 
-    fun assignStock() {
+    fun assignStock(context: Context) {
         startLoading.postValue(true)
         val assignedItems = assignedItemDetails
         Log.e("111111 ASVM", assignedItems.toString())
@@ -84,6 +85,8 @@ class AssignStockViewModel(
             "assignment",
             assignedItems.signatureInfoStoreKeeper,
             assignedItems.signatureInfoSalesPerson,
+            assignedItems.signatureInfoStoreKeeper?.toFile(context),
+            assignedItems.signatureInfoSalesPerson?.toFile(context),
             getApplication()
         )
 
