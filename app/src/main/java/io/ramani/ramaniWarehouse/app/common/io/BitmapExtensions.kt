@@ -118,7 +118,7 @@ private fun saveBitmapQ(
     val contentValues = ContentValues()
     contentValues.put(
         MediaStore.MediaColumns.DISPLAY_NAME,
-        "$fileName.jpg"
+        "$fileName"
     ) //this is the file name you want to save
     contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg") // Content-Type
     contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, relativeLocation)
@@ -148,7 +148,7 @@ private fun saveBitmapQ(
         bitmapStream?.close()
         stream?.close()
 
-        return File(uri.path)
+        return File("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath}/${BuildConfig.APP_NAME}/$fileName")
 //        return RequestBody.create(MediaType.parse("image/jpg"), file)
 
     } catch (e: IOException) {
