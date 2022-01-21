@@ -15,6 +15,10 @@ data class GoodsReceivedItemRemoteModel(
     val qtyDeclined: Int = 0,
     @SerializedName("declinedReason")
     val declinedReason: String = "",
+    @SerializedName("units")
+    val units: String = "",
+    @SerializedName("unitPrice")
+    val unitPrice: Double = 0.0,
     @SerializedName("temperature")
     val temperature: Int = 0
 )
