@@ -11,7 +11,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapte
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import kotlinx.android.synthetic.main.fragment_stock_report.*
+import kotlinx.android.synthetic.main.fragment_stock_assignment_report.*
 import org.kodein.di.generic.factory
 
 class StockStockAssignmentReportFragment : BaseFragment() {
@@ -26,7 +26,7 @@ class StockStockAssignmentReportFragment : BaseFragment() {
 
     private lateinit var flow: StockAssignmentReportFlow
 
-    override fun getLayoutResId(): Int = R.layout.fragment_stock_report
+    override fun getLayoutResId(): Int = R.layout.fragment_stock_assignment_report
 
     private var assignedFragment: StockStockAssignmentReportPageFragment? = null
     private var returnedFragment: StockStockAssignmentReportPageFragment? = null
