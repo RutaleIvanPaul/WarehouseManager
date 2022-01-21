@@ -75,7 +75,6 @@ class AssignmentReceiptFragment : BaseFragment() {
                 "--------------------------------"+"\n\n"+
                 getGoodsAssignedString()
 
-
     private fun getGoodsAssignedString(): String {
         var GoodsAssignedText = ""
         AssignedItemDetails.assignedItems.forEach { item ->

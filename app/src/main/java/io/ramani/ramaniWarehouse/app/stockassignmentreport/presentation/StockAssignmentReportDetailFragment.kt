@@ -82,7 +82,7 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
         stock?.let {
             if (!it.storeKeeperSignature.isNullOrEmpty())
-                assignment_report_detail_store_keeper_signature.loadImage(it.salesPersonSignature)
+                assignment_report_detail_store_keeper_signature.loadImage(it.storeKeeperSignature)
             if (!it.salesPersonSignature.isNullOrEmpty())
                 assignment_report_detail_delivery_person_signature.loadImage(it.salesPersonSignature)
 
