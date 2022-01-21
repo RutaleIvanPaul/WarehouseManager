@@ -40,6 +40,8 @@ class SelectedSupplierDataModel {
         val time = SimpleDateFormat("HH:mm:ss").format(confirmDate)
         val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(confirmDate)
 
+        val productsJson = Gson().toJson(products);
+
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("invoiceId", "")
             .addFormDataPart("warehouseId", warehouseId)
@@ -48,7 +50,7 @@ class SelectedSupplierDataModel {
             .addFormDataPart("warehouseManagerId", warehouseManagerId)
             .addFormDataPart("time", time /* "10:39:49" */)
             .addFormDataPart("date", date /* "2021-10-19T23:00:00.000Z" */)
-            .addFormDataPart("items", Gson().toJson(products))
+            .addFormDataPart("items", productsJson)
 
         documents?.let {
             if (!it.isNullOrEmpty()) {
