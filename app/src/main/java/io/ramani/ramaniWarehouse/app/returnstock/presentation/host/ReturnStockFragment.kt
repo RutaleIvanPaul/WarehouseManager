@@ -18,7 +18,6 @@ import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnStockFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.products.SelectReturnItemsFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonFragment
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import kotlinx.android.synthetic.main.fragment_return_stock.*
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
@@ -61,16 +60,16 @@ class ReturnStockFragment : BaseFragment() {
                 0 -> {
                     return_stock_host_next_button.text = getText(R.string.next)
                     return_stock_viewpager.currentItem++
-                    ReturnStockViewModel.allowToGoNext.postValue(Pair(1,false))
+                    ReturnStockViewModel.allowToGoNext.postValue(Pair(1, false))
                 }
                 1 -> {
                     return_stock_host_next_button.text = getText(R.string.done)
                     return_stock_viewpager.currentItem++
-                    ReturnStockViewModel.allowToGoNext.postValue(Pair(1,false))
+                    ReturnStockViewModel.allowToGoNext.postValue(Pair(1, false))
                 }
                 else -> {
                     return_stock_host_next_button.text = getText(R.string.done)
-                    viewModel.returnStock()
+                    viewModel.returnStock(requireContext())
                 }
             }
         }
@@ -106,8 +105,7 @@ class ReturnStockFragment : BaseFragment() {
                         allowToGoNext()
                     }
                 }
-            }
-            else{
+            } else {
                 return_stock_host_next_button.apply {
                     isEnabled = false
                     backgroundDrawable =
@@ -128,8 +126,8 @@ class ReturnStockFragment : BaseFragment() {
         })
 
 
-        ReturnStockViewModel.pushBackToStart.observe(this,{
-            if (it){
+        ReturnStockViewModel.pushBackToStart.observe(this, {
+            if (it) {
                 return_stock_viewpager.currentItem = 0
             }
         })

@@ -139,6 +139,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 }
                 else -> {
                     viewModel.postGoodsReceived(
+                        requireContext(),
                         RECEIVE_MODELS.invoiceModelView?.storeKeeperSign,
                         RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign
                     )

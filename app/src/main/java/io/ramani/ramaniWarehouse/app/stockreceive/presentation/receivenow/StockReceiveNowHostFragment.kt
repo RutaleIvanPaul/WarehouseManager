@@ -105,7 +105,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
                 // There is no need to go ahead.
                 allowGo = false
 
-                viewModel.postGoodsReceived()
+                viewModel.postGoodsReceived(requireContext())
             }
 
             //    productsFragment?.updateView()

@@ -18,18 +18,18 @@ import org.kodein.di.generic.provider
 val assignStockDomainModule = Kodein.Module("assignStockDomainModule") {
 
     bind<BaseSingleUseCase<List<SalesPersonModel>, GetSalesPersonRequestModel>>("getSalesPersonUseCase") with provider {
-        GetSalesPersonUseCase(instance(), instance(), instance("assignStockRemoteDataSource"))
+        GetSalesPersonUseCase(instance(), instance(), instance("assignStockRepository"))
     }
 
     bind<BaseSingleUseCase<List<ProductEntity>, GetProductsRequestModel>>("getCompanyProductsUseCase") with provider {
         GetCompanyProductsUseCase(
-            instance(), instance(),instance("assignStockRemoteDataSource")
+            instance(), instance(),instance("assignStockRepository")
         )
     }
 
-    bind<BaseSingleUseCase<PostAssignedItemsResponse, PostAssignedItems>>("postAssignedStockUseCase")with provider{
+    bind<BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>>("postAssignedStockUseCase")with provider{
         PostAssignedStockUseCase(
-            instance(),instance(),instance("assignStockRemoteDataSource")
+            instance(),instance(),instance("assignStockRepository")
         )
     }
 }

@@ -1,12 +1,14 @@
 package io.ramani.ramaniWarehouse.app.returnstock.presentation.host
 
 import android.app.Application
+import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
@@ -57,7 +59,7 @@ class ReturnStockViewModel(
         }
     }
 
-    fun returnStock() {
+    fun returnStock(context: Context) {
         val single = postReturnedStockUseCase.getSingle(
             PostReturnItems(
                 ReturnItemDetails.storekeeperName,
@@ -70,7 +72,9 @@ class ReturnStockViewModel(
                 warehouseModel!!.id!!,
                 "return",
                 ReturnItemDetails.signatureInfoStoreKeeper,
-                ReturnItemDetails.signatureInfoSalesPerson
+                ReturnItemDetails.signatureInfoSalesPerson,
+             ReturnItemDetails.signatureInfoStoreKeeper?.toFile(context),
+                ReturnItemDetails.signatureInfoSalesPerson?.toFile(context)
             )
         )
         subscribeSingle(

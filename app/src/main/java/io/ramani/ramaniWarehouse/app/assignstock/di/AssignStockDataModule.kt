@@ -49,6 +49,6 @@ val assignStockDataModule = Kodein.Module("assignStockDataModule") {
     }
 
     bind<AssignStockDataSource>("assignStockRepository") with provider {
-        AssignStockRepository(instance())
+        AssignStockRepository(instance("assignStockRemoteDataSource"))
     }
 }

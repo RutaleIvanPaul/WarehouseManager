@@ -116,8 +116,8 @@ class ReturnStockRemoteDataSource(
                 createTextFormData(postReturnItems.stockAssignmentType),
                 createTextFormData(postReturnItems.warehouseId),
                 createTextFormData(Gson().toJson(postReturnItems.listOfProducts)),
-                createImageFormData(postReturnItems.signatureInfoStoreKeeper!!),
-                createImageFormData(postReturnItems.signatureInfoSalesPerson!!)
+                createImageFormData(postReturnItems.signatureInfoStoreKeeperFile!!),
+                createImageFormData(postReturnItems.signatureInfoSalesPersonFile!!)
             ).flatMap {
                 val data = it.data
                 if (data != null){
