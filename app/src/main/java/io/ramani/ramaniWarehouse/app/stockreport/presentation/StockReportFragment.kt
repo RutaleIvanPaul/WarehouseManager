@@ -73,6 +73,12 @@ class StockReportFragment : BaseFragment() {
     }
 
     private fun initSubscribers() {
+        subscribeLoadingVisible(viewModel)
+        subscribeLoadingError(viewModel)
+        observeLoadingVisible(viewModel, this)
+        subscribeError(viewModel)
+        observerError(viewModel, this)
+
         subscribeObservers()
     }
 
