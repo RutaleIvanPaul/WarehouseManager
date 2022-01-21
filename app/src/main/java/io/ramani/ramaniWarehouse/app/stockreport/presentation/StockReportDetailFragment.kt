@@ -75,6 +75,8 @@ class StockReportDetailFragment : BaseFragment() {
                     addItems(item)
                 }
             }
+
+            stock_report_detail_company_name.text = it.supplierName
         }
 
         stock_report_detail_print_button.setOnSingleClickListener {

@@ -49,6 +49,7 @@
 
                 <TextView
                     style="@style/NormalTextLabel"
+                    android:textColor="@color/black"
                     android:text="@string/start_goods_issued"
                     android:textSize="11sp"
                     android:fontFamily="@font/raleway_bold"
@@ -61,8 +62,9 @@
                     android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/stock_report_detail_company_name"
                     style="@style/LargeTextLabel"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:fontFamily="@font/raleway_bold"
                     android:text="Masyl General Enterprises"
                     android:textSize="9sp"
@@ -70,7 +72,7 @@
 
                 <TextView
                     style="@style/NormalTextLabel"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:fontFamily="@font/raleway_bold"
                     android:text="@string/goods_issued_note"
                     android:textSize="9sp"
@@ -80,7 +82,7 @@
                     android:id="@+id/stock_report_detail_issued_date"
                     style="@style/NormalTextLabel"
                     android:fontFamily="@font/raleway_bold"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     android:text="Date: 24 July 2021"
                     android:textSize="9sp"
                     android:textStyle="bold" />
@@ -118,7 +120,6 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/raleway_bold"
                             android:text="Christian Michael"
-                            android:textColor="@color/mid_dark_grey"
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
@@ -159,7 +160,6 @@
                             android:layout_marginTop="10dp"
                             android:fontFamily="@font/raleway_bold"
                             android:text="Claudian Bernet"
-                            android:textColor="@color/mid_dark_grey"
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
