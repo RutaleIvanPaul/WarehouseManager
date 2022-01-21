@@ -30,29 +30,78 @@
                 android:text="@string/stock_report" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="20dp">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_alignParentBottom="true"
-                android:background="@color/light_grey" />
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/stock_report_tablayout"
-                style="@style/CommonTabLayout"
-                android:background="@color/transparent" />
-
-        </RelativeLayout>
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/stock_report_viewpager"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    style="@style/StockReceiveItemTitle"
+                    android:text="@string/pick_date"
+                    android:textStyle="bold"
+                    android:textColor="@color/black" />
+
+                <RelativeLayout
+                    android:id="@+id/stock_report_datepick_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/item_outline_with_white_solid_round"
+                    android:padding="10dp">
+
+                    <TextView
+                        android:id="@+id/stock_report_pick_date"
+                        style="@style/NormalTextLabel"
+                        android:layout_centerVertical="true"
+                        android:text="12 sep 2021"
+                        android:textColor="@color/black" />
+
+                    <ImageView
+                        android:layout_width="17dp"
+                        android:layout_height="17dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:src="@mipmap/ic_calendar_blue"
+                        app:tint="@color/dark_grey" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <!-- Items -->
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stock_report_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scrollbars="none" />
+
+                <TextView
+                    android:id="@+id/stock_report_no_stock"
+                    style="@style/NormalTextLabel"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_margin="20dp"
+                    android:text="@string/no_stocks"
+                    android:visibility="invisible" />
+            </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/stock_report_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
 </RelativeLayout>

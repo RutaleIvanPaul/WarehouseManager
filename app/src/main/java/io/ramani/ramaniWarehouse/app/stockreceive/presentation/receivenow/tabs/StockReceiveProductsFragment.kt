@@ -114,6 +114,11 @@ class StockReceiveProductsFragment : BaseFragment() {
         viewModel.getDeclineReasons()
 
         subscribeObservers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         updateView()
     }
 
