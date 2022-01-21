@@ -80,7 +80,7 @@ class AssignStockViewModel(
             dateFormatter.convertToCalendarFormatDate(now()),
             ASSIGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
             assignedItems.salespersonName,
-            userModel!!.uuid,
+            assignedItems.salespersonUuid,
             warehouseModel!!.id!!,
             "assignment",
             assignedItems.signatureInfoStoreKeeper,
