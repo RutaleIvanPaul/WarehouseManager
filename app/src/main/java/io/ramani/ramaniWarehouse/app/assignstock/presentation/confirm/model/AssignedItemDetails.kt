@@ -9,6 +9,7 @@ import io.ramani.ramaniWarehouse.data.stockassignment.model.ConfirmProducts
 import java.io.File
 
 object AssignedItemDetails {
+
     var storekeeperName: String = ""
     var salespersonName: String = ""
     var salespersonUuid: String = ""
