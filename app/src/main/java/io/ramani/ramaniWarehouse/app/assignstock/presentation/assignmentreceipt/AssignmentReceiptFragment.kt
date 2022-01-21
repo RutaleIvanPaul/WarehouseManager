@@ -57,9 +57,9 @@ class AssignmentReceiptFragment : BaseFragment() {
 
     private fun printAssignmentReceipt(viewModel: ConfirmAssignedStockViewModel) {
         viewModel.printText(getTextBeforeImages())
-        viewModel.printText(getString(R.string.store_keeper)+": "+storekeeper_text.text.toString()+ "\n")
+        viewModel.printText(getString(R.string.store_keeper)+": "+AssignedItemDetails.storekeeperName+ "\n")
         viewModel.printBitmap(AssignedItemDetails.signatureInfoStoreKeeper!!)
-        viewModel.printText(getString(R.string.assigned_to)+": "+assignee_text.text.toString()+ "\n")
+        viewModel.printText(getString(R.string.assigned_to)+": "+AssignedItemDetails.salespersonName+ "\n")
         viewModel.printBitmap(AssignedItemDetails.signatureInfoSalesPerson!!)
         viewModel.printText("\n"+getString(R.string.end_of_goods_assigned)+"\n\n\n\n\n")
 
