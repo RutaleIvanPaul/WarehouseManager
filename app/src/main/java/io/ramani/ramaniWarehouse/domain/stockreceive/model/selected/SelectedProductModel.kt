@@ -9,15 +9,16 @@ import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierProductModel
  */
 data class SelectedProductModel(
     var product: SupplierProductModel? = null,
+    var productId: String = "",
+    var productName: String = "",
     var units: String = "",
-    var accepted: Int = 0,
-    var declined: Int = 0,
+    var qtyAccepted: Int = 0,
+    var qtyDeclined: Int = 0,
     var declinedReason: String = "",
     var unitPrice: Double = 0.0,
     var parameters: List<ProductParameterModel>? = null,
     var expireDate: String? = ""
 )
-
 
 data class ProductParameterModel(
     var name: String = "",

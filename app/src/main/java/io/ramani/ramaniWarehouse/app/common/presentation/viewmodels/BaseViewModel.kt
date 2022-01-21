@@ -14,6 +14,7 @@ import io.ramani.ramaniWarehouse.app.common.download.IFilesDownloadManager
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.entities.ValidationError
 import io.ramani.ramaniWarehouse.app.main.presentation.MainActivity
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavViewModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.SingleLiveEvent
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.TokenAlreadyRefreshedException
@@ -179,6 +180,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     fun logout(message: String? = "", onLogOutComplete: (String?) -> Unit = defaultOnLogout) {
         sessionManager.logout().subscribe {
+            MainNavViewModel.reset()
             onLogOutComplete(message)
         }
     }
