@@ -10,6 +10,7 @@ data class GoodsReceivedItemModel(
     val productName: String = "",
     val qtyAccepted: Int = 0,
     val qtyDeclined: Int = 0,
+    val units: String = "",
     val declinedReason: String = "",
     val temperature: Int = 0
 ) : Parcelable {
@@ -20,6 +21,7 @@ data class GoodsReceivedItemModel(
         private var productName: String = ""
         private var qtyAccepted: Int = 0
         private var qtyDeclined: Int = 0
+        private var units: String = ""
         private var declinedReason: String = ""
         private var temperature: Int = 0
 
@@ -35,6 +37,11 @@ data class GoodsReceivedItemModel(
 
         fun productName(productName: String): Builder {
             this.productName = productName
+            return this
+        }
+
+        fun units(units: String): Builder {
+            this.units = units
             return this
         }
 
@@ -65,6 +72,7 @@ data class GoodsReceivedItemModel(
                 productName,
                 qtyAccepted,
                 qtyDeclined,
+                units,
                 declinedReason,
                 temperature
             )
@@ -77,6 +85,7 @@ data class GoodsReceivedItemModel(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readInt()
     ) {}
 
@@ -86,6 +95,7 @@ data class GoodsReceivedItemModel(
         parcel.writeString(productName)
         parcel.writeInt(qtyAccepted)
         parcel.writeInt(qtyDeclined)
+        parcel.writeString(units)
         parcel.writeString(declinedReason)
         parcel.writeInt(temperature)
     }

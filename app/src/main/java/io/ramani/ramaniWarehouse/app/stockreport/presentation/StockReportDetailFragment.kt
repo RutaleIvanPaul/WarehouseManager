@@ -22,12 +22,10 @@ import org.kodein.di.generic.factory
 
 class StockReportDetailFragment : BaseFragment() {
     companion object {
-        private const val PARAM_IS_ASSIGNED_STOCK = "isAssignedStock"
         private const val PARAM_STOCK = "stock"
 
-        fun newInstance(isAssignedStock: Boolean, stock: DistributorDateModel) = StockReportDetailFragment().apply {
+        fun newInstance(stock: DistributorDateModel) = StockReportDetailFragment().apply {
             arguments = Bundle().apply {
-                putBoolean(PARAM_IS_ASSIGNED_STOCK, isAssignedStock)
                 putParcelable(PARAM_STOCK, stock)
             }
         }
@@ -42,17 +40,12 @@ class StockReportDetailFragment : BaseFragment() {
 
     override fun getLayoutResId(): Int = R.layout.fragment_stock_report_detail
 
-    private var isAssignedStock = true
     private var stock: DistributorDateModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
         requireActivity().window.setFormat(PixelFormat.RGBA_8888)
-
-        arguments?.getBoolean(PARAM_IS_ASSIGNED_STOCK)?.let {
-            isAssignedStock = it
-        }
 
         arguments?.getParcelable<DistributorDateModel>(PARAM_STOCK)?.let {
             stock = it
@@ -68,9 +61,6 @@ class StockReportDetailFragment : BaseFragment() {
         stock_report_detail_back.setOnSingleClickListener {
             pop()
         }
-
-        stock_report_detail_title.text = getString(if (isAssignedStock) R.string.start_goods_issued else R.string.start_goods_returned)
-        stock_report_detail_end.text = getString(if (isAssignedStock) R.string.end_goods_issued else R.string.end_goods_returned)
 
         stock?.let {
             if (!it.storeKeeperSignature.isNullOrEmpty())
@@ -100,7 +90,7 @@ class StockReportDetailFragment : BaseFragment() {
     private fun addItems(item: GoodsReceivedItemModel) {
         val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_report_detail_item_row, null)
         itemView.stock_report_detail_item_row_name.text = item.productName
-        itemView.stock_report_detail_item_row_quantity.text = if (isAssignedStock) item.qtyAccepted.toString() + " pcs" else item.qtyDeclined.toString() + " pcs"
+        itemView.stock_report_detail_item_row_quantity.text = String.format("%d %s", item.qtyAccepted, item.units)
         stock_report_detail_items_container.addView(itemView)
     }
 

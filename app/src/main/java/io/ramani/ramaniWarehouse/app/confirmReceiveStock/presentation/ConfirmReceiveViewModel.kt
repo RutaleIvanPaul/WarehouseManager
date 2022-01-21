@@ -57,7 +57,7 @@ class ConfirmReceiveViewModel(
         }
 
         getDeclineReasons()
-        printerHelper.open()
+//        printerHelper.open()
     }
 
     fun getUrl(purchaseId: String?): Pair<String, Map<String, String>> {

@@ -66,7 +66,7 @@ class StockAssignmentReportViewModel(
             warehouseId = it.id ?: ""
         }
 
-        printerHelper.open()
+//        printerHelper.open()
 
 
 
