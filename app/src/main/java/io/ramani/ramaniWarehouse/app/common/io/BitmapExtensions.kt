@@ -65,7 +65,7 @@ fun getPixelsFromDPs(context: Context, dps: Int): Int {
 
 
 fun Bitmap.toFile(
-    context: Context,
+    context: Context?,
     fileName: String = "${Calendar.getInstance().timeInMillis}.jpg"
 ): File? =
     bitmapToFile(this, fileName, context)
@@ -73,13 +73,12 @@ fun Bitmap.toFile(
 private fun bitmapToFile(
     bitmap: Bitmap,
     fileNameToSave: String,
-    context: Context
+    context: Context?
 ): File? { // File name like "image.png"
     //create a file to write bitmap data
-    var file: File? = null
-    return try {
+    try {
         if (Build.VERSION.SDK_INT == 29) {
-            file = saveBitmapQ(context, fileNameToSave, bitmap)
+            return saveBitmapQ(context, fileNameToSave, bitmap)
         } else {
             val directory =
                 File("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath}/${BuildConfig.APP_NAME}/")
@@ -98,18 +97,17 @@ private fun bitmapToFile(
             fos.write(bitmapdata)
             fos.flush()
             fos.close()
+            return file
             //Convert bitmap to byte array
         }
-
-        file
     } catch (e: Exception) {
         e.printStackTrace()
-        file // it will return null
+        return null
     }
 }
 
 private fun saveBitmapQ(
-    context: Context, fileName: String, bitmap: Bitmap
+    context: Context?, fileName: String, bitmap: Bitmap
 ): File? {
     //val relativeLocation = Environment.DIRECTORY_PICTURES
     var relativeLocation = Environment.DIRECTORY_DOWNLOADS + "/${BuildConfig.APP_NAME}/"
@@ -127,18 +125,18 @@ private fun saveBitmapQ(
     if (!directory.exists())
         directory.mkdir()
 
-    val resolver = context.contentResolver
+    val resolver = context?.contentResolver
 //    val resolver = appModule.createAnkoContext(app)
 
     var stream: OutputStream? = null
     var uri: Uri? = null
 
     try {
-        uri = resolver.insert(MediaStore.Files.getContentUri("external"), contentValues)
+        uri = resolver?.insert(MediaStore.Files.getContentUri("external"), contentValues)
         if (uri == null) {
             throw IOException("Failed to create new MediaStore record.")
         }
-        stream = resolver.openOutputStream(uri!!)
+        stream = resolver?.openOutputStream(uri!!)
 
         var bitmapStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bitmapStream)
@@ -154,7 +152,7 @@ private fun saveBitmapQ(
     } catch (e: IOException) {
         if (uri != null) {
             // Don't leave an orphan entry in the MediaStore
-            resolver.delete(uri, null, null)
+            resolver?.delete(uri, null, null)
         }
 
         throw e
