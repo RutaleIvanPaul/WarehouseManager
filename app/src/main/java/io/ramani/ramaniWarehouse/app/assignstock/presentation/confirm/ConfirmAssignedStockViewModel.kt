@@ -43,7 +43,7 @@ class ConfirmAssignedStockViewModel(
             userModel = it
             loadedUserDetails.postValue(userModel)
         }
-        printerHelper.open()
+//        printerHelper.open()
     }
 
     fun printBitmap(bitmap: Bitmap){

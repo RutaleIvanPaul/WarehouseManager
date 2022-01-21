@@ -70,7 +70,7 @@ class StockReceiveNowViewModel(
             warehouseId = it.id ?: ""
         }
 
-        printerHelper.open()
+//        printerHelper.open()
         //postGoodsReceived()
     }
 

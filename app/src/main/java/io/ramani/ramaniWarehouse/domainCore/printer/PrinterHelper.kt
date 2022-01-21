@@ -13,28 +13,40 @@ class PrinterHelper(
         return Build.MANUFACTURER == "wizarPOS"
     }
 
-    fun open():String{
-        if(isFamocoDevice()){
+    fun open(): String {
+        if (isFamocoDevice()) {
             pX400Printer.open()
             return getString(R.string.printer_opened)
         }
         return getString(R.string.no_printer)
     }
 
-    fun printBitmap(bitmap: Bitmap):PrintStatus {
-        if(isFamocoDevice()){
-            pX400Printer.printBitmap(bitmap)
-            return PrintStatus(true)
+    fun close(): String {
+        if (isFamocoDevice()) {
+            pX400Printer.close()
+            return getString(R.string.printer_closed)
         }
-        return PrintStatus(false,getString(R.string.no_printer))
+        return getString(R.string.no_printer)
     }
 
-    fun printText(string: String):PrintStatus{
-        if (isFamocoDevice()){
-            pX400Printer.printText(string)
+    fun printBitmap(bitmap: Bitmap): PrintStatus {
+        if (isFamocoDevice()) {
+            open()
+            pX400Printer.printBitmap(bitmap)
+            close()
             return PrintStatus(true)
         }
-        return PrintStatus(false,getString(R.string.no_printer))
+        return PrintStatus(false, getString(R.string.no_printer))
+    }
+
+    fun printText(string: String): PrintStatus {
+        if (isFamocoDevice()) {
+            open()
+            pX400Printer.printText(string)
+            close()
+            return PrintStatus(true)
+        }
+        return PrintStatus(false, getString(R.string.no_printer))
     }
 
 

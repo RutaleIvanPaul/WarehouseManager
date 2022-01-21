@@ -52,7 +52,7 @@ class StockReportViewModel(
             warehouseId = it.id ?: ""
         }
 
-        printerHelper.open()
+//        printerHelper.open()
     }
 
     fun getDistributorDate(date: String, isOnlyAccepted: Boolean) {
