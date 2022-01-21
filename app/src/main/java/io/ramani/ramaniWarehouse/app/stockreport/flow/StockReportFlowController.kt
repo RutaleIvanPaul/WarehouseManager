@@ -12,8 +12,8 @@ class StockReportFlowController(
     private val mainFragmentContainer: Int
 ) : StockReportFlow, AnkoLogger {
 
-    override fun openDetail(isAssignedStock: Boolean, stock: DistributorDateModel) {
-        val fragment = StockReportDetailFragment.newInstance(isAssignedStock, stock)
+    override fun openDetail(stock: DistributorDateModel) {
+        val fragment = StockReportDetailFragment.newInstance(stock)
         activity.navigationManager?.open(
             fragment,
             openMethod = NavigationManager.OpenMethod.ADD
