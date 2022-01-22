@@ -45,6 +45,11 @@ class StockAssignmentReportViewModel(
     var stockList: ArrayList<StockAssignmentReportDistributorDateModel> = ArrayList()
     val getDistributorDateActionLiveData = MutableLiveData<List<StockAssignmentReportDistributorDateModel>>()
 
+    companion object {
+        var returnSelected = MutableLiveData<Boolean>()
+    }
+
+
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
         /*

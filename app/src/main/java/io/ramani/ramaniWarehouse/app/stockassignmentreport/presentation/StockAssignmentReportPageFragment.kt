@@ -27,6 +27,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         fun newInstance(isOnlyAssigned: Boolean) = StockStockAssignmentReportPageFragment().apply {
             arguments = Bundle().apply {
                 putBoolean(PARAM_IS_ONLY_ASSIGNED, isOnlyAssigned)
+                StockAssignmentReportViewModel.returnSelected.postValue(isOnlyAssigned)
             }
         }
     }
@@ -107,12 +108,12 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
             assignment_report_no_stock.visibility =
                 if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
 
-            datas = it.toMutableList()
+            datas = it.distinct().toMutableList()
 
             assignment_report_list.apply {
                 layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
 
-                listAdapter = StockAssignmentReportRVAdapter(datas!!) {
+                listAdapter = StockAssignmentReportRVAdapter(datas!!.distinct().toMutableList()) {
                     flow.openDetail(isOnlyAssigned, it)
                 }
 

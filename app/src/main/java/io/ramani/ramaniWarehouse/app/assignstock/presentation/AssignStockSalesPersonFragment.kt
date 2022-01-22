@@ -1,13 +1,17 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation
 
+import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlow
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel.Companion.dateStockTakenLiveData
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showDatePicker
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
@@ -16,9 +20,12 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
+import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import kotlinx.android.synthetic.main.fragment_sales_person.*
+import kotlinx.android.synthetic.main.fragment_stock_assignment_report_page.*
 import org.kodein.di.generic.factory
+import org.kodein.di.generic.instance
 import java.util.*
 
 class AssignStockSalesPersonFragment : BaseFragment() {
@@ -28,6 +35,11 @@ class AssignStockSalesPersonFragment : BaseFragment() {
         get() = viewModel
 
     private lateinit var flow: AssignStockFlow
+
+    private val dateFormatter: DateFormatter by instance()
+    private var calendar = Calendar.getInstance()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,17 +61,20 @@ class AssignStockSalesPersonFragment : BaseFragment() {
         super.initView(view)
         return_stock_datepicker_text.text = viewModel.getDate(now())
         pick_date_layout.setOnClickListener {
-            showDatePicker(
-                Calendar.getInstance().timeInMillis,
-                -1,
-                -1
-            ) { year, monthOfYear, dayOfMonth, timInMillis ->
-                return_stock_datepicker_text.text = viewModel.getDate(timInMillis)
-            }
+            DatePickerDialog(
+                requireActivity(),
+                startDateSetListener,
+                // set DatePickerDialog to point to today's date when it loads up
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
+            ).show()
         }
 
         select_salesperson_spinner.text = ""
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
+        AssignStockSalesPersonViewModel.dateStockTakenLiveData.postValue(return_stock_datepicker_text.text.toString())
+        Log.e("55555", return_stock_datepicker_text.text.toString())
 
         select_salesperson_spinner.setOnSingleClickListener {
             flow.openAssignStockSalesPersonBottomSheet()
@@ -68,16 +83,44 @@ class AssignStockSalesPersonFragment : BaseFragment() {
     }
 
     private fun subscribeObservers() {
+        var hasDateBeenSelected: Boolean = false
+
+        dateStockTakenLiveData.observe(this, {
+            if(it != null){
+                hasDateBeenSelected = true
+            }
+        })
+
 
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
             if (it != null) {
                 select_salesperson_spinner.text = it
-                AssignStockViewModel.allowToGoNext.postValue(Pair(0, true))
+                if(hasDateBeenSelected) {
+                    AssignStockViewModel.allowToGoNext.postValue(Pair(0, true))
+                }
+                else{
+                    Toast.makeText(requireContext(), "Please ensure to select the date above", Toast.LENGTH_LONG)
+                }
             } else {
                 AssignStockViewModel.allowToGoNext.postValue(Pair(0, false))
             }
         })
     }
+
+    private fun updateStartPickDate() {
+        val timeString = dateFormatter.convertToDateWithDashes1(calendar.time.time)
+        AssignStockSalesPersonViewModel.dateStockTakenLiveData.postValue(timeString)
+        return_stock_datepicker_text.text = timeString
+        Log.e("555555", timeString)
+    }
+
+    private val startDateSetListener =
+        DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, monthOfYear)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateStartPickDate()
+        }
 
     override fun getLayoutResId() = R.layout.fragment_sales_person
 

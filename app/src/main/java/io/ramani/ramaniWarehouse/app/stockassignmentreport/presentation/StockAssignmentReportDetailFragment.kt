@@ -129,17 +129,19 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         viewModel.printText(getString(R.string.assigned_to)+": "+salesPersonName+ "\n")
         //salesPersonUrl.let { viewModel.printBitmap(it.toBitmap()) }
 
-        viewModel.printText("\n"+getString(R.string.end_of_goods_assigned)+"\n\n\n\n\n")
+        viewModel.printText("\n"+ getString(if (isAssignedStock) R.string.end_goods_issued else R.string.end_goods_returned) +"\n\n\n\n\n")
 
     }
 
     private fun getTextBeforeImages() =
-        getString(R.string.start_of_goods_issued)+"\n\n"+
+        getString(if (isAssignedStock) R.string.start_goods_issued else R.string.start_goods_returned)+"\n\n"+
                 viewModel.companyName+"\n\n"+
-                getString(R.string.goods_issued_note)+"\n\n"+
+                getString(if (isAssignedStock) R.string.goods_issued_note else R.string.goods_returned_note)+"\n\n"+
                 assignment_report_detail_issued_date.text.toString()+"\n"+
                 "--------------------------------"+"\n"+
                 getString(R.string.goods_issued) + "\n"+
+                getString(if (isAssignedStock) R.string.goods_issued else R.string.goods_returned)+"\n"+
+
                 "--------------------------------"+"\n\n"+
                 getProductDetailsString()
 

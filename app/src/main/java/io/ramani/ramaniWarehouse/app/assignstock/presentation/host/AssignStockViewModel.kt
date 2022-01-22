@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
@@ -31,6 +32,7 @@ import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
+import java.util.*
 
 class AssignStockViewModel(
     application: Application,
@@ -43,6 +45,8 @@ class AssignStockViewModel(
 ) : BaseViewModel(
     application, stringProvider, sessionManager
 ) {
+    private var calendar = Calendar.getInstance()
+
     companion object {
         var allowToGoNext = MutableLiveData<Pair<Int, Boolean>>()
         val assignedItemDetails: AssignedItemDetails = AssignedItemDetails
@@ -50,6 +54,7 @@ class AssignStockViewModel(
         var signedLiveData = MutableLiveData<Pair<String, Bitmap>>()
         val pushBackToStart = MutableLiveData<Boolean>()
         val selectedSalespersonLiveData = MutableLiveData<String>()
+//        val dateStockTakenLiveData = MutableLiveData<String>()
         val startLoading = MutableLiveData<Boolean>()
 
     }
@@ -72,15 +77,17 @@ class AssignStockViewModel(
         val assignedItems = assignedItemDetails
         Log.e("111111 ASVM", assignedItems.toString())
         Log.e("111111 ASVM SA", assignedItems.salespersonName)
+        Log.e("111111 day", AssignStockSalesPersonViewModel.dateStockTakenLiveData.value!!)
+        //Log.e("111111 day", calendar.time.)
 
         val items = PostAssignedItems(
             assignedItems.storekeeperName,
             "",
             userModel!!.companyId,
-            dateFormatter.convertToCalendarFormatDate(now()),
+            AssignStockSalesPersonViewModel.dateStockTakenLiveData.value!!,
             ASSIGNMENT_RECEIVE_MODELS.productsSelection.value!!.toMutableList()?.mapFromWith(assignedItemsMapper),
             assignedItems.salespersonName,
-            assignedItems.salespersonUuid,
+            userModel!!.uuid,
             warehouseModel!!.id!!,
             "assignment",
             assignedItems.signatureInfoStoreKeeper,

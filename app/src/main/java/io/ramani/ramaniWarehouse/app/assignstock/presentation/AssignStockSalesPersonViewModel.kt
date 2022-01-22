@@ -40,6 +40,7 @@ class AssignStockSalesPersonViewModel(
         val salesPeopleList = mutableListOf<SalesPersonRVModel>()
         val onSalesPeopleLoadedLiveData = MutableLiveData<Boolean>()
         val selectedSalespersonLiveData = MutableLiveData<String>()
+        val dateStockTakenLiveData = MutableLiveData<String>()
     }
 
     override fun start(args: Map<String, Any?>) {
@@ -80,7 +81,7 @@ class AssignStockSalesPersonViewModel(
     }
 
     fun getDate(timInMillis: Long): String =
-        dateFormatter.convertToDateWithDashes(timInMillis)
+        dateFormatter.convertToDateWithDashesInLocalTimeZone(timInMillis)
 
     class Factory(
         private val application: Application,
