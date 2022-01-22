@@ -13,7 +13,7 @@ class StockReportRVAdapter(
     BaseQuickAdapter<DistributorDateModel, BaseViewHolder>(R.layout.item_stock_report_row, data) {
     override fun convert(helper: BaseViewHolder, item: DistributorDateModel) {
         with(helper) {
-            setText(R.id.item_stock_report_row_name, item.deliveryPersonName)
+            setText(R.id.item_stock_report_row_name, item.supplierName)
             setText(R.id.item_stock_report_row_time, item.time)
 
             helper.itemView.setOnSingleClickListener {

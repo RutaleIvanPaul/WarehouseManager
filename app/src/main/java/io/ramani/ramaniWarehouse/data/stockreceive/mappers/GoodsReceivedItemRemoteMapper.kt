@@ -13,6 +13,8 @@ class GoodsReceivedItemRemoteMapper : ModelMapper<GoodsReceivedItemRemoteModel, 
             .qtyAccepted(from.qtyAccepted)
             .qtyDeclined(from.qtyDeclined)
             .declinedReason(from.declinedReason)
+            .units(from.units)
+            .unitPrice(from.unitPrice)
             .temperature(from.temperature)
             .build()
 
@@ -24,6 +26,8 @@ class GoodsReceivedItemRemoteMapper : ModelMapper<GoodsReceivedItemRemoteModel, 
             to.qtyAccepted,
             to.qtyDeclined,
             to.declinedReason,
+            to.units,
+            to.unitPrice,
             to.temperature
         )
 }
