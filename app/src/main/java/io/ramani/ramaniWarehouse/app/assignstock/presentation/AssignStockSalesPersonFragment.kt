@@ -12,6 +12,7 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlow
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel.Companion.dateStockTakenLiveData
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel.Companion.onStockTakenDateSelectedLiveData
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showDatePicker
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
@@ -85,18 +86,23 @@ class AssignStockSalesPersonFragment : BaseFragment() {
     private fun subscribeObservers() {
         var hasDateBeenSelected: Boolean = false
 
-        dateStockTakenLiveData.observe(this, {
-            if(it != null){
+        onStockTakenDateSelectedLiveData.observe(this, {
+            if(it == true){
+                Log.e("111111111", it.toString())
                 hasDateBeenSelected = true
             }
         })
 
 
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
+            //Log.e("111111111 person", it.toString())
+
             if (it != null) {
                 select_salesperson_spinner.text = it
-                if(hasDateBeenSelected) {
+                if(onStockTakenDateSelectedLiveData.value == true) {
+                    Log.e("111111111 date", "true wordked")
                     AssignStockViewModel.allowToGoNext.postValue(Pair(0, true))
+                    onStockTakenDateSelectedLiveData.postValue(false)
                 }
                 else{
                     Toast.makeText(requireContext(), "Please ensure to select the date above", Toast.LENGTH_LONG)
@@ -120,6 +126,7 @@ class AssignStockSalesPersonFragment : BaseFragment() {
             calendar.set(Calendar.MONTH, monthOfYear)
             calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
             updateStartPickDate()
+            viewModel.updateStockTakenDateItem(true)
         }
 
     override fun getLayoutResId() = R.layout.fragment_sales_person

@@ -15,7 +15,7 @@ data class PostAssignedItems(
     val name: String = "",
     val salesPersonUID: String = "",
     val warehouseId: String = "",
-    val stockAssignmentType: String = "" ,
+    val stockAssignmentType: String = "assignment" ,
     var signatureInfoStoreKeeper: Bitmap?= null,
     var signatureInfoSalesPerson: Bitmap?= null,
    var signatureInfoStoreKeeperFile: File?= null,

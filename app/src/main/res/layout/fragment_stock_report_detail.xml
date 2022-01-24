@@ -50,7 +50,7 @@
                 <TextView
                     style="@style/NormalTextLabel"
                     android:textColor="@color/black"
-                    android:text="@string/start_goods_issued"
+                    android:text="@string/start_goods_received"
                     android:textSize="11sp"
                     android:fontFamily="@font/raleway_bold"
                     android:textStyle="bold" />
@@ -72,9 +72,10 @@
 
                 <TextView
                     style="@style/NormalTextLabel"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/raleway_bold"
-                    android:text="@string/goods_issued_note"
+                    android:text="@string/goods_returned_note"
                     android:textSize="9sp"
                     android:textStyle="bold" />
 
@@ -129,7 +130,7 @@
                             android:layout_height="100dp"
                             android:layout_marginTop="5dp"
                             android:scaleType="fitXY"
-                            android:src="@mipmap/ic_company_logo" />
+                            />
                     </LinearLayout>
 
                     <View
@@ -169,7 +170,7 @@
                             android:layout_height="100dp"
                             android:layout_marginTop="5dp"
                             android:scaleType="fitXY"
-                            android:src="@mipmap/ic_company_logo" />
+                             />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -225,7 +226,7 @@
                     android:fontFamily="@font/raleway_bold"
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="50dp"
-                    android:text="@string/end_goods_issued" />
+                    android:text="@string/end_goods_received" />
 
             </LinearLayout>
 

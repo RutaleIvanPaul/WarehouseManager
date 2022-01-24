@@ -166,8 +166,7 @@ class AssignStockRemoteDataSource(
             .addFormDataPart("name", postAssignedItems.postAssignmentItem.name)
             .addFormDataPart("salesPersonUID", postAssignedItems.postAssignmentItem.salesPersonUID)
             .addFormDataPart(
-                "stockAssignmentType",
-                postAssignedItems.postAssignmentItem.stockAssignmentType
+                "stockAssignmentType","assignment"
             )
             .addFormDataPart("warehouseId", postAssignedItems.postAssignmentItem.warehouseId)
             .addFormDataPart(

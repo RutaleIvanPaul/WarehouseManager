@@ -45,6 +45,7 @@ class AssignStockFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
         ASSIGNMENT_RECEIVE_MODELS.resetAssignmentDetails()
+        AssignStockSalesPersonViewModel.onStockTakenDateSelectedLiveData.postValue(false)
     }
 
     private var salespersonFragment: AssignStockSalesPersonFragment? = null

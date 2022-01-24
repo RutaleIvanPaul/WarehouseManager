@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -39,6 +40,7 @@ class AssignStockSalesPersonViewModel(
     companion object {
         val salesPeopleList = mutableListOf<SalesPersonRVModel>()
         val onSalesPeopleLoadedLiveData = MutableLiveData<Boolean>()
+        val onStockTakenDateSelectedLiveData = MutableLiveData<Boolean>()
         val selectedSalespersonLiveData = MutableLiveData<String>()
         val dateStockTakenLiveData = MutableLiveData<String>()
     }
@@ -46,6 +48,8 @@ class AssignStockSalesPersonViewModel(
     override fun start(args: Map<String, Any?>) {
         TODO("Not yet implemented")
     }
+
+
 
 
     fun getSalespeople() {
@@ -78,6 +82,15 @@ class AssignStockSalesPersonViewModel(
         AssignStockViewModel.selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
         AssignStockViewModel.assignedItemDetails.salespersonName = selectedSalespersonRV.name!!
         AssignStockViewModel.assignedItemDetails.salespersonUuid = selectedSalespersonRV.id!!
+        Log.e("xxxxx da", onStockTakenDateSelectedLiveData.value.toString())
+        Log.e("xxxxx ui", AssignStockViewModel.assignedItemDetails.salespersonUuid.toString())
+
+    }
+
+    fun updateStockTakenDateItem(value: Boolean){
+        onStockTakenDateSelectedLiveData.postValue(value)
+        Log.e("xxxxx", onStockTakenDateSelectedLiveData.value.toString())
+
     }
 
     fun getDate(timInMillis: Long): String =

@@ -41,6 +41,7 @@ val stockAssignmentReportDataModule = Kodein.Module("stockAssignmentReportDataMo
     bind<StockAssignmentReportDataSource>("remoteStockAssignmentReportDataSource") with singleton {
         StockStockAssignmentReportRemoteDataSource(
             instance(),
+            instance(),
             instance()
         )
     }

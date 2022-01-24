@@ -35,15 +35,12 @@ class StockAssignmentReportViewModel(
     var warehouseId = ""
 
     var lastDate = ""
-    var page = 0
-    var size = 20
-    var hasMore = true
 
     val validationResponseLiveData = MutableLiveData<Pair<Boolean, Boolean>>()
     val nameOfCompany = MutableLiveData<String>()
 
     var stockList: ArrayList<StockAssignmentReportDistributorDateModel> = ArrayList()
-    val getDistributorDateActionLiveData = MutableLiveData<List<StockAssignmentReportDistributorDateModel>>()
+    var getDistributorDateActionLiveData = MutableLiveData<List<StockAssignmentReportDistributorDateModel>>()
 
     companion object {
         var returnSelected = MutableLiveData<Boolean>()
@@ -95,8 +92,10 @@ class StockAssignmentReportViewModel(
 
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
+                getDistributorDateActionLiveData.postValue(emptyList())
 
-                hasMore = it.isNotEmpty() && it.size >= size
+                prefs.invalidate_cache_assignments_reports = true
+
 
                 if (it.isNotEmpty()) {
                     for (stock in it.reversed().distinct()) {
@@ -129,6 +128,7 @@ class StockAssignmentReportViewModel(
                         }
                     }
                 }
+
 
                 getDistributorDateActionLiveData.postValue(stockList)
 
