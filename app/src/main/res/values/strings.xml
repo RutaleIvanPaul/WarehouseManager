@@ -175,4 +175,5 @@
     <string name="end_of_goods_received">***END OF GOODS RECEIVED***</string>
     <string name="select_sales_person">Select salesperson</string>
     <string name="printer_closed">Printer closed</string>
+    <string name="exceeding_stock">The stock being returned cannot exceed the outstanding stock.</string>
 </resources>

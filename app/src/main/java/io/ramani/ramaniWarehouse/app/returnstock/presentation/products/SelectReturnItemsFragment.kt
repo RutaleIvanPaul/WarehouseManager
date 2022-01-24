@@ -77,6 +77,13 @@ class SelectReturnItemsFragment : BaseFragment() {
             }
         })
 
+        SelectReturnItemsViewmodel.exceedingOutStandingStockLiveData.observe(this,{
+            if(it) {
+                errorDialog(getString(R.string.exceeding_stock))
+                SelectReturnItemsViewmodel.exceedingOutStandingStockLiveData.postValue(false)
+            }
+        })
+
         observerError(viewModel, this)
     }
 
