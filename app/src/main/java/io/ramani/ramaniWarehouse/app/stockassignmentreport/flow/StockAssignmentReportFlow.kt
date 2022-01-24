@@ -5,4 +5,6 @@ import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignm
 interface StockAssignmentReportFlow {
     fun openDetail(isAssignedStock: Boolean, stock: StockAssignmentReportDistributorDateModel)
     fun openPrint()
+    fun openAssignmentReportSalesPersonBottomSheet()
+
 }
