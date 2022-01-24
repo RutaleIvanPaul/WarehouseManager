@@ -118,7 +118,6 @@ class ConfirmAssignedStockFragment : BaseFragment() {
                     AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper = it.second
                     AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeperFile =
                         it.second.toFile(requireContext())
-                    Log.e("1111113333", "Was not empty")
                     ASSIGNMENT_RECEIVE_MODELS.salesSign.postValue(it.second)
 
                 } else if (it.first == AssignedStockSignaturePadFragment.PARAM_SALESPERSON_SIGN) {

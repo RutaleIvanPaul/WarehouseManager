@@ -75,10 +75,7 @@ class AssignStockViewModel(
     fun assignStock(context: Context) {
         startLoading.postValue(true)
         val assignedItems = assignedItemDetails
-        Log.e("111111 ASVM", assignedItems.toString())
-        Log.e("111111 ASVM SA", assignedItems.salespersonName)
-        Log.e("111111 day", AssignStockSalesPersonViewModel.dateStockTakenLiveData.value!!)
-        //Log.e("111111 day", calendar.time.)
+
 
         val items = PostAssignedItems(
             assignedItems.storekeeperName,

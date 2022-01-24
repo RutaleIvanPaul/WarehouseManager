@@ -76,7 +76,6 @@ class StockStockAssignmentReportFragment : BaseFragment() {
 
         if(stock_report_viewpager.currentItem == 1){
             StockAssignmentReportViewModel.returnSelected.postValue(true)
-            Log.e("hereeeeee", "return")
         }
 
         TabLayoutMediator(stock_report_tablayout, stock_report_viewpager) { tab, position ->

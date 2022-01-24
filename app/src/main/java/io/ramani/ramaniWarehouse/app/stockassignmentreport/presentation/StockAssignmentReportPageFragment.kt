@@ -30,7 +30,6 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
             arguments = Bundle().apply {
                 putBoolean(PARAM_IS_ONLY_ASSIGNED, isOnlyAssigned)
                 clickPosition = isOnlyAssigned
-                Log.e("Here 1", clickPosition.toString())
                 StockAssignmentReportViewModel.returnSelected.postValue(isOnlyAssigned)
             }
         }

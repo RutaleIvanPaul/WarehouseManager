@@ -134,10 +134,8 @@ class AssignStockRemoteDataSource(
 
     override fun postAssignedStock(postAssignedItems: AssignProductsRequestModel): Single<PostAssignedItemsResponse> {
         if (AssignedItemDetails.signatureInfoStoreKeeper == null) {
-            Log.e("11111111122", "null")
 
         } else {
-            Log.e("11111111122", "NOT null")
 
         }
         val body = createRequestBody(
@@ -147,7 +145,6 @@ class AssignStockRemoteDataSource(
         )
         return callSingle(
             assignStockAPI.postAssignedStock(body).flatMap {
-                Log.e("dataaaaaa", it.data.toString())
                 Single.just(it.data)
             }
         )
@@ -157,7 +154,6 @@ class AssignStockRemoteDataSource(
         postAssignedItems: AssignProductsRequestModel, storeKeeperSignature: File?,
         deliveryPersonSignature: File?
     ): RequestBody {
-        Log.e("today", postAssignedItems.postAssignmentItem.dateStockTaken)
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("assigner", postAssignedItems.postAssignmentItem.assigner)
             .addFormDataPart("companyId", postAssignedItems.postAssignmentItem.companyId)
@@ -194,13 +190,9 @@ class AssignStockRemoteDataSource(
 
 
     fun createOwnImageFormData(bitmap: Bitmap?): RequestBody {
-//        val bos = ByteArrayOutputStream()
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         if (AssignedItemDetails.signatureInfoStoreKeeper == null) {
-            Log.e("11111111122", "null")
 
         } else {
-            Log.e("11111111122", "NOT null")
 
         }
         return RequestBody.create(

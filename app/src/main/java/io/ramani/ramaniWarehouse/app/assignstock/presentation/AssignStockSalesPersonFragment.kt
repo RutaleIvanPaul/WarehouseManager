@@ -75,7 +75,6 @@ class AssignStockSalesPersonFragment : BaseFragment() {
         select_salesperson_spinner.text = ""
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
         AssignStockSalesPersonViewModel.dateStockTakenLiveData.postValue(return_stock_datepicker_text.text.toString())
-        Log.e("55555", return_stock_datepicker_text.text.toString())
 
         select_salesperson_spinner.setOnSingleClickListener {
             flow.openAssignStockSalesPersonBottomSheet()
@@ -88,19 +87,16 @@ class AssignStockSalesPersonFragment : BaseFragment() {
 
         onStockTakenDateSelectedLiveData.observe(this, {
             if(it == true){
-                Log.e("111111111", it.toString())
                 hasDateBeenSelected = true
             }
         })
 
 
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
-            //Log.e("111111111 person", it.toString())
 
             if (it != null) {
                 select_salesperson_spinner.text = it
                 if(onStockTakenDateSelectedLiveData.value == true) {
-                    Log.e("111111111 date", "true wordked")
                     AssignStockViewModel.allowToGoNext.postValue(Pair(0, true))
                     onStockTakenDateSelectedLiveData.postValue(false)
                 }
@@ -117,7 +113,6 @@ class AssignStockSalesPersonFragment : BaseFragment() {
         val timeString = dateFormatter.convertToDateWithDashes1(calendar.time.time)
         AssignStockSalesPersonViewModel.dateStockTakenLiveData.postValue(timeString)
         return_stock_datepicker_text.text = timeString
-        Log.e("555555", timeString)
     }
 
     private val startDateSetListener =
