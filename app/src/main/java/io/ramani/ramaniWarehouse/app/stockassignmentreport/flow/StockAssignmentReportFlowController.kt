@@ -1,7 +1,9 @@
 package io.ramani.ramaniWarehouse.app.stockassignmentreport.flow
 
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonBottomSheetFragment
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
+import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.AssignmentReportSalesPersonFragment
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportDetailFragment
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import org.jetbrains.anko.AnkoLogger
@@ -21,6 +23,11 @@ class StockAssignmentReportFlowController(
 
     override fun openPrint() {
 
+    }
+
+    override fun openAssignmentReportSalesPersonBottomSheet() {
+        val fragment = AssignStockSalesPersonBottomSheetFragment()
+        activity?.supportFragmentManager?.let { fragment.show(it, "assignment_report_salesperson_sheet_fragment") }
     }
 
 }

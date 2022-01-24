@@ -1,4 +1,4 @@
-package io.ramani.ramaniWarehouse.app.assignstock.presentation
+package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.app.Application
 import android.util.Log
@@ -7,27 +7,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.assignstocksalesperson.model.SalesPersonRVModel
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockFragment
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.model.SalespersonRVModel
-import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportViewModel
-import io.ramani.ramaniWarehouse.data.returnStock.model.GetSalespeopleRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.GetSalesPersonRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
-import io.ramani.ramaniWarehouse.domain.returnStock.model.SalespeopleModel
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
 
-class AssignStockSalesPersonViewModel(
+class AssignmentReportSalesPersonViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
@@ -41,9 +33,8 @@ class AssignStockSalesPersonViewModel(
     companion object {
         val salesPeopleList = mutableListOf<SalesPersonRVModel>()
         val onSalesPeopleLoadedLiveData = MutableLiveData<Boolean>()
-        val onStockTakenDateSelectedLiveData = MutableLiveData<Boolean>()
         val selectedSalespersonLiveData = MutableLiveData<String>()
-        val dateStockTakenLiveData = MutableLiveData<String>()
+        val selectedSalespersonInfoLiveData = MutableLiveData<SalesPersonRVModel>()
     }
 
     override fun start(args: Map<String, Any?>) {
@@ -55,7 +46,6 @@ class AssignStockSalesPersonViewModel(
 
     fun getSalespeople() {
         sessionManager.getLoggedInUser().subscribeBy {
-            AssignStockViewModel.assignedItemDetails.storekeeperName = it.userName
             val single = getSalesPeopleUsecase.getSingle(GetSalesPersonRequestModel(it.companyId))
             subscribeSingle(single,
                 onSuccess = {
@@ -79,19 +69,13 @@ class AssignStockSalesPersonViewModel(
         salesPeopleList.map {
             it.isSelected = it.id == selectedSalespersonRV.id
         }
+        selectedSalespersonInfoLiveData.postValue(selectedSalespersonRV)
         selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
-        AssignStockViewModel.selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
-        AssignStockViewModel.assignedItemDetails.salespersonName = selectedSalespersonRV.name!!
-        AssignStockViewModel.assignedItemDetails.salespersonUuid = selectedSalespersonRV.id!!
-        StockAssignmentReportViewModel.selectedSalesPersonId.postValue(selectedSalespersonRV.id!!)
         StockAssignmentReportViewModel.selectedSalesPersonName.postValue(selectedSalespersonRV.name!!)
+        StockAssignmentReportViewModel.selectedSalesPersonId.postValue(selectedSalespersonRV.id!!)
 
     }
 
-    fun updateStockTakenDateItem(value: Boolean){
-        onStockTakenDateSelectedLiveData.postValue(value)
-
-    }
 
     fun getDate(timInMillis: Long): String =
         dateFormatter.convertToDateWithDashesInLocalTimeZone(timInMillis)
@@ -106,8 +90,8 @@ class AssignStockSalesPersonViewModel(
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(AssignStockSalesPersonViewModel::class.java)) {
-                return AssignStockSalesPersonViewModel(
+            if (modelClass.isAssignableFrom(AssignmentReportSalesPersonViewModel::class.java)) {
+                return AssignmentReportSalesPersonViewModel(
                     application,
                     stringProvider,
                     sessionManager,

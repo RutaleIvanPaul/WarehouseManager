@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -16,6 +17,7 @@ import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentR
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlowController
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
+import kotlinx.android.synthetic.main.fragment_sales_person.*
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_page.*
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
@@ -94,6 +96,13 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
                 calendar.get(Calendar.DAY_OF_MONTH)
             ).show()
         }
+
+        assignment_report_select_salesperson_spinner.text = ""
+
+        assignment_report_select_salesperson_spinner.setOnSingleClickListener {
+            flow.openAssignmentReportSalesPersonBottomSheet()
+        }
+        viewModel.getSalespeople()
     }
 
     private fun subscribeObservers() {
@@ -135,6 +144,15 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
 
                 adapter = listAdapter
             }
+        })
+
+        StockAssignmentReportViewModel.selectedSalesPersonName.observe(this, {
+            assignment_report_select_salesperson_spinner.text = it
+        })
+
+        StockAssignmentReportViewModel.selectedSalesPersonId.observe(this, {
+            viewModel.getDistributorDate(startDate, endDate, isOnlyAssigned)
+
         })
     }
 

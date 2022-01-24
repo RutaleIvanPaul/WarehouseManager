@@ -3,17 +3,24 @@ package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.assignstocksalesperson.model.SalesPersonRVModel
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
+import io.ramani.ramaniWarehouse.data.stockassignment.model.GetSalesPersonRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignmentreport.model.StockAssignmentReportDistributorDateRequestModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
+import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
+import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
+import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
@@ -26,6 +33,8 @@ class StockAssignmentReportViewModel(
     private val prefs: PrefsManager,
     private val printerHelper: PrinterHelper,
     private val getDistributorDateUseCase: BaseSingleUseCase<List<StockAssignmentReportDistributorDateModel>, StockAssignmentReportDistributorDateRequestModel>,
+    private val getSalesPeopleUsecase: BaseSingleUseCase<List<SalesPersonModel>, GetSalesPersonRequestModel>,
+    private val salespersonRVMapper: ModelMapper<SalesPersonModel, SalesPersonRVModel>
 
     ) : BaseViewModel(application, stringProvider, sessionManager) {
     var userId = ""
@@ -44,6 +53,9 @@ class StockAssignmentReportViewModel(
 
     companion object {
         var returnSelected = MutableLiveData<Boolean>()
+        val selectedSalesPersonId = MutableLiveData<String>()
+        val selectedSalesPersonName = MutableLiveData<String>()
+
     }
 
 
@@ -74,19 +86,41 @@ class StockAssignmentReportViewModel(
 
     }
 
+    fun getSalespeople() {
+        sessionManager.getLoggedInUser().subscribeBy {
+            AssignStockViewModel.assignedItemDetails.storekeeperName = it.userName
+            val single = getSalesPeopleUsecase.getSingle(GetSalesPersonRequestModel(it.companyId))
+            subscribeSingle(single,
+                onSuccess = {
+                    isLoadingVisible = false
+                    AssignmentReportSalesPersonViewModel.salesPeopleList.addAll(
+                        it.mapFromWith(salespersonRVMapper).toMutableList()
+                    )
+                    AssignmentReportSalesPersonViewModel.onSalesPeopleLoadedLiveData.postValue(true)
+                }, onError = {
+                    isLoadingVisible = false
+                    notifyError(
+                        it.message
+                            ?: getString(R.string.an_error_has_occured_please_try_again),
+                        PresentationError.ERROR_TEXT
+                    )
+                })
+        }
+    }
+
+
     fun getDistributorDate(startDate: String, endDate: String, isOnlyAccepted: Boolean) {
         // If date is changed, list should be cleared
 
             isLoadingVisible = true
+             Log.e("2222222", selectedSalesPersonId.value.toString())
 
             val single = getDistributorDateUseCase.getSingle(
                 StockAssignmentReportDistributorDateRequestModel(
-                    userId /* "618cdad48f172b7b7e399349" */,
+                    selectedSalesPersonId.value.toString() /* "618cdad48f172b7b7e399349" */,
                     warehouseId,
                     startDate,
                     endDate
-//                    date/* "2021-10-19" */,
-//                    date/* "2021-10-19" */,
                 )
             )
 
@@ -163,7 +197,9 @@ class StockAssignmentReportViewModel(
         private val sessionManager: ISessionManager,
         private val prefs: PrefsManager,
         private val printerHelper: PrinterHelper,
-        private val getDistributorDateUseCase: BaseSingleUseCase<List<StockAssignmentReportDistributorDateModel>, StockAssignmentReportDistributorDateRequestModel>
+        private val getDistributorDateUseCase: BaseSingleUseCase<List<StockAssignmentReportDistributorDateModel>, StockAssignmentReportDistributorDateRequestModel>,
+        private val getSalesPeopleUsecase: BaseSingleUseCase<List<SalesPersonModel>, GetSalesPersonRequestModel>,
+        private val salespersonRVMapper: ModelMapper<SalesPersonModel, SalesPersonRVModel>,
     ) : ViewModelProvider.Factory {
 
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -174,7 +210,9 @@ class StockAssignmentReportViewModel(
                     sessionManager,
                     prefs,
                     printerHelper,
-                    getDistributorDateUseCase
+                    getDistributorDateUseCase,
+                    getSalesPeopleUsecase,
+                    salespersonRVMapper
                 ) as T
             }
             throw IllegalArgumentException("Unknown view model class")
