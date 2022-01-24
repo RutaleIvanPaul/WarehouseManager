@@ -11,8 +11,8 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 27,
-      "versionName": "0.2.4",
+      "versionCode": 32,
+      "versionName": "0.2.8",
       "outputFile": "app-staging.apk"
     }
   ],

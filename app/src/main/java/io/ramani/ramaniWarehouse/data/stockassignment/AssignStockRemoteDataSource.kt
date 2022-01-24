@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.BuildConfig
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
@@ -39,6 +40,7 @@ import retrofit2.HttpException
 import java.io.File
 import java.io.IOException
 import java.io.OutputStream
+import java.util.*
 
 class AssignStockRemoteDataSource(
     private val assignStockAPI: AssignStockAPI,
@@ -46,6 +48,8 @@ class AssignStockRemoteDataSource(
     private val productRemoteMapper: ModelMapper<RemoteProductModel, ProductEntity>,
     private val prefs: PrefsManager
 ) : AssignStockDataSource, BaseRemoteDataSource() {
+    private var calendar = Calendar.getInstance()
+    private val today: String = calendar.time.toString()
 //    val context: Context = TODO()
 //    val kodein by closestKodein(context)
 
@@ -130,10 +134,8 @@ class AssignStockRemoteDataSource(
 
     override fun postAssignedStock(postAssignedItems: AssignProductsRequestModel): Single<PostAssignedItemsResponse> {
         if (AssignedItemDetails.signatureInfoStoreKeeper == null) {
-            Log.e("11111111122", "null")
 
         } else {
-            Log.e("11111111122", "NOT null")
 
         }
         val body = createRequestBody(
@@ -143,7 +145,6 @@ class AssignStockRemoteDataSource(
         )
         return callSingle(
             assignStockAPI.postAssignedStock(body).flatMap {
-                Log.e("dataaaaaa", it.data.toString())
                 Single.just(it.data)
             }
         )
@@ -161,8 +162,7 @@ class AssignStockRemoteDataSource(
             .addFormDataPart("name", postAssignedItems.postAssignmentItem.name)
             .addFormDataPart("salesPersonUID", postAssignedItems.postAssignmentItem.salesPersonUID)
             .addFormDataPart(
-                "stockAssignmentType",
-                postAssignedItems.postAssignmentItem.stockAssignmentType
+                "stockAssignmentType","assignment"
             )
             .addFormDataPart("warehouseId", postAssignedItems.postAssignmentItem.warehouseId)
             .addFormDataPart(
@@ -190,13 +190,9 @@ class AssignStockRemoteDataSource(
 
 
     fun createOwnImageFormData(bitmap: Bitmap?): RequestBody {
-//        val bos = ByteArrayOutputStream()
-//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         if (AssignedItemDetails.signatureInfoStoreKeeper == null) {
-            Log.e("11111111122", "null")
 
         } else {
-            Log.e("11111111122", "NOT null")
 
         }
         return RequestBody.create(

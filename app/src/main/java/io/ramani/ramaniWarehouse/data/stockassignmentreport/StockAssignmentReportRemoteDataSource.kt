@@ -4,6 +4,7 @@ import android.util.Log
 import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
+import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
 import io.ramani.ramaniWarehouse.data.stockassignmentreport.StockAssignmentReportApi
 import io.ramani.ramaniWarehouse.data.stockassignmentreport.model.StockAssignmentReportDistributorDateRemoteModel
@@ -22,11 +23,14 @@ import retrofit2.HttpException
 
 class StockStockAssignmentReportRemoteDataSource(
     private val StockAssignmentReportApi: StockAssignmentReportApi,
+    private val prefs: PrefsManager,
     private val distributorDateRemoteMapper: ModelMapper<StockAssignmentReportDistributorDateRemoteModel, StockAssignmentReportDistributorDateModel>,
     ) : StockAssignmentReportDataSource, BaseRemoteDataSource() {
     override fun getStockAssignmentDistributorDate(salesPersonUID: String, warehouseId: String, startDate: String, endDate: String) =
         callSingle(
-            StockAssignmentReportApi.getStockAssignmentReportDistributorDate(salesPersonUID, warehouseId, startDate, endDate).flatMap {
+            StockAssignmentReportApi.getStockAssignmentReportDistributorDate(
+                prefs.invalidate_cache_company_products.toString(),
+                salesPersonUID, warehouseId, startDate, endDate).flatMap {
                 val data = it.data
                 if (data != null) {
 //                    Single.just(data.listOfProducts)

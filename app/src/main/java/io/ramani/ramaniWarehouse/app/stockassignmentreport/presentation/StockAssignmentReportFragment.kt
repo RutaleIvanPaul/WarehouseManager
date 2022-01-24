@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -72,6 +73,10 @@ class StockStockAssignmentReportFragment : BaseFragment() {
         stock_report_viewpager.isUserInputEnabled = false
         stock_report_viewpager.adapter = adapter
         stock_report_viewpager.currentItem = 0
+
+        if(stock_report_viewpager.currentItem == 1){
+            StockAssignmentReportViewModel.returnSelected.postValue(true)
+        }
 
         TabLayoutMediator(stock_report_tablayout, stock_report_viewpager) { tab, position ->
             tab.text = adapter.getTabTitle(position)

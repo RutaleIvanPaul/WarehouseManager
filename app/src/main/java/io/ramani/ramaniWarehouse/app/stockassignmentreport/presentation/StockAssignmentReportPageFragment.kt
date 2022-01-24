@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,10 +24,13 @@ import java.util.*
 class StockStockAssignmentReportPageFragment : BaseFragment() {
     companion object {
         private const val PARAM_IS_ONLY_ASSIGNED = "isOnlyAssigned"
+        private var clickPosition = true
 
         fun newInstance(isOnlyAssigned: Boolean) = StockStockAssignmentReportPageFragment().apply {
             arguments = Bundle().apply {
                 putBoolean(PARAM_IS_ONLY_ASSIGNED, isOnlyAssigned)
+                clickPosition = isOnlyAssigned
+                StockAssignmentReportViewModel.returnSelected.postValue(isOnlyAssigned)
             }
         }
     }
@@ -104,10 +108,23 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
         })
 
         viewModel.getDistributorDateActionLiveData.observe(this, {
+
             assignment_report_no_stock.visibility =
                 if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
 
-            datas = it.toMutableList()
+            datas = it.distinct().toMutableList()
+            datas = datas!!.filter{ it.dateStockTaken >= startDate && it.dateStockTaken <= endDate}.toMutableList()
+
+            if(isOnlyAssigned == true){
+                datas = datas!!.filter{ it.stockAssignmentType == "assignment"}.toMutableList()
+
+            }
+            else {
+                datas = datas!!.filter{ it.stockAssignmentType == "return"}.toMutableList()
+
+            }
+
+
 
             assignment_report_list.apply {
                 layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)

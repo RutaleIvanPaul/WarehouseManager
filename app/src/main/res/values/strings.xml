@@ -89,9 +89,11 @@
 
     <string name="start_goods_issued">*** START OF GOODS ISSUED ***</string>
     <string name="start_goods_returned">*** START OF GOODS RETURNED ***</string>
+    <string name="start_goods_received">*** START OF GOODS RECEIVED ***</string>
 
     <string name="end_goods_issued">*** END OF GOODS ISSUED ***</string>
     <string name="end_goods_returned">*** END OF GOODS RETURNED ***</string>
+    <string name="end_goods_received">*** END OF GOODS RECEIVED ***</string>
 
 
     <string name="goods">Goods</string>
@@ -137,6 +139,7 @@
     <string name="end_of_goods_assigned">***END OF GOODS ASSIGNED***</string>
     <string name="company_logo">company logo</string>
     <string name="goods_issued_note">Goods Issued Note</string>
+    <string name="goods_returned_note">Goods Returned Note</string>
     <string name="masyl_general_enteprices">Masyl General Enteprises</string>
     <string name="date_24_july_2021">Date: 24 July 2021</string>
     <string name="assigned_to">Assigned to</string>

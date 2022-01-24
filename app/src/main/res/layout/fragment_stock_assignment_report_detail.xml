@@ -50,6 +50,7 @@
                 android:text="Masyl General Enterprises" />
 
             <TextView
+                android:id="@+id/stock_assignment_report_note_text"
                 style="@style/NormalTextLabel"
                 android:layout_marginTop="20dp"
                 android:text="@string/goods_issued_note" />

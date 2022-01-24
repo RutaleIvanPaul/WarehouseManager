@@ -16,6 +16,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.domain.stockreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
+import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
 import kotlinx.android.synthetic.main.fragment_stock_report_detail.*
 import kotlinx.android.synthetic.main.item_stock_report_detail_item_row.view.*
 import org.kodein.di.generic.factory
@@ -69,6 +70,8 @@ class StockReportDetailFragment : BaseFragment() {
                 stock_report_detail_delivery_person_signature.loadImage(it.deliveryPersonSignature[0])
 
             stock_report_detail_issued_date.text = "Date: " + it.date
+            stock_report_detail_store_keeper_name.text = it.supplierName
+            stock_report_detail_delivery_person_name.text = it.deliveryPersonName
 
             it.items.let {
                 for (item in it) {

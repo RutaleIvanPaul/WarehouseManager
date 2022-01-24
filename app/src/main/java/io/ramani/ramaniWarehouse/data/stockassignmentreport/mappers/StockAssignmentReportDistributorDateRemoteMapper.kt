@@ -27,7 +27,7 @@ class StockAssignmentReportDistributorDateRemoteMapper(
             .storeKeeperSignature(from.storeKeeperSignature)
             .salesPersonSignature(from.salesPersonSignature)
             .salesPersonUUID(from.salesPersonUID)
-            .stockAssignmentType(from.salesPersonUID)
+            .stockAssignmentType(from.stockAssignmentType)
             .build()
         }
 
