@@ -22,12 +22,15 @@ class AssignStockSalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        viewModel.getSalespeople()
+
         salespersonBottomSheetRVAdapter =
             AssignStockSalesPersonBottomSheetRVAdapter(AssignStockSalesPersonViewModel.salesPeopleList.distinct().toMutableList()) {
                 viewModel.onSalesPersonSelected(it)
                 dismiss()
             }
         viewModel.getSalespeople()
+        salespersonBottomSheetRVAdapter.notifyDataSetChanged()
     }
 
     override fun onCreateView(
