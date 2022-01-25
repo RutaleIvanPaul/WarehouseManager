@@ -127,6 +127,7 @@ class StockAssignmentReportViewModel(
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false
                 getDistributorDateActionLiveData.postValue(emptyList())
+                stockList.clear()
 
                 prefs.invalidate_cache_assignments_reports = true
 
