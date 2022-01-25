@@ -122,7 +122,7 @@ class StockStockAssignmentReportPageFragment : BaseFragment() {
                 if (it.isEmpty()) View.VISIBLE else View.INVISIBLE
 
             datas = it.distinct().toMutableList()
-            datas = datas!!.filter{ it.dateStockTaken >= startDate && it.dateStockTaken <= endDate}.toMutableList()
+            datas = datas!!.filter{ it.dateStockTaken >= startDate && it.dateStockTaken <= endDate && it.salesPersonUID == StockAssignmentReportViewModel.selectedSalesPersonId.value}.toMutableList()
 
             if(isOnlyAssigned == true){
                 datas = datas!!.filter{ it.stockAssignmentType == "assignment"}.toMutableList()

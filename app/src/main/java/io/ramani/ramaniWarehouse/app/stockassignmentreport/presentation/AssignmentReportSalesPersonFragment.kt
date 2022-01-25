@@ -69,12 +69,13 @@ class AssignmentReportSalesPersonFragment : BaseFragment() {
         }
 
         assignment_report_select_salesperson_spinner.text = ""
-        AssignmentReportSalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
+        //AssignmentReportSalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
+        viewModel.getSalespeople()
+
 
         assignment_report_select_salesperson_spinner.setOnSingleClickListener {
             flow.openAssignmentReportSalesPersonBottomSheet()
         }
-        viewModel.getSalespeople()
     }
 
     private fun subscribeObservers() {

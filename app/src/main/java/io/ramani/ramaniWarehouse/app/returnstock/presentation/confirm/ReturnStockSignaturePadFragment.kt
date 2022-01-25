@@ -56,7 +56,7 @@ class ReturnStockSignaturePadFragment : BaseBottomSheetDialogFragment() {
 
 
         return_stock_signature_pad_clear.setOnSingleClickListener {
-            stock_receive_signature_pad.clear()
+            return_stock_signature_pad.clear()
         }
 
         return_stock_signature_pad_confirm.setOnSingleClickListener {
