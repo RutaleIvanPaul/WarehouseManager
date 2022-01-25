@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -69,12 +70,12 @@ class AssignStockFragment : BaseFragment() {
                 0 -> {
                     assign_stock_host_next_button.text = getText(R.string.next)
                     assign_stock_viewpager.currentItem++
-                    AssignStockViewModel.allowToGoNext.postValue(Pair(1,false))
+                    AssignStockViewModel.allowToGoNext.postValue(Pair(1, false))
                 }
                 1 -> {
                     assign_stock_host_next_button.text = getText(R.string.done)
                     assign_stock_viewpager.currentItem++
-                    AssignStockViewModel.allowToGoNext.postValue(Pair(1,false))
+                    AssignStockViewModel.allowToGoNext.postValue(Pair(1, false))
                 }
                 else -> {
                     assign_stock_host_next_button.text = getText(R.string.done)
@@ -85,7 +86,7 @@ class AssignStockFragment : BaseFragment() {
     }
 
     private fun subscribeObservers() {
-                AssignStockViewModel.allowToGoNext.observe(this, {
+        AssignStockViewModel.allowToGoNext.observe(this, {
             if (it.second) {
                 when (it.first) {
                     0 -> {
@@ -114,8 +115,7 @@ class AssignStockFragment : BaseFragment() {
                         allowToGoNext()
                     }
                 }
-            }
-            else{
+            } else {
                 assign_stock_host_next_button.apply {
                     isEnabled = false
                     backgroundDrawable =
@@ -130,7 +130,7 @@ class AssignStockFragment : BaseFragment() {
             }
         })
 
-        
+
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
             if (it != null) {
                 assign_stock_host_next_button.apply {
@@ -161,13 +161,21 @@ class AssignStockFragment : BaseFragment() {
         })
 
         viewModel.onItemsAssignedLiveData.observe(this, {
-            flow.openAssignSuccess()
-            (activity as BaseActivity).navigationManager?.remove(this)
+            if (it) {
+                flow.openAssignSuccess()
+                (activity as BaseActivity).navigationManager?.remove(this)
+            } else {
+                Toast.makeText(requireContext(),
+                    requireContext().getString(R.string.an_error_has_occured_with_assignment),
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+
         })
 
 
-        AssignStockViewModel.pushBackToStart.observe(this,{
-            if (it){
+        AssignStockViewModel.pushBackToStart.observe(this, {
+            if (it) {
                 assign_stock_viewpager.currentItem = 0
             }
         })

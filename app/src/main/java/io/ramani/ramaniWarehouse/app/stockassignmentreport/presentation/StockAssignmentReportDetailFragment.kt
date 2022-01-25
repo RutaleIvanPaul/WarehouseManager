@@ -116,7 +116,7 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
     private fun addItems(item: ProductReceivedItemModel) {
         val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_report_detail_item_row, null)
         itemView.stock_report_detail_item_row_name.text = item.productName
-        itemView.stock_report_detail_item_row_quantity.text = item.quantity.toString() + " pcs"
+        itemView.stock_report_detail_item_row_quantity.text = item.quantity.toString() + " ${item.units}"
         assignment_report_detail_items_container.addView(itemView)
     }
 

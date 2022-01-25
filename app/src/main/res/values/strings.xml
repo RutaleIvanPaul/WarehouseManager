@@ -176,4 +176,5 @@
     <string name="select_sales_person">Select salesperson</string>
     <string name="printer_closed">Printer closed</string>
     <string name="exceeding_stock">The stock being returned cannot exceed the outstanding stock.</string>
+    <string name="an_error_has_occured_with_assignment">Pleasenensure to select date stock was taken</string>
 </resources>

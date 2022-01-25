@@ -127,6 +127,8 @@ class CompanyProductsFragment : BaseFragment() {
 
         body.text = item.name
         primaryUnits.text = item.units
+        viewModel.companyProductsListOriginal?.find { it._id == item._id }?.selectedUnits = item.units
+
         if (!item.hasSecondaryUnitConversion){
             primaryUnits.layoutParams.width = 600
             secondaryUnits.visibility = View.GONE
@@ -139,6 +141,8 @@ class CompanyProductsFragment : BaseFragment() {
                     R.drawable.round_white_outline_with_no_borders
                 )
                 secondaryUnits.text = item.secondaryUnitName
+                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.selectedUnits = item.secondaryUnitName
+
                 primaryUnits.background =
                     ContextCompat.getDrawable(context, R.drawable.round_grey_outline_edit)
             })
@@ -148,6 +152,8 @@ class CompanyProductsFragment : BaseFragment() {
                     context,
                     R.drawable.round_white_outline_with_no_borders
                 )
+                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.selectedUnits = item.units
+
                 secondaryUnits.background =
                     ContextCompat.getDrawable(context, R.drawable.round_grey_outline_edit)
             })

@@ -97,7 +97,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:scaleType="fitStart"
-                        android:src="@mipmap/ic_company_logo" />
+                        />
                 </LinearLayout>
 
                 <View
@@ -131,7 +131,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
                         android:scaleType="fitStart"
-                        android:src="@mipmap/ic_company_logo" />
+                        />
                 </LinearLayout>
             </LinearLayout>
 

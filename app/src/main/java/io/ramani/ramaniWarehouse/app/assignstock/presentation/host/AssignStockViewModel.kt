@@ -62,6 +62,7 @@ class AssignStockViewModel(
     var userModel: UserModel? = null
     var warehouseModel: WarehouseModel? = null
     val onItemsAssignedLiveData = MutableLiveData<Boolean>()
+    val onItemsAssignedLiveDataError = MutableLiveData<String>()
 
     override fun start(args: Map<String, Any?>) {
         sessionManager.getCurrentWarehouse().subscribeBy {
@@ -103,6 +104,7 @@ class AssignStockViewModel(
         subscribeSingle(
             single,
             onSuccess = {
+                Log.e("99999 success", it.toString())
                 isLoadingVisible = false
                 startLoading.postValue(false)
                 ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.postValue(0)
@@ -110,6 +112,7 @@ class AssignStockViewModel(
                 onItemsAssignedLiveData.postValue(true)
                 prefs.invalidate_cache_company_products = true
             }, onError = {
+
                 isLoadingVisible = false
                 startLoading.postValue(false)
                 notifyError(
@@ -118,6 +121,7 @@ class AssignStockViewModel(
                     PresentationError.ERROR_TEXT
                 )
                 onItemsAssignedLiveData.postValue(false)
+                onItemsAssignedLiveDataError.postValue(getString(R.string.an_error_has_occured_with_assignment))
 
             }
         )
