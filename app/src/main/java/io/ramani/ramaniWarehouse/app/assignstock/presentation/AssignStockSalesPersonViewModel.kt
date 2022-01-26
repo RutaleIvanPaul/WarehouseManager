@@ -94,7 +94,7 @@ class AssignStockSalesPersonViewModel(
     }
 
     fun getDate(timInMillis: Long): String =
-        dateFormatter.convertToDateWithDashesInLocalTimeZone(timInMillis)
+        dateFormatter.convertToDateWithDashes1(timInMillis)
 
     class Factory(
         private val application: Application,
