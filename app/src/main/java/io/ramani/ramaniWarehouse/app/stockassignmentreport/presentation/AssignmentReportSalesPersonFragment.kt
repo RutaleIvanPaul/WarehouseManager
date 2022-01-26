@@ -82,8 +82,6 @@ class AssignmentReportSalesPersonFragment : BaseFragment() {
 
 
         AssignmentReportSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
-            Log.e("ssssssss", it)
-
 
         })
     }

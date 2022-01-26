@@ -113,7 +113,6 @@ class AssignStockSalesPersonFragment : BaseFragment() {
         val timeString = dateFormatter.convertToDateWithDashes1(calendar.time.time)
         AssignStockSalesPersonViewModel.dateStockTakenLiveData.postValue(timeString)
         return_stock_datepicker_text.text = timeString
-        Log.e("9999999", timeString)
     }
 
     private val startDateSetListener =

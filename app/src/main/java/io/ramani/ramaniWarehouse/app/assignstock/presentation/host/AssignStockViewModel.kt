@@ -104,7 +104,6 @@ class AssignStockViewModel(
         subscribeSingle(
             single,
             onSuccess = {
-                Log.e("99999 success", it.toString())
                 isLoadingVisible = false
                 startLoading.postValue(false)
                 ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.postValue(0)

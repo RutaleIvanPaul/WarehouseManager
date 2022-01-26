@@ -176,7 +176,6 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
             storeKeeperUrl.let { viewModel.printBitmap(it.toBitmap()?.processForPrinting()) }
 
         } catch (e: Exception) {
-            Log.e("33333333", e.message.toString())
         }
     }
 
