@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/assignment_report_parent_scroll"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
@@ -24,6 +25,7 @@
             <ImageView style="@style/backButton" />
 
             <TextView
+                android:id="@+id/assignment_report_print_hidden"
                 style="@style/BoldTextLabel"
                 android:layout_marginStart="5dp"
                 android:text="@string/assignment_report" />

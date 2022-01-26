@@ -15,7 +15,7 @@ class ConfirmAssignedItemsAdapter(
 
         with(holder){
             setText(R.id.item_confirm_assigned_product_name,item.name)
-            setText(R.id.item_confirm_assigned_product_quantity, "${item.assignedNumber} ${item.units}")
+            setText(R.id.item_confirm_assigned_product_quantity, "${item.assignedNumber} ${item.selectedUnits}")
         }
     }
 }

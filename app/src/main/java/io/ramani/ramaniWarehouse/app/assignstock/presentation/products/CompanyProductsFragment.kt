@@ -135,12 +135,12 @@ class CompanyProductsFragment : BaseFragment() {
 
         }
         else {
+            secondaryUnits.text = item.secondaryUnitName
             secondaryUnits.setOnClickListener(View.OnClickListener {
                 secondaryUnits.background = ContextCompat.getDrawable(
                     context,
                     R.drawable.round_white_outline_with_no_borders
                 )
-                secondaryUnits.text = item.secondaryUnitName
                 viewModel.companyProductsListOriginal?.find { it._id == item._id }?.selectedUnits = item.secondaryUnitName
 
                 primaryUnits.background =

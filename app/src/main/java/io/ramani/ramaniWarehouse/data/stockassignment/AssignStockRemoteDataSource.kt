@@ -133,7 +133,6 @@ class AssignStockRemoteDataSource(
         )
 
     override fun postAssignedStock(postAssignedItems: AssignProductsRequestModel): Single<PostAssignedItemsResponse> {
-       Log.e("Assign stock", postAssignedItems.toString())
         val body = createRequestBody(
             postAssignedItems,
             AssignedItemDetails.signatureInfoStoreKeeperFile,

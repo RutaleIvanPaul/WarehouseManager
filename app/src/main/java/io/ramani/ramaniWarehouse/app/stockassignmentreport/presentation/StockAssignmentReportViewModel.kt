@@ -113,7 +113,6 @@ class StockAssignmentReportViewModel(
         // If date is changed, list should be cleared
 
             isLoadingVisible = true
-             Log.e("2222222", selectedSalesPersonId.value.toString())
 
             val single = getDistributorDateUseCase.getSingle(
                 StockAssignmentReportDistributorDateRequestModel(

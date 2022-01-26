@@ -2,11 +2,14 @@ package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlow
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
@@ -15,7 +18,9 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
+import io.ramani.ramaniWarehouse.domainCore.printer.processForPrinting
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
+import kotlinx.android.synthetic.main.fragment_stock_report_detail.*
 import kotlinx.android.synthetic.main.item_stock_report_detail_item_row.view.*
 import org.kodein.di.generic.factory
 import java.io.IOException
@@ -121,14 +126,16 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
     }
 
     private fun printAssignmentReceipt(viewModel: StockAssignmentReportViewModel) {
-//        val storeKeeperUrl : URL = URL(storeKeeperSignature)
-//        val salesPersonUrl : URL = URL(salesPersonSignature)
+
         viewModel.printText(getTextBeforeImages())
-        //storeKeeperUrl.let { viewModel.printBitmap(it.toBitmap()) }
-       // viewModel.printBitmap(R.mipmap.ic_company_logo)
+
         viewModel.printText(getString(R.string.store_keeper)+": "+storeKeeperName+ "\n")
+
+        printBitmapIfAvailable(storeKeeperSignature, viewModel)
+
         viewModel.printText(getString(R.string.assigned_to)+": "+salesPersonName+ "\n")
-        //salesPersonUrl.let { viewModel.printBitmap(it.toBitmap()) }
+        printBitmapIfAvailable(salesPersonSignature, viewModel)
+
 
         viewModel.printText("\n"+ getString(if (isAssignedStock) R.string.end_goods_issued else R.string.end_goods_returned) +"\n\n\n\n\n")
 
@@ -160,6 +167,15 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
             BitmapFactory.decodeStream(openStream())
         }catch (e: IOException){
             null
+        }
+    }
+
+    fun printBitmapIfAvailable(url: String?, viewModel: StockAssignmentReportViewModel) {
+        try {
+            val storeKeeperUrl = URL(url)
+            storeKeeperUrl.let { viewModel.printBitmap(it.toBitmap()?.processForPrinting()) }
+
+        } catch (e: Exception) {
         }
     }
 
