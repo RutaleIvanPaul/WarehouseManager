@@ -68,7 +68,7 @@ class ReturnStockViewModel(
                 dateFormatter.convertToCalendarFormatDate(now()),
                 ReturnItemDetails.returnItems.mapFromWith(returnItemsMapper),
                 ReturnItemDetails.salespersonName,
-                userModel!!.uuid,
+                ReturnItemDetails.salespersonUuid,
                 warehouseModel!!.id!!,
                 "return",
                 ReturnItemDetails.signatureInfoStoreKeeper,

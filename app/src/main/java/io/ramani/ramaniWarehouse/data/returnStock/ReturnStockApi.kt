@@ -22,19 +22,8 @@ interface ReturnStockApi {
         @Query("salesPersonUID") salesPersonUID: String
     ): Single<BaseResponse<List<AvailableStockReturnedListItem>>>
 
-    @Multipart
     @POST("/sfa/new/intake/v2")
     fun postReturnedStock(
-        @Part("assigner") assigner: RequestBody,
-        @Part("comment") comment: RequestBody,
-        @Part("companyId") companyId: RequestBody,
-        @Part("dateStockTaken") dateStockTaken: RequestBody,
-        @Part("name") name: RequestBody,
-        @Part("salesPersonUID") salesPersonUID: RequestBody,
-        @Part("stockAssignmentType") stockAssignmentType: RequestBody,
-        @Part("warehouseId") warehouseId: RequestBody,
-        @Part("listOfProducts") listOfProducts: RequestBody,
-        @Part("storeKeeperSignature") storeKeeperSignature: RequestBody,
-        @Part("salesPersonSignature") salesPersonSignature: RequestBody
+        @Body postReturnItems: RequestBody
     ): Single<BaseResponse<PostReturnItemsResponse>>
 }
