@@ -73,7 +73,8 @@
                     android:layout_below="@+id/layout_custom_rewards_dialogue_box_product_id"
                     android:layout_marginTop="15dp"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:background="@drawable/round_grey_outline_edit">
 
                     <TextView
                         android:id="@+id/dialogue_custom_forms_custom_price_button"
@@ -90,7 +91,8 @@
                         android:textColor="@color/custom_black"
                         android:textFontWeight="600"
                         android:textSize="14sp"
-                        android:textStyle="normal" />
+                        android:textStyle="normal"
+                        />
 
                     <TextView
                         android:id="@+id/dialogue_custom_forms_qty_button"
@@ -108,7 +110,8 @@
                         android:textColor="@color/grey_text"
                         android:textFontWeight="600"
                         android:textSize="14sp"
-                        android:textStyle="normal" />
+                        android:textStyle="normal"
+                        />
 
 
                 </RelativeLayout>
