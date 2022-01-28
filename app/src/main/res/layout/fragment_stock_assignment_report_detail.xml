@@ -13,6 +13,7 @@
         android:paddingStart="10dp"
         android:paddingTop="20dp"
         android:paddingEnd="10dp"
+        android:gravity="center"
         android:paddingBottom="20dp">
 
         <LinearLayout
@@ -31,6 +32,14 @@
                 android:text="@string/assignment_report" />
         </LinearLayout>
 
+        <ScrollView
+            android:id="@+id/stock_assignment__report_detail_scrollview"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/stock_report_detail_back"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:layout_above="@+id/stock_report_detail_print_button">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,6 +51,10 @@
             <TextView
                 android:id="@+id/assignment_report_detail_title"
                 style="@style/NormalTextLabel"
+                android:lines="1"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="bold"
                 android:text="@string/start_goods_issued" />
 
 
@@ -49,18 +62,30 @@
                 android:id="@+id/companyName"
                 style="@style/LargeTextLabel"
                 android:layout_marginTop="10dp"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:text="Masyl General Enterprises" />
 
             <TextView
                 android:id="@+id/stock_assignment_report_note_text"
                 style="@style/NormalTextLabel"
                 android:layout_marginTop="20dp"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:text="@string/goods_issued_note" />
 
             <TextView
                 android:id="@+id/assignment_report_detail_issued_date"
                 style="@style/NormalTextLabel"
                 android:layout_marginTop="20dp"
+                android:textSize="9sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 android:text="Date: 24 July 2021" />
 
             <View
@@ -85,6 +110,10 @@
 
                     <TextView
                         style="@style/NormalTextLabel"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
                         android:text="@string/store_keeper" />
 
                     <TextView
@@ -92,13 +121,19 @@
                         style="@style/NormalTextLabel"
                         android:layout_marginTop="10dp"
                         android:text="Christian Michael"
-                        android:textColor="@color/mid_dark_grey" />
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
+                        />
 
                     <ImageView
                         android:id="@+id/assignment_report_detail_store_keeper_signature"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:scaleType="fitStart"
+                        android:contentDescription="@string/store_keeper_signature"
+                        android:paddingTop="10dp"
+                        android:scaleType="fitXY"
                         />
                 </LinearLayout>
 
@@ -119,6 +154,10 @@
 
                     <TextView
                         style="@style/NormalTextLabel"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold"
                         android:text="@string/assigned_to" />
 
                     <TextView
@@ -126,13 +165,18 @@
                         style="@style/NormalTextLabel"
                         android:layout_marginTop="10dp"
                         android:text="Claudian Bernet"
-                        android:textColor="@color/mid_dark_grey" />
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
 
                     <ImageView
                         android:id="@+id/assignment_report_detail_delivery_person_signature"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"
-                        android:scaleType="fitStart"
+                        android:contentDescription="@string/assigned_to_signature"
+                        android:paddingTop="10dp"
+                        android:scaleType="fitXY"
                         />
                 </LinearLayout>
             </LinearLayout>
@@ -164,10 +208,15 @@
                         android:text="@string/goods" />
 
                     <TextView
-                        android:layout_width="0dp"
                         android:layout_weight="1"
                         android:gravity="end"
                         style="@style/BoldTextLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="15dp"
                         android:text="@string/quantity" />
                 </LinearLayout>
 
@@ -184,19 +233,31 @@
                 android:id="@+id/assignment_report_detail_end"
                 style="@style/NormalTextLabel"
                 android:text="@string/end_goods_issued"
-                android:layout_marginTop="50dp"/>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingBottom="16dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
 
             <!-- Print -->
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/assignment_report_detail_print_button"
-                style="@style/GreenFillActionButton"
-                android:layout_width="180dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="10dp"
-                android:text="@string/print" />
+
 
         </LinearLayout>
+        </ScrollView>
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/assignment_report_detail_print_button"
+            style="@style/GreenFillActionButton"
+            android:layout_width="180dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/print" />
 
     </LinearLayout>
 </ScrollView>
