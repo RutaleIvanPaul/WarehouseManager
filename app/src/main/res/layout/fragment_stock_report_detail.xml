@@ -51,7 +51,7 @@
                     style="@style/NormalTextLabel"
                     android:textColor="@color/black"
                     android:text="@string/start_goods_received"
-                    android:textSize="11sp"
+                    android:textSize="10sp"
                     android:fontFamily="@font/raleway_bold"
                     android:textStyle="bold" />
 
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:fontFamily="@font/raleway_bold"
-                    android:text="@string/goods_returned_note"
+                    android:text="@string/goods_received_note"
                     android:textSize="9sp"
                     android:textStyle="bold" />
 

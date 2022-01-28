@@ -14,12 +14,13 @@ import io.ramani.ramaniWarehouse.app.stockreport.flow.StockReportFlow
 import io.ramani.ramaniWarehouse.app.stockreport.flow.StockReportFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.stockreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
-import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
 import kotlinx.android.synthetic.main.fragment_stock_report_detail.*
 import kotlinx.android.synthetic.main.item_stock_report_detail_item_row.view.*
 import org.kodein.di.generic.factory
+import org.kodein.di.generic.instance
 
 class StockReportDetailFragment : BaseFragment() {
     companion object {
@@ -38,6 +39,7 @@ class StockReportDetailFragment : BaseFragment() {
         get() = viewModel
 
     private lateinit var flow: StockReportFlow
+    private val dateFormatter: DateFormatter by instance()
 
     override fun getLayoutResId(): Int = R.layout.fragment_stock_report_detail
 
@@ -69,7 +71,7 @@ class StockReportDetailFragment : BaseFragment() {
             if (!it.deliveryPersonSignature.isNullOrEmpty())
                 stock_report_detail_delivery_person_signature.loadImage(it.deliveryPersonSignature[0])
 
-            stock_report_detail_issued_date.text = "Date: " + it.date
+            stock_report_detail_issued_date.text = "Date: " + it.date.split("T").get(0) ?: ""
             stock_report_detail_store_keeper_name.text = it.supplierName
             stock_report_detail_delivery_person_name.text = it.deliveryPersonName
 

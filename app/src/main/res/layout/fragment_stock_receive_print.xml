@@ -34,10 +34,9 @@
     <ScrollView
         android:id="@+id/stock_receive_print_scrollview"
         android:layout_width="200dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/stock_receive_action_buttons"
-        android:layout_centerHorizontal="true"
-        android:background="@color/white">
+        android:layout_centerHorizontal="true">
 
         <LinearLayout
             android:layout_width="match_parent"
