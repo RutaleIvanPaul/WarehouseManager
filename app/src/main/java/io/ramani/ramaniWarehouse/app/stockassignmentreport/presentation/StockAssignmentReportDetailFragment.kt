@@ -120,9 +120,7 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
             it.listOfProducts.let {
                 listOfProductsToPrint.addAll(it.toMutableList())
-//                for (item in it) {
-//                    addItems(item)
-//                }
+
             }
         }
 
@@ -134,26 +132,9 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
     }
 
 
-//    private fun addItems(item: ProductReceivedItemModel) {
-//        val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_report_detail_item_row, null)
-//        itemView.stock_report_detail_item_row_name.text = item.productName
-//        itemView.stock_report_detail_item_row_quantity.text = item.quantity.toString() + " ${item.units}"
-//        assignment_report_detail_items_container.addView(itemView)
-//    }
-
     private fun printAssignmentReceipt(viewModel: StockAssignmentReportViewModel) {
 
-//        viewModel.printText(getTextBeforeImages())
-//
-//        viewModel.printText(getString(R.string.store_keeper)+": "+storeKeeperName+ "\n")
-//
-//        printBitmapIfAvailable(viewModel)
-//
-//        viewModel.printText(getString(R.string.assigned_to)+": "+salesPersonName+ "\n")
         printBitmapIfAvailable(viewModel)
-
-
-        //viewModel.printText("\n"+ getString(if (isAssignedStock) R.string.end_goods_issued else R.string.end_goods_returned) +"\n\n\n\n\n")
 
     }
 
