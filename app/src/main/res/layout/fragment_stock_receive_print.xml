@@ -31,222 +31,222 @@
             android:text="@string/done" />
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/stock_receive_print_scrollview"
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_below="@+id/stock_receive_action_buttons"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical"
-            android:paddingStart="10dp"
-            android:paddingEnd="10dp"
+            android:padding="10dp"
             android:paddingBottom="20dp">
+
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:fontFamily="@font/raleway_bold"
+                android:text="@string/start_goods_issued"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="220dp"
+                android:layout_height="120dp"
+                android:src="@mipmap/ic_company_logo"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/stock_receive_print_distributor_name"
+                style="@style/LargeTextLabel"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Masyl General Enterprises"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="@string/goods_issued_note"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/stock_receive_print_issued_date"
+                style="@style/NormalTextLabel"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Date: 24 July 2021"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/dark_grey" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants"
                 android:gravity="center"
-                android:orientation="vertical"
-                android:padding="5dp">
+                android:orientation="horizontal">
 
-                <TextView
-                    style="@style/NormalTextLabel"
-                    android:fontFamily="@font/raleway_bold"
-                    android:text="@string/start_goods_issued"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                <!-- Store Keeper -->
 
-                <ImageView
-                    android:layout_width="220dp"
-                    android:layout_height="120dp"
-                    android:src="@mipmap/ic_company_logo"
-                    android:visibility="gone" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/stock_receive_print_distributor_name"
-                    style="@style/LargeTextLabel"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/raleway_bold"
-                    android:text="Masyl General Enterprises"
-                    android:textSize="9sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        style="@style/NormalTextLabel"
+                        android:fontFamily="@font/raleway_bold"
+                        android:gravity="center"
+                        android:text="@string/store_keeper"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    style="@style/NormalTextLabel"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/raleway_bold"
-                    android:text="@string/goods_issued_note"
-                    android:textSize="9sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/stock_receive_print_store_keeper_name"
+                        style="@style/NormalTextLabel"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/raleway_bold"
+                        android:gravity="center"
+                        android:text="Christian Michael"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/stock_receive_print_issued_date"
-                    style="@style/NormalTextLabel"
-                    android:layout_marginTop="20dp"
-                    android:fontFamily="@font/raleway_bold"
-                    android:text="Date: 24 July 2021"
-                    android:textSize="9sp"
-                    android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/stock_receive_print_store_keeper_signature"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/ic_company_logo" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0.8dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/black" />
+
+                <!-- Assigned To -->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/NormalTextLabel"
+                        android:fontFamily="@font/raleway_bold"
+                        android:gravity="center"
+                        android:text="@string/assigned_to"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/stock_receive_print_delivery_person_name"
+                        style="@style/NormalTextLabel"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/raleway_bold"
+                        android:gravity="center"
+                        android:text="Claudian Bernet"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/stock_receive_print_delivery_person_signature"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/ic_company_logo" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Items -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical">
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="0.3dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@color/dark_grey" />
+                    android:layout_height="1dp"
+                    android:background="@color/mid_dark_grey" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:background="@color/light_grey"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp">
 
-                    <!-- Store Keeper -->
-
-                    <LinearLayout
+                    <TextView
+                        style="@style/BoldTextLabel"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:layout_weight="2"
+                        android:text="@string/goods"
+                        android:textSize="9dp" />
 
-                        <TextView
-                            style="@style/NormalTextLabel"
-                            android:fontFamily="@font/raleway_bold"
-                            android:text="@string/store_keeper"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/stock_receive_print_store_keeper_name"
-                            style="@style/NormalTextLabel"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/raleway_bold"
-                            android:text="Christian Michael"
-                            android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/stock_receive_print_store_keeper_signature"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:layout_marginTop="5dp"
-                            android:scaleType="fitXY"
-                            android:src="@mipmap/ic_company_logo" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="0.8dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
-                        android:background="@color/black" />
-
-                    <!-- Assigned To -->
-
-                    <LinearLayout
+                    <TextView
+                        style="@style/BoldTextLabel"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:gravity="end"
+                        android:text="@string/accepted"
+                        android:textSize="9dp" />
 
-                        <TextView
-                            style="@style/NormalTextLabel"
-                            android:fontFamily="@font/raleway_bold"
-                            android:text="@string/assigned_to"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
+                    <TextView
+                        style="@style/BoldTextLabel"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:text="@string/declined"
+                        android:textSize="9dp" />
 
-                        <TextView
-                            android:id="@+id/stock_receive_print_delivery_person_name"
-                            style="@style/NormalTextLabel"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/raleway_bold"
-                            android:text="Claudian Bernet"
-                            android:textColor="@color/black"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/stock_receive_print_delivery_person_signature"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            android:layout_marginTop="5dp"
-                            android:scaleType="fitXY"
-                            android:src="@mipmap/ic_company_logo" />
-                    </LinearLayout>
                 </LinearLayout>
 
-                <!-- Items -->
-
-                <LinearLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stock_receive_print_product_list"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:orientation="vertical">
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/mid_dark_grey" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/light_grey"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:paddingTop="15dp"
-                        android:paddingBottom="15dp">
-
-                        <TextView
-                            style="@style/BoldTextLabel"
-                            android:layout_width="0dp"
-                            android:layout_weight="2"
-                            android:text="@string/goods"
-                            android:textSize="9dp" />
-
-                        <TextView
-                            style="@style/BoldTextLabel"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/accepted"
-                            android:textSize="9dp" />
-
-                        <TextView
-                            style="@style/BoldTextLabel"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:text="@string/declined"
-                            android:textSize="9dp" />
-
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/stock_receive_print_product_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none" />
-                </LinearLayout>
-
-                <!-- Ends -->
-
-                <TextView
-                    style="@style/NormalTextLabel"
-                    android:layout_marginTop="50dp"
-                    android:fontFamily="@font/raleway_bold"
-                    android:text="@string/end_goods_issued"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
-
+                    android:layout_height="match_parent" />
             </LinearLayout>
 
+            <!-- Ends -->
+
+            <TextView
+                style="@style/NormalTextLabel"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="@string/end_goods_issued"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

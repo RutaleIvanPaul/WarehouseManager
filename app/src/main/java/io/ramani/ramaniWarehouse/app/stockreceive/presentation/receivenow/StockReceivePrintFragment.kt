@@ -8,7 +8,6 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
@@ -24,7 +23,7 @@ import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProd
 import kotlinx.android.synthetic.main.fragment_stock_receive_print.*
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
-import java.util.Locale
+import java.util.*
 
 class StockReceivePrintFragment : BaseFragment() {
     companion object {
@@ -71,7 +70,11 @@ class StockReceivePrintFragment : BaseFragment() {
         val supplierData = STOCK_RECEIVE_MODEL.supplierData
         supplierData.apply {
             date?.let {
-                stock_receive_print_issued_date.text = String.format(Locale.getDefault(), "Date : %s", dateFormatter.convertToCalendarFormatDate(it.time))
+                stock_receive_print_issued_date.text = String.format(
+                    Locale.getDefault(),
+                    "Date : %s",
+                    dateFormatter.convertToCalendarFormatDate(it.time)
+                )
             }
 
             documents?.let {
@@ -90,17 +93,28 @@ class StockReceivePrintFragment : BaseFragment() {
 
             products?.let {
                 stock_receive_print_product_list.apply {
-                    layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
-
+                    val layoutManagerWithDisabledScrolling =
+                        object : LinearLayoutManager(requireContext()) {
+                            override fun canScrollVertically(): Boolean {
+                                return false
+                            }
+                        }
+                    layoutManager = layoutManagerWithDisabledScrolling
                     adapter = StockReceivePrintRVAdapter(it as MutableList<SelectedProductModel>)
-                    addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
+                    addItemDecoration(
+                        DividerItemDecoration(
+                            requireActivity(),
+                            DividerItemDecoration.VERTICAL
+                        )
+                    )
                 }
             }
         }
 
         stock_receive_print_print_button.setOnSingleClickListener {
             val scrollView = stock_receive_print_scrollview
-            val bitmap = Bitmap.createBitmap(scrollView.width, scrollView.height, Bitmap.Config.ARGB_8888)
+            val bitmap =
+                Bitmap.createBitmap(scrollView.width, scrollView.getChildAt(0).height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
