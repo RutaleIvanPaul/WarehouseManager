@@ -140,6 +140,7 @@
     <string name="company_logo">company logo</string>
     <string name="goods_issued_note">Goods Issued Note</string>
     <string name="goods_returned_note">Goods Returned Note</string>
+    <string name="goods_received_note">Goods Received Note</string>
     <string name="masyl_general_enteprices">Masyl General Enteprises</string>
     <string name="date_24_july_2021">Date: 24 July 2021</string>
     <string name="assigned_to">Assigned to</string>
