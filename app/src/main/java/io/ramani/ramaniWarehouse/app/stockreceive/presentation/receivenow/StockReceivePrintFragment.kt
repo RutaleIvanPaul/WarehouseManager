@@ -5,8 +5,10 @@ import android.graphics.Canvas
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
@@ -20,7 +22,6 @@ import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
 import kotlinx.android.synthetic.main.fragment_stock_receive_print.*
-import kotlinx.android.synthetic.main.item_stock_receive_print_item_row.view.*
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
 import java.util.Locale
@@ -88,8 +89,11 @@ class StockReceivePrintFragment : BaseFragment() {
             }
 
             products?.let {
-                for (item in it) {
-                    addItems(item)
+                stock_receive_print_product_list.apply {
+                    layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+
+                    adapter = StockReceivePrintRVAdapter(it as MutableList<SelectedProductModel>)
+                    addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
                 }
             }
         }
@@ -110,14 +114,6 @@ class StockReceivePrintFragment : BaseFragment() {
                 false
             )
         }
-    }
-
-    private fun addItems(item: SelectedProductModel) {
-        val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_receive_print_item_row, null)
-        itemView.stock_receive_print_item_row_name.text = item.product?.name ?: ""
-        itemView.stock_receive_print_item_row_accepted.text = String.format(Locale.getDefault(), "%d %s", item.qtyAccepted, item.units)
-        itemView.stock_receive_print_item_row_declined.text = String.format(Locale.getDefault(), "%d %s", item.qtyDeclined, item.units)
-        stock_receive_print_items_container.addView(itemView)
     }
 
     override fun onBackButtonPressed(): Boolean {
