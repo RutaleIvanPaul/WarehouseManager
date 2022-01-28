@@ -128,36 +128,42 @@ class CompanyProductsFragment : BaseFragment() {
         body.text = item.name
         primaryUnits.text = item.units
         viewModel.companyProductsListOriginal?.find { it._id == item._id }?.selectedUnits = item.units
+        primaryUnits.layoutParams.width = 600
+        secondaryUnits.visibility = View.GONE
+        /**
+         * I am keepinh yhis if-else block because, if the need arises to introduce secondary units, we will only need to comment this
+         */
 
-        if (!item.hasSecondaryUnitConversion){
-            primaryUnits.layoutParams.width = 600
-            secondaryUnits.visibility = View.GONE
+//        if (!item.hasSecondaryUnitConversion){
+//            primaryUnits.layoutParams.width = 600
+//            secondaryUnits.visibility = View.GONE
+//
+//        }
 
-        }
-        else {
-            secondaryUnits.text = item.secondaryUnitName
-            secondaryUnits.setOnClickListener(View.OnClickListener {
-                secondaryUnits.background = ContextCompat.getDrawable(
-                    context,
-                    R.drawable.round_white_outline_with_no_borders
-                )
-                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.selectedUnits = item.secondaryUnitName
-
-                primaryUnits.background =
-                    ContextCompat.getDrawable(context, R.drawable.round_grey_outline_edit)
-            })
-
-            primaryUnits.setOnClickListener(View.OnClickListener {
-                primaryUnits.background = ContextCompat.getDrawable(
-                    context,
-                    R.drawable.round_white_outline_with_no_borders
-                )
-                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.selectedUnits = item.units
-
-                secondaryUnits.background =
-                    ContextCompat.getDrawable(context, R.drawable.round_grey_outline_edit)
-            })
-        }
+//        else {
+//            secondaryUnits.text = item.secondaryUnitName
+//            secondaryUnits.setOnClickListener(View.OnClickListener {
+//                secondaryUnits.background = ContextCompat.getDrawable(
+//                    context,
+//                    R.drawable.round_white_outline_with_no_borders
+//                )
+//                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.selectedUnits = item.secondaryUnitName
+//
+//                primaryUnits.background =
+//                    ContextCompat.getDrawable(context, R.drawable.round_grey_outline_edit)
+//            })
+//
+//            primaryUnits.setOnClickListener(View.OnClickListener {
+//                primaryUnits.background = ContextCompat.getDrawable(
+//                    context,
+//                    R.drawable.round_white_outline_with_no_borders
+//                )
+//                viewModel.companyProductsListOriginal?.find { it._id == item._id }?.selectedUnits = item.units
+//
+//                secondaryUnits.background =
+//                    ContextCompat.getDrawable(context, R.drawable.round_grey_outline_edit)
+//            })
+//        }
         productImage.apply { loadImage(item.imagePath) }
         assignProductButton.setOnClickListener(View.OnClickListener {
 
