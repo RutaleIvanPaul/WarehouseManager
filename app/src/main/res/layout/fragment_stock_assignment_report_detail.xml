@@ -42,11 +42,12 @@
             android:layout_above="@+id/stock_report_detail_print_button">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:gravity="center"
+            android:textStyle="bold"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/assignment_report_detail_title"
@@ -64,6 +65,8 @@
                 android:layout_marginTop="10dp"
                 android:textSize="9sp"
                 android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 android:text="Masyl General Enterprises" />
@@ -90,14 +93,16 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="0.3dp"
+                android:layout_height="1dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@color/dark_grey" />
+                android:background="@color/black"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:orientation="horizontal">
 
                 <!-- Store Keeper -->
@@ -110,10 +115,13 @@
 
                     <TextView
                         style="@style/NormalTextLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="11sp"
                         android:textStyle="bold"
+                        android:gravity="center"
                         android:text="@string/store_keeper" />
 
                     <TextView
@@ -138,11 +146,11 @@
                 </LinearLayout>
 
                 <View
-                    android:layout_width="0.3dp"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
-                    android:background="@color/dark_grey" />
+                    android:background="@color/black" />
 
                 <!-- Assigned To -->
 
@@ -154,10 +162,13 @@
 
                     <TextView
                         style="@style/NormalTextLabel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="11sp"
                         android:textStyle="bold"
+                        android:gravity="center"
                         android:text="@string/assigned_to" />
 
                     <TextView
@@ -220,11 +231,12 @@
                         android:text="@string/quantity" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/assignment_report_detail_items_container"
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/stock_assignment_report_items_RV"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" />
+                    app:layout_constraintTop_toBottomOf="@+id/list_title" />
             </LinearLayout>
 
             <!-- Ends -->
