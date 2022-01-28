@@ -213,11 +213,11 @@
                             android:textSize="9sp" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/stock_report_detail_items_container"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/stock_report_detail_product_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" />
+                        android:scrollbars="none" />
                 </LinearLayout>
 
                 <!-- Ends -->

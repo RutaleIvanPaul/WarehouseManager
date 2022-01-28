@@ -5,8 +5,10 @@ import android.graphics.Canvas
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
@@ -18,7 +20,6 @@ import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.stockreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
 import kotlinx.android.synthetic.main.fragment_stock_report_detail.*
-import kotlinx.android.synthetic.main.item_stock_report_detail_item_row.view.*
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
 
@@ -76,8 +77,11 @@ class StockReportDetailFragment : BaseFragment() {
             stock_report_detail_delivery_person_name.text = it.deliveryPersonName
 
             it.items.let {
-                for (item in it) {
-                    addItems(item)
+                stock_report_detail_product_list.apply {
+                    layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+
+                    adapter = StockReportDetailRVAdapter(it as MutableList<GoodsReceivedItemModel>)
+                    addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
                 }
             }
 
@@ -93,12 +97,4 @@ class StockReportDetailFragment : BaseFragment() {
         }
 
     }
-
-    private fun addItems(item: GoodsReceivedItemModel) {
-        val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_report_detail_item_row, null)
-        itemView.stock_report_detail_item_row_name.text = item.productName
-        itemView.stock_report_detail_item_row_quantity.text = String.format("%d %s", item.qtyAccepted, item.units)
-        stock_report_detail_items_container.addView(itemView)
-    }
-
 }
