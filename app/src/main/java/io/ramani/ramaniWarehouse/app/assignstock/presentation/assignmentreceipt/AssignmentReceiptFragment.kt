@@ -78,7 +78,7 @@ class AssignmentReceiptFragment : BaseFragment() {
     private fun getGoodsAssignedString(): String {
         var GoodsAssignedText = ""
         AssignedItemDetails.assignedItems.forEach { item ->
-            GoodsAssignedText += item.name +" ---------- "+item.assignedNumber+" ${item.selectedUnits}\n"
+            GoodsAssignedText += item.name +" ---------- "+item.assignedNumber+" ${item.units}\n"
         }
 
         return GoodsAssignedText
