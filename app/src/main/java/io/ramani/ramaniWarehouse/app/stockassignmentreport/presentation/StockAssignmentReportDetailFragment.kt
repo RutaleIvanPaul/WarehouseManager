@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlow
@@ -16,12 +19,16 @@ import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnItemsAdapter
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import io.ramani.ramaniWarehouse.domainCore.printer.processForPrinting
+import kotlinx.android.synthetic.main.fragment_return_receipt.*
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
 import kotlinx.android.synthetic.main.fragment_stock_report_detail.*
 import kotlinx.android.synthetic.main.item_stock_report_detail_item_row.view.*
+import org.jetbrains.anko.image
 import org.kodein.di.generic.factory
 import java.io.IOException
 import java.net.URL
@@ -47,6 +54,8 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
     private lateinit var flow: StockAssignmentReportFlow
 
+    private lateinit var assignmentItemsAdapter: AssignmentReportItemsAdapter
+
     override fun getLayoutResId(): Int = R.layout.fragment_stock_assignment_report_detail
 
     private var isAssignedStock = true
@@ -57,8 +66,11 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
     private var storeKeeperName: String? = null
     private var salesPersonName: String? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        assignmentItemsAdapter =
+            AssignmentReportItemsAdapter(listOfProductsToPrint) {}
         viewModel = viewModelProvider(this)
         viewModel.start()
 
@@ -75,6 +87,9 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
         flow = StockAssignmentReportFlowController(baseActivity!!, R.id.main_fragment_container)
+
+        stock_assignment_report_items_RV.layoutManager = LinearLayoutManager(requireContext())
+        stock_assignment_report_items_RV.adapter = assignmentItemsAdapter
 
         // Back button handler
         assignment_report_detail_back.setOnSingleClickListener {
@@ -105,9 +120,7 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
             it.listOfProducts.let {
                 listOfProductsToPrint.addAll(it.toMutableList())
-                for (item in it) {
-                    addItems(item)
-                }
+
             }
         }
 
@@ -118,26 +131,10 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
     }
 
-    private fun addItems(item: ProductReceivedItemModel) {
-        val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_report_detail_item_row, null)
-        itemView.stock_report_detail_item_row_name.text = item.productName
-        itemView.stock_report_detail_item_row_quantity.text = item.quantity.toString() + " ${item.units}"
-        assignment_report_detail_items_container.addView(itemView)
-    }
 
     private fun printAssignmentReceipt(viewModel: StockAssignmentReportViewModel) {
 
-        viewModel.printText(getTextBeforeImages())
-
-        viewModel.printText(getString(R.string.store_keeper)+": "+storeKeeperName+ "\n")
-
-        printBitmapIfAvailable(storeKeeperSignature, viewModel)
-
-        viewModel.printText(getString(R.string.assigned_to)+": "+salesPersonName+ "\n")
-        printBitmapIfAvailable(salesPersonSignature, viewModel)
-
-
-        viewModel.printText("\n"+ getString(if (isAssignedStock) R.string.end_goods_issued else R.string.end_goods_returned) +"\n\n\n\n\n")
+        printBitmapIfAvailable(viewModel)
 
     }
 
@@ -170,13 +167,21 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         }
     }
 
-    fun printBitmapIfAvailable(url: String?, viewModel: StockAssignmentReportViewModel) {
+    fun printBitmapIfAvailable(viewModel: StockAssignmentReportViewModel) {
         try {
-            val storeKeeperUrl = URL(url)
-            storeKeeperUrl.let { viewModel.printBitmap(it.toBitmap()?.processForPrinting()) }
+//            val storeKeeperUrl = URL(url)
+//            storeKeeperUrl.let { viewModel.printBitmap(it.toBitmap()?.processForPrinting()) }
+            //viewModel.printBitmap(assignment_report_detail_store_keeper_signature.image?.toBitmap()?.scale(75, 50)?.processForPrinting())
+            val scrollView = stock_assignment__report_detail_scrollview
+            val bitmap = Bitmap.createBitmap(scrollView.width, scrollView.height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            scrollView.draw(canvas)
+            viewModel.printBitmap(bitmap)
 
         } catch (e: Exception) {
         }
+
+
     }
 
 }
