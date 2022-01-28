@@ -43,16 +43,26 @@ class ReceiveReceiptFragment : BaseFragment() {
             ReceiptItemsAdapter(
                 RECEIVE_MODELS.invoiceModelView?.products?.toMutableList() ?: mutableListOf()
             )
-        returned_items_RV.layoutManager = LinearLayoutManager(requireContext())
+        val layoutManagerWithDisabledScrolling =
+            object : LinearLayoutManager(requireContext()) {
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
+            }
+        returned_items_RV.layoutManager = layoutManagerWithDisabledScrolling
         returned_items_RV.adapter = receiptItemsAdapter
 
 
 
         return_stock_print_receipt.setOnClickListener {
-            val view = scrollview
-            val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+            val bitmap =
+                Bitmap.createBitmap(
+                    scrollview.width,
+                    scrollview.getChildAt(0).height,
+                    Bitmap.Config.ARGB_8888
+                )
             val canvas = Canvas(bitmap)
-            view.draw(canvas)
+            scrollview.draw(canvas)
             viewModel.printBitmap(bitmap)
         }
 
