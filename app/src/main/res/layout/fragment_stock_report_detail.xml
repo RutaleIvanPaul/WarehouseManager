@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:paddingStart="10dp"
     android:paddingTop="20dp"
     android:paddingEnd="10dp"
-    android:paddingBottom="20dp"
-    android:background="@color/white">
+    android:paddingBottom="20dp">
 
     <LinearLayout
         android:id="@+id/stock_report_detail_back"
@@ -23,13 +23,14 @@
             android:text="@string/stock_report" />
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/stock_report_detail_scrollview"
         android:layout_width="200dp"
         android:layout_height="match_parent"
+        android:layout_above="@+id/stock_report_detail_print_button"
         android:layout_below="@+id/stock_report_detail_back"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/stock_report_detail_print_button">
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -50,10 +51,10 @@
 
                 <TextView
                     style="@style/NormalTextLabel"
-                    android:textColor="@color/black"
-                    android:text="@string/start_goods_received"
-                    android:textSize="10sp"
                     android:fontFamily="@font/raleway_bold"
+                    android:text="@string/start_goods_received"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -83,8 +84,8 @@
                 <TextView
                     android:id="@+id/stock_report_detail_issued_date"
                     style="@style/NormalTextLabel"
-                    android:fontFamily="@font/raleway_bold"
                     android:layout_marginTop="15dp"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="Date: 24 July 2021"
                     android:textSize="9sp"
                     android:textStyle="bold" />
@@ -111,8 +112,8 @@
 
                         <TextView
                             style="@style/NormalTextLabel"
-                            android:text="@string/store_keeper"
                             android:fontFamily="@font/raleway_bold"
+                            android:text="@string/store_keeper"
                             android:textSize="9sp"
                             android:textStyle="bold" />
 
@@ -130,8 +131,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:layout_marginTop="5dp"
-                            android:scaleType="fitXY"
-                            />
+                            android:scaleType="fitXY" />
                     </LinearLayout>
 
                     <View
@@ -170,8 +170,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:layout_marginTop="5dp"
-                            android:scaleType="fitXY"
-                             />
+                            android:scaleType="fitXY" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -224,15 +223,15 @@
                 <!-- Ends -->
 
                 <TextView
-                    android:fontFamily="@font/raleway_bold"
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="50dp"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="@string/end_goods_received" />
 
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Print -->
 

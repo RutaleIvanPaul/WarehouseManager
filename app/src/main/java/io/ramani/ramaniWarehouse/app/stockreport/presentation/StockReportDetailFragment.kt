@@ -78,7 +78,13 @@ class StockReportDetailFragment : BaseFragment() {
 
             it.items.let {
                 stock_report_detail_product_list.apply {
-                    layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.VERTICAL, false)
+                    val layoutManagerWithDisabledScrolling =
+                        object : LinearLayoutManager(requireContext()) {
+                            override fun canScrollVertically(): Boolean {
+                                return false
+                            }
+                        }
+                    layoutManager = layoutManagerWithDisabledScrolling
 
                     adapter = StockReportDetailRVAdapter(it as MutableList<GoodsReceivedItemModel>)
                     addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
@@ -90,7 +96,7 @@ class StockReportDetailFragment : BaseFragment() {
 
         stock_report_detail_print_button.setOnSingleClickListener {
             val scrollView = stock_report_detail_scrollview
-            val bitmap = Bitmap.createBitmap(scrollView.width, scrollView.height, Bitmap.Config.ARGB_8888)
+            val bitmap = Bitmap.createBitmap(scrollView.width, scrollView.getChildAt(0).height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
