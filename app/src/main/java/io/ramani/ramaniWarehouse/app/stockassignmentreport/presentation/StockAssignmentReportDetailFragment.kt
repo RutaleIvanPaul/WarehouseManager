@@ -23,15 +23,7 @@ import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmRet
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
-import io.ramani.ramaniWarehouse.domainCore.printer.processForPrinting
-import kotlinx.android.synthetic.main.fragment_assign_receipt.*
-import kotlinx.android.synthetic.main.fragment_receive_receipt.*
-import kotlinx.android.synthetic.main.fragment_return_receipt.*
-import kotlinx.android.synthetic.main.fragment_return_receipt.scrollview
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
-import kotlinx.android.synthetic.main.fragment_stock_report_detail.*
-import kotlinx.android.synthetic.main.item_stock_report_detail_item_row.view.*
-import org.jetbrains.anko.image
 import org.kodein.di.generic.factory
 import java.io.IOException
 import java.net.URL
@@ -135,16 +127,13 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         }
 
         assignment_report_detail_print_button.setOnClickListener{
-            val scrollview = scrollview
+            val scrollView = scrollview
             val bitmap =
-                Bitmap.createBitmap(
-                    scrollview.width,
-                    scrollview.getChildAt(0).height,
-                    Bitmap.Config.ARGB_8888
-                )
+                Bitmap.createBitmap(scrollView.width, scrollView.getChildAt(0).height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
-            scrollview.draw(canvas)
+            scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
+
         }
 
     }
