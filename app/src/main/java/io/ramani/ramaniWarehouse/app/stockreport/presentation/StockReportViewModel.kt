@@ -30,6 +30,7 @@ class StockReportViewModel(
     var userId = ""
     var username = ""
     var companyId = ""
+    var companyName = ""
     var warehouseId = ""
 
     var lastDate = ""
@@ -47,6 +48,7 @@ class StockReportViewModel(
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
+            companyName = it.companyName
             username = it.userName
         }
 

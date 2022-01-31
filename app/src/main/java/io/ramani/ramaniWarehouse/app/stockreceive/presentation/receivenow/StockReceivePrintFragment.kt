@@ -69,6 +69,7 @@ class StockReceivePrintFragment : BaseFragment() {
 
         val supplierData = STOCK_RECEIVE_MODEL.supplierData
         supplierData.apply {
+
             date?.let {
                 stock_receive_print_issued_date.text = String.format(
                     Locale.getDefault(),

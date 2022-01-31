@@ -12,7 +12,8 @@ class StockReportDetailRVAdapter(
     override fun convert(helper: BaseViewHolder, item: GoodsReceivedItemModel) {
         with(helper) {
             setText(R.id.stock_report_detail_item_row_name, item.productName)
-            setText(R.id.stock_report_detail_item_row_quantity, String.format("%d %s", item.qtyAccepted, item.units))
+            setText(R.id.stock_report_detail_item_row_accepted, String.format("%d %s", item.qtyAccepted, item.units))
+            setText(R.id.stock_report_detail_item_row_declined, String.format("%d %s", item.qtyDeclined, item.units))
         }
     }
 }

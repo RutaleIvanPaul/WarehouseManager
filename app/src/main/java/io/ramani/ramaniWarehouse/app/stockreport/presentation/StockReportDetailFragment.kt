@@ -54,8 +54,8 @@ class StockReportDetailFragment : BaseFragment() {
         arguments?.getParcelable<DistributorDateModel>(PARAM_STOCK)?.let {
             stock = it
         }
-        viewModel.start()
 
+        viewModel.start()
     }
 
     override fun initView(view: View?) {
@@ -66,6 +66,8 @@ class StockReportDetailFragment : BaseFragment() {
         stock_report_detail_back.setOnSingleClickListener {
             pop()
         }
+
+        stock_report_detail_company_name.text = viewModel.companyName
 
         stock?.let {
             if (!it.storeKeeperSignature.isNullOrEmpty())
@@ -91,8 +93,6 @@ class StockReportDetailFragment : BaseFragment() {
                     addItemDecoration(DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL))
                 }
             }
-
-            stock_report_detail_company_name.text = it.supplierName
         }
 
         stock_report_detail_print_button.setOnSingleClickListener {
