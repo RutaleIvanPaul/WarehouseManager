@@ -54,6 +54,7 @@ class StockReportDetailFragment : BaseFragment() {
         arguments?.getParcelable<DistributorDateModel>(PARAM_STOCK)?.let {
             stock = it
         }
+        viewModel.start()
 
     }
 
@@ -73,7 +74,7 @@ class StockReportDetailFragment : BaseFragment() {
                 stock_report_detail_delivery_person_signature.loadImage(it.deliveryPersonSignature[0])
 
             stock_report_detail_issued_date.text = "Date: " + it.date.split("T").get(0) ?: ""
-            stock_report_detail_store_keeper_name.text = it.supplierName
+            stock_report_detail_store_keeper_name.text = viewModel.username
             stock_report_detail_delivery_person_name.text = it.deliveryPersonName
 
             it.items.let {
