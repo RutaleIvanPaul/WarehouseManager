@@ -14,6 +14,7 @@
         <!-- Pick Date -->
 
         <TextView
+            android:id="@+id/date_title"
             style="@style/BoldTextLabel"
             android:layout_marginTop="10dp"
             android:text="@string/pickdate" />

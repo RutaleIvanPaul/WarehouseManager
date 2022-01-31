@@ -46,6 +46,8 @@ class SalesPersonFragment : BaseFragment() {
         super.initView(view)
         return_stock_datepicker_text.text = viewModel.getDate(now())
         pick_date_layout.isEnabled = false
+        date_title.text = getString(R.string.return_date)
+
 //        pick_date_layout.setOnClickListener {
 //            showDatePicker(
 //                Calendar.getInstance().timeInMillis,

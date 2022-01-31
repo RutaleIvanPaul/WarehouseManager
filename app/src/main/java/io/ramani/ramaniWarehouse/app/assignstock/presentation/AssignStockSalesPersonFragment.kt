@@ -62,6 +62,7 @@ class AssignStockSalesPersonFragment : BaseFragment() {
         super.initView(view)
         return_stock_datepicker_text.text = viewModel.getDate(now())
         pick_date_layout.isEnabled = false
+        date_title.text = getString(R.string.assignment_date)
 
         /**
          * Leaving this in case we need to enable this in the future
