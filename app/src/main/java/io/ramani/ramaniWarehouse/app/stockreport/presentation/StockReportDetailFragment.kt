@@ -54,6 +54,7 @@ class StockReportDetailFragment : BaseFragment() {
         arguments?.getParcelable<DistributorDateModel>(PARAM_STOCK)?.let {
             stock = it
         }
+        viewModel.start()
 
     }
 
