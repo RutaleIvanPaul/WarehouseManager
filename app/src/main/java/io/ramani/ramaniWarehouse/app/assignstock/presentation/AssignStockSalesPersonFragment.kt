@@ -61,16 +61,22 @@ class AssignStockSalesPersonFragment : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
         return_stock_datepicker_text.text = viewModel.getDate(now())
-        pick_date_layout.setOnClickListener {
-            DatePickerDialog(
-                requireActivity(),
-                startDateSetListener,
-                // set DatePickerDialog to point to today's date when it loads up
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
+        pick_date_layout.isEnabled = false
+
+        /**
+         * Leaving this in case we need to enable this in the future
+         */
+
+//        pick_date_layout.setOnClickListener {
+//            DatePickerDialog(
+//                requireActivity(),
+//                startDateSetListener,
+//                // set DatePickerDialog to point to today's date when it loads up
+//                calendar.get(Calendar.YEAR),
+//                calendar.get(Calendar.MONTH),
+//                calendar.get(Calendar.DAY_OF_MONTH)
+//            ).show()
+//        }
 
         select_salesperson_spinner.text = ""
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.postValue(null)

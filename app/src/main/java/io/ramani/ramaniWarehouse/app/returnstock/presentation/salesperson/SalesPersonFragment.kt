@@ -45,15 +45,16 @@ class SalesPersonFragment : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
         return_stock_datepicker_text.text = viewModel.getDate(now())
-        pick_date_layout.setOnClickListener {
-            showDatePicker(
-                Calendar.getInstance().timeInMillis,
-                -1,
-                -1
-            ) { year, monthOfYear, dayOfMonth, timInMillis ->
-                return_stock_datepicker_text.text = viewModel.getDate(timInMillis)
-            }
-        }
+        pick_date_layout.isEnabled = false
+//        pick_date_layout.setOnClickListener {
+//            showDatePicker(
+//                Calendar.getInstance().timeInMillis,
+//                -1,
+//                -1
+//            ) { year, monthOfYear, dayOfMonth, timInMillis ->
+//                return_stock_datepicker_text.text = viewModel.getDate(timInMillis)
+//            }
+//        }
 
         SalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
 
