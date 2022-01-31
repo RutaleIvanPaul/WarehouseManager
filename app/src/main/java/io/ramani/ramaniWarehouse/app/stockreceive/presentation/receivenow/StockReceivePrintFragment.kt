@@ -65,10 +65,10 @@ class StockReceivePrintFragment : BaseFragment() {
         super.initView(view)
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
 
-        stock_receive_print_distributor_name.text = viewModel.companyName
-
         val supplierData = STOCK_RECEIVE_MODEL.supplierData
         supplierData.apply {
+            stock_receive_print_distributor_name.text = this.supplier?.name ?: ""
+
             date?.let {
                 stock_receive_print_issued_date.text = String.format(
                     Locale.getDefault(),

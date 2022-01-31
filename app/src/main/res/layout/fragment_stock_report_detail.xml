@@ -198,19 +198,25 @@
                         <TextView
                             style="@style/BoldTextLabel"
                             android:layout_width="0dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_weight="3"
+                            android:layout_weight="2"
                             android:text="@string/goods"
-                            android:textSize="9sp" />
+                            android:textSize="9dp" />
 
                         <TextView
                             style="@style/BoldTextLabel"
                             android:layout_width="0dp"
-                            android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@string/quantity"
-                            android:textSize="9sp" />
+                            android:text="@string/accepted"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            style="@style/BoldTextLabel"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/declined"
+                            android:textSize="9dp" />
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -226,6 +232,7 @@
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="50dp"
                     android:fontFamily="@font/raleway_bold"
+                    android:textSize="10sp"
                     android:text="@string/end_goods_received" />
 
             </LinearLayout>
