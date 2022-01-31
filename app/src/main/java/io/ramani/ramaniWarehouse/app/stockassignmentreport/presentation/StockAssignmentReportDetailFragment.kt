@@ -24,6 +24,7 @@ import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.Retu
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import io.ramani.ramaniWarehouse.domainCore.printer.processForPrinting
+import kotlinx.android.synthetic.main.fragment_assign_receipt.*
 import kotlinx.android.synthetic.main.fragment_receive_receipt.*
 import kotlinx.android.synthetic.main.fragment_return_receipt.*
 import kotlinx.android.synthetic.main.fragment_return_receipt.scrollview
@@ -134,6 +135,7 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         }
 
         assignment_report_detail_print_button.setOnClickListener{
+            val scrollview = scrollview
             val bitmap =
                 Bitmap.createBitmap(
                     scrollview.width,
