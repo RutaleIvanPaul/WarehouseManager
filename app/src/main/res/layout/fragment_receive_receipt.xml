@@ -20,7 +20,7 @@
             android:id="@+id/return_stock_print_receipt"
             style="@style/GreenFillActionButton"
             android:layout_width="120dp"
-            android:text="@string/print"/>
+            android:text="@string/print" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/return_stock_done"
@@ -28,7 +28,7 @@
             android:layout_width="120dp"
             android:layout_height="40dp"
             android:layout_marginStart="10dp"
-            android:text="@string/done"/>
+            android:text="@string/done" />
 
     </LinearLayout>
 
@@ -36,10 +36,10 @@
         android:id="@+id/scrollview"
         android:layout_width="200dp"
         android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:fillViewport="true"
         android:layout_below="@+id/buttons_section"
-        android:background="@color/light_white_grey">
+        android:layout_centerHorizontal="true"
+        android:background="@color/light_white_grey"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -251,10 +251,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
+                android:paddingBottom="20dp"
                 android:text="@string/end_of_goods_received"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                android:paddingBottom="20dp"
                 android:textStyle="bold" />
         </LinearLayout>
 

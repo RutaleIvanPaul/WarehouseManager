@@ -24,7 +24,9 @@ import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.Retu
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import io.ramani.ramaniWarehouse.domainCore.printer.processForPrinting
+import kotlinx.android.synthetic.main.fragment_receive_receipt.*
 import kotlinx.android.synthetic.main.fragment_return_receipt.*
+import kotlinx.android.synthetic.main.fragment_return_receipt.scrollview
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
 import kotlinx.android.synthetic.main.fragment_stock_report_detail.*
 import kotlinx.android.synthetic.main.item_stock_report_detail_item_row.view.*
@@ -88,7 +90,14 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         super.initView(view)
         flow = StockAssignmentReportFlowController(baseActivity!!, R.id.main_fragment_container)
 
-        stock_assignment_report_items_RV.layoutManager = LinearLayoutManager(requireContext())
+        val layoutManagerWithDisabledScrolling =
+            object : LinearLayoutManager(requireContext()) {
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
+            }
+
+        stock_assignment_report_items_RV.layoutManager = layoutManagerWithDisabledScrolling
         stock_assignment_report_items_RV.adapter = assignmentItemsAdapter
 
         // Back button handler
@@ -124,19 +133,26 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
             }
         }
 
-
         assignment_report_detail_print_button.setOnClickListener{
-            printAssignmentReceipt(viewModel)
+            val bitmap =
+                Bitmap.createBitmap(
+                    scrollview.width,
+                    scrollview.getChildAt(0).height,
+                    Bitmap.Config.ARGB_8888
+                )
+            val canvas = Canvas(bitmap)
+            scrollview.draw(canvas)
+            viewModel.printBitmap(bitmap)
         }
 
     }
 
 
-    private fun printAssignmentReceipt(viewModel: StockAssignmentReportViewModel) {
-
-        printBitmapIfAvailable(viewModel)
-
-    }
+//    private fun printAssignmentReceipt(viewModel: StockAssignmentReportViewModel) {
+//
+//        printBitmapIfAvailable(viewModel)
+//
+//    }
 
     private fun getTextBeforeImages() =
         getString(if (isAssignedStock) R.string.start_goods_issued else R.string.start_goods_returned)+"\n\n"+
@@ -167,21 +183,21 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         }
     }
 
-    fun printBitmapIfAvailable(viewModel: StockAssignmentReportViewModel) {
-        try {
-//            val storeKeeperUrl = URL(url)
-//            storeKeeperUrl.let { viewModel.printBitmap(it.toBitmap()?.processForPrinting()) }
-            //viewModel.printBitmap(assignment_report_detail_store_keeper_signature.image?.toBitmap()?.scale(75, 50)?.processForPrinting())
-            val scrollView = stock_assignment__report_detail_scrollview
-            val bitmap = Bitmap.createBitmap(scrollView.width, scrollView.height, Bitmap.Config.ARGB_8888)
-            val canvas = Canvas(bitmap)
-            scrollView.draw(canvas)
-            viewModel.printBitmap(bitmap)
-
-        } catch (e: Exception) {
-        }
-
-
-    }
+//    fun printBitmapIfAvailable(viewModel: StockAssignmentReportViewModel) {
+//        try {
+////            val storeKeeperUrl = URL(url)
+////            storeKeeperUrl.let { viewModel.printBitmap(it.toBitmap()?.processForPrinting()) }
+//            //viewModel.printBitmap(assignment_report_detail_store_keeper_signature.image?.toBitmap()?.scale(75, 50)?.processForPrinting())
+//            val scrollView = stock_assignment__report_detail_scrollview
+//            val bitmap = Bitmap.createBitmap(scrollView.width, scrollView.height, Bitmap.Config.ARGB_8888)
+//            val canvas = Canvas(bitmap)
+//            scrollView.draw(canvas)
+//            viewModel.printBitmap(bitmap)
+//
+//        } catch (e: Exception) {
+//        }
+//
+//
+//    }
 
 }
