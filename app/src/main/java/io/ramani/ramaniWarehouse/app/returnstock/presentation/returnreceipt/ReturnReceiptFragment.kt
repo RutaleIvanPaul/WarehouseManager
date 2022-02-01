@@ -51,14 +51,21 @@ class ReturnReceiptFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         flow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
-        returned_items_RV.layoutManager = LinearLayoutManager(requireContext())
+        val layoutManagerWithDisabledScrolling =
+            object : LinearLayoutManager(requireContext()) {
+                override fun canScrollVertically(): Boolean {
+                    return false
+                }
+            }
+        returned_items_RV.layoutManager = layoutManagerWithDisabledScrolling
         returned_items_RV.adapter = confirmReturnItemsAdapter
 
         subscribeObservers()
 
         return_stock_print_receipt.setOnClickListener {
             val  view = scrollview
-            val bitmap = Bitmap.createBitmap(view.width,view.height, Bitmap.Config.ARGB_8888)
+            val bitmap =
+                Bitmap.createBitmap(view.width, view.getChildAt(0).height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             val bgDrawable = view.background
             if (bgDrawable!=null){
