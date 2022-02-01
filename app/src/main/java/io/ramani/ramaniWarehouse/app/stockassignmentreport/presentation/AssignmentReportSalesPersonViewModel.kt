@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.assignstocksalesperson.model.SalesPersonRVModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -54,6 +55,7 @@ class AssignmentReportSalesPersonViewModel(
                         it.mapFromWith(salespersonRVMapper).toMutableList()
                     )
                     onSalesPeopleLoadedLiveData.postValue(true)
+                    AssignStockSalesPersonViewModel.salesPeopleList.addAll(salesPeopleList)
                 }, onError = {
                     isLoadingVisible = false
                     notifyError(

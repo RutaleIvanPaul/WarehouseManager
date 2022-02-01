@@ -103,7 +103,7 @@ class AssignmentReceiptFragment : BaseFragment() {
         viewModel.loadedUserDetails.observe(this,{
             if (it != null) {
                 company_name.setText(it.companyName)
-                date.setText("Date: ${viewModel.dateFormatter.convertToCalendarFormatDate(now())}")
+                date.setText("Date: ${viewModel.dateFormatter.convertToDateWithDashes(now())}")
                 storekeeper_text.setText(AssignedItemDetails.storekeeperName)
                 assignee_text.setText(AssignedItemDetails.salespersonName)
                 storekeeper_image.setImageBitmap(AssignedItemDetails.signatureInfoStoreKeeper)

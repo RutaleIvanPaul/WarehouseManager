@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.domain.datetime
 
 import android.annotation.SuppressLint
 import android.util.Log
+import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.CALENDAR_FORMAT
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.SERVER_RECEIVE_DATE_FORMAT
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_24_hours
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_AM_PM
@@ -267,6 +268,14 @@ fun getServerTimeFromServerDate(createdAt: String?): String =
 
 fun formattedTimeZone(date: String?): String =
     format(date!!, SERVER_RECEIVE_DATE_FORMAT, SERVER_RECEIVE_DATE_FORMAT,"UTC", Calendar.getInstance().timeZone.id )
+
+fun formatTimeStampFromServerToCalendarFormat(date: String?): String {
+    val formattedDate = date?.split("T")?.get(0)
+    //NOT WORKING YET. NEEDS TO CHANGE
+    return     format(formattedDate!!, CALENDAR_FORMAT, CALENDAR_FORMAT,"UTC", Calendar.getInstance().timeZone.id )
+
+
+}
 
 
 
