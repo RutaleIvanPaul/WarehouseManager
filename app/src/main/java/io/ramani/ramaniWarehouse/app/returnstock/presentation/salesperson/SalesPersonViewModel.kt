@@ -69,7 +69,7 @@ class SalesPersonViewModel(application: Application,
     }
 
     fun getDate(timInMillis: Long):String =
-        dateFormatter.convertToDateWithDashes(timInMillis)
+        dateFormatter.convertToDateWithDashes1(timInMillis)
 
     class Factory(
         private val application: Application,
