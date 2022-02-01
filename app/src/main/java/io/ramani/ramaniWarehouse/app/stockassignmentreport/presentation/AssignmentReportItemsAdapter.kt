@@ -9,11 +9,11 @@ import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductRecei
 class AssignmentReportItemsAdapter(
     data: MutableList<ProductReceivedItemModel>,
     val onItemClick: (ProductReceivedItemModel) -> Unit
-):BaseQuickAdapter<ProductReceivedItemModel, BaseViewHolder>(R.layout.item_confirm_return_items,data) {
+):BaseQuickAdapter<ProductReceivedItemModel, BaseViewHolder>(R.layout.item_confirm_assigned_products,data) {
     override fun convert(holder: BaseViewHolder, item: ProductReceivedItemModel) {
         with(holder){
-            setText(R.id.item_confirm_return_product_name,item.productName)
-            setText(R.id.item_confirm_return_product_quantity, "${item.quantity} ${item.units}")
+            setText(R.id.item_confirm_assigned_product_name,item.productName)
+            setText(R.id.item_confirm_assigned_product_quantity, "${item.quantity} ${item.units}")
         }
     }
 }
