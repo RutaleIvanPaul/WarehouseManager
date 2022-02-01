@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.domain.datetime
 import android.annotation.SuppressLint
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_24_hours
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_AM_PM
+import io.ramani.ramaniWarehouse.domainCore.date.toDate
 import io.ramani.ramaniWarehouse.domainCore.datetime.IDateFormatter
 import io.ramani.ramaniWarehouse.domainCore.datetime.IDateTimeManager
 import org.joda.time.DateTime
@@ -260,4 +261,5 @@ private fun dateTimeFormatter(pattern: String) =
 fun getServerTimeFromServerDate(createdAt: String?): String =
     //2021-12-22T16:31:03.823Z
     createdAt?.split("T")?.get(1)?.split(".")?.get(0) ?: ""
+
 
