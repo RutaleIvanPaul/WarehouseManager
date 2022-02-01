@@ -112,7 +112,6 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
 
             companyName.text = viewModel.companyName
-//            assignment_report_detail_issued_date.text = "Date: " + it.dateStockTaken.split("T")?.get(0) ?: ""
             assignment_report_detail_issued_date.text = "Date: " + formatTimeStampFromServerToCalendarFormat(it.dateStockTaken) ?: ""
             assignment_report_detail_store_keeper_name.text = it.assigner
             assignment_report_detail_delivery_person_name.text = it.name
