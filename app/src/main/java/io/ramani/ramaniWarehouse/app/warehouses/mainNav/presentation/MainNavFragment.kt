@@ -49,6 +49,10 @@ class MainNavFragment : BaseFragment() {
         viewModel.loadWarehouses()
         setupNavs()
         setupMenu()
+        warehouses_spinner.setOnSingleClickListener {
+            flow.openWarehousesBottomSheet()
+            warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
+        }
     }
 
     private fun setupMenu() {
@@ -113,16 +117,11 @@ class MainNavFragment : BaseFragment() {
     }
 
     private fun subscribeOnWarehousesLoaded() {
-        MainNavViewModel.onWarehousesLoadedLiveData.observe(this, {
+        MainNavViewModel.onWarehousesLoadedLiveData.observe(this) {
 
             if (MainNavViewModel.currentWarehouse != null) {
                 warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
             }
-
-            warehouses_spinner.setOnSingleClickListener {
-                flow.openWarehousesBottomSheet()
-                warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
-            }
-        })
+        }
     }
 }
