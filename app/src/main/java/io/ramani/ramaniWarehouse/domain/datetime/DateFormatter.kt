@@ -60,7 +60,6 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
     fun convertToDisplayDateFormat(date: Long): String = format(date, VIEW_DISPLAY_DATE_FORMAT)
     fun convertToDateWithDashes(date: Long): String = format(date, DATE_WITH_DASHES)
     fun convertToDateWithDashesInLocalTimeZone(date: Long): String = formatDisplay(date, DATE_WITH_DASHES )
-    fun convertToDateWithDashesInLocalTimeZoneForFamoco(date: Long): String = formatDisplay(date, SERVER_RECEIVE_DATE_FORMAT )
     fun convertToDateWithDashes1(date: Long): String = format(date, DATE_WITH_DASHES_1)
     fun convertToCalendarFormatDate(date: Long): String = format(date, CALENDAR_FORMAT)
 
