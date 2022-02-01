@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.domain.datetime
 import android.annotation.SuppressLint
 import android.util.Log
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.CALENDAR_FORMAT
+import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.DATE_WITH_DASHES_1
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.SERVER_RECEIVE_DATE_FORMAT
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_24_hours
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter.Companion.TIME_FORMAT_AM_PM
@@ -271,8 +272,7 @@ fun formattedTimeZone(date: String?): String =
 
 fun formatTimeStampFromServerToCalendarFormat(date: String?): String {
     val formattedDate = date?.split("T")?.get(0)
-    //NOT WORKING YET. NEEDS TO CHANGE
-    return     format(formattedDate!!, CALENDAR_FORMAT, CALENDAR_FORMAT,"UTC", Calendar.getInstance().timeZone.id )
+    return     format(formattedDate!!, DATE_WITH_DASHES_1, CALENDAR_FORMAT )
 
 
 }
