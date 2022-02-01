@@ -21,6 +21,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnItemsAdapter
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
+import io.ramani.ramaniWarehouse.domain.datetime.formatTimeStampFromServerToCalendarFormat
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
@@ -111,7 +112,7 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
 
             companyName.text = viewModel.companyName
-            assignment_report_detail_issued_date.text = "Date: " + it.dateStockTaken.split("T")?.get(0) ?: ""
+            assignment_report_detail_issued_date.text = "Date: " + formatTimeStampFromServerToCalendarFormat(it.dateStockTaken) ?: ""
             assignment_report_detail_store_keeper_name.text = it.assigner
             assignment_report_detail_delivery_person_name.text = it.name
 

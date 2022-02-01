@@ -11,6 +11,7 @@ import android.widget.Toast
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlow
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
@@ -69,8 +70,7 @@ class AssignmentReportSalesPersonFragment : BaseFragment() {
         }
 
         assignment_report_select_salesperson_spinner.text = ""
-        //AssignmentReportSalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
-        viewModel.getSalespeople()
+        AssignmentReportSalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
 
 
         assignment_report_select_salesperson_spinner.setOnSingleClickListener {
@@ -78,12 +78,20 @@ class AssignmentReportSalesPersonFragment : BaseFragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSalespeople()
+        assignment_report_select_salesperson_spinner.text = ""
+
+    }
+
     private fun subscribeObservers() {
 
-
-        AssignmentReportSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
+        AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
+            AssignStockSalesPersonViewModel.salesPeopleList.addAll(AssignmentReportSalesPersonViewModel.salesPeopleList)
 
         })
+        viewModel.getSalespeople()
     }
 
     private fun updateStartPickDate() {

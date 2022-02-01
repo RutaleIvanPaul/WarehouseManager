@@ -21,6 +21,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
 import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import kotlinx.android.synthetic.main.fragment_sales_person.*
@@ -86,7 +87,15 @@ class AssignStockSalesPersonFragment : BaseFragment() {
         select_salesperson_spinner.setOnSingleClickListener {
             flow.openAssignStockSalesPersonBottomSheet()
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        AssignStockSalesPersonViewModel.salesPeopleList.clear()
         viewModel.getSalespeople()
+        select_salesperson_spinner.text = ""
+
     }
 
     private fun subscribeObservers() {
