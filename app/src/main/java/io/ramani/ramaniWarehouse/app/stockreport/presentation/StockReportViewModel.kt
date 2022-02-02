@@ -28,7 +28,6 @@ class StockReportViewModel(
     private val printerHelper: PrinterHelper
     ) : BaseViewModel(application, stringProvider, sessionManager) {
     var userId = ""
-    var username = ""
     var companyId = ""
     var companyName = ""
     var warehouseId = ""
@@ -49,7 +48,6 @@ class StockReportViewModel(
             userId = it.uuid
             companyId = it.companyId
             companyName = it.companyName
-            username = it.userName
         }
 
         sessionManager.getCurrentWarehouse().subscribeBy {
