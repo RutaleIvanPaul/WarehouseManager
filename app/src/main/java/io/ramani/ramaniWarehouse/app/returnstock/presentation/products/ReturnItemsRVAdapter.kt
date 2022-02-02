@@ -41,6 +41,9 @@ class ReturnItemsRVAdapter(
                 else if(editQuantityEditText.text.toString().toInt() > item.quantity) {
                     SelectReturnItemsViewmodel.exceedingOutStandingStockLiveData.postValue(true)
                 }
+                else if(editQuantityEditText.text.toString().toInt() <= 0) {
+                    SelectReturnItemsViewmodel.emptyStandingStockLiveData.postValue(true)
+                }
                 else {
 
                     item.quantity = editQuantityEditText.text.toString().toInt()
