@@ -2,9 +2,6 @@ package io.ramani.ramaniWarehouse.app.warehouses.di
 
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.entities.PagedList
-import io.ramani.ramaniWarehouse.domain.warehouses.manager.IWarehouseStateManager
-import io.ramani.ramaniWarehouse.domain.warehouses.manager.IWarehouseStateObservable
-import io.ramani.ramaniWarehouse.domain.warehouses.manager.IWarehouseStatePublisher
 import io.ramani.ramaniWarehouse.domain.warehouses.models.GetWarehousesRequestModel
 import io.ramani.ramaniWarehouse.domain.warehouses.models.InvoiceModel
 import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
@@ -22,13 +19,5 @@ val warehousesDomainModule = Kodein.Module("warehousesDomainModule") {
 
     bind<BaseSingleUseCase<PagedList<InvoiceModel>, GetWarehousesRequestModel>>("loadInvoicesUseCase") with provider {
         LoadInvoicesUseCase(instance(), instance(), instance("warehousesDataSource"))
-    }
-
-    bind<IWarehouseStatePublisher>() with provider {
-        IWarehouseStateManager
-    }
-
-    bind<IWarehouseStateObservable>() with provider {
-        IWarehouseStateManager
     }
 }
