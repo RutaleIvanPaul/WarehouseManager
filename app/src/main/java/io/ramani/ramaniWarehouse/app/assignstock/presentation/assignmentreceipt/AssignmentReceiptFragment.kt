@@ -68,10 +68,7 @@ class AssignmentReceiptFragment : BaseFragment() {
         }
 
         return_stock_done.setOnClickListener {
-            (requireActivity() as BaseActivity).navigationManager?.popToFragment(
-                MainNavFragment.TAG,
-                false
-            )
+            (requireActivity() as BaseActivity).navigationManager?.popToRootFragment()
             AssignedItemDetails.clearAssignedItemDetails()
         }
     }

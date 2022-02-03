@@ -67,10 +67,7 @@ class ReceiveReceiptFragment : BaseFragment() {
         }
 
         return_stock_done.setOnClickListener {
-            (requireActivity() as BaseActivity).navigationManager?.popToFragment(
-                MainNavFragment.TAG,
-                false
-            )
+            (requireActivity() as BaseActivity).navigationManager?.popToRootFragment()
             RECEIVE_MODELS.reset()
         }
     }
