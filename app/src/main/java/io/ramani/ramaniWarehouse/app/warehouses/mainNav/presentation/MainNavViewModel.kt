@@ -54,6 +54,9 @@ class MainNavViewModel(
     fun loadWarehouses() {
         if (hasMoreToLoad) {
             isLoadingVisible = true
+            if(page == 1 ){
+                warehousesList.clear()
+            }
             sessionManager.getLoggedInUser().subscribeBy {
                 val single =
                     loadWarehousesUseCase.getSingle(GetWarehousesRequestModel(it.companyId, page))

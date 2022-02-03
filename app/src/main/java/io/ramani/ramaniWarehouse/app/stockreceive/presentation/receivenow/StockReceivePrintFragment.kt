@@ -124,10 +124,7 @@ class StockReceivePrintFragment : BaseFragment() {
         stock_receive_print_done_button.setOnSingleClickListener {
             STOCK_RECEIVE_MODEL.clearData()
 
-            (requireActivity() as BaseActivity).navigationManager?.popToFragment(
-                MainNavFragment.TAG,
-                false
-            )
+            (requireActivity() as BaseActivity).navigationManager?.popToRootFragment()
         }
     }
 

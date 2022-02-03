@@ -149,6 +149,17 @@ class NavigationManager {
         }
     }
 
+    fun popToRootFragment() {
+        fragmentManager?.let {
+            val backStackCount = it.backStackEntryCount
+            if (backStackCount > 0) {
+                for (i in 0 until backStackCount-1) {
+                    it.popBackStack()
+                }
+            }
+        }
+    }
+
     fun popToFragment(fragmentTag: String, inclusive: Boolean) {
         fragmentManager?.let {
             while (it.backStackEntryCount > 0) {

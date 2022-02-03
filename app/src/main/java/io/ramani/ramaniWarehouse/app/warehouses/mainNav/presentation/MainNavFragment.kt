@@ -37,7 +37,6 @@ class MainNavFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        MainNavViewModel.warehousesList.clear()
     }
 
     override val navTag: String = TAG
