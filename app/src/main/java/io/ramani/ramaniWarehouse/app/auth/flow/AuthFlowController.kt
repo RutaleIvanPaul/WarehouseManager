@@ -14,9 +14,8 @@ class AuthFlowController(
 
     override fun openLogin() {
         val fragment = LoginFragment.newInstance()
-        activity.navigationManager?.open(
-            fragment,
-            openMethod = NavigationManager.OpenMethod.ADD
+        activity.navigationManager?.openAsRoot(
+            fragment
         )
     }
 
