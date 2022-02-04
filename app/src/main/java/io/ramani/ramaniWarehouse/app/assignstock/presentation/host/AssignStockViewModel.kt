@@ -55,7 +55,7 @@ class AssignStockViewModel(
         val pushBackToStart = MutableLiveData<Boolean>()
         val selectedSalespersonLiveData = MutableLiveData<String>()
 //        val dateStockTakenLiveData = MutableLiveData<String>()
-        val startLoading = MutableLiveData<Boolean>()
+//        val startLoading = MutableLiveData<Boolean>()
 
     }
 
@@ -74,7 +74,7 @@ class AssignStockViewModel(
     }
 
     fun assignStock(context: Context) {
-        startLoading.postValue(true)
+        isLoadingVisible = true
         val assignedItems = assignedItemDetails
 
 
@@ -105,7 +105,6 @@ class AssignStockViewModel(
             single,
             onSuccess = {
                 isLoadingVisible = false
-                startLoading.postValue(false)
                 ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.postValue(0)
                 //AssignedItemDetails.clearAssignedItemDetails()
                 onItemsAssignedLiveData.postValue(true)
@@ -113,7 +112,6 @@ class AssignStockViewModel(
             }, onError = {
 
                 isLoadingVisible = false
-                startLoading.postValue(false)
                 notifyError(
                     it.message
                         ?: getString(R.string.an_error_has_occured_please_try_again),
