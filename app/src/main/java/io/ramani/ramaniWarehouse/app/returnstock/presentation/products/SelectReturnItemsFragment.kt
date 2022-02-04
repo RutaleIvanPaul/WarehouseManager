@@ -64,25 +64,32 @@ class SelectReturnItemsFragment : BaseFragment() {
     }
 
     private fun subscribeObservers() {
-        viewModel.availableProductsListLiveData.observe(this,{
+        viewModel.availableProductsListLiveData.observe(this) {
             returnItemsRVList.clear()
             returnItemsRVList.addAll(it)
             returnItemsRVAdapter.notifyDataSetChanged()
-        })
+        }
 
-        SelectReturnItemsViewmodel.missingValueLiveData.observe(this,{
-            if(it) {
+        SelectReturnItemsViewmodel.missingValueLiveData.observe(this) {
+            if (it) {
                 errorDialog(getString(R.string.missing_quantity))
                 SelectReturnItemsViewmodel.missingValueLiveData.postValue(false)
             }
-        })
+        }
 
-        SelectReturnItemsViewmodel.exceedingOutStandingStockLiveData.observe(this,{
-            if(it) {
+        SelectReturnItemsViewmodel.exceedingOutStandingStockLiveData.observe(this) {
+            if (it) {
                 errorDialog(getString(R.string.exceeding_stock))
                 SelectReturnItemsViewmodel.exceedingOutStandingStockLiveData.postValue(false)
             }
-        })
+        }
+
+        SelectReturnItemsViewmodel.emptyStandingStockLiveData.observe(this) {
+            if (it) {
+                errorDialog(getString(R.string.empty_return))
+                SelectReturnItemsViewmodel.emptyStandingStockLiveData.postValue(false)
+            }
+        }
 
         observerError(viewModel, this)
     }

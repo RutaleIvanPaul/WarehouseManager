@@ -4,8 +4,6 @@ import io.ramani.ramaniWarehouse.app.auth.presentation.LoginFragment
 import io.ramani.ramaniWarehouse.app.auth.presentation.SigninBottomSheetFragment
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ReturnSuccessFragment
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockFragment
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavFragment
 import org.jetbrains.anko.AnkoLogger
 
@@ -16,10 +14,8 @@ class AuthFlowController(
 
     override fun openLogin() {
         val fragment = LoginFragment.newInstance()
-        activity.navigationManager?.open(
-            fragment,
-            openMethod = NavigationManager.OpenMethod.REPLACE,
-            addToBackStack = false
+        activity.navigationManager?.openAsRoot(
+            fragment
         )
     }
 
@@ -30,10 +26,8 @@ class AuthFlowController(
 
     override fun openMainNav() {
         val fragment = MainNavFragment.newInstance()
-        activity.navigationManager?.open(
-            fragment,
-            openMethod = NavigationManager.OpenMethod.REPLACE,
-            fragmentTag = MainNavFragment.TAG
+        activity.navigationManager?.openAsRoot(
+            fragment
         )
     }
 }

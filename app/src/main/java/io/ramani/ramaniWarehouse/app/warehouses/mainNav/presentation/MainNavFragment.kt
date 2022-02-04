@@ -37,7 +37,6 @@ class MainNavFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        MainNavViewModel.warehousesList.clear()
     }
 
     override val navTag: String = TAG
@@ -49,10 +48,6 @@ class MainNavFragment : BaseFragment() {
         viewModel.loadWarehouses()
         setupNavs()
         setupMenu()
-        warehouses_spinner.setOnSingleClickListener {
-            flow.openWarehousesBottomSheet()
-            warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
-        }
     }
 
     private fun setupMenu() {
@@ -70,6 +65,12 @@ class MainNavFragment : BaseFragment() {
     }
 
     private fun setupNavs() {
+
+        warehouses_spinner.setOnSingleClickListener {
+            flow.openWarehousesBottomSheet()
+            warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
+        }
+
         receive_stock_button.setOnSingleClickListener {
             flow.openReceiveStock()
         }

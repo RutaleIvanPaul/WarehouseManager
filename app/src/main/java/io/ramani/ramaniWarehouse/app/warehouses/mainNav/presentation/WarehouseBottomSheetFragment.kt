@@ -57,10 +57,10 @@ class WarehouseBottomSheetFragment : BaseBottomSheetDialogFragment() {
     }
 
     private fun subscribeOnWarehousesLoaded() {
-        MainNavViewModel.onWarehousesLoadedLiveData.observe(this, {
+        MainNavViewModel.onWarehousesLoadedLiveData.observe(this) {
             warehouseAdapter.notifyDataSetChanged()
             isLoading = false
-        })
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
