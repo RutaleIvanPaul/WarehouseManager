@@ -27,8 +27,8 @@ android {
         applicationId "io.ramani.ramaniWarehouse"
         minSdk 21
         targetSdk 31
-        versionCode 52
-        versionName "0.2.32"
+        versionCode 53
+        versionName "0.2.33"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
