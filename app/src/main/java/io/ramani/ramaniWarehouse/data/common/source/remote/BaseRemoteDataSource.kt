@@ -69,7 +69,7 @@ abstract class BaseRemoteDataSource {
                     )
                 )
                 ErrorConstants.NOT_FOUND_404 -> ItemNotFoundException(getErrorMessage(throwable))
-                ErrorConstants.INPUT_VALIDATION_400 -> getValidationError(throwable)?.let {
+                ErrorConstants.INPUT_VALIDATION_400, ErrorConstants.UNPROCESSABLE_ENTITY_422 -> getValidationError(throwable)?.let {
                     ValidationErrorsException(it.message ?: "", it.data ?: emptyList())
                 } ?: ValidationErrorsException("", emptyList())
                 else -> throwable

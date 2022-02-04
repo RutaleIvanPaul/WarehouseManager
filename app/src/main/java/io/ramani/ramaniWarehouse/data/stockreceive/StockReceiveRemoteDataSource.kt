@@ -1,15 +1,12 @@
 package io.ramani.ramaniWarehouse.data.stockreceive
 
 
-import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRemoteModel
-import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
-import io.ramani.ramaniWarehouse.data.stockreceive.model.SupplierRemoteModel
+import android.util.Log
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
-import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
-import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
-import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRemoteModel
+import io.ramani.ramaniWarehouse.data.stockreceive.model.SupplierRemoteModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.entities.BaseErrorResponse
@@ -17,6 +14,10 @@ import io.ramani.ramaniWarehouse.domain.entities.exceptions.AccountNotActiveExce
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.InvalidLoginException
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.NotAuthorizedException
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.ParseResponseException
+import io.ramani.ramaniWarehouse.domain.stockreceive.StockReceiveDataSource
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
+import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import io.reactivex.Single
 import okhttp3.RequestBody
@@ -26,7 +27,7 @@ class StockReceiveRemoteDataSource(
     private val stockReceiveApi: StockReceiveApi,
     private val supplierRemoteMapper: ModelMapper<SupplierRemoteModel, SupplierModel>,
     private val goodsReceivedRemoteMapper: ModelMapper<GoodsReceivedRemoteModel, GoodsReceivedModel>,
-    ) : StockReceiveDataSource, BaseRemoteDataSource() {
+) : StockReceiveDataSource, BaseRemoteDataSource() {
     override fun getSuppliers(companyId: String, page: Int, size: Int) =
         callSingle(
             stockReceiveApi.getSuppliers(companyId, page, size).flatMap {
@@ -127,6 +128,8 @@ class StockReceiveRemoteDataSource(
                                 Single.error(InvalidLoginException(errorResponse?.message))
                             ErrorConstants.NOT_AUTHORIZED_403 ->
                                 Single.error(AccountNotActiveException(errorResponse?.message))
+                            ErrorConstants.UNPROCESSABLE_ENTITY_422 ->
+                                Single.error(Exception(errorResponse?.message))
                             else -> Single.error(it)
                         }
                     } else if (it is NotAuthenticatedException) {

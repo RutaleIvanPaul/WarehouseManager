@@ -5,16 +5,16 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
-import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlowController
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
-import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
+import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlowController
 import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveConfirmFragment
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.tabs.StockReceiveProductsFragment
@@ -77,9 +77,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
                     stock_receive_now_host_indicator_1.visibility = View.VISIBLE
                 }
 
-            }
-
-            else if (stock_receive_now_host_viewpager.currentItem == 1) {
+            } else if (stock_receive_now_host_viewpager.currentItem == 1) {
                 // Product page
                 if (supplierData.products.isNullOrEmpty()) {
                     errorDialog(getString(R.string.warning_add_product))
@@ -90,9 +88,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
                     stock_receive_now_host_next_button.text = getString(R.string.done)
                     stock_receive_now_host_indicator_2.visibility = View.VISIBLE
                 }
-            }
-
-            else if (stock_receive_now_host_viewpager.currentItem == 2) {
+            } else if (stock_receive_now_host_viewpager.currentItem == 2) {
                 // Confirm page
                 if (supplierData.storeKeeperData == null) {
                     errorDialog(getString(R.string.warning_no_signed_store_keeper))
@@ -118,7 +114,16 @@ class StockReceiveNowHostFragment : BaseFragment() {
     }
 
     private fun initSubscribers() {
+        subscribeLoadingVisible(viewModel)
+        subscribeLoadingError(viewModel)
+        subscribeError(viewModel)
+        observerError(viewModel, this)
         subscribeObservers()
+    }
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
     }
 
     private fun subscribeObservers() {
@@ -140,9 +145,18 @@ class StockReceiveNowHostFragment : BaseFragment() {
         STOCK_RECEIVE_MODEL.allowToGoNextLiveData.observe(this, {
             if (it.second) {
                 when (it.first) {
-                    0 -> DrawableCompat.setTint(stock_receive_now_host_indicator_0.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green));
-                    1 -> DrawableCompat.setTint(stock_receive_now_host_indicator_1.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green));
-                    2 -> DrawableCompat.setTint(stock_receive_now_host_indicator_2.drawable, ContextCompat.getColor(requireContext(), R.color.ramani_green));
+                    0 -> DrawableCompat.setTint(
+                        stock_receive_now_host_indicator_0.drawable,
+                        ContextCompat.getColor(requireContext(), R.color.ramani_green)
+                    );
+                    1 -> DrawableCompat.setTint(
+                        stock_receive_now_host_indicator_1.drawable,
+                        ContextCompat.getColor(requireContext(), R.color.ramani_green)
+                    );
+                    2 -> DrawableCompat.setTint(
+                        stock_receive_now_host_indicator_2.drawable,
+                        ContextCompat.getColor(requireContext(), R.color.ramani_green)
+                    );
                 }
             }
         })
@@ -174,7 +188,10 @@ class StockReceiveNowHostFragment : BaseFragment() {
         stock_receive_now_host_viewpager.isUserInputEnabled = false
         stock_receive_now_host_viewpager.adapter = adapter
         stock_receive_now_host_viewpager.currentItem = 0
-        TabLayoutMediator(stock_receive_now_host_tablayout, stock_receive_now_host_viewpager) { tab, position ->
+        TabLayoutMediator(
+            stock_receive_now_host_tablayout,
+            stock_receive_now_host_viewpager
+        ) { tab, position ->
             tab.text = adapter.getTabTitle(position)
         }.attach()
 
