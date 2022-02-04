@@ -30,6 +30,7 @@ android {
         versionCode 55
         versionName "0.2.35"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
@@ -38,6 +39,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", 'BASE_URL', "\"https://ramani-app-server-production.herokuapp.com/\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            signingConfig signingConfigs.debug
         }
 
         debug {
