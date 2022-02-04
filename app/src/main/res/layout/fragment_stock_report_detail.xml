@@ -252,4 +252,19 @@
         android:layout_marginBottom="10dp"
         android:text="@string/print" />
 
+    <LinearLayout
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_white_grey"
+        android:gravity="center"
+        android:elevation="2dp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 </RelativeLayout>

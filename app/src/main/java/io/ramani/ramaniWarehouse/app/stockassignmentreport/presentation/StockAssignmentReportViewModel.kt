@@ -3,7 +3,6 @@ package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.Bitmap
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -15,7 +14,6 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.stockassignment.model.GetSalesPersonRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignmentreport.model.StockAssignmentReportDistributorDateRequestModel
-import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
@@ -23,6 +21,7 @@ import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
+import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -36,7 +35,7 @@ class StockAssignmentReportViewModel(
     private val getSalesPeopleUsecase: BaseSingleUseCase<List<SalesPersonModel>, GetSalesPersonRequestModel>,
     private val salespersonRVMapper: ModelMapper<SalesPersonModel, SalesPersonRVModel>
 
-    ) : BaseViewModel(application, stringProvider, sessionManager) {
+) : BaseViewModel(application, stringProvider, sessionManager) {
     var userId = ""
     var companyId = ""
     var companyName = ""
@@ -49,7 +48,10 @@ class StockAssignmentReportViewModel(
     val nameOfCompany = MutableLiveData<String>()
 
     var stockList: ArrayList<StockAssignmentReportDistributorDateModel> = ArrayList()
-    var getDistributorDateActionLiveData = MutableLiveData<List<StockAssignmentReportDistributorDateModel>>()
+    var getDistributorDateActionLiveData =
+        MutableLiveData<List<StockAssignmentReportDistributorDateModel>>()
+    var isFirstPartySignatureLoaded = false
+    var isSecondPartySignatureLoaded = false
 
     companion object {
         var returnSelected = MutableLiveData<Boolean>()
@@ -61,12 +63,7 @@ class StockAssignmentReportViewModel(
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
-        /*
-        val user = getLoggedInUser()
-        subscribeSingle(user, onSuccess = {
-            getSuppliers(it.companyId, 1, 100)
-        })
-        */
+        isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
@@ -81,7 +78,6 @@ class StockAssignmentReportViewModel(
         }
 
 //        printerHelper.open()
-
 
 
     }
@@ -112,82 +108,88 @@ class StockAssignmentReportViewModel(
     fun getDistributorDate(startDate: String, endDate: String, isOnlyAccepted: Boolean) {
         // If date is changed, list should be cleared
 
-            isLoadingVisible = true
+        isLoadingVisible = true
 
-            val single = getDistributorDateUseCase.getSingle(
-                StockAssignmentReportDistributorDateRequestModel(
-                    selectedSalesPersonId.value.toString() /* "618cdad48f172b7b7e399349" */,
-                    warehouseId,
-                    startDate,
-                    endDate
-                )
+        val single = getDistributorDateUseCase.getSingle(
+            StockAssignmentReportDistributorDateRequestModel(
+                selectedSalesPersonId.value.toString() /* "618cdad48f172b7b7e399349" */,
+                warehouseId,
+                startDate,
+                endDate
             )
+        )
 
-            subscribeSingle(single, onSuccess = {
-                isLoadingVisible = false
-                getDistributorDateActionLiveData.postValue(emptyList())
-                stockList.clear()
+        subscribeSingle(single, onSuccess = {
+            isLoadingVisible = false
+            getDistributorDateActionLiveData.postValue(emptyList())
+            stockList.clear()
 
-                prefs.invalidate_cache_assignments_reports = true
+            prefs.invalidate_cache_assignments_reports = true
 
 
-                if (it.isNotEmpty()) {
-                    for (stock in it.reversed().distinct()) {
-                        val newStock = StockAssignmentReportDistributorDateModel(
-                            stock.id,
-                            stock.assigner,
-                            stock.dateStockTaken,
-                            stock.comment,
-                            stock.companyId,
-                            stock.timestamp,
-                            ArrayList(),
-                            stock.name,
-                            stock.__v,
-                            stock.salesPersonUID,
-                            stock.stockAssignmentType,
-                            stock.storeKeeperSignature,
-                            stock.salesPersonSignature
-                        )
+            if (it.isNotEmpty()) {
+                for (stock in it.reversed().distinct()) {
+                    val newStock = StockAssignmentReportDistributorDateModel(
+                        stock.id,
+                        stock.assigner,
+                        stock.dateStockTaken,
+                        stock.comment,
+                        stock.companyId,
+                        stock.timestamp,
+                        ArrayList(),
+                        stock.name,
+                        stock.__v,
+                        stock.salesPersonUID,
+                        stock.stockAssignmentType,
+                        stock.storeKeeperSignature,
+                        stock.salesPersonSignature
+                    )
 
-                        val availableItems = ArrayList<ProductReceivedItemModel>()
-                        for (item in stock.listOfProducts) {
-                            if ((isOnlyAccepted && item.quantity > 0) || (!isOnlyAccepted && item.quantity > 0)) {
-                                availableItems.add(item)
-                            }
-                        }
-
-                        if (availableItems.isNotEmpty()) {
-                            newStock.listOfProducts = availableItems
-                            stockList.add(newStock)
+                    val availableItems = ArrayList<ProductReceivedItemModel>()
+                    for (item in stock.listOfProducts) {
+                        if ((isOnlyAccepted && item.quantity > 0) || (!isOnlyAccepted && item.quantity > 0)) {
+                            availableItems.add(item)
                         }
                     }
+
+                    if (availableItems.isNotEmpty()) {
+                        newStock.listOfProducts = availableItems
+                        stockList.add(newStock)
+                    }
                 }
+            }
 
 
-                getDistributorDateActionLiveData.postValue(stockList)
+            getDistributorDateActionLiveData.postValue(stockList)
 
-            }, onError = {
-                isLoadingVisible = false
-                notifyErrorObserver(
-                    it.message
-                        ?: getString(R.string.an_error_has_occured_please_try_again),
-                    PresentationError.ERROR_TEXT
-                )
-            })
+        }, onError = {
+            isLoadingVisible = false
+            notifyErrorObserver(
+                it.message
+                    ?: getString(R.string.an_error_has_occured_please_try_again),
+                PresentationError.ERROR_TEXT
+            )
+        })
 
     }
 
-    fun printBitmap(bitmap: Bitmap?){
+    fun printBitmap(bitmap: Bitmap?) {
         val printBitmap = bitmap?.let { printerHelper.printBitmap(it) }
-        if(!printBitmap?.status!!){
+        if (!printBitmap?.status!!) {
             printBitmap?.let { notifyErrorObserver(it.error, PresentationError.ERROR_TEXT) }
         }
     }
 
-    fun printText(receiptText:String){
+    fun printText(receiptText: String) {
         val printText = printerHelper.printText(receiptText)
-        if(!printText.status){
+        if (!printText.status) {
             notifyErrorObserver(printText.error, PresentationError.ERROR_TEXT)
+        }
+    }
+
+    fun checkPartiesSignatures() {
+        if (isFirstPartySignatureLoaded && isSecondPartySignatureLoaded) {
+            isLoadingVisible = false
         }
     }
 
