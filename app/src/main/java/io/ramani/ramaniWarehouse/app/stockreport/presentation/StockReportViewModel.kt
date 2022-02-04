@@ -9,13 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.data.stockreport.model.DistributorDateRequestModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
-import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
+import io.ramani.ramaniWarehouse.data.stockreport.model.DistributorDateRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
-import io.ramani.ramaniWarehouse.domain.stockreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
-import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.stockreport.model.DistributorDateModel
+import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -26,7 +25,7 @@ class StockReportViewModel(
     private val prefs: PrefsManager,
     private val getDistributorDateUseCase: BaseSingleUseCase<List<DistributorDateModel>, DistributorDateRequestModel>,
     private val printerHelper: PrinterHelper
-    ) : BaseViewModel(application, stringProvider, sessionManager) {
+) : BaseViewModel(application, stringProvider, sessionManager) {
     var userId = ""
     var companyId = ""
     var companyName = ""
@@ -41,9 +40,12 @@ class StockReportViewModel(
 
     var stockList: ArrayList<DistributorDateModel> = ArrayList()
     val getDistributorDateActionLiveData = MutableLiveData<List<DistributorDateModel>>()
+    var isFirstPartySignatureLoaded = false
+    var isSecondPartySignatureLoaded = false
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
+        isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
@@ -102,8 +104,14 @@ class StockReportViewModel(
         }
     }
 
-    fun printBitmap(bitmap: Bitmap){
+    fun printBitmap(bitmap: Bitmap) {
         printerHelper.printBitmap(bitmap)
+    }
+
+    fun checkPartiesSignatures() {
+        if (isFirstPartySignatureLoaded && isSecondPartySignatureLoaded) {
+            isLoadingVisible = false
+        }
     }
 
     class Factory(

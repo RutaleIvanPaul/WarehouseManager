@@ -1,33 +1,24 @@
 package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
-import androidx.core.graphics.drawable.toBitmap
-import androidx.core.graphics.scale
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
-import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlow
-import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnItemsAdapter
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
+import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlow
+import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentReportFlowController
 import io.ramani.ramaniWarehouse.domain.datetime.formatTimeStampFromServerToCalendarFormat
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
 import org.kodein.di.generic.factory
-import java.io.IOException
-import java.net.URL
 
 class StockAssignmentReportDetailFragment : BaseFragment() {
 
@@ -35,7 +26,10 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         private const val PARAM_IS_ASSIGNED_STOCK = "isAssignedStock"
         private const val PARAM_STOCK = "stock"
 
-        fun newInstance(isAssignedStock: Boolean, stock: StockAssignmentReportDistributorDateModel) = StockAssignmentReportDetailFragment().apply {
+        fun newInstance(
+            isAssignedStock: Boolean,
+            stock: StockAssignmentReportDistributorDateModel
+        ) = StockAssignmentReportDetailFragment().apply {
             arguments = Bundle().apply {
                 putBoolean(PARAM_IS_ASSIGNED_STOCK, isAssignedStock)
                 putParcelable(PARAM_STOCK, stock)
@@ -77,7 +71,13 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         arguments?.getParcelable<StockAssignmentReportDistributorDateModel>(PARAM_STOCK)?.let {
             stock = it
         }
+        initSubscribers()
+    }
 
+    private fun initSubscribers() {
+        subscribeLoadingVisible(viewModel)
+        subscribeLoadingError(viewModel)
+        observeLoadingVisible(viewModel, this)
     }
 
     override fun initView(view: View?) {
@@ -100,19 +100,29 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
         }
 
 
-        assignment_report_detail_title.text = getString(if (isAssignedStock) R.string.start_goods_issued else R.string.start_goods_returned)
-        assignment_report_detail_end.text = getString(if (isAssignedStock) R.string.end_goods_issued else R.string.end_goods_returned)
-        stock_assignment_report_note_text.text = getString(if (isAssignedStock) R.string.goods_issued_note else R.string.goods_returned_note)
+        assignment_report_detail_title.text =
+            getString(if (isAssignedStock) R.string.start_goods_issued else R.string.start_goods_returned)
+        assignment_report_detail_end.text =
+            getString(if (isAssignedStock) R.string.end_goods_issued else R.string.end_goods_returned)
+        stock_assignment_report_note_text.text =
+            getString(if (isAssignedStock) R.string.goods_issued_note else R.string.goods_returned_note)
 
         stock?.let {
             if (!it.storeKeeperSignature.isNullOrEmpty())
-                assignment_report_detail_store_keeper_signature.loadImage(it.storeKeeperSignature)
+                assignment_report_detail_store_keeper_signature.loadImage(it.storeKeeperSignature) {
+                    viewModel.isFirstPartySignatureLoaded = true
+                    viewModel.checkPartiesSignatures()
+                }
             if (!it.salesPersonSignature.isNullOrEmpty())
-                assignment_report_detail_delivery_person_signature.loadImage(it.salesPersonSignature)
+                assignment_report_detail_delivery_person_signature.loadImage(it.salesPersonSignature) {
+                    viewModel.isSecondPartySignatureLoaded = true
+                    viewModel.checkPartiesSignatures()
+                }
 
 
             companyName.text = viewModel.companyName
-            assignment_report_detail_issued_date.text = "Date: " + formatTimeStampFromServerToCalendarFormat(it.dateStockTaken) ?: ""
+            assignment_report_detail_issued_date.text =
+                "Date: " + formatTimeStampFromServerToCalendarFormat(it.dateStockTaken) ?: ""
             assignment_report_detail_store_keeper_name.text = it.assigner
             assignment_report_detail_delivery_person_name.text = it.name
 
@@ -127,10 +137,14 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
             }
         }
 
-        assignment_report_detail_print_button.setOnClickListener{
+        assignment_report_detail_print_button.setOnClickListener {
             val scrollView = scrollview
             val bitmap =
-                Bitmap.createBitmap(scrollView.width, scrollView.getChildAt(0).height, Bitmap.Config.ARGB_8888)
+                Bitmap.createBitmap(
+                    scrollView.width,
+                    scrollView.getChildAt(0).height,
+                    Bitmap.Config.ARGB_8888
+                )
             val canvas = Canvas(bitmap)
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
@@ -139,57 +153,10 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
     }
 
-
-//    private fun printAssignmentReceipt(viewModel: StockAssignmentReportViewModel) {
-//
-//        printBitmapIfAvailable(viewModel)
-//
-//    }
-
-    private fun getTextBeforeImages() =
-        getString(if (isAssignedStock) R.string.start_goods_issued else R.string.start_goods_returned)+"\n\n"+
-                viewModel.companyName+"\n\n"+
-                getString(if (isAssignedStock) R.string.goods_issued_note else R.string.goods_returned_note)+"\n\n"+
-                assignment_report_detail_issued_date.text.toString()+"\n"+
-                "--------------------------------"+"\n"+
-                getString(if (isAssignedStock) R.string.goods_issued else R.string.goods_returned)+"\n"+
-
-                "--------------------------------"+"\n\n"+
-                getProductDetailsString()
-
-
-    private fun getProductDetailsString(): String {
-        var GoodsAssignedText = ""
-        listOfProductsToPrint.forEach { item ->
-            GoodsAssignedText += item.productName +" ---------- "+item.quantity+" ${item.units}\n"
-        }
-
-        return GoodsAssignedText
+    override fun setLoadingIndicatorVisible(visible: Boolean) {
+        super.setLoadingIndicatorVisible(visible)
+        loader.visible(visible)
     }
 
-    fun URL.toBitmap(): Bitmap?{
-        return try {
-            BitmapFactory.decodeStream(openStream())
-        }catch (e: IOException){
-            null
-        }
-    }
-
-//    fun printBitmapIfAvailable(viewModel: StockAssignmentReportViewModel) {
-//        try {
-////            val storeKeeperUrl = URL(url)
-////            storeKeeperUrl.let { viewModel.printBitmap(it.toBitmap()?.processForPrinting()) }
-//            //viewModel.printBitmap(assignment_report_detail_store_keeper_signature.image?.toBitmap()?.scale(75, 50)?.processForPrinting())
-//            val scrollView = stock_assignment__report_detail_scrollview
-//            val bitmap = Bitmap.createBitmap(scrollView.width, scrollView.height, Bitmap.Config.ARGB_8888)
-//            val canvas = Canvas(bitmap)
-//            scrollView.draw(canvas)
-//            viewModel.printBitmap(bitmap)
-//
-//        } catch (e: Exception) {
-//        }
-//
-//
-//    }
 
 }

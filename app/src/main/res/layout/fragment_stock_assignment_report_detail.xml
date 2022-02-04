@@ -1,294 +1,310 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/assignment_report_parent_scroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/assignment_report_parent_scroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingStart="10dp"
-        android:paddingTop="20dp"
-        android:paddingEnd="10dp"
-        android:gravity="center"
-        android:paddingBottom="20dp">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <LinearLayout
-            android:id="@+id/assignment_report_detail_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <ImageView style="@style/backButton" />
-
-            <TextView
-                android:id="@+id/assignment_report_print_hidden"
-                style="@style/BoldTextLabel"
-                android:layout_marginStart="5dp"
-                android:text="@string/assignment_report" />
-        </LinearLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/scrollview"
-            android:layout_width="210dp"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/stock_report_detail_back"
-            android:layout_centerHorizontal="true"
-            android:gravity="center"
-            android:fillViewport="true"
-            android:layout_above="@+id/stock_report_detail_print_button">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:descendantFocusability="blocksDescendants"
-                android:orientation="vertical"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
-                android:paddingBottom="20dp">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:textStyle="bold"
             android:orientation="vertical"
-            android:padding="10dp">
-
-            <TextView
-                android:id="@+id/assignment_report_detail_title"
-                style="@style/NormalTextLabel"
-                android:lines="1"
-                android:textColor="@color/black"
-                android:textSize="10sp"
-                android:textStyle="bold"
-                android:text="@string/start_goods_issued" />
-
-
-            <TextView
-                android:id="@+id/companyName"
-                style="@style/LargeTextLabel"
-                android:layout_marginTop="10dp"
-                android:textSize="9sp"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="Masyl General Enterprises" />
-
-            <TextView
-                android:id="@+id/stock_assignment_report_note_text"
-                style="@style/NormalTextLabel"
-                android:layout_marginTop="20dp"
-                android:textSize="9sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="@string/goods_issued_note" />
-
-            <TextView
-                android:id="@+id/assignment_report_detail_issued_date"
-                style="@style/NormalTextLabel"
-                android:layout_marginTop="20dp"
-                android:textSize="9sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="Date: 24 July 2021" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:background="@color/black"
-                />
+            android:paddingStart="10dp"
+            android:paddingTop="20dp"
+            android:paddingEnd="10dp"
+            android:paddingBottom="20dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:id="@+id/assignment_report_detail_back"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:layout_gravity="start"
+                android:gravity="center"
                 android:orientation="horizontal">
 
-                <!-- Store Keeper -->
+                <ImageView style="@style/backButton" />
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/NormalTextLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:text="@string/store_keeper" />
-
-                    <TextView
-                        android:id="@+id/assignment_report_detail_store_keeper_name"
-                        style="@style/NormalTextLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Christian Michael"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
-                        android:gravity="center"
-                        android:textStyle="bold"
-                        />
-
-                    <ImageView
-                        android:id="@+id/assignment_report_detail_store_keeper_signature"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:contentDescription="@string/store_keeper_signature"
-                        android:paddingTop="5dp"
-                        android:scaleType="fitXY"
-                        />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:background="@color/black" />
-
-                <!-- Assigned To -->
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/NormalTextLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:text="@string/assigned_to" />
-
-                    <TextView
-                        android:id="@+id/assignment_report_detail_delivery_person_name"
-                        style="@style/NormalTextLabel"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Claudian Bernet"
-                        android:textAlignment="center"
-                        android:gravity="center"
-                        android:textColor="@color/black"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
-
-                    <ImageView
-                        android:id="@+id/assignment_report_detail_delivery_person_signature"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:contentDescription="@string/assigned_to_signature"
-                        android:paddingTop="5dp"
-                        android:scaleType="fitXY"
-                        />
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/assignment_report_print_hidden"
+                    style="@style/BoldTextLabel"
+                    android:layout_marginStart="5dp"
+                    android:text="@string/assignment_report" />
             </LinearLayout>
 
-            <!-- Items -->
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/scrollview"
+                android:layout_width="210dp"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/stock_report_detail_print_button"
+                android:layout_below="@+id/stock_report_detail_back"
+                android:layout_centerHorizontal="true"
+                android:fillViewport="true"
+                android:gravity="center">
 
-            <LinearLayout
-                android:id="@+id/main_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:descendantFocusability="blocksDescendants"
+                    android:orientation="vertical"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingBottom="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="10dp"
+                        android:textStyle="bold">
+
+                        <TextView
+                            android:id="@+id/assignment_report_detail_title"
+                            style="@style/NormalTextLabel"
+                            android:lines="1"
+                            android:text="@string/start_goods_issued"
+                            android:textColor="@color/black"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/companyName"
+                            style="@style/LargeTextLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:text="Masyl General Enterprises"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/stock_assignment_report_note_text"
+                            style="@style/NormalTextLabel"
+                            android:layout_marginTop="20dp"
+                            android:text="@string/goods_issued_note"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <TextView
+                            android:id="@+id/assignment_report_detail_issued_date"
+                            style="@style/NormalTextLabel"
+                            android:layout_marginTop="20dp"
+                            android:text="Date: 24 July 2021"
+                            android:textSize="9sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginBottom="20dp"
+                            android:background="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:orientation="horizontal">
+
+                            <!-- Store Keeper -->
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/NormalTextLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@string/store_keeper"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/assignment_report_detail_store_keeper_name"
+                                    style="@style/NormalTextLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:gravity="center"
+                                    android:text="Christian Michael"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:id="@+id/assignment_report_detail_store_keeper_signature"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="80dp"
+                                    android:contentDescription="@string/store_keeper_signature"
+                                    android:paddingTop="5dp"
+                                    android:scaleType="fitXY" />
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="30dp"
+                                android:layout_marginEnd="30dp"
+                                android:background="@color/black" />
+
+                            <!-- Assigned To -->
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/NormalTextLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:text="@string/assigned_to"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/assignment_report_detail_delivery_person_name"
+                                    style="@style/NormalTextLabel"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:gravity="center"
+                                    android:text="Claudian Bernet"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp"
+                                    android:textStyle="bold" />
+
+                                <ImageView
+                                    android:id="@+id/assignment_report_detail_delivery_person_signature"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="80dp"
+                                    android:contentDescription="@string/assigned_to_signature"
+                                    android:paddingTop="5dp"
+                                    android:scaleType="fitXY" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <!-- Items -->
+
+                        <LinearLayout
+                            android:id="@+id/main_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:orientation="vertical">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@color/mid_dark_grey" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/light_grey"
+                                android:orientation="horizontal"
+                                android:padding="5dp">
+
+                                <TextView
+                                    style="@style/BoldTextLabel"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="3"
+                                    android:text="@string/goods" />
+
+                                <TextView
+                                    style="@style/BoldTextLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginEnd="10dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:gravity="end"
+                                    android:text="@string/quantity" />
+                            </LinearLayout>
+
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/stock_assignment_report_items_RV"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:layout_constraintTop_toBottomOf="@+id/list_title" />
+                        </LinearLayout>
+
+                        <!-- Ends -->
+
+                        <TextView
+                            android:id="@+id/assignment_report_detail_end"
+                            style="@style/NormalTextLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:gravity="center"
+                            android:paddingBottom="16dp"
+                            android:text="@string/end_goods_issued"
+                            android:textColor="@color/black"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/main_layout" />
+
+                        <!-- Print -->
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/assignment_report_detail_print_button"
+                style="@style/GreenFillActionButton"
+                android:layout_width="180dp"
                 android:layout_marginTop="30dp"
-                android:orientation="vertical">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/mid_dark_grey" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/light_grey"
-                    android:orientation="horizontal"
-                    android:padding="5dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="3"
-                        style="@style/BoldTextLabel"
-                        android:text="@string/goods" />
-
-                    <TextView
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        style="@style/BoldTextLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginBottom="5dp"
-                        android:text="@string/quantity" />
-                </LinearLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/stock_assignment_report_items_RV"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/list_title" />
-            </LinearLayout>
-
-            <!-- Ends -->
-
-            <TextView
-                android:id="@+id/assignment_report_detail_end"
-                style="@style/NormalTextLabel"
-                android:text="@string/end_goods_issued"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:paddingBottom="16dp"
-                android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/main_layout"
-                />
-
-            <!-- Print -->
-
-
+                android:layout_marginBottom="10dp"
+                android:text="@string/print" />
 
         </LinearLayout>
-            </LinearLayout>
-        </androidx.core.widget.NestedScrollView>
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/assignment_report_detail_print_button"
-            style="@style/GreenFillActionButton"
-            android:layout_width="180dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="10dp"
-            android:text="@string/print" />
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_white_grey"
+        android:gravity="center"
+        android:elevation="2dp"
+        android:visibility="gone"
+        android:orientation="vertical">
 
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>
