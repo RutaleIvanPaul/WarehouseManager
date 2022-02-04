@@ -42,15 +42,22 @@ class ConfirmAssignedStockFragment : BaseFragment() {
 //            ConfirmAssignedItemsAdapter(ASSGNMENT_RECEIVE_MODELS.productsSelection.value?.toMutableList()) {}
             ConfirmAssignedItemsAdapter(selectedCompanyProductsList, {})
 
-        ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever({
+        ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever {
             if (!it.isNullOrEmpty()) AssignStockViewModel.assignedItemsChangedLiveData.postValue(
                 true
             )
 
             confirmAssignedItemsAdapter.notifyDataSetChanged()
-        })
+        }
 
 
+        initSubscribers()
+    }
+
+    private fun initSubscribers() {
+        subscribeLoadingVisible(viewModel)
+        subscribeLoadingError(viewModel)
+        observeLoadingVisible(viewModel,this)
     }
 
     override fun getLayoutResId() = R.layout.fragment_confirm_assign_stock
@@ -77,13 +84,13 @@ class ConfirmAssignedStockFragment : BaseFragment() {
 //            onItemsReturned(it)
         })
 
-        ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever({
+        ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever {
             AssignedItemDetails.assignedItems = it.distinct().toMutableList()
 
             selectedCompanyProductsList.clear()
             selectedCompanyProductsList.addAll(it.distinct())
             confirmAssignedItemsAdapter.notifyDataSetChanged()
-        })
+        }
 
         AssignStockViewModel.assignedItemsChangedLiveData.observe(this, {
             if (it) {
@@ -92,11 +99,7 @@ class ConfirmAssignedStockFragment : BaseFragment() {
             }
         })
 
-        AssignStockViewModel.startLoading.observeForever {
-            it?.apply(::setLoadingIndicatorVisible)
-        }
-
-        AssignStockViewModel.signedLiveData.observe(this, {
+        AssignStockViewModel.signedLiveData.observe(this) {
             if (it != null) {
                 if (it.first == AssignedStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN) {
 
@@ -150,7 +153,7 @@ class ConfirmAssignedStockFragment : BaseFragment() {
                     AssignStockViewModel.allowToGoNext.postValue(Pair(2, true))
                 }
             }
-        })
+        }
 
     }
 
