@@ -101,9 +101,9 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
 
 
         assignment_report_detail_title.text =
-            getString(if (isAssignedStock) R.string.start_goods_issued else R.string.start_goods_returned)
+            getString(if (isAssignedStock) R.string.start_of_goods_assigned else R.string.start_goods_returned)
         assignment_report_detail_end.text =
-            getString(if (isAssignedStock) R.string.end_goods_issued else R.string.end_goods_returned)
+            getString(if (isAssignedStock) R.string.end_of_goods_assigned else R.string.end_goods_returned)
         stock_assignment_report_note_text.text =
             getString(if (isAssignedStock) R.string.goods_issued_note else R.string.goods_returned_note)
 
