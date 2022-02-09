@@ -47,9 +47,11 @@ class SalesPersonViewModel(application: Application,
             subscribeSingle(single,
                 onSuccess = {
                     isLoadingVisible = false
+                    salesPeopleList.clear()
                     salesPeopleList.addAll(
                         it.mapFromWith(salespersonRVMapper).toMutableList()
                     )
+
                     onSalesPeopleLoadedLiveData.postValue(true)
                 }, onError = {
                     isLoadingVisible = false
