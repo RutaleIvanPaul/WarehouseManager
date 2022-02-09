@@ -64,7 +64,6 @@ class AssignStockSalesPersonViewModel(
                     salesPeopleList.addAll(
                         it.mapFromWith(salespersonRVMapper).toMutableList()
                     )
-                    salesPeopleList.distinctBy{ salesPerson -> salesPerson.id }
                     onSalesPeopleLoadedLiveData.postValue(true)
                 }, onError = {
                     isLoadingVisible = false
