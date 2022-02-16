@@ -5,15 +5,15 @@
     "kind": "Directory"
   },
   "applicationId": "io.ramani.ramaniWarehouse",
-  "variantName": "staging",
+  "variantName": "release",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 63,
-      "versionName": "1.0.3",
-      "outputFile": "app-staging.apk"
+      "versionCode": 61,
+      "versionName": "1.0.1",
+      "outputFile": "app-release.apk"
     }
   ],
   "elementType": "File"
