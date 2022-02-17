@@ -10,12 +10,12 @@ import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
 class ConfirmAssignedItemsAdapter(
     data: MutableList<ProductsUIModel>?,
     val onItemClick: (ProductsUIModel) -> Unit
-):BaseQuickAdapter<ProductsUIModel, BaseViewHolder>(R.layout.item_confirm_assigned_products,data) {
+):BaseQuickAdapter<ProductsUIModel, BaseViewHolder>(R.layout.item_confirm_return_items,data) {
     override fun convert(holder: BaseViewHolder, item: ProductsUIModel) {
 
         with(holder){
-            setText(R.id.item_confirm_assigned_product_name,item.name)
-            setText(R.id.item_confirm_assigned_product_quantity, "${item.assignedNumber} ${item.units}")
+            setText(R.id.item_confirm_return_product_name,item.name)
+            setText(R.id.item_confirm_return_product_quantity, "${item.assignedNumber} ${item.units}")
         }
     }
 }

@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/return_receipt_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".app.AssignedStock.presentation.assignmentreceipt.AssignmentReceiptFragment">
@@ -37,7 +36,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollview"
-        android:layout_width="220dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
