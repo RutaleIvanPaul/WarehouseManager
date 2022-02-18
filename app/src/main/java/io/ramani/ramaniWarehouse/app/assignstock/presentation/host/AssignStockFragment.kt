@@ -80,6 +80,7 @@ class AssignStockFragment : BaseFragment() {
                 else -> {
                     assign_stock_host_next_button.text = getText(R.string.done)
                     viewModel.assignStock(requireContext())
+                    assign_stock_host_next_button.isEnabled = false
                 }
             }
         }

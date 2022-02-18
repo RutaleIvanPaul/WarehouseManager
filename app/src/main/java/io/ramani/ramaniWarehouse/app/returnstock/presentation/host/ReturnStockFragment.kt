@@ -70,6 +70,7 @@ class ReturnStockFragment : BaseFragment() {
                 else -> {
                     return_stock_host_next_button.text = getText(R.string.done)
                     viewModel.returnStock(requireContext())
+                    return_stock_host_next_button.isEnabled = false
                 }
             }
         }
