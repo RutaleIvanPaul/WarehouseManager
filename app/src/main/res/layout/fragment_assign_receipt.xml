@@ -48,8 +48,8 @@
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants"
             android:orientation="vertical"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
             android:paddingBottom="20dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
