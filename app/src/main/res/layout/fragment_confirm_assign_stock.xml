@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-   <ScrollView
+   <androidx.core.widget.NestedScrollView
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:orientation="vertical">
@@ -14,13 +14,13 @@
           android:orientation="vertical"
           android:padding="20dp">
 
-
          <!-- Items -->
 
          <androidx.recyclerview.widget.RecyclerView
              android:id="@+id/confirm_assign_items_RV"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
+             android:nestedScrollingEnabled="false"
              android:scrollbars="none" />
 
          <!-- Sign Part -->
@@ -89,7 +89,7 @@
 
          </LinearLayout>
       </LinearLayout>
-   </ScrollView>
+   </androidx.core.widget.NestedScrollView>
 
    <ProgressBar
        android:id="@+id/stock_assigned_confirm_loader"
