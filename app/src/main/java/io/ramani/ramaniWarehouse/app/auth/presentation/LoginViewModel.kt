@@ -31,7 +31,7 @@ class LoginViewModel(
 
     }
 
-    fun login(phone: String?, password: String?) {
+    fun login(selectedCountryCode: Int, phone: String?, password: String?) {
         if (phone.isNullOrBlank() || password.isNullOrBlank()) {
             validationResponseLiveData.postValue(
                 Pair(
@@ -45,7 +45,7 @@ class LoginViewModel(
             var phoneEnhanced = phone
             if (phoneEnhanced.toCharArray()[0] == '0')
                 phoneEnhanced = phoneEnhanced.replaceFirst("0", "")// remove first character
-            phoneEnhanced = "255${phoneEnhanced}"
+            phoneEnhanced = "$selectedCountryCode${phoneEnhanced}"
             val single = loginUseCase.getSingle(LoginRequestModel(phoneEnhanced, password))
             subscribeSingle(single, onSuccess = {
                 isLoadingVisible = false

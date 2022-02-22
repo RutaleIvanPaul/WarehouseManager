@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/matte_black"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/matte_black">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,20 +35,35 @@
                 android:background="@drawable/ic_close_x_icon" />
         </RelativeLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/country_spinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="8dp"
+                app:contentColor="@color/mid_dark_grey" />
+
             <EditText
                 android:id="@+id/phone_et"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="20dp"
                 android:background="@android:color/transparent"
                 android:hint="Phone Number e.g 078733..."
                 android:inputType="number"
-                android:padding="10dp"
                 android:textColor="@color/mid_dark_grey"
                 android:textColorHint="@color/mid_dark_grey"
                 android:textSize="20dp" />
+        </LinearLayout>
+
 
         <EditText
             android:id="@+id/password_pwd_et"

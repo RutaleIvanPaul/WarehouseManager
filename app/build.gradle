@@ -180,4 +180,8 @@ dependencies {
 
     // Famoco Printer
      implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
+
+    // Country selection
+    implementation 'com.hbb20:ccp:1.7.1'
+
 }
