@@ -49,6 +49,7 @@ class ReturnStockViewModel(
     var userModel: UserModel? = null
     var warehouseModel: WarehouseModel? = null
     val onItemsReturnedLiveData = MutableLiveData<Boolean>()
+    val onPostReturnedErrorLiveData = MutableLiveData<Boolean>()
 
     override fun start(args: Map<String, Any?>) {
         sessionManager.getCurrentWarehouse().subscribeBy {
@@ -91,6 +92,7 @@ class ReturnStockViewModel(
                     PresentationError.ERROR_TEXT
                 )
                 onItemsReturnedLiveData.postValue(false)
+                onPostReturnedErrorLiveData.postValue(true)
 
             }
         )

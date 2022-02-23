@@ -18,6 +18,7 @@ import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.ConfirmReturnStockFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.products.SelectReturnItemsFragment
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonFragment
+import kotlinx.android.synthetic.main.fragment_assign_stock.*
 import kotlinx.android.synthetic.main.fragment_return_stock.*
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
@@ -68,7 +69,10 @@ class ReturnStockFragment : BaseFragment() {
                     ReturnStockViewModel.allowToGoNext.postValue(Pair(1, false))
                 }
                 else -> {
-                    return_stock_host_next_button.text = getText(R.string.done)
+                    return_stock_host_next_button.apply {
+                        text = getText(R.string.done)
+                        isEnabled = false
+                    }
                     viewModel.returnStock(requireContext())
                 }
             }
@@ -130,6 +134,10 @@ class ReturnStockFragment : BaseFragment() {
             if (it) {
                 return_stock_viewpager.currentItem = 0
             }
+        })
+
+        viewModel.onPostReturnedErrorLiveData.observe(this, {
+            if(it) return_stock_host_next_button.isEnabled = true
         })
 
     }
