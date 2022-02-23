@@ -157,6 +157,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'org.jetbrains:annotations:15.0'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Jetbrains configurations
     def anko_version = '0.10.7'
