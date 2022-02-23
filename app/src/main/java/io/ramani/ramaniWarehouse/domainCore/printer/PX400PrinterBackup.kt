@@ -2,7 +2,6 @@ package io.ramani.ramaniWarehouse.domainCore.printer
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Build
 import android.util.Log
 import com.cloudpos.DeviceException
 import com.cloudpos.POSTerminal
@@ -10,8 +9,8 @@ import com.cloudpos.printer.Format
 import com.cloudpos.printer.PrinterDevice
 
 
-class PX400Printer(var context: Context) {
-    private var device: POSDevice? = null
+class PX400PrinterBackup(var context: Context) {
+    private var device: PrinterDevice? = null
     private val TAG = "Printer Work"
 
     fun open() {
@@ -60,18 +59,13 @@ class PX400Printer(var context: Context) {
         }
     }
 
-    fun getDevice(device: String): POSDevice? {
-        when (device) {
-            Manufacturer.wizarPOS.toString() -> return FamocoDevice(context)
-            Manufacturer.NexGo.toString() -> return NexGoDevice(context)
-            else -> return null
-        }
-    }
-
     init {
-        val name = Build.MANUFACTURER
         if (device == null) {
-            device = getDevice(name)
+            val printerDevice = POSTerminal.getInstance(context)
+                .getDevice("cloudpos.device.printer")
+            if(printerDevice != null) {
+                device = printerDevice as PrinterDevice
+            }
         }
     }
 }

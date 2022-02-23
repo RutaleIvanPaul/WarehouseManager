@@ -2,31 +2,41 @@ package io.ramani.ramaniWarehouse.domainCore.printer
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.os.Build
 import android.util.Log
 import com.cloudpos.DeviceException
 import com.cloudpos.POSTerminal
 import com.cloudpos.printer.Format
 import com.cloudpos.printer.PrinterDevice
+import com.nexgo.oaf.apiv3.APIProxy
+import com.nexgo.oaf.apiv3.device.printer.AlignEnum
+import com.nexgo.oaf.apiv3.device.printer.DotMatrixFontEnum
+import com.nexgo.oaf.apiv3.device.printer.FontEntity
+import com.nexgo.oaf.apiv3.device.printer.Printer
 
 
-class PX400Printer(var context: Context) {
-    private var device: POSDevice? = null
-    private val TAG = "Printer Work"
+class NexGoPrinter(var context: Context) : PrinterInterface {
+    private var nexGoPrinter: Printer? = null
+    private val TAG = "NexGo Printer"
 
-    fun open() {
+
+    init{
+        val engine = APIProxy.getDeviceEngine(context)
+        nexGoPrinter = engine.printer
+
+        nexGoPrinter?.appendPrnStr("Sample Printing",1, AlignEnum.CENTER, true)
+
+    }
+
+    override fun open() {
         try {
-            device?.open()
-            Log.d(TAG,"Open Printer succeed!")
+            nexGoPrinter?.initPrinter()
         } catch (ex: DeviceException) {
-            Log.d(TAG,"Open Printer Failed!")
             ex.printStackTrace()
         }
     }
 
-    fun close() {
+    override fun close() {
         try {
-            device?.close()
             Log.d(TAG,"Close Printer succeed!")
         } catch (ex: DeviceException) {
             Log.d(TAG,"Close Printer Failed!")
@@ -34,44 +44,27 @@ class PX400Printer(var context: Context) {
         }
     }
 
-    fun printText(msg: String?) {
+    override fun printText(msg: String?) {
         try {
             val format = Format()
             format.setParameter(Format.FORMAT_FONT_SIZE, Format.FORMAT_FONT_SIZE_MEDIUM)
             format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
-            device?.printText(format, msg)
-            Log.d(TAG,"Print Text  succeed!")
+            nexGoPrinter?.appendPrnStr(msg, FontEntity(DotMatrixFontEnum.ASC_MYuen_16X48), AlignEnum.CENTER)
         } catch (ex: DeviceException) {
             Log.d(TAG,"Print Text Failed!")
             ex.printStackTrace()
         }
     }
 
-    fun printBitmap(bitmap: Bitmap){
+    override fun printBitmap(bitmap: Bitmap){
         try {
             val format = Format()
             format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
             format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
-            device?.printBitmap(format,bitmap)
-            Log.d(TAG,"Print Bitmap  succeed!")
+            nexGoPrinter?.appendImage(bitmap,AlignEnum.CENTER )
         } catch (ex: DeviceException) {
-            Log.d(TAG,"Print Bitmap Failed!")
             ex.printStackTrace()
         }
     }
 
-    fun getDevice(device: String): POSDevice? {
-        when (device) {
-            Manufacturer.wizarPOS.toString() -> return FamocoDevice(context)
-            Manufacturer.NexGo.toString() -> return NexGoDevice(context)
-            else -> return null
-        }
-    }
-
-    init {
-        val name = Build.MANUFACTURER
-        if (device == null) {
-            device = getDevice(name)
-        }
-    }
 }
