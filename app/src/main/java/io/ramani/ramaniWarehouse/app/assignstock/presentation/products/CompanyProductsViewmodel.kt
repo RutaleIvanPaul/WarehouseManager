@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
@@ -31,10 +32,12 @@ class CompanyProductsViewmodel(application: Application,
     var companyId = ""
     var warehouseId = ""
     var salesPersonUID = ""
+    var assignmentCOunter = 0
 
     companion object{
         val noProductSelectedLiveData = MutableLiveData<Boolean>()
         val companyProductsListLiveData = MutableLiveData<ProductsUIModel>()
+
     }
 
     val companyProductsListOriginal = mutableListOf<ProductsUIModel>()
@@ -43,7 +46,8 @@ class CompanyProductsViewmodel(application: Application,
     val assignedCompanyProductsListLiveData = MutableLiveData<List<ProductsUIModel>>()
     val numberOfAssignedProductsLiveData = MutableLiveData<Int>()
     val serverProductsLoaded = MutableLiveData<Boolean>()
-
+    val startLoadingProducts = MutableLiveData<Boolean>()
+    val noProducts = MutableLiveData<Boolean>()
 
 
     val stringName = MutableLiveData<String>()
@@ -61,9 +65,10 @@ class CompanyProductsViewmodel(application: Application,
 
         serverProductsLoaded.postValue(false)
 
+
     }
     fun notifyLiveDataOfAssignmentChange(item: ProductsUIModel){
-        if(!ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.contains(item._id)) numberOfAssignedProductsLiveData.postValue(numberOfAssignedProductsLiveData.value?.inc())
+        if(!ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.contains(item._id)) numberOfAssignedProductsLiveData.postValue(assignmentCOunter?.inc())
         ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.add(item._id)
         ASSIGNMENT_RECEIVE_MODELS.productsSelectionTotalNumber.postValue(numberOfAssignedProductsLiveData.value)
         if(numberOfAssignedProductsLiveData.value != ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.size){
@@ -78,11 +83,20 @@ class CompanyProductsViewmodel(application: Application,
         companyProductsListSelection.addAll(selection)
         assignedCompanyProductsListLiveData.postValue(companyProductsListSelection.toMutableList())
         ASSIGNMENT_RECEIVE_MODELS.productsSelection.postValue(selection)
+        ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.clear()
 
 
     }
 
+    fun resetViewModelData(){
+        companyProductsListSelection.clear()
+        assignedCompanyProductsListLiveData.postValue(emptyList())
+        ASSIGNMENT_RECEIVE_MODELS.productsSelection.postValue(emptyList())
+        assignedCompanyProductsListLiveData.postValue(emptyList())
+    }
+
     fun getCompanyProducts(){
+        startLoadingProducts.postValue(true)
             val single = getCompanyProductsUsecase
                 .getSingle(
                     //TO DO HERE
@@ -90,6 +104,7 @@ class CompanyProductsViewmodel(application: Application,
             subscribeSingle(
                 single,
                 onSuccess = {
+                    startLoadingProducts.postValue(false)
                     serverProductsLoaded.postValue(true)
                     numberOfAssignedProductsLiveData.postValue(0)
 
@@ -101,6 +116,7 @@ class CompanyProductsViewmodel(application: Application,
                         companyProductsListLiveData.postValue(companyProductsListOriginal.toMutableList().distinct())
                     }
                     else{
+                        noProducts.postValue(true)
                         notifyError("Empty List",PresentationError.ERROR_TEXT)
                     }
                 }, onError = {

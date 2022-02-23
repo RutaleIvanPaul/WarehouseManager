@@ -12,7 +12,7 @@ class AssignedItemsMapper:ModelMapper<ProductsUIModel,ConfirmProducts> {
             from._id,
             from.name,
             from.assignedNumber,
-            from.units
+            from.selectedUnits
         )
 
     override fun mapTo(to: ConfirmProducts): ProductsUIModel {

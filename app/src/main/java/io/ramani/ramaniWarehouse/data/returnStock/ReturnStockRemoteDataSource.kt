@@ -1,6 +1,9 @@
 package io.ramani.ramaniWarehouse.data.returnStock
 
+import android.content.Context
+import android.graphics.Bitmap
 import com.google.gson.Gson
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
@@ -21,6 +24,8 @@ import io.ramani.ramaniWarehouse.domain.returnStock.model.SalespeopleModel
 import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import io.reactivex.Single
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.HttpException
 
 class ReturnStockRemoteDataSource(
@@ -104,20 +109,11 @@ class ReturnStockRemoteDataSource(
             }
         )
 
+
     override fun postReturnedStock(postReturnItems: PostReturnItems): Single<PostReturnItemsResponse> =
         callSingle(
             returnStockApi.postReturnedStock(
-                createTextFormData(postReturnItems.assigner),
-                createTextFormData(postReturnItems.comment),
-                createTextFormData(postReturnItems.companyId),
-                createTextFormData(postReturnItems.dateStockTaken),
-                createTextFormData(postReturnItems.name),
-                createTextFormData(postReturnItems.salesPersonUID),
-                createTextFormData(postReturnItems.stockAssignmentType),
-                createTextFormData(postReturnItems.warehouseId),
-                createTextFormData(Gson().toJson(postReturnItems.listOfProducts)),
-                createImageFormData(postReturnItems.signatureInfoStoreKeeper!!),
-                createImageFormData(postReturnItems.signatureInfoSalesPerson!!)
+                createRequestBody(postReturnItems)
             ).flatMap {
                 val data = it.data
                 if (data != null){
@@ -155,7 +151,35 @@ class ReturnStockRemoteDataSource(
         )
 
 
+    private fun createRequestBody(
+        postReturnItems: PostReturnItems
+    ): RequestBody {
+        val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("assigner", postReturnItems.assigner)
+            .addFormDataPart("comment", postReturnItems.comment)
+            .addFormDataPart("companyId", postReturnItems.companyId)
+            .addFormDataPart("dateStockTaken", postReturnItems.dateStockTaken)
+            .addFormDataPart("name", postReturnItems.name)
+            .addFormDataPart("salesPersonUID", postReturnItems.salesPersonUID)
+            .addFormDataPart("stockAssignmentType", postReturnItems.stockAssignmentType)
+            .addFormDataPart("warehouseId", postReturnItems.warehouseId)
+            .addFormDataPart("listOfProducts", Gson().toJson(postReturnItems.listOfProducts))
 
+        postReturnItems.signatureInfoStoreKeeperFile?.let {
+            builder.addFormDataPart(
+                "storeKeeperSignature", postReturnItems.assigner,
+                createImageFormData(postReturnItems.signatureInfoStoreKeeperFile)
+            )
+        }
+        postReturnItems.signatureInfoSalesPersonFile?.let {
+            builder.addFormDataPart(
+                "salesPersonSignature",
+                postReturnItems.name,
+                createImageFormData(postReturnItems.signatureInfoSalesPersonFile)
+            )
+        }
 
+        return builder.build()
+    }
 
 }

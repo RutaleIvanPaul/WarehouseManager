@@ -9,13 +9,12 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.data.stockreport.model.DistributorDateRequestModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
-import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
+import io.ramani.ramaniWarehouse.data.stockreport.model.DistributorDateRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
-import io.ramani.ramaniWarehouse.domain.stockreport.model.DistributorDateModel
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
-import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedItemModel
+import io.ramani.ramaniWarehouse.domain.stockreport.model.DistributorDateModel
+import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
 
@@ -26,13 +25,14 @@ class StockReportViewModel(
     private val prefs: PrefsManager,
     private val getDistributorDateUseCase: BaseSingleUseCase<List<DistributorDateModel>, DistributorDateRequestModel>,
     private val printerHelper: PrinterHelper
-    ) : BaseViewModel(application, stringProvider, sessionManager) {
+) : BaseViewModel(application, stringProvider, sessionManager) {
     var userId = ""
     var companyId = ""
+    var companyName = ""
     var warehouseId = ""
 
     var lastDate = ""
-    var page = 0
+    var page = 1
     var size = 20
     var hasMore = true
 
@@ -40,87 +40,78 @@ class StockReportViewModel(
 
     var stockList: ArrayList<DistributorDateModel> = ArrayList()
     val getDistributorDateActionLiveData = MutableLiveData<List<DistributorDateModel>>()
+    var isFirstPartySignatureLoaded = false
+    var isSecondPartySignatureLoaded = false
 
     @SuppressLint("CheckResult")
     override fun start(args: Map<String, Any?>) {
+        isLoadingVisible = true
         sessionManager.getLoggedInUser().subscribeBy {
             userId = it.uuid
             companyId = it.companyId
+            companyName = it.companyName
         }
 
         sessionManager.getCurrentWarehouse().subscribeBy {
             warehouseId = it.id ?: ""
         }
 
-        printerHelper.open()
+//        printerHelper.open()
     }
 
-    fun getDistributorDate(date: String, isOnlyAccepted: Boolean) {
-        // If date is changed, list should be cleared
-        if (date != lastDate) {
-            hasMore = true
-            stockList.clear()
-        }
+    @SuppressLint("CheckResult")
+    fun getDistributorDate(date: String) {
+        sessionManager.getCurrentWarehouse().subscribeBy {
+            val warehouseId = it.id ?: ""
 
-        if (hasMore) {
-            isLoadingVisible = true
+            // If date is changed, list should be cleared
+            if (date != lastDate) {
+                hasMore = true
+                stockList.clear()
+            }
 
-            val single = getDistributorDateUseCase.getSingle(
-                DistributorDateRequestModel(
-                    companyId /* "601ffa4d279d812ed25a7f9b" */,
-                    userId /* "618cdad48f172b7b7e399349" */,
-                    date/* "2021-10-19" */, page, size
+            if (hasMore) {
+                isLoadingVisible = true
+
+                val single = getDistributorDateUseCase.getSingle(
+                    DistributorDateRequestModel(
+                        companyId /* "601ffa4d279d812ed25a7f9b" */,
+                        warehouseId /* "618cdad48f172b7b7e399349" */,
+                        date/* "2021-10-19" */, page, size
+                    )
                 )
-            )
 
-            subscribeSingle(single, onSuccess = {
-                isLoadingVisible = false
+                subscribeSingle(single, onSuccess = {
+                    isLoadingVisible = false
 
-                hasMore = it.isNotEmpty() && it.size >= size
+                    hasMore = it.isNotEmpty() && it.size >= size
 
-                if (it.isNotEmpty()) {
-                    for (stock in it) {
-                        val newStock = DistributorDateModel(
-                            stock.id,
-                            stock.supplierName,
-                            stock.date, stock.time,
-                            ArrayList(),
-                            stock.deliveryPersonName,
-                            stock.warehouseManagerName,
-                            stock.supportingDocument,
-                            stock.storeKeeperSignature,
-                            stock.deliveryPersonSignature
-                        )
-
-                        val availableItems = ArrayList<GoodsReceivedItemModel>()
-                        for (item in stock.items) {
-                            if ((isOnlyAccepted && item.qtyAccepted > 0) || (!isOnlyAccepted && item.qtyDeclined > 0)) {
-                                availableItems.add(item)
-                            }
-                        }
-
-                        if (availableItems.isNotEmpty()) {
-                            newStock.items = availableItems
-                            stockList.add(newStock)
-                        }
+                    if (it.isNotEmpty()) {
+                        stockList.addAll(it)
                     }
-                }
 
-                getDistributorDateActionLiveData.postValue(stockList)
+                    getDistributorDateActionLiveData.postValue(stockList)
 
-            }, onError = {
-                isLoadingVisible = false
-                notifyErrorObserver(
-                    it.message
-                        ?: getString(R.string.an_error_has_occured_please_try_again),
-                    PresentationError.ERROR_TEXT
-                )
-            })
+                }, onError = {
+                    isLoadingVisible = false
+                    notifyErrorObserver(
+                        it.message
+                            ?: getString(R.string.an_error_has_occured_please_try_again),
+                        PresentationError.ERROR_TEXT
+                    )
+                })
+            }
         }
     }
 
-    fun printBitmap(bitmap: Bitmap){
+    fun printBitmap(bitmap: Bitmap) {
         printerHelper.printBitmap(bitmap)
+    }
+
+    fun checkPartiesSignatures() {
+        if (isFirstPartySignatureLoaded && isSecondPartySignatureLoaded) {
+            isLoadingVisible = false
+        }
     }
 
     class Factory(

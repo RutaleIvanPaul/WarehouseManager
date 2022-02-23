@@ -2,7 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:paddingStart="10dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="20dp">
 
     <LinearLayout
         android:id="@+id/stock_report_detail_back"
@@ -19,18 +23,19 @@
             android:text="@string/stock_report" />
     </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/stock_report_detail_scrollview"
         android:layout_width="200dp"
         android:layout_height="match_parent"
+        android:layout_above="@+id/stock_report_detail_print_button"
         android:layout_below="@+id/stock_report_detail_back"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@+id/stock_report_detail_print_button"
-        android:background="@color/white">
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
@@ -45,10 +50,11 @@
                 android:padding="5dp">
 
                 <TextView
-                    android:id="@+id/stock_report_detail_title"
                     style="@style/NormalTextLabel"
-                    android:text="@string/start_goods_issued"
-                    android:textSize="11sp"
+                    android:fontFamily="@font/raleway_bold"
+                    android:text="@string/start_goods_received"
+                    android:textColor="@color/black"
+                    android:textSize="10sp"
                     android:textStyle="bold" />
 
                 <ImageView
@@ -58,23 +64,31 @@
                     android:visibility="gone" />
 
                 <TextView
+                    android:id="@+id/stock_report_detail_company_name"
                     style="@style/LargeTextLabel"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="Masyl General Enterprises"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     style="@style/NormalTextLabel"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="@string/goods_issued_note"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/stock_report_detail_issued_date"
                     style="@style/NormalTextLabel"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/raleway_bold"
                     android:text="Date: 24 July 2021"
-                    android:textSize="9sp" />
+                    android:textSize="9sp"
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
@@ -98,32 +112,34 @@
 
                         <TextView
                             style="@style/NormalTextLabel"
+                            android:fontFamily="@font/raleway_bold"
                             android:text="@string/store_keeper"
-                            android:textSize="9sp" />
+                            android:textSize="9sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/stock_report_detail_store_keeper_name"
                             style="@style/NormalTextLabel"
                             android:layout_marginTop="10dp"
+                            android:fontFamily="@font/raleway_bold"
                             android:text="Christian Michael"
-                            android:textColor="@color/mid_dark_grey"
-                            android:textSize="9sp" />
+                            android:textSize="9sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/stock_report_detail_store_keeper_signature"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:layout_marginTop="5dp"
-                            android:scaleType="fitStart"
-                            android:src="@mipmap/ic_company_logo" />
+                            android:scaleType="fitXY" />
                     </LinearLayout>
 
                     <View
-                        android:layout_width="0.3dp"
+                        android:layout_width="0.8dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
-                        android:background="@color/dark_grey" />
+                        android:background="@color/black" />
 
                     <!-- Assigned To -->
 
@@ -135,24 +151,26 @@
 
                         <TextView
                             style="@style/NormalTextLabel"
+                            android:fontFamily="@font/raleway_bold"
                             android:text="@string/assigned_to"
-                            android:textSize="9sp" />
+                            android:textSize="9sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/stock_report_detail_delivery_person_name"
                             style="@style/NormalTextLabel"
                             android:layout_marginTop="10dp"
+                            android:fontFamily="@font/raleway_bold"
                             android:text="Claudian Bernet"
-                            android:textColor="@color/mid_dark_grey"
-                            android:textSize="9sp" />
+                            android:textSize="9sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/stock_report_detail_delivery_person_signature"
                             android:layout_width="match_parent"
                             android:layout_height="100dp"
                             android:layout_marginTop="5dp"
-                            android:scaleType="fitStart"
-                            android:src="@mipmap/ic_company_logo" />
+                            android:scaleType="fitXY" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -180,41 +198,47 @@
                         <TextView
                             style="@style/BoldTextLabel"
                             android:layout_width="0dp"
-                            android:layout_marginStart="5dp"
-                            android:layout_weight="3"
+                            android:layout_weight="2"
                             android:text="@string/goods"
-                            android:textSize="9sp" />
+                            android:textSize="9dp" />
 
                         <TextView
                             style="@style/BoldTextLabel"
                             android:layout_width="0dp"
-                            android:layout_marginEnd="5dp"
                             android:layout_weight="1"
                             android:gravity="end"
-                            android:text="@string/quantity"
-                            android:textSize="9sp" />
+                            android:text="@string/accepted"
+                            android:textSize="9dp" />
+
+                        <TextView
+                            style="@style/BoldTextLabel"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="end"
+                            android:text="@string/declined"
+                            android:textSize="9dp" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/stock_report_detail_items_container"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/stock_report_detail_product_list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" />
+                        android:scrollbars="none" />
                 </LinearLayout>
 
                 <!-- Ends -->
 
                 <TextView
-                    android:id="@+id/stock_report_detail_end"
                     style="@style/NormalTextLabel"
                     android:layout_marginTop="50dp"
-                    android:text="@string/end_goods_issued" />
-
+                    android:fontFamily="@font/raleway_bold"
+                    android:textSize="10sp"
+                    android:text="@string/end_goods_received" />
 
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Print -->
 
@@ -227,5 +251,20 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="10dp"
         android:text="@string/print" />
+
+    <LinearLayout
+        android:id="@+id/loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_white_grey"
+        android:gravity="center"
+        android:elevation="2dp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
 </RelativeLayout>

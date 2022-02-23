@@ -25,6 +25,7 @@ data class ProductsUIModel(
     val vat: String,
     val vatCategory: String,
     var displayText: String? = "Assign",
+    var selectedUnits: String? = null,
     var isAssigned: Boolean? = false,
     var assignedNumber: Int? = 0,
     var assignedResource: Int? = 0,

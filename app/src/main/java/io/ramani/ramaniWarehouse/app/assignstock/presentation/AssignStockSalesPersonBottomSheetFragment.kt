@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import kotlinx.android.synthetic.main.fragment_sales_person_bottom_sheet.*
 import org.kodein.di.generic.factory
 
@@ -22,12 +23,16 @@ class AssignStockSalesPersonBottomSheetFragment : BaseBottomSheetDialogFragment(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+
         salespersonBottomSheetRVAdapter =
             AssignStockSalesPersonBottomSheetRVAdapter(AssignStockSalesPersonViewModel.salesPeopleList.distinct().toMutableList()) {
                 viewModel.onSalesPersonSelected(it)
                 dismiss()
             }
-        viewModel.getSalespeople()
+        if(AssignStockSalesPersonViewModel.salesPeopleList.distinct().toMutableList().isEmpty()) {
+            viewModel.getSalespeople()
+        }
+
     }
 
     override fun onCreateView(

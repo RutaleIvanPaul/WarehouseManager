@@ -13,12 +13,12 @@ import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.Assi
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_confirm_assign_stock.*
-import kotlinx.android.synthetic.main.fragment_stock_assignment_report_page.*
 import org.kodein.di.generic.factory
 
 
@@ -42,13 +42,22 @@ class ConfirmAssignedStockFragment : BaseFragment() {
 //            ConfirmAssignedItemsAdapter(ASSGNMENT_RECEIVE_MODELS.productsSelection.value?.toMutableList()) {}
             ConfirmAssignedItemsAdapter(selectedCompanyProductsList, {})
 
-        ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever({
-            if(!it.isNullOrEmpty()) AssignStockViewModel.assignedItemsChangedLiveData.postValue(true)
+        ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever {
+            if (!it.isNullOrEmpty()) AssignStockViewModel.assignedItemsChangedLiveData.postValue(
+                true
+            )
 
             confirmAssignedItemsAdapter.notifyDataSetChanged()
-        })
+        }
 
 
+        initSubscribers()
+    }
+
+    private fun initSubscribers() {
+        subscribeLoadingVisible(viewModel)
+        subscribeLoadingError(viewModel)
+        observeLoadingVisible(viewModel,this)
     }
 
     override fun getLayoutResId() = R.layout.fragment_confirm_assign_stock
@@ -75,27 +84,23 @@ class ConfirmAssignedStockFragment : BaseFragment() {
 //            onItemsReturned(it)
         })
 
-        ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever({
+        ASSIGNMENT_RECEIVE_MODELS.productsSelection.observeForever {
             AssignedItemDetails.assignedItems = it.distinct().toMutableList()
 
             selectedCompanyProductsList.clear()
             selectedCompanyProductsList.addAll(it.distinct())
             confirmAssignedItemsAdapter.notifyDataSetChanged()
-        })
+        }
 
         AssignStockViewModel.assignedItemsChangedLiveData.observe(this, {
-            if (it){
+            if (it) {
                 AssignStockViewModel.allowToGoNext.postValue(Pair(1, true))
                 confirmAssignedItemsAdapter.notifyDataSetChanged()
             }
         })
 
-        AssignStockViewModel.startLoading.observeForever {
-            it?.apply(::setLoadingIndicatorVisible)
-        }
-
-        AssignStockViewModel.signedLiveData.observe(this, {
-            if(it != null) {
+        AssignStockViewModel.signedLiveData.observe(this) {
+            if (it != null) {
                 if (it.first == AssignedStockSignaturePadFragment.PARAM_STORE_KEEPER_SIGN) {
 
                     confirm_assign_sign_store_keeper.setCompoundDrawables(
@@ -114,6 +119,9 @@ class ConfirmAssignedStockFragment : BaseFragment() {
                     )
 
                     AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeper = it.second
+                    AssignStockViewModel.assignedItemDetails.signatureInfoStoreKeeperFile =
+                        it.second.toFile(requireContext())
+                    ASSIGNMENT_RECEIVE_MODELS.salesSign.postValue(it.second)
 
                 } else if (it.first == AssignedStockSignaturePadFragment.PARAM_SALESPERSON_SIGN) {
 
@@ -133,6 +141,8 @@ class ConfirmAssignedStockFragment : BaseFragment() {
                     )
 
                     AssignStockViewModel.assignedItemDetails.signatureInfoSalesPerson = it.second
+                    AssignStockViewModel.assignedItemDetails.signatureInfoSalesPersonFile =
+                        it.second.toFile(requireContext())
 
                 }
 
@@ -143,7 +153,7 @@ class ConfirmAssignedStockFragment : BaseFragment() {
                     AssignStockViewModel.allowToGoNext.postValue(Pair(2, true))
                 }
             }
-        })
+        }
 
     }
 

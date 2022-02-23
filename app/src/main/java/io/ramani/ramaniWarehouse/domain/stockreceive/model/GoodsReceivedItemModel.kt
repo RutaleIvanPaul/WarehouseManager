@@ -11,7 +11,9 @@ data class GoodsReceivedItemModel(
     val qtyAccepted: Int = 0,
     val qtyDeclined: Int = 0,
     val declinedReason: String = "",
-    val temperature: Int = 0
+    val units: String = "",
+    val unitPrice: Double = 0.0,
+    val temperature: Int = 0,
 ) : Parcelable {
 
     class Builder : IBuilder<GoodsReceivedItemModel> {
@@ -21,6 +23,8 @@ data class GoodsReceivedItemModel(
         private var qtyAccepted: Int = 0
         private var qtyDeclined: Int = 0
         private var declinedReason: String = ""
+        private var units: String = ""
+        private var unitPrice: Double = 0.0
         private var temperature: Int = 0
 
         fun id(id: String): Builder {
@@ -53,6 +57,16 @@ data class GoodsReceivedItemModel(
             return this
         }
 
+        fun units(units: String): Builder {
+            this.units = units
+            return this
+        }
+
+        fun unitPrice(unitPrice: Double): Builder {
+            this.unitPrice = unitPrice
+            return this
+        }
+
         fun temperature(temperature: Int): Builder {
             this.temperature = temperature
             return this
@@ -66,6 +80,8 @@ data class GoodsReceivedItemModel(
                 qtyAccepted,
                 qtyDeclined,
                 declinedReason,
+                units,
+                unitPrice,
                 temperature
             )
     }
@@ -77,6 +93,8 @@ data class GoodsReceivedItemModel(
         parcel.readInt(),
         parcel.readInt(),
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readDouble(),
         parcel.readInt()
     ) {}
 
@@ -87,6 +105,8 @@ data class GoodsReceivedItemModel(
         parcel.writeInt(qtyAccepted)
         parcel.writeInt(qtyDeclined)
         parcel.writeString(declinedReason)
+        parcel.writeString(units)
+        parcel.writeDouble(unitPrice)
         parcel.writeInt(temperature)
     }
 

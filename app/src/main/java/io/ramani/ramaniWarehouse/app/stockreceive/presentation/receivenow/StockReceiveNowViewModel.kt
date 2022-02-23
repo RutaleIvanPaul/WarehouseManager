@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
 import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -46,6 +47,7 @@ class StockReceiveNowViewModel(
 
     var userId = ""
     var companyId = ""
+    var companyName = ""
     var warehouseId = ""
     var userName = ""
 
@@ -61,13 +63,14 @@ class StockReceiveNowViewModel(
             userId = it.uuid
             userName = it.userName
             companyId = it.companyId
+            companyName = it.companyName
         }
 
         sessionManager.getCurrentWarehouse().subscribeBy {
             warehouseId = it.id ?: ""
         }
 
-        printerHelper.open()
+//        printerHelper.open()
         //postGoodsReceived()
     }
 
@@ -124,7 +127,7 @@ class StockReceiveNowViewModel(
      * Post Goods Received
      */
     @SuppressLint("CheckResult")
-    fun postGoodsReceived() {
+    fun postGoodsReceived(context: Context) {
         sessionManager.getLoggedInUser().subscribeBy {
             companyId = it.companyId
             userId = it.uuid
@@ -136,6 +139,7 @@ class StockReceiveNowViewModel(
 
                 // Create request body
                 val requestBody: RequestBody = STOCK_RECEIVE_MODEL.supplierData.createRequestBody(
+                    context,
                     warehouseId,
                     userId,
                     companyId

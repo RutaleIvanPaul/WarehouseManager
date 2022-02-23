@@ -17,18 +17,33 @@
             android:id="@+id/stock_report_detail_item_row_name"
             style="@style/NormalTextLabel"
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="2"
+            android:fontFamily="@font/raleway_bold"
             android:text="@string/goods"
-            android:textSize="9sp" />
+            android:textSize="9sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/stock_report_detail_item_row_quantity"
+            android:id="@+id/stock_report_detail_item_row_accepted"
             style="@style/NormalTextLabel"
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:fontFamily="@font/raleway_bold"
             android:gravity="end"
-            android:text="@string/quantity"
-            android:textSize="9sp" />
+            android:text="@string/accepted"
+            android:textSize="9dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/stock_report_detail_item_row_declined"
+            style="@style/NormalTextLabel"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/raleway_bold"
+            android:gravity="end"
+            android:text="@string/declined"
+            android:textSize="9dp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <View

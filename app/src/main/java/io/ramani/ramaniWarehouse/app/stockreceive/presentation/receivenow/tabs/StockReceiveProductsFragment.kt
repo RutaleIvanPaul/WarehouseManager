@@ -114,21 +114,36 @@ class StockReceiveProductsFragment : BaseFragment() {
         viewModel.getDeclineReasons()
 
         subscribeObservers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
         updateView()
     }
 
     override fun onPause() {
-        products_product_spinner.dismiss()
-        products_units_spinner.dismiss()
-        products_why_declined_spinner.dismiss()
+        if (products_product_spinner != null)
+            products_product_spinner.dismiss()
+
+        if (products_units_spinner != null)
+            products_units_spinner.dismiss()
+
+        if (products_why_declined_spinner != null)
+            products_why_declined_spinner.dismiss()
 
         super.onPause()
     }
 
     override fun onDestroy() {
-        products_product_spinner.dismiss()
-        products_units_spinner.dismiss()
-        products_why_declined_spinner.dismiss()
+        if (products_product_spinner != null)
+            products_product_spinner.dismiss()
+
+        if (products_units_spinner != null)
+            products_units_spinner.dismiss()
+
+        if (products_why_declined_spinner != null)
+            products_why_declined_spinner.dismiss()
 
         super.onDestroy()
     }
@@ -168,8 +183,8 @@ class StockReceiveProductsFragment : BaseFragment() {
             updateUnitSpinner(prod)
             products_units_spinner.selectItemByIndex(if (prod.units.equals(product.units)) 0 else 1)
 
-            products_accepted_amount.setText(product.accepted.toString())
-            products_declined_amount.setText(product.declined.toString())
+            products_accepted_amount.setText(product.qtyAccepted.toString())
+            products_declined_amount.setText(product.qtyDeclined.toString())
 
             products_why_declined_spinner.selectItemByIndex(declinedReasons.indexOf(declinedReasons.find { it == product.declinedReason }))
 
@@ -191,13 +206,13 @@ class StockReceiveProductsFragment : BaseFragment() {
         }
 
         val acceptedAmounts = getFieldValueByInt(products_accepted_amount)
-        val declinedAmouunts = getFieldValueByInt(products_declined_amount)
-        if (acceptedAmounts < 0 && declinedAmouunts < 0) {
+        val declinedAmounts = getFieldValueByInt(products_declined_amount)
+        if (acceptedAmounts <= 0 && declinedAmounts <= 0) {
             errorDialog(getString(R.string.warning_put_amount))
             return false
         }
 
-        if (declinedAmouunts > 0) {
+        if (declinedAmounts > 0) {
             if (products_why_declined_spinner.selectedIndex < 0) {
                 errorDialog(getString(R.string.warning_select_declined_reason))
                 return false
@@ -212,25 +227,30 @@ class StockReceiveProductsFragment : BaseFragment() {
 
         val expireDate = products_expire_date.text.toString()
 
+        val selectedProduct = availableProducts[products_product_spinner.selectedIndex]
         if (!needToUpdateProduct) {
             // Create one object
             val product = SelectedProductModel(
-                availableProducts[products_product_spinner.selectedIndex],
+                selectedProduct,
+                selectedProduct.id,
+                selectedProduct.name,
                 products_units_spinner.text.toString(),
                 acceptedAmounts,
-                declinedAmouunts,
-                if (declinedAmouunts > 0) products_why_declined_spinner.text.toString() else "",
+                declinedAmounts,
+                if (declinedAmounts > 0) products_why_declined_spinner.text.toString() else "",
                 unitPrice,
                 null,
                 expireDate
             )
             addedProducts.add(product)
         } else {
-            updateNeedProduct?.product = availableProducts[products_product_spinner.selectedIndex]
+            updateNeedProduct?.product = selectedProduct
+            updateNeedProduct?.productId = selectedProduct.id
+            updateNeedProduct?.productName = selectedProduct.name
             updateNeedProduct?.units = products_units_spinner.text.toString()
-            updateNeedProduct?.accepted = acceptedAmounts
-            updateNeedProduct?.declined = declinedAmouunts
-            updateNeedProduct?.declinedReason = if (declinedAmouunts > 0) products_why_declined_spinner.text.toString() else ""
+            updateNeedProduct?.qtyAccepted = acceptedAmounts
+            updateNeedProduct?.qtyDeclined = declinedAmounts
+            updateNeedProduct?.declinedReason = if (declinedAmounts > 0) products_why_declined_spinner.text.toString() else ""
             updateNeedProduct?.unitPrice = unitPrice
             updateNeedProduct?.expireDate = expireDate
 

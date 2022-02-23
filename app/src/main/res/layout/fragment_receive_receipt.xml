@@ -1,47 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/return_receipt_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:background="@color/white"
-    android:orientation="vertical">
+    android:background="@color/white">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/buttons_section"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/return_stock_print_receipt"
-            style="@style/BlueStrokeActionButton"
-            android:layout_width="119dp"
-            android:layout_height="43dp"
-            android:layout_alignParentStart="true"
+            style="@style/GreenFillActionButton"
+            android:layout_width="120dp"
             android:text="@string/print" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/return_stock_done"
             style="@style/BlueStrokeActionButton"
-            android:layout_width="119dp"
-            android:layout_height="43dp"
-            android:layout_alignParentEnd="true"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
             android:text="@string/done" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollview"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/light_white_grey">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/buttons_section"
+        android:layout_centerHorizontal="true"
+        android:background="@color/light_white_grey"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -104,14 +102,14 @@
             <LinearLayout
                 android:id="@+id/signature_section"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/storekeeper_layout"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.45"
                     android:orientation="vertical">
 
@@ -138,7 +136,7 @@
                     <ImageView
                         android:id="@+id/storekeeper_image"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="100dp"
                         android:contentDescription="@string/store_keeper_signature"
                         android:paddingTop="10dp"
                         android:scaleType="fitXY"
@@ -155,7 +153,7 @@
                 <LinearLayout
                     android:id="@+id/assignee_layout"
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.45"
                     android:orientation="vertical">
 
@@ -245,8 +243,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/returned_items_RV"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/list_title" />
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/bottomText"
@@ -254,15 +251,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
+                android:paddingBottom="20dp"
                 android:text="@string/end_of_goods_received"
                 android:textColor="@color/black"
                 android:textSize="12sp"
-                android:paddingBottom="20dp"
                 android:textStyle="bold" />
-
-
         </LinearLayout>
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-</LinearLayout>
+</RelativeLayout>

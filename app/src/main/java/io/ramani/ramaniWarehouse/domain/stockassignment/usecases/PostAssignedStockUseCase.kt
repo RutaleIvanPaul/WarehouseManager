@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.domain.stockassignment.usecases
 
 import io.ramani.ramaniWarehouse.data.returnStock.model.PostReturnItems
 import io.ramani.ramaniWarehouse.data.returnStock.model.PostReturnItemsResponse
+import io.ramani.ramaniWarehouse.data.stockassignment.model.AssignProductsRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItems
 import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItemsResponse
 import io.ramani.ramaniWarehouse.domain.base.executor.PostThreadExecutor
@@ -14,8 +15,8 @@ class PostAssignedStockUseCase(
     threadExecutor: ThreadExecutor,
     postThreadExecutor: PostThreadExecutor,
     private val assignStockDataSource: AssignStockDataSource
-):BaseSingleUseCase<PostAssignedItemsResponse, PostAssignedItems>(threadExecutor,postThreadExecutor) {
-    override fun buildUseCaseSingle(params: PostAssignedItems?): Single<PostAssignedItemsResponse> =
+):BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>(threadExecutor,postThreadExecutor) {
+    override fun buildUseCaseSingle(params: AssignProductsRequestModel?): Single<PostAssignedItemsResponse> =
         assignStockDataSource.postAssignedStock(params!!)
 
 }

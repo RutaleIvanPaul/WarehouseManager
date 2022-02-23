@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.data.stockassignment.model.AssignProductsRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.ConfirmProducts
 import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItems
 import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItemsResponse
@@ -24,7 +25,7 @@ class ConfirmAssignedStockViewModel(
     application: Application,
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
-    private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, PostAssignedItems>,
+    private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>,
     val dateFormatter: DateFormatter,
     private val assignedItemsMapper: ModelMapper<ProductsUIModel, ConfirmProducts>,
     private val printerHelper: PrinterHelper
@@ -42,7 +43,7 @@ class ConfirmAssignedStockViewModel(
             userModel = it
             loadedUserDetails.postValue(userModel)
         }
-        printerHelper.open()
+//        printerHelper.open()
     }
 
     fun printBitmap(bitmap: Bitmap){
@@ -64,7 +65,7 @@ class ConfirmAssignedStockViewModel(
         private val application: Application,
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
-        private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, PostAssignedItems>,
+        private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>,
         val dateFormatter: DateFormatter,
         private val assignedItemsMapper: ModelMapper<ProductsUIModel, ConfirmProducts>,
         private val printerHelper: PrinterHelper

@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model
 
+import android.graphics.Bitmap
 import androidx.lifecycle.MutableLiveData
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
@@ -26,5 +27,8 @@ class ASSIGNMENT_RECEIVE_MODELS {
         val refreshReceiveProductListLiveData = SingleLiveEvent<Boolean>()
         val productsSelection = MutableLiveData<List<ProductsUIModel>>()
         val productsSelectionTotalNumber = MutableLiveData<Int>()
+        val storeSign = MutableLiveData<Bitmap>()
+        val salesSign = MutableLiveData<Bitmap>()
+       // val salesSign: Bitmap? = null
     }
 }

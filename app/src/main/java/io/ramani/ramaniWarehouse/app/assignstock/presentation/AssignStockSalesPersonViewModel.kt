@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.model.SalespersonRVModel
+import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportViewModel
 import io.ramani.ramaniWarehouse.data.returnStock.model.GetSalespeopleRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.GetSalesPersonRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
@@ -39,12 +41,16 @@ class AssignStockSalesPersonViewModel(
     companion object {
         val salesPeopleList = mutableListOf<SalesPersonRVModel>()
         val onSalesPeopleLoadedLiveData = MutableLiveData<Boolean>()
+        val onStockTakenDateSelectedLiveData = MutableLiveData<Boolean>()
         val selectedSalespersonLiveData = MutableLiveData<String>()
+        val dateStockTakenLiveData = MutableLiveData<String>()
     }
 
     override fun start(args: Map<String, Any?>) {
         TODO("Not yet implemented")
     }
+
+
 
 
     fun getSalespeople() {
@@ -54,6 +60,7 @@ class AssignStockSalesPersonViewModel(
             subscribeSingle(single,
                 onSuccess = {
                     isLoadingVisible = false
+                    salesPeopleList.clear()
                     salesPeopleList.addAll(
                         it.mapFromWith(salespersonRVMapper).toMutableList()
                     )
@@ -77,10 +84,18 @@ class AssignStockSalesPersonViewModel(
         AssignStockViewModel.selectedSalespersonLiveData.postValue(selectedSalespersonRV.name!!)
         AssignStockViewModel.assignedItemDetails.salespersonName = selectedSalespersonRV.name!!
         AssignStockViewModel.assignedItemDetails.salespersonUuid = selectedSalespersonRV.id!!
+        StockAssignmentReportViewModel.selectedSalesPersonId.postValue(selectedSalespersonRV.id!!)
+        StockAssignmentReportViewModel.selectedSalesPersonName.postValue(selectedSalespersonRV.name!!)
+
+    }
+
+    fun updateStockTakenDateItem(value: Boolean){
+        onStockTakenDateSelectedLiveData.postValue(value)
+
     }
 
     fun getDate(timInMillis: Long): String =
-        dateFormatter.convertToDateWithDashes(timInMillis)
+        dateFormatter.convertToDateWithDashes1(timInMillis)
 
     class Factory(
         private val application: Application,

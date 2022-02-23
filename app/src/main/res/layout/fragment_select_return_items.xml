@@ -31,9 +31,12 @@
         android:id="@+id/return_items_RV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingBottom="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/line_view" />
+        app:layout_constraintTop_toBottomOf="@+id/line_view"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

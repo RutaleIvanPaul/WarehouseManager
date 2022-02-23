@@ -20,4 +20,4 @@ inline fun <reified T : BaseErrorResponse<*>> HttpException.toErrorResponseModel
 
 fun <T> BaseErrorResponse.Companion.createHttpException(errorCode: Int, errorMessage: String, data: T? = null) =
     HttpException(Response.error<BaseErrorResponse<Any>>(errorCode,
-            ResponseBody.create(MediaType.parse("text"), BaseErrorResponse("Error", errorMessage, data).toString())))
+            ResponseBody.create(MediaType.parse("text"), BaseErrorResponse(500, errorMessage, data).toString())))

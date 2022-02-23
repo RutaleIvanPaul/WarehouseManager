@@ -26,6 +26,8 @@ class SelectReturnItemsViewmodel(application: Application,
 
     companion object{
         val missingValueLiveData = MutableLiveData<Boolean>()
+        val exceedingOutStandingStockLiveData = MutableLiveData<Boolean>()
+        val emptyStandingStockLiveData = MutableLiveData<Boolean>()
     }
 
     val avaialableProductsListOriginal = mutableListOf<AvailableProductItem>()

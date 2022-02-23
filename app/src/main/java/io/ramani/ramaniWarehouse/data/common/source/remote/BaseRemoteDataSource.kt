@@ -1,20 +1,22 @@
 package io.ramani.ramaniWarehouse.data.common.source.remote
 
-import android.graphics.Bitmap
 import com.google.gson.JsonSyntaxException
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.domain.base.exceptions.ItemNotFoundException
 import io.ramani.ramaniWarehouse.domain.entities.BaseErrorResponse
 import io.ramani.ramaniWarehouse.domain.entities.ValidationErrorsResponse
-import io.ramani.ramaniWarehouse.domain.entities.exceptions.*
+import io.ramani.ramaniWarehouse.domain.entities.exceptions.NotAuthorizedException
+import io.ramani.ramaniWarehouse.domain.entities.exceptions.ParseResponseException
+import io.ramani.ramaniWarehouse.domain.entities.exceptions.UnknownNetworkError
+import io.ramani.ramaniWarehouse.domain.entities.exceptions.ValidationErrorsException
 import io.ramani.ramaniWarehouse.domainCore.log.logError
 import io.reactivex.Completable
 import io.reactivex.Single
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import retrofit2.HttpException
-import java.io.ByteArrayOutputStream
+import java.io.File
 
 /**
  * Created by Amr on 12/30/17.
@@ -24,31 +26,35 @@ abstract class BaseRemoteDataSource {
         private const val SERVER_ERROR = "An error has occurred, please try again"
     }
 
-    fun <T> callSingle(single: Single<T>, onError: (Throwable) -> Boolean = { false },
-                       handleError: (Throwable) -> Single<T> = { Single.error(it) }) =
-            single.onErrorResumeNext {
-                if (onError(it)) {
-                    handleError(it)
-                } else {
-                    handleErrorInternalSingle(it)
-                }
+    fun <T> callSingle(
+        single: Single<T>, onError: (Throwable) -> Boolean = { false },
+        handleError: (Throwable) -> Single<T> = { Single.error(it) }
+    ) =
+        single.onErrorResumeNext {
+            if (onError(it)) {
+                handleError(it)
+            } else {
+                handleErrorInternalSingle(it)
             }
+        }
 
-    fun callCompletable(completable: Completable, onError: (Throwable) -> Boolean = { false },
-                        handleError: (Throwable) -> Completable = { Completable.error(it) }) =
-            completable.onErrorResumeNext {
-                if (onError(it)) {
-                    handleError(it)
-                } else {
-                    handleErrorInternalCompletable(it)
-                }
+    fun callCompletable(
+        completable: Completable, onError: (Throwable) -> Boolean = { false },
+        handleError: (Throwable) -> Completable = { Completable.error(it) }
+    ) =
+        completable.onErrorResumeNext {
+            if (onError(it)) {
+                handleError(it)
+            } else {
+                handleErrorInternalCompletable(it)
             }
+        }
 
     private fun <T> handleErrorInternalSingle(throwable: Throwable): Single<T> =
-            Single.error(handleErrorInternal(throwable))
+        Single.error(handleErrorInternal(throwable))
 
     private fun handleErrorInternalCompletable(throwable: Throwable): Completable =
-            Completable.error(handleErrorInternal(throwable))
+        Completable.error(handleErrorInternal(throwable))
 
     private fun handleErrorInternal(throwable: Throwable): Throwable {
         val error: Throwable
@@ -57,9 +63,13 @@ abstract class BaseRemoteDataSource {
             val code = throwable.code()
 
             when (code) {
-                ErrorConstants.NOT_AUTHORIZED_403 -> NotAuthorizedException(getErrorMessage(throwable))
+                ErrorConstants.NOT_AUTHORIZED_403 -> NotAuthorizedException(
+                    getErrorMessage(
+                        throwable
+                    )
+                )
                 ErrorConstants.NOT_FOUND_404 -> ItemNotFoundException(getErrorMessage(throwable))
-                ErrorConstants.INPUT_VALIDATION_400 -> getValidationError(throwable)?.let {
+                ErrorConstants.INPUT_VALIDATION_400, ErrorConstants.UNPROCESSABLE_ENTITY_422 -> getValidationError(throwable)?.let {
                     ValidationErrorsException(it.message ?: "", it.data ?: emptyList())
                 } ?: ValidationErrorsException("", emptyList())
                 else -> throwable
@@ -77,18 +87,16 @@ abstract class BaseRemoteDataSource {
     }
 
     private fun getErrorMessage(error: HttpException) =
-            error.toErrorResponseModel<BaseErrorResponse<Any>>()?.message ?: SERVER_ERROR
+        error.toErrorResponseModel<BaseErrorResponse<Any>>()?.message ?: SERVER_ERROR
 
     private fun getValidationError(error: HttpException) =
-            error.toErrorResponseModel<ValidationErrorsResponse>()
+        error.toErrorResponseModel<ValidationErrorsResponse>()
 
-    fun createTextFormData(value:String): RequestBody {
+    fun createTextFormData(value: String): RequestBody {
         return RequestBody.create(MediaType.parse("text/plain"), value)
     }
 
-    fun createImageFormData(bitmap: Bitmap): RequestBody {
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        return RequestBody.create(MediaType.parse("multipart/form-data"), bos.toByteArray())
+    fun createImageFormData(bitmapFile: File?): RequestBody {
+        return RequestBody.create(MediaType.parse("image/jpg"), bitmapFile)
     }
 }

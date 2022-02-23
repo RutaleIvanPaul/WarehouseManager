@@ -20,19 +20,20 @@ interface AssignStockAPI {
         @Query("companyId") companyId: String
     ): Single<BaseResponse<List<RemoteProductModel>>>
 
-    @Multipart
+
     @POST("/sfa/new/intake/v2")
     fun postAssignedStock(
-        @Part("assigner") assigner: RequestBody,
-        @Part("companyId") companyId: RequestBody,
-        @Part("comment") comment: RequestBody,
-        @Part("dateStockTaken") dateStockTaken: RequestBody,
-        @Part("name") name: RequestBody,
-        @Part("salesPersonUID") salesPersonUID: RequestBody,
-        @Part("stockAssignmentType") stockAssignmentType: RequestBody,
-        @Part("warehouseId") warehouseId: RequestBody,
-        @Part("listOfProducts") listOfProducts: RequestBody,
-        @Part("storeKeeperSignature")  storeKeeperSignature: RequestBody,
-        @Part("salesPersonSignature") salesPersonSignature: RequestBody
+        @Body body: RequestBody
+//        @Part("assigner") assigner: RequestBody,
+//        @Part("companyId") companyId: RequestBody,
+//        @Part("comment") comment: RequestBody,
+//        @Part("dateStockTaken") dateStockTaken: RequestBody,
+//        @Part("name") name: RequestBody,
+//        @Part("salesPersonUID") salesPersonUID: RequestBody,
+//        @Part("stockAssignmentType") stockAssignmentType: RequestBody,
+//        @Part("warehouseId") warehouseId: RequestBody,
+//        @Part("listOfProducts") listOfProducts: RequestBody,
+//        @Part("storeKeeperSignature")  storeKeeperSignature: RequestBody,
+//        @Part("salesPersonSignature") salesPersonSignature: RequestBody
     ): Single<BaseResponse<PostAssignedItemsResponse>>
 }

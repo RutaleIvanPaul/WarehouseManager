@@ -26,6 +26,7 @@ class ReturnItemsRVAdapter(
             val editQuantityEditText = getView<EditText>(R.id.return_stock_edit_quantity)
             val confirmQuantityButton = getView<Button>(R.id.return_stock_confirm_quantity_button)
             setText(R.id.return_product_name, item.productName)
+            editQuantityEditText.hint = "${item.quantity} ${item.units}"
 //            if(returnItems.filter { it.id == item.id }.isNotEmpty()){
 //                setText(R.id.return_stock_confirm_quantity_button,context.getString(R.string.Confirmed))
 //                setTextColor(R.id.return_stock_confirm_quantity_button,context.resources.getColor(R.color.light_green))
@@ -36,7 +37,14 @@ class ReturnItemsRVAdapter(
 
                 if(editQuantityEditText.text.isNullOrEmpty()){
                     SelectReturnItemsViewmodel.missingValueLiveData.postValue(true)
-                }else {
+                }
+                else if(editQuantityEditText.text.toString().toInt() > item.quantity) {
+                    SelectReturnItemsViewmodel.exceedingOutStandingStockLiveData.postValue(true)
+                }
+                else if(editQuantityEditText.text.toString().toInt() <= 0) {
+                    SelectReturnItemsViewmodel.emptyStandingStockLiveData.postValue(true)
+                }
+                else {
 
                     item.quantity = editQuantityEditText.text.toString().toInt()
 

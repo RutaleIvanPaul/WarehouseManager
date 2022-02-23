@@ -1,12 +1,14 @@
 package io.ramani.ramaniWarehouse.app.returnstock.presentation.host
 
 import android.app.Application
+import android.content.Context
 import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
@@ -47,6 +49,7 @@ class ReturnStockViewModel(
     var userModel: UserModel? = null
     var warehouseModel: WarehouseModel? = null
     val onItemsReturnedLiveData = MutableLiveData<Boolean>()
+    val onPostReturnedErrorLiveData = MutableLiveData<Boolean>()
 
     override fun start(args: Map<String, Any?>) {
         sessionManager.getCurrentWarehouse().subscribeBy {
@@ -57,20 +60,22 @@ class ReturnStockViewModel(
         }
     }
 
-    fun returnStock() {
+    fun returnStock(context: Context) {
         val single = postReturnedStockUseCase.getSingle(
             PostReturnItems(
                 ReturnItemDetails.storekeeperName,
                 "",
                 userModel!!.companyId,
-                dateFormatter.convertToCalendarFormatDate(now()),
+                dateFormatter.convertToDateWithDashes1(now()),
                 ReturnItemDetails.returnItems.mapFromWith(returnItemsMapper),
                 ReturnItemDetails.salespersonName,
-                userModel!!.uuid,
+                ReturnItemDetails.salespersonUuid,
                 warehouseModel!!.id!!,
                 "return",
                 ReturnItemDetails.signatureInfoStoreKeeper,
-                ReturnItemDetails.signatureInfoSalesPerson
+                ReturnItemDetails.signatureInfoSalesPerson,
+             ReturnItemDetails.signatureInfoStoreKeeper?.toFile(context),
+                ReturnItemDetails.signatureInfoSalesPerson?.toFile(context)
             )
         )
         subscribeSingle(
@@ -87,6 +92,7 @@ class ReturnStockViewModel(
                     PresentationError.ERROR_TEXT
                 )
                 onItemsReturnedLiveData.postValue(false)
+                onPostReturnedErrorLiveData.postValue(true)
 
             }
         )

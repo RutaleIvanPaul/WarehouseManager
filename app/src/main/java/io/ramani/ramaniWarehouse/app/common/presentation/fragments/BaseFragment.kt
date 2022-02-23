@@ -1,13 +1,19 @@
 package io.ramani.ramaniWarehouse.app.common.presentation.fragments
 
+import android.Manifest
+import android.app.Activity
 import android.content.pm.ActivityInfo
+import android.content.pm.PackageManager
 import android.graphics.Point
 import android.os.Bundle
 import android.view.*
 import android.widget.EditText
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
@@ -20,8 +26,6 @@ import io.ramani.ramaniWarehouse.app.common.presentation.interfaces.addDisposabl
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.NavigationEvent
 import io.ramani.ramaniWarehouse.app.entities.ValidationError
-import com.google.android.material.snackbar.BaseTransientBottomBar
-import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import org.jetbrains.anko.AnkoLogger
@@ -31,7 +35,8 @@ import org.kodein.di.android.x.closestKodein
 /**
  * Created by Amr on 9/8/17.
  */
-abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHolder, BaseNavigationViewInterface {
+abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHolder,
+    BaseNavigationViewInterface {
     companion object {
         const val DEFAULT_FULL_SCREEN_DIALOG_HIDE_AFTER_TIME = 1250L
     }
@@ -59,7 +64,7 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        verifyStoragePermissions(requireActivity())
         initNavigationManager(navigationManager)
     }
 
@@ -67,7 +72,11 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
 
     open fun onBackButtonPressed(): Boolean = false
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         activity?.requestedOrientation = loadScreenOrientation()
         return if (getLayoutResId() != NO_LAYOUT_RES_ID) {
             inflater.inflate(getLayoutResId(), container, false)
@@ -143,7 +152,6 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
     }
 
 
-
     open fun setupToolbarBackButton(isBackEnabled: Boolean, isBackButton: Boolean) {
         baseActivity?.baseViewModel?.toolbarEnableBackButtonLiveData?.postValue(
             Pair(
@@ -175,12 +183,10 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
     }
 
 
-
     protected open fun setLoadingIndicatorVisible(visible: Boolean) {}
 
 
-
-      protected open fun getScreenWidth(marginToSubtract: Int = 0): Int {
+    protected open fun getScreenWidth(marginToSubtract: Int = 0): Int {
         val windowDisplay = activity?.windowManager?.defaultDisplay
         val size = Point()
         windowDisplay?.getSize(size)
@@ -197,30 +203,29 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
     }
 
 
-
     protected fun subscribeLoadingError(viewModel: BaseViewModel) {
         addDisposable(viewModel.loadingErrorObservable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    if (activity != null && isAdded) {
-                        onLoadingError(it)
-                    }
-                })
+            .subscribe {
+                if (activity != null && isAdded) {
+                    onLoadingError(it)
+                }
+            })
     }
 
     protected open fun onLoadingError(error: String) {}
 
     protected fun subscribeError(viewModel: BaseViewModel) {
         addDisposable(viewModel.errorObservable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    if (activity != null && isAdded) {
-                        when (it.type) {
-                            PresentationError.ERROR_TEXT -> showError(it.error)
-                            PresentationError.ERROR_TEXT_RETRY -> showErrorWithRetry(it.error)
-                            PresentationError.ERROR_TEXT_CONFIRM -> showErrorWithConfirm(it.error)
+            .subscribe {
+                if (activity != null && isAdded) {
+                    when (it.type) {
+                        PresentationError.ERROR_TEXT -> showError(it.error)
+                        PresentationError.ERROR_TEXT_RETRY -> showErrorWithRetry(it.error)
+                        PresentationError.ERROR_TEXT_CONFIRM -> showErrorWithConfirm(it.error)
 
-                        }
                     }
-                })
+                }
+            })
     }
 
     protected fun observerError(viewModel: BaseViewModel, owner: LifecycleOwner) {
@@ -237,11 +242,11 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
 
     protected fun subscribeEmpty(viewModel: BaseViewModel) {
         addDisposable(viewModel.isEmptyObservable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    if (activity != null && isAdded) {
-                        onEmpty()
-                    }
-                })
+            .subscribe {
+                if (activity != null && isAdded) {
+                    onEmpty()
+                }
+            })
     }
 
     protected fun observeEmpty(viewModel: BaseViewModel, owner: LifecycleOwner) {
@@ -255,9 +260,9 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
 
     protected open fun subscribeValidationErrors(viewModel: BaseViewModel) {
         addDisposable(viewModel.validationErrorsObservable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    onValidationErrors(it)
-                })
+            .subscribe {
+                onValidationErrors(it)
+            })
     }
 
     protected open fun observeValidationErrors(viewModel: BaseViewModel, owner: LifecycleOwner) {
@@ -274,20 +279,20 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
 
     open fun subscribeConfirmLogout(viewModel: BaseViewModel) {
         addDisposable(viewModel.confirmLogoutObservable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    errorDialog(it, {
-                        viewModel.logout(null)
-                    })
+            .subscribe {
+                errorDialog(it, {
+                    viewModel.logout(null)
                 })
+            })
     }
 
     open fun subscribeConfirmRestart(viewModel: BaseViewModel) {
         addDisposable(viewModel.confirmRestartObservable.observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    errorDialog(it, {
-                        viewModel.restart()
-                    })
+            .subscribe {
+                errorDialog(it, {
+                    viewModel.restart()
                 })
+            })
     }
 
     protected open fun showSnackbar(message: String, onDismiss: () -> Unit = {}) {
@@ -325,7 +330,7 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
         if (editText.text.isNotBlank())
             return editText.text.toString().toInt()
         else
-            return -1
+            return 0
     }
 
     protected fun getFieldValueByDouble(editText: EditText): Double {
@@ -333,5 +338,35 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
             return editText.text.toString().toDouble()
         else
             return -1.0
+    }
+
+    private val REQUEST_EXTERNAL_STORAGE = 1
+    private val PERMISSIONS_STORAGE = arrayOf<String>(
+        Manifest.permission.READ_EXTERNAL_STORAGE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
+
+    /**
+     * Checks if the app has permission to write to device storage
+     *
+     * If the app does not has permission then the user will be prompted to grant permissions
+     *
+     * @param activity
+     */
+    open fun verifyStoragePermissions(activity: Activity?) {
+        // Check if we have write permission
+        val permission: Int =
+            ActivityCompat.checkSelfPermission(
+                requireActivity(),
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                PERMISSIONS_STORAGE,
+                REQUEST_EXTERNAL_STORAGE
+            )
+        }
     }
 }

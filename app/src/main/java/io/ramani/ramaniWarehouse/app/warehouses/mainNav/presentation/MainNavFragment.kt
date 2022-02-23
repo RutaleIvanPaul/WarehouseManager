@@ -37,7 +37,6 @@ class MainNavFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
-        MainNavViewModel.warehousesList.clear()
     }
 
     override val navTag: String = TAG
@@ -66,6 +65,12 @@ class MainNavFragment : BaseFragment() {
     }
 
     private fun setupNavs() {
+
+        warehouses_spinner.setOnSingleClickListener {
+            flow.openWarehousesBottomSheet()
+            warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
+        }
+
         receive_stock_button.setOnSingleClickListener {
             flow.openReceiveStock()
         }
@@ -113,16 +118,11 @@ class MainNavFragment : BaseFragment() {
     }
 
     private fun subscribeOnWarehousesLoaded() {
-        MainNavViewModel.onWarehousesLoadedLiveData.observe(this, {
+        MainNavViewModel.onWarehousesLoadedLiveData.observe(this) {
 
             if (MainNavViewModel.currentWarehouse != null) {
                 warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
             }
-
-            warehouses_spinner.setOnSingleClickListener {
-                flow.openWarehousesBottomSheet()
-                warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
-            }
-        })
+        }
     }
 }

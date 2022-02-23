@@ -58,6 +58,12 @@ open class PrefsManager(context: Context) : Prefs {
             sharedPrefs.edit().putBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_AVAILABLE_PRODUCTS,value).apply()
         }
 
+    override var invalidate_cache_assignments_reports: Boolean
+        get() = sharedPrefs.getBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_ASSIGNMENTS_REPORTS,false)
+        set(value) {
+            sharedPrefs.edit().putBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_ASSIGNMENTS_REPORTS,value).apply()
+        }
+
 
     private fun contains(key: String) = sharedPrefs.contains(key)
 

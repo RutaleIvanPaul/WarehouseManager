@@ -47,9 +47,11 @@ class SalesPersonViewModel(application: Application,
             subscribeSingle(single,
                 onSuccess = {
                     isLoadingVisible = false
+                    salesPeopleList.clear()
                     salesPeopleList.addAll(
                         it.mapFromWith(salespersonRVMapper).toMutableList()
                     )
+
                     onSalesPeopleLoadedLiveData.postValue(true)
                 }, onError = {
                     isLoadingVisible = false
@@ -69,7 +71,7 @@ class SalesPersonViewModel(application: Application,
     }
 
     fun getDate(timInMillis: Long):String =
-        dateFormatter.convertToDateWithDashes(timInMillis)
+        dateFormatter.convertToDateWithDashes1(timInMillis)
 
     class Factory(
         private val application: Application,

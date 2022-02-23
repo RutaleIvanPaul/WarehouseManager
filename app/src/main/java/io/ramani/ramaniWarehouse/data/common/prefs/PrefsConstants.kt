@@ -12,4 +12,5 @@ object PrefsConstants {
     const val PREF_CURRENT_PRODUCTS = "current_products"
     const val PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS = "invalidate_cache_company_products"
     const val PREF_INVALIDATE_CACHE_AVAILABLE_PRODUCTS = "invalidate_cache_available_products"
+    const val PREF_INVALIDATE_CACHE_ASSIGNMENTS_REPORTS = "invalidate_cache_assignments_reports"
 }

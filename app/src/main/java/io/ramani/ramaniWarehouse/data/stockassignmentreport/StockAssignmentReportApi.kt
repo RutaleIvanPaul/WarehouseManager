@@ -8,6 +8,7 @@ import retrofit2.http.*
 interface StockAssignmentReportApi {
     @GET("/sfa/intakes/salesperson/date-range")
     fun getStockAssignmentReportDistributorDate(
+        @Header("invalidate_cache") invalidate_cache: String,
         @Query("salesPersonUID") salesPersonUID: String,
         @Query("warehouseId") warehouseId: String,
         @Query("startDate") startDate: String,

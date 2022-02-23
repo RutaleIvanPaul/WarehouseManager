@@ -5,25 +5,25 @@ import android.graphics.Canvas
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showConfirmDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlow
 import io.ramani.ramaniWarehouse.app.stockreceive.flow.StockReceiveFlowController
 import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavFragment
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.GoodsReceivedModel
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
-import kotlinx.android.synthetic.main.fragment_receive_receipt.*
 import kotlinx.android.synthetic.main.fragment_stock_receive_print.*
-import kotlinx.android.synthetic.main.item_stock_receive_print_item_row.view.*
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
-import java.util.Locale
+import java.util.*
 
 class StockReceivePrintFragment : BaseFragment() {
     companion object {
@@ -65,11 +65,17 @@ class StockReceivePrintFragment : BaseFragment() {
         super.initView(view)
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
 
-        val supplierData = STOCK_RECEIVE_MODEL.supplierData
+        stock_receive_print_distributor_name.text = viewModel.companyName
 
+        val supplierData = STOCK_RECEIVE_MODEL.supplierData
         supplierData.apply {
+
             date?.let {
-                stock_receive_print_issued_date.text = String.format(Locale.getDefault(), "Date : %s", dateFormatter.convertToCalendarFormatDate(it.time))
+                stock_receive_print_issued_date.text = String.format(
+                    Locale.getDefault(),
+                    "Date : %s",
+                    dateFormatter.convertToCalendarFormatDate(it.time)
+                )
             }
 
             documents?.let {
@@ -87,34 +93,43 @@ class StockReceivePrintFragment : BaseFragment() {
             }
 
             products?.let {
-                for (item in it) {
-                    addItems(item)
+                stock_receive_print_product_list.apply {
+                    val layoutManagerWithDisabledScrolling =
+                        object : LinearLayoutManager(requireContext()) {
+                            override fun canScrollVertically(): Boolean {
+                                return false
+                            }
+                        }
+                    layoutManager = layoutManagerWithDisabledScrolling
+                    adapter = StockReceivePrintRVAdapter(it as MutableList<SelectedProductModel>)
+                    addItemDecoration(
+                        DividerItemDecoration(
+                            requireActivity(),
+                            DividerItemDecoration.VERTICAL
+                        )
+                    )
                 }
             }
         }
 
         stock_receive_print_print_button.setOnSingleClickListener {
             val scrollView = stock_receive_print_scrollview
-            val bitmap = Bitmap.createBitmap(scrollView.width, scrollView.height, Bitmap.Config.ARGB_8888)
+            val bitmap =
+                Bitmap.createBitmap(scrollView.width, scrollView.getChildAt(0).height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
         }
 
         stock_receive_print_done_button.setOnSingleClickListener {
-            showConfirmDialog("Are you all okay?", onConfirmed = {
-                STOCK_RECEIVE_MODEL.clearData()
-                flow.openRootPage()
-            })
+            STOCK_RECEIVE_MODEL.clearData()
+
+            (requireActivity() as BaseActivity).navigationManager?.popToRootFragment()
         }
     }
 
-    private fun addItems(item: SelectedProductModel) {
-        val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_receive_print_item_row, null)
-        itemView.stock_receive_print_item_row_name.text = item.product?.name ?: ""
-        itemView.stock_receive_print_item_row_accepted.text = String.format(Locale.getDefault(), "%d Pc", item.accepted)
-        itemView.stock_receive_print_item_row_declined.text = String.format(Locale.getDefault(), "%d Pc", item.declined)
-        stock_receive_print_items_container.addView(itemView)
+    override fun onBackButtonPressed(): Boolean {
+        return true
     }
 
 }

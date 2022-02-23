@@ -10,6 +10,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewMode
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.model.WarehouseModelView
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
+import io.ramani.ramaniWarehouse.domain.base.SingleLiveEvent
 import io.ramani.ramaniWarehouse.domain.base.exceptions.ItemNotFoundException
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
@@ -35,7 +36,14 @@ class MainNavViewModel(
         var page = 1
         var hasMoreToLoad = true
         var currentWarehouse: WarehouseModel? = null
-        val onWarehousesLoadedLiveData = MutableLiveData<Boolean>()
+        val onWarehousesLoadedLiveData = SingleLiveEvent<Boolean>()
+
+        fun reset(){
+            warehousesList.clear()
+            page = 1
+            hasMoreToLoad = true
+            currentWarehouse=null
+        }
     }
 
     val onWarehousesSelectedLiveData = MutableLiveData<Boolean>()
@@ -46,6 +54,9 @@ class MainNavViewModel(
     fun loadWarehouses() {
         if (hasMoreToLoad) {
             isLoadingVisible = true
+            if(page == 1 ){
+                warehousesList.clear()
+            }
             sessionManager.getLoggedInUser().subscribeBy {
                 val single =
                     loadWarehousesUseCase.getSingle(GetWarehousesRequestModel(it.companyId, page))
