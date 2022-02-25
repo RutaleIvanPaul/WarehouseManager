@@ -96,6 +96,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation files('libs/MobiIotAPI.jar')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
 
@@ -183,4 +184,7 @@ dependencies {
 
     // NexGo Printer
     implementation files('libs/nexgosmartpossdkv303.aar')
+
+    //Zebra Crossing ZXING
+    implementation 'com.google.zxing:core:3.4.1'
 }
