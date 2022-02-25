@@ -13,7 +13,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.language.StringProvider
 import com.mobiiot.androidqapi.api.CsPrinter
 
 class MobiIoTDevice(val context: Context) : POSDevice {
-    private var device = PrinterServiceUtil.getPrinterService()
+    private var device: CsPrinter? = null
     private val TAG = "MobiIoT"
    // var device = PrinterServiceUtil.getPrinterService()
 
@@ -21,7 +21,8 @@ class MobiIoTDevice(val context: Context) : POSDevice {
     override fun device(): Any {
         PrinterServiceUtil.bindService(context)
         PrinterServiceUtil.getPrinterService()
-        return device
+
+        return device as CsPrinter
     }
 
     override fun open() {
@@ -78,10 +79,9 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     init {
         Log.d(TAG +"init","init")
-
-
             PrinterServiceUtil.bindService(context)
             PrinterServiceUtil.getPrinterService()
+            device()
             Log.d(TAG +"init dvice",device.toString())
             Log.d(TAG +"init CSPrinter",CsPrinter.getPrinterStatus().toString())
 

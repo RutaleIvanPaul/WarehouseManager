@@ -9,7 +9,7 @@ import com.cloudpos.printer.Format
 import com.cloudpos.printer.PrinterDevice
 
 
-interface PrinterInterface {
+interface RamaniPrinterInterface {
     fun open()
 
     fun close()

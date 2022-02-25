@@ -14,7 +14,7 @@ import com.nexgo.oaf.apiv3.device.printer.FontEntity
 import com.nexgo.oaf.apiv3.device.printer.Printer
 
 
-class NexGoPrinter(var context: Context) : PrinterInterface {
+class NexGoPrinter(var context: Context) : RamaniPrinterInterface {
     private var nexGoPrinter: Printer? = null
     private val TAG = "NexGo Printer"
 
