@@ -21,9 +21,11 @@ class MobiIoTDevice(val context: Context) : POSDevice {
     override fun device(): Any {
         PrinterServiceUtil.bindService(context)
         PrinterServiceUtil.getPrinterService()
+        device = CsPrinter()
 
         return device as CsPrinter
     }
+
 
     override fun open() {
         try {
