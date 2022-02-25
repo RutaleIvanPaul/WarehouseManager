@@ -79,7 +79,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
     init {
         Log.d(TAG +"init","init")
 
-        if (device == null) {
+
             PrinterServiceUtil.bindService(context)
             PrinterServiceUtil.getPrinterService()
             Log.d(TAG +"init dvice",device.toString())
@@ -87,7 +87,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
             Log.d(TAG ,CsPrinter.getPrinterStatus().toString())
 
-        }
+
     }
 
 
