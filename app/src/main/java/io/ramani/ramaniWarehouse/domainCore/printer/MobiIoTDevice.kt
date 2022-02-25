@@ -61,6 +61,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
             CsPrinter.printBitmap(bitmap)
             Log.d(TAG,"Print Bitmap  succeed!")
+            Log.d(TAG ,CsPrinter.getPrinterStatus().toString())
         } catch (ex: DeviceException) {
             Log.d(TAG,"Print Bitmap Failed!")
             ex.printStackTrace()
@@ -71,6 +72,8 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         if (device == null) {
             PrinterServiceUtil.getPrinterService()
             device = CsPrinter()
+            Log.d(TAG ,CsPrinter.getPrinterStatus().toString())
+
         }
     }
 
