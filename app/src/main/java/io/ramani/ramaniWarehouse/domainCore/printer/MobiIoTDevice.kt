@@ -14,7 +14,7 @@ import com.mobiiot.androidqapi.api.CsPrinter
 
 class MobiIoTDevice(val context: Context) : POSDevice {
     private var device = CsPrinter()
-    private val TAG = "Famoco Printer Work"
+    private val TAG = "MobiIoT Printer Work"
 
 
     override fun device(): Any {
