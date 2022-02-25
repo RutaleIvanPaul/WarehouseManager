@@ -22,31 +22,41 @@ class PrinterHelper(
     }
 
     fun close(): String {
-        if (isFamocoDevice()) {
-            pX400Printer.close()
-            return getString(R.string.printer_closed)
-        }
+//        if (isFamocoDevice()) {
+//            pX400Printer.close()
+//            return getString(R.string.printer_closed)
+//        }
+        pX400Printer.close()
         return getString(R.string.no_printer)
     }
 
     fun printBitmap(bitmap: Bitmap): PrintStatus {
-        if (isFamocoDevice()) {
-            open()
-            pX400Printer.printBitmap(bitmap)
-            close()
-            return PrintStatus(true)
-        }
-        return PrintStatus(false, getString(R.string.no_printer))
+//        if (isFamocoDevice()) {
+//            open()
+//            pX400Printer.printBitmap(bitmap)
+//            close()
+//            return PrintStatus(true)
+//        }
+//        return PrintStatus(false, getString(R.string.no_printer))
+        open()
+        pX400Printer.printBitmap(bitmap)
+        close()
+        return PrintStatus(true)
+
     }
 
     fun printText(string: String): PrintStatus {
-        if (isFamocoDevice()) {
-            open()
-            pX400Printer.printText(string)
-            close()
-            return PrintStatus(true)
-        }
-        return PrintStatus(false, getString(R.string.no_printer))
+//        if (isFamocoDevice()) {
+//            open()
+//            pX400Printer.printText(string)
+//            close()
+//            return PrintStatus(true)
+//        }
+//        return PrintStatus(false, getString(R.string.no_printer))
+        open()
+        pX400Printer.printText(string)
+        close()
+        return PrintStatus(true)
     }
 
 

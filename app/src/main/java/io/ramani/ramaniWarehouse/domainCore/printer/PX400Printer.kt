@@ -64,6 +64,8 @@ class PX400Printer(var context: Context) {
         when (device) {
             Manufacturer.wizarPOS.toString() -> return FamocoDevice(context)
             Manufacturer.NexGo.toString() -> return NexGoDevice(context)
+            Manufacturer.MobiIot.toString() -> return MobiIoTDevice(context)
+            Manufacturer.MobiWire.toString() -> return MobiIoTDevice(context)
             else -> return null
         }
     }
