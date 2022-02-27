@@ -11,16 +11,20 @@ import com.nexgo.oaf.apiv3.APIProxy
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.language.StringProvider
 import com.mobiiot.androidqapi.api.CsPrinter
+import com.sagereal.printer.PrinterInterface
 
 class MobiIoTDevice(val context: Context) : POSDevice {
     private var device: CsPrinter? = null
     private val TAG = "MobiIoT"
-   // var device = PrinterServiceUtil.getPrinterService()
+    var inter: PrinterInterface? = null
+
+    // var device = PrinterServiceUtil.getPrinterService()
 
 
     override fun device(): Any {
         PrinterServiceUtil.bindService(context)
-        PrinterServiceUtil.getPrinterService()
+        inter = PrinterServiceUtil.getPrinterService()
+         //PrinterInterface()
         device = CsPrinter()
 
         return device as CsPrinter
@@ -56,6 +60,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             PrinterServiceUtil.bindService(context)
             PrinterServiceUtil.getPrinterService()
             CsPrinter.printText(msg)
+
             Log.d(TAG,"Print Text  succeed!")
         } catch (ex: DeviceException) {
             Log.d(TAG,"Print Text Failed!")
@@ -68,6 +73,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             val format = Format()
             format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
             format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
+            val printer = CsPrinter()
             PrinterServiceUtil.bindService(context)
             PrinterServiceUtil.getPrinterService()
             CsPrinter.printBitmap(bitmap)
@@ -84,8 +90,9 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             PrinterServiceUtil.bindService(context)
             PrinterServiceUtil.getPrinterService()
             device()
-            Log.d(TAG +"init dvice",device.toString())
-            Log.d(TAG +"init CSPrinter",CsPrinter.getPrinterStatus().toString())
+            Log.d(TAG +"init device",device.toString())
+            Log.d(TAG +"init service", PrinterServiceUtil.getPrinterService().toString())
+            Log.d(TAG +"init Printer",CsPrinter.getPrinterStatus().toString())
 
             Log.d(TAG ,CsPrinter.getPrinterStatus().toString())
 
