@@ -6,6 +6,7 @@ import android.util.Log
 import com.cloudpos.DeviceException
 import com.cloudpos.printer.Format
 import com.cloudpos.printer.PrinterDevice
+import com.mobiiot.androidqapi.api.CsDevice
 import com.mobiiot.androidqapi.api.Utils.PrinterServiceUtil
 import com.nexgo.oaf.apiv3.APIProxy
 import io.ramani.ramaniWarehouse.R
@@ -35,6 +36,8 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         try {
             PrinterServiceUtil.bindService(context)
             PrinterServiceUtil.getPrinterService()
+            PrinterServiceUtil.getPrintIntent()
+            CsDevice.getDeviceInformation()
 
             Log.d(TAG,"Open Printer succeed!")
         } catch (ex: DeviceException) {
@@ -54,14 +57,19 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     override fun printText(format: Format?, msg: String?) {
         try {
-            val format = Format()
-            format.setParameter(Format.FORMAT_FONT_SIZE, Format.FORMAT_FONT_SIZE_MEDIUM)
-            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
+//            val format = Format()
+//            format.setParameter(Format.FORMAT_FONT_SIZE, Format.FORMAT_FONT_SIZE_MEDIUM)
+//            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
             PrinterServiceUtil.bindService(context)
             PrinterServiceUtil.getPrinterService()
+            PrinterServiceUtil.getPrintIntent()
             CsPrinter.printText(msg)
+            CsPrinter.printEndLine()
+            val errorMessage = CsPrinter.getLastError()
 
-            Log.d(TAG,"Print Text  succeed!")
+
+            Log.d("$TAG text error",errorMessage.toString())
+            Log.d("$TAG printText","Print Text  succeed!")
         } catch (ex: DeviceException) {
             Log.d(TAG,"Print Text Failed!")
             ex.printStackTrace()
@@ -76,9 +84,14 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             val printer = CsPrinter()
             PrinterServiceUtil.bindService(context)
             PrinterServiceUtil.getPrinterService()
+            PrinterServiceUtil.getPrintIntent()
             CsPrinter.printBitmap(bitmap)
-            Log.d(TAG,"Print Bitmap  succeed!")
-            Log.d(TAG ,CsPrinter.getPrinterStatus().toString())
+            CsPrinter.printEndLine()
+            val errorMessage = CsPrinter.getLastError()
+
+
+            Log.d("$TAG bitmap error",errorMessage.toString())
+            Log.d("$TAG printText","Print Text  succeed!")
         } catch (ex: DeviceException) {
             Log.d(TAG,"Print Bitmap Failed!")
             ex.printStackTrace()
@@ -89,12 +102,16 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         Log.d(TAG +"init","init")
             PrinterServiceUtil.bindService(context)
             PrinterServiceUtil.getPrinterService()
-            device()
-            Log.d(TAG +"init device",device.toString())
-            Log.d(TAG +"init service", PrinterServiceUtil.getPrinterService().toString())
-            Log.d(TAG +"init Printer",CsPrinter.getPrinterStatus().toString())
+            device = CsPrinter()
+        val printerStatus = CsPrinter.getPrinterStatus()
 
-            Log.d(TAG ,CsPrinter.getPrinterStatus().toString())
+        Log.d(TAG +"init device",device.toString())
+            Log.d(TAG +"init device info",CsDevice.getDeviceInformation().toString())
+            Log.d(TAG +"init service", PrinterServiceUtil.getPrinterService().toString())
+            Log.d(TAG +"init Printer",printerStatus.toString())
+
+
+
 
 
     }
