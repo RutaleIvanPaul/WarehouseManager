@@ -106,7 +106,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         val printerStatus = CsPrinter.getPrinterStatus()
 
         Log.d(TAG +"init device",device.toString())
-            Log.d(TAG +"init device info",CsDevice.getDeviceInformation().toString())
+            //Log.d(TAG +"init device info",CsDevice.getDeviceInformation().toString())
             Log.d(TAG +"init service", PrinterServiceUtil.getPrinterService().toString())
             Log.d(TAG +"init Printer",printerStatus.toString())
 
