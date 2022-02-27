@@ -78,20 +78,20 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     override fun printBitmap(format: Format?, bitmap: Bitmap){
         try {
-            val format = Format()
-            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
-            format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
-            val printer = CsPrinter()
-            PrinterServiceUtil.bindService(context)
-            PrinterServiceUtil.getPrinterService()
-            PrinterServiceUtil.getPrintIntent()
-            CsPrinter.printBitmap(bitmap)
-            CsPrinter.printEndLine()
-            val errorMessage = CsPrinter.getLastError()
-
-
-            Log.d("$TAG bitmap error",errorMessage.toString())
-            Log.d("$TAG printText","Print Text  succeed!")
+//            val format = Format()
+//            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
+//            format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
+//            val printer = CsPrinter()
+//            PrinterServiceUtil.bindService(context)
+//            PrinterServiceUtil.getPrinterService()
+//            PrinterServiceUtil.getPrintIntent()
+//            CsPrinter.printBitmap(bitmap)
+//            CsPrinter.printEndLine()
+//            val errorMessage = CsPrinter.getLastError()
+//
+//
+//            Log.d("$TAG bitmap error",errorMessage.toString())
+//            Log.d("$TAG printText","Print Text  succeed!")
         } catch (ex: DeviceException) {
             Log.d(TAG,"Print Bitmap Failed!")
             ex.printStackTrace()
