@@ -1,7 +1,9 @@
 package io.ramani.ramaniWarehouse.app
 
 import android.app.Application
+import android.os.Build
 import androidx.appcompat.app.AppCompatDelegate
+import com.mobiiot.androidqapi.api.MobiiotAPI
 import io.ramani.ramaniWarehouse.app.common.di.appModule
 import io.ramani.ramaniWarehouse.app.common.download.DownloadManager
 import io.ramani.ramaniWarehouse.app.common.download.FilesDownloadManager
@@ -10,6 +12,7 @@ import io.ramani.ramaniWarehouse.app.common.download.IMediaDownloadManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivityLifeCycleCallbacks
 import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
+import io.ramani.ramaniWarehouse.domainCore.printer.Manufacturer
 import io.ramani.ramaniWarehouse.domainCore.printer.PX400Printer
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -41,6 +44,7 @@ class App : Application(), KodeinAware {
         super.onCreate()
         initPusNotificationsManager()
         registerActivityLifecycleCallbacks(BaseActivityLifeCycleCallbacks())
+        if(Build.MANUFACTURER == Manufacturer.MobiIot.name ||Build.MANUFACTURER == Manufacturer.MobiWire.name) MobiiotAPI(this)
 //            initInstaBug()
     }
 
@@ -48,6 +52,13 @@ class App : Application(), KodeinAware {
     private fun initPusNotificationsManager() {
        //TODO: Setup firebase here
     }
+
+//    private fun initiateMobiIoTAPI(){
+//        if(Build.MANUFACTURER == Manufacturer.MobiIot.name ||Build.MANUFACTURER == Manufacturer.MobiWire.name){
+//            MobiiotAPI(this)
+//
+//        }
+//    }
 
 
 }
