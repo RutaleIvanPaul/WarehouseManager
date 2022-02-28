@@ -33,32 +33,31 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
 
     override fun open() {
-//        try {
-//            PrinterServiceUtil.bindService(context)
+        try {
+            PrinterServiceUtil.bindService(context)
 //            PrinterServiceUtil.getPrinterService()
 //            PrinterServiceUtil.getPrintIntent()
-//           // CsDevice.getDeviceInformation()
-//
-//            Log.d(TAG,"Open Printer succeed!")
-//        } catch (ex: DeviceException) {
-//            Log.d(TAG,"Open Printer Failed!")
-//            ex.printStackTrace()
-//        }
+           // CsDevice.getDeviceInformation()
+
+            Log.d(TAG,"Open Printer succeed!")
+        } catch (ex: DeviceException) {
+            Log.d(TAG,"Open Printer Failed!")
+            ex.printStackTrace()
+        }
     }
 
     override fun close() {
-//        try {
-//            Log.d(TAG,"Close Printer succeed!")
-//        } catch (ex: DeviceException) {
-//            Log.d(TAG,"Close Printer Failed!")
-//            ex.printStackTrace()
-//        }
+        try {
+            CsPrinter.printEndLine()
+        } catch (ex: DeviceException) {
+            Log.d(TAG,"Close Printer Failed!")
+            ex.printStackTrace()
+        }
     }
 
     override fun printText(format: Format?, msg: String?) {
         try {
             CsPrinter.printText(msg)
-            CsPrinter.printEndLine()
             val errorMessage = CsPrinter.getLastError()
 
 
