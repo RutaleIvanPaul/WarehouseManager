@@ -11,6 +11,7 @@ data class UserModel(
     val accountType: String = "",
     val companyId: String = "",
     val companyName: String = "",
+    val companyType: String = "",
     val userName: String = "",
     val phoneNumber: String = "",
     val uuid: String = "",
@@ -28,6 +29,7 @@ data class UserModel(
         private var accountType: String = ""
         private var companyId: String = ""
         private var companyName: String = ""
+        private var companyType: String = ""
         private var userName: String = ""
         private var phoneNumber: String = ""
         private var uuid: String = ""
@@ -71,6 +73,11 @@ data class UserModel(
             return this
         }
 
+        fun companyType(companyType: String): Builder {
+            this.companyType = companyType
+            return this
+        }
+
         fun uuid(uuid: String): Builder {
             this.uuid = uuid
             return this
@@ -104,6 +111,7 @@ data class UserModel(
                 accountType,
                 companyId,
                 companyName,
+                companyType,
                 userName,
                 phoneNumber,
                 uuid,
@@ -116,6 +124,7 @@ data class UserModel(
 
 
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -141,6 +150,7 @@ data class UserModel(
         parcel.writeString(accountType)
         parcel.writeString(companyId)
         parcel.writeString(companyName)
+        parcel.writeString(companyType)
         parcel.writeString(userName)
         parcel.writeString(phoneNumber)
         parcel.writeString(uuid)
