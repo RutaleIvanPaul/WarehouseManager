@@ -21,7 +21,7 @@ import java.io.InputStream
 class MobiIoTDevice(val context: Context) : POSDevice {
     private val TAG = "MobiIoT"
 
-    // var device = PrinterServiceUtil.getPrinterService()
+     var device = CsPrinter()
 
 
     override fun device(): Any {
@@ -80,7 +80,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
             var inputStreamToByte: ByteArray? = null
             try {
-                //inputStreamToByte = InputStreamToByte(bitmap)
+               // inputStreamToByte = InputStreamToByte(bitmap)
                 //Convert bitmap to byte array
                 val bos = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos) // YOU can also save it in JPEG
@@ -117,6 +117,9 @@ class MobiIoTDevice(val context: Context) : POSDevice {
     }
 
     init {
+        device()
+
+        Log.e("Build", Build.MODEL)
 
     }
 
