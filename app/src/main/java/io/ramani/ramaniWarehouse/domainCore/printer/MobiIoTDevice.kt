@@ -118,7 +118,6 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     init {
         device()
-
         Log.e("Build", Build.MODEL)
 
     }
