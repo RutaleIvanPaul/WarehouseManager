@@ -72,9 +72,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
     override fun printBitmap(format: Format?, bitmap: Bitmap){
         try {
             CsPrinter.printBitmap(bitmap,0)
-            CsPrinter.printEndLine()
             val errorMessage = CsPrinter.getLastError()
-
 
             Log.d("$TAG text error",errorMessage.toString())
 
