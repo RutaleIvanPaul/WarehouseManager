@@ -38,9 +38,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginTop="40dp"
-            android:layout_marginRight="20dp"
             android:orientation="horizontal"
             android:padding="10dp">
 
@@ -50,6 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginEnd="8dp"
+                app:textSize="16dp"
                 app:contentColor="@color/mid_dark_grey" />
 
             <EditText
