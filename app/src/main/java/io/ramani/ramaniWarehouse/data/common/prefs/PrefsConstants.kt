@@ -10,6 +10,8 @@ object PrefsConstants {
     const val PREF_REFRESH_TOKEN = "refresh_token"
     const val PREF_CURRENT_WAREHOUSE = "current_warehouse"
     const val PREF_CURRENT_PRODUCTS = "current_products"
+    const val PREF_ACCOUNT_TYPE = "account_type"
+    const val PREF_TIMEZONE = "timezone"
     const val PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS = "invalidate_cache_company_products"
     const val PREF_INVALIDATE_CACHE_AVAILABLE_PRODUCTS = "invalidate_cache_available_products"
     const val PREF_INVALIDATE_CACHE_ASSIGNMENTS_REPORTS = "invalidate_cache_assignments_reports"

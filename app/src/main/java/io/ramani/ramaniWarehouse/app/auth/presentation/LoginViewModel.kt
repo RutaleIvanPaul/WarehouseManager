@@ -51,6 +51,8 @@ class LoginViewModel(
                 isLoadingVisible = false
                 prefs.currentUser = it.toString()
                 prefs.accessToken = it.token
+                prefs.accountType = it.accountType
+                prefs.timeZone = it.timeZone
                 loginActionLiveData.postValue(it)
             }, onError = {
                 isLoadingVisible = false
