@@ -7,14 +7,38 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+def getCurrentVariant() {
+    Gradle gradle = getGradle()
+    String tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+    println("tskReqStr: $tskReqStr")
+
+    if (tskReqStr.contains("assembleDebug"))
+        return "Debug"
+    else if (tskReqStr.contains("assembleStaging"))
+        return "Staging"
+    else if (tskReqStr.contains("assembleRelease"))
+        return "Release"
+    else {
+        println "NO MATCH FOUND"
+        return ""
+    }
+}
+
 android {
-    signingConfigs {
-//        staging {
-//            storeFile file('D:\\AmrWork\\projects\\ramani-warehouse\\keystore\\RamaniWarehouse')
-//            storePassword 'RamaniWarehouse'
-//            keyAlias 'RamaniWarehouse'
-//            keyPassword 'RamaniWarehouse'
-//        }
+    def versionPropsFile = file('version.properties')
+    def versionBuild
+    def versionBuildCode
+    def enteredIncremental = false
+
+    if (versionPropsFile.canRead()) {
+        def versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        versionBuild = versionProps['VERSION_BUILD'].toInteger()
+        versionBuildCode = versionProps['VERSION_CODE']
+        println("Current version build -> $versionBuild")
+        println("Current version Code -> $versionBuildCode")
+    } else {
+        throw new Exception('Couldn\'t read version.properties file')
     }
     def TRUE = "true"
     def FALSE = "false"
@@ -25,10 +49,10 @@ android {
 
     defaultConfig {
         applicationId "io.ramani.ramaniWarehouse"
-        minSdk 21
-        targetSdk 31
-        versionCode 67
-        versionName "1.0.7"
+        minSdk project.minSdkVersion
+        targetSdk project.targetSdkVersion
+        versionCode versionBuild
+        versionName versionBuildCode
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
@@ -45,32 +69,97 @@ android {
 
         debug {
             minifyEnabled false
+            versionNameSuffix "-debug"
+            applicationIdSuffix ".debug"
             buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
             buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-dev.herokuapp.com/\""
-            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app_debug\""
         }
 
         staging {
+            versionNameSuffix "-staging"
+            applicationIdSuffix ".staging"
             buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-staging.herokuapp.com/\""
-            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app_staging\""
             buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
             signingConfig signingConfigs.debug
         }
     }
+
+    ext.autoIncrementBuildNumber = {
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
+            versionProps['VERSION_BUILD'] = versionBuild.toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+            println("Version build incremented to $versionBuild")
+        } else {
+            throw new Exception('Couldn\'t read version.properties file')
+        }
+    }
+
+
+    ext.autoIncrementVersionBuildCode = {
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            versionBuildCode = versionProps['VERSION_CODE']
+            def (firstPart, secondPart, thirdPart) = versionBuildCode.tokenize('.')
+
+            if (getCurrentVariant() == 'Debug') {
+                thirdPart++
+            } else if (getCurrentVariant() == 'Staging') {
+                secondPart++
+                thirdPart = 0
+            } else if (getCurrentVariant() == 'Release') {
+                firstPart++
+                secondPart = 0
+                thirdPart = 0
+            }
+            versionBuildCode = "$firstPart.$secondPart.$thirdPart".toString()
+            versionProps['VERSION_CODE'] = versionBuildCode
+            versionProps.store(versionPropsFile.newWriter(), null)
+            println("Version Code incremented to $versionBuildCode")
+        } else {
+            throw new Exception('Couldn\'t read version.properties file')
+        }
+    }
+
+    gradle.taskGraph.whenReady { taskGraph ->
+        taskGraph.getAllTasks().forEach { task ->
+            if (task.name.matches('bundleProduction.*') ||
+                    task.name.matches('assembleRelease.*') ||
+                    task.name.matches('assembleStaging.*') ||
+                    task.name.matches('assembleDebug.*')) {
+                if (!enteredIncremental) {
+                    enteredIncremental = true
+                    autoIncrementBuildNumber()
+                    autoIncrementVersionBuildCode()
+                }
+
+            }
+        }
+        enteredIncremental = false
+    }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
     buildFeatures {
         dataBinding true
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
 
 }
+
+androidExtensions {
+    experimental = true
+}
+
 
 dependencies {
 
@@ -180,7 +269,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Famoco Printer
-     implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
+    implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
 
     // Country selection
     implementation 'com.hbb20:ccp:1.7.1'
