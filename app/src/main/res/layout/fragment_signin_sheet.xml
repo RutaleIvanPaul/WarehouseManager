@@ -57,7 +57,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:hint="e.g 78733..."
+                android:hint="@string/phone_number_hint"
                 android:inputType="number"
                 android:textColor="@color/mid_dark_grey"
                 android:textColorHint="@color/mid_dark_grey"
