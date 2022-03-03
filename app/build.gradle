@@ -18,6 +18,8 @@ def getCurrentVariant() {
         return "Staging"
     else if (tskReqStr.contains("assembleRelease"))
         return "Release"
+    else if (tskReqStr.contains("assembleHotfix"))
+        return "Hotfix"
     else {
         println "NO MATCH FOUND"
         return ""
@@ -26,17 +28,17 @@ def getCurrentVariant() {
 
 android {
     def versionPropsFile = file('version.properties')
-    def versionBuild
-    def versionBuildCode
+    def versionCodeNum
+    def versionNameStr
     def enteredIncremental = false
 
     if (versionPropsFile.canRead()) {
         def versionProps = new Properties()
         versionProps.load(new FileInputStream(versionPropsFile))
-        versionBuild = versionProps['VERSION_BUILD'].toInteger()
-        versionBuildCode = versionProps['VERSION_CODE']
-        println("Current version build -> $versionBuild")
-        println("Current version Code -> $versionBuildCode")
+        versionCodeNum = versionProps['VERSION_CODE'].toInteger()
+        versionNameStr = versionProps['VERSION_NAME']
+        println("Current version build -> $versionCodeNum")
+        println("Current version Code -> $versionNameStr")
     } else {
         throw new Exception('Couldn\'t read version.properties file')
     }
@@ -51,14 +53,23 @@ android {
         applicationId "io.ramani.ramaniWarehouse"
         minSdk project.minSdkVersion
         targetSdk project.targetSdkVersion
-        versionCode versionBuild
-        versionName versionBuildCode
+        versionCode versionCodeNum
+        versionName versionNameStr
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
 
     buildTypes {
         release {
+            buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, FALSE
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", 'BASE_URL', "\"https://ramani-app-server-production.herokuapp.com/\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            signingConfig signingConfigs.debug
+        }
+
+        hotfix {
             buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, FALSE
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -90,10 +101,10 @@ android {
         if (versionPropsFile.canRead()) {
             def Properties versionProps = new Properties()
             versionProps.load(new FileInputStream(versionPropsFile))
-            versionBuild = versionProps['VERSION_BUILD'].toInteger() + 1
-            versionProps['VERSION_BUILD'] = versionBuild.toString()
+            versionCodeNum = versionProps['VERSION_CODE'].toInteger() + 1
+            versionProps['VERSION_CODE'] = versionCodeNum.toString()
             versionProps.store(versionPropsFile.newWriter(), null)
-            println("Version build incremented to $versionBuild")
+            println("Version build incremented to $versionCodeNum")
         } else {
             throw new Exception('Couldn\'t read version.properties file')
         }
@@ -104,23 +115,28 @@ android {
         if (versionPropsFile.canRead()) {
             def Properties versionProps = new Properties()
             versionProps.load(new FileInputStream(versionPropsFile))
-            versionBuildCode = versionProps['VERSION_CODE']
-            def (firstPart, secondPart, thirdPart) = versionBuildCode.tokenize('.')
+            versionNameStr = versionProps['VERSION_NAME']
+            def (firstPart, secondPart, thirdPart,fourthPart) = versionNameStr.tokenize('.')
 
             if (getCurrentVariant() == 'Debug') {
-                thirdPart++
+                fourthPart++
             } else if (getCurrentVariant() == 'Staging') {
+                thirdPart++
+                fourthPart = 0
+            }else if (getCurrentVariant() == 'Hotfix') {
                 secondPart++
                 thirdPart = 0
+                fourthPart = 0
             } else if (getCurrentVariant() == 'Release') {
                 firstPart++
                 secondPart = 0
                 thirdPart = 0
+                fourthPart = 0
             }
-            versionBuildCode = "$firstPart.$secondPart.$thirdPart".toString()
-            versionProps['VERSION_CODE'] = versionBuildCode
+            versionNameStr = "$firstPart.$secondPart.$thirdPart.$fourthPart".toString()
+            versionProps['VERSION_NAME'] = versionNameStr
             versionProps.store(versionPropsFile.newWriter(), null)
-            println("Version Code incremented to $versionBuildCode")
+            println("Version Code incremented to $versionNameStr")
         } else {
             throw new Exception('Couldn\'t read version.properties file')
         }
@@ -131,6 +147,7 @@ android {
             if (task.name.matches('bundleProduction.*') ||
                     task.name.matches('assembleRelease.*') ||
                     task.name.matches('assembleStaging.*') ||
+                    task.name.matches('assembleHotfix.*') ||
                     task.name.matches('assembleDebug.*')) {
                 if (!enteredIncremental) {
                     enteredIncremental = true
