@@ -83,13 +83,13 @@ class MobiIoTDevice(val context: Context) : POSDevice {
                 inputStreamToByte = bitmap.toByteArray()
             } catch (e: IOException) {
                 e.printStackTrace()
-                CsPrinter.printBitmap(bitmap, 0)
+                CsPrinter.printBitmap(bitmap)
             }
             if (!Build.MODEL.contains("MPE")) {
 
-                val result = CsPrinter.printBitmap(inputStreamToByte, 0)
-                CsPrinter.printBitmap(inputStreamToByte, 0)
-                CsPrinter.printBitmap(inputStreamToByte, 0)
+                val result = CsPrinter.printBitmap(bitmap)
+                CsPrinter.printBitmap(bitmap)
+                //CsPrinter.printBitmap(bitmap)
                 Log.e("print result bitmap", result.toString() + "")
             } else {
                 CsPrinter.printBitmapMPE(inputStreamToByte, 0)
