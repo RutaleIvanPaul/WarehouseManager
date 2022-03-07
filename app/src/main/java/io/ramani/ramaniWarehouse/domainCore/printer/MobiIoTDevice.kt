@@ -6,14 +6,12 @@ import android.os.Build
 import android.util.Log
 import com.cloudpos.DeviceException
 import com.cloudpos.printer.Format
-import com.cloudpos.printer.PrinterDevice
-import com.mobiiot.androidqapi.api.CsDevice
+import com.mobiiot.androidqapi.api.CsPrinter
 import com.mobiiot.androidqapi.api.Utils.PrinterServiceUtil
-import com.nexgo.oaf.apiv3.APIProxy
+
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.language.StringProvider
-import com.mobiiot.androidqapi.api.CsPrinter
-import com.sagereal.printer.PrinterInterface
+
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -104,7 +102,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         }
     }
 
-    fun InputStreamToByte(`is`: InputStream): ByteArray? {
+    fun inputStreamToByte(`is`: InputStream): ByteArray? {
         val bytestream = ByteArrayOutputStream()
         val buffer = ByteArray(1024)
         var ch: Int
@@ -117,7 +115,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
     }
 
     init {
-        device()
+        //device()
         Log.e("Build", Build.MODEL)
 
     }
