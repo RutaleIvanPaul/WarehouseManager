@@ -159,7 +159,6 @@ class CompanyProductsFragment : BaseFragment() {
         productImage.apply { loadImage(item.imagePath) }
         assignProductButton.setOnClickListener(View.OnClickListener {
 
-
             if (assignmentQuantity.text.trim().toString().isNullOrEmpty()) {
                 Toast.makeText(context, R.string.record_assignment_number, Toast.LENGTH_LONG).show()
             } else if (assignmentQuantity.text.toString().toInt() < 1) {

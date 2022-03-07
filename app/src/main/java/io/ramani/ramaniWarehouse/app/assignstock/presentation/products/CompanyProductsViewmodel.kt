@@ -80,9 +80,9 @@ class CompanyProductsViewmodel(application: Application,
     }
 
     fun saveAllAssignedProducts(selection: List<ProductsUIModel>){
-        companyProductsListSelection.addAll(selection)
+        companyProductsListSelection.addAll(selection.distinct())
         assignedCompanyProductsListLiveData.postValue(companyProductsListSelection.toMutableList())
-        ASSIGNMENT_RECEIVE_MODELS.productsSelection.postValue(selection)
+        ASSIGNMENT_RECEIVE_MODELS.productsSelection.postValue(selection.distinct())
         ASSIGNMENT_RECEIVE_MODELS.assignedItemsIDS.clear()
 
 
