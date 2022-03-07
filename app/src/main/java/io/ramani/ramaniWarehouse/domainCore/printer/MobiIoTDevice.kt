@@ -80,9 +80,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             try {
                // inputStreamToByte = InputStreamToByte(bitmap)
                 //Convert bitmap to byte array
-                val bos = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos) // YOU can also save it in JPEG
-                inputStreamToByte = bos.toByteArray()
+                inputStreamToByte = bitmap.toByteArray()
             } catch (e: IOException) {
                 e.printStackTrace()
             }
@@ -102,18 +100,12 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         }
     }
 
-    fun inputStreamToByte(`is`: InputStream): ByteArray? {
-        val bytestream = ByteArrayOutputStream()
-        val buffer = ByteArray(1024)
-        var ch: Int
-        while (`is`.read(buffer).also { ch = it } != -1) {
-            bytestream.write(buffer, 0, ch)
+    fun Bitmap.toByteArray():ByteArray{
+        ByteArrayOutputStream().apply {
+            compress(Bitmap.CompressFormat.JPEG,10,this)
+            return toByteArray()
         }
-        val data = bytestream.toByteArray()
-        bytestream.close()
-        return data
     }
-
     init {
         //device()
         Log.e("Build", Build.MODEL)
