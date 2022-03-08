@@ -89,9 +89,9 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             }
             if (!Build.MODEL.contains("MPE")) {
 
-                val result = CsPrinter.printBitmap(bitmap)
-                CsPrinter.printBitmap(bitmap)
-                //CsPrinter.printBitmap(bitmap)
+                val result = CsPrinter.printBitmap(inputStreamToByte, 0)
+                CsPrinter.printBitmap(inputStreamToByte, 0)
+                CsPrinter.printBitmap(inputStreamToByte, 0)
                 Log.e("print result bitmap", result.toString() + "")
             } else {
                 CsPrinter.printBitmapMPE(inputStreamToByte, 0)
