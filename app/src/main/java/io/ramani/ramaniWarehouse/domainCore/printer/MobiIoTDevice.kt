@@ -7,6 +7,7 @@ import android.util.Log
 import com.cloudpos.DeviceException
 import com.cloudpos.printer.Format
 import com.mobiiot.androidqapi.api.CsPrinter
+import com.mobiiot.androidqapi.api.MobiiotAPI
 import com.mobiiot.androidqapi.api.Utils.PrinterServiceUtil
 
 import io.ramani.ramaniWarehouse.R
@@ -34,10 +35,11 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     override fun open() {
         try {
-            PrinterServiceUtil.bindService(context)
+           // PrinterServiceUtil.bindService(context)
 //            PrinterServiceUtil.getPrinterService()
 //            PrinterServiceUtil.getPrintIntent()
            // CsDevice.getDeviceInformation()
+            MobiiotAPI(context)
 
             Log.d(TAG,"Open Printer succeed!")
         } catch (ex: DeviceException) {
