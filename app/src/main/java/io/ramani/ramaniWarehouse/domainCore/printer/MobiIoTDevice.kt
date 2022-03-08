@@ -50,7 +50,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     override fun close() {
         try {
-            CsPrinter.printEndLine()
+            //CsPrinter.printEndLine()
         } catch (ex: DeviceException) {
             Log.d(TAG,"Close Printer Failed!")
             ex.printStackTrace()
@@ -75,28 +75,30 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         try {
             //CsPrinter.printBitmap(bitmap,0)
            // val is_ticket = context.resources.openRawResource(bitmap)
+              val newBitmap =  CsPrinter.getResizedBitmap(bitmap, 200, 200)
+            CsPrinter.printBitmap(newBitmap)
 
-            val errorMessage = CsPrinter.getLastError()
-
-            Log.d("$TAG text error",errorMessage.toString())
-
-            var inputStreamToByte: ByteArray? = null
-            try {
-               // inputStreamToByte = InputStreamToByte(bitmap)
-                //Convert bitmap to byte array
-                inputStreamToByte = bitmap.toByteArray()
-            } catch (e: IOException) {
-                e.printStackTrace()
-                CsPrinter.printBitmap(bitmap)
-            }
+//            val errorMessage = CsPrinter.getLastError()
+//
+//            Log.d("$TAG text error",errorMessage.toString())
+//
+//            var inputStreamToByte: ByteArray? = null
+//            try {
+//               // inputStreamToByte = InputStreamToByte(bitmap)
+//                //Convert bitmap to byte array
+//                inputStreamToByte = bitmap.toByteArray()
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//                CsPrinter.printBitmap(bitmap)
+//            }
             if (!Build.MODEL.contains("MPE")) {
 
-                val result = CsPrinter.printBitmap(inputStreamToByte, 0)
-                CsPrinter.printBitmap(inputStreamToByte, 0)
-                CsPrinter.printBitmap(inputStreamToByte, 0)
-                Log.e("print result bitmap", result.toString() + "")
+               // val result = CsPrinter.printBitmap(inputStreamToByte, 0)
+                CsPrinter.printBitmap(newBitmap, 0)
+                //CsPrinter.printBitmap(inputStreamToByte, 0)
+               // Log.e("print result bitmap", result.toString() + "")
             } else {
-                CsPrinter.printBitmapMPE(inputStreamToByte, 0)
+                CsPrinter.printBitmapMPE(newBitmap.toByteArray(), 0)
             }
 
         } catch (ex: DeviceException) {
