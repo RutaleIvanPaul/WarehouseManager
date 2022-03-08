@@ -72,6 +72,8 @@ class MobiIoTDevice(val context: Context) : POSDevice {
     override fun printBitmap(format: Format?, bitmap: Bitmap){
         try {
             //CsPrinter.printBitmap(bitmap,0)
+           // val is_ticket = context.resources.openRawResource(bitmap)
+
             val errorMessage = CsPrinter.getLastError()
 
             Log.d("$TAG text error",errorMessage.toString())
