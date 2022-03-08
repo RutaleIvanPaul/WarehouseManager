@@ -178,8 +178,12 @@ class CompanyProductsFragment : BaseFragment() {
                 viewModel.companyProductsListOriginal?.find { it._id == item._id }?.assignedNumber =
                     assignmentQuantity.text.trim().toString()?.toInt() ?: 0
 
+                val ifItemIsBeingEdited = selectedCompanyProductsList.any{productModel -> productModel._id == item._id}
+                if (ifItemIsBeingEdited) selectedCompanyProductsList.find { it._id == item._id }?.assignedNumber = assignmentQuantity.text.trim().toString()?.toInt() ?: 0
+                else selectedCompanyProductsList.add(item)
+
                 viewModel.notifyLiveDataOfAssignmentChange(item)
-                selectedCompanyProductsList.add(item)
+
                 viewModel.saveAllAssignedProducts(selectedCompanyProductsList)
                 companyProductsUIModelAdapter.notifyDataSetChanged()
                 AssignStockViewModel.allowToGoNext.postValue(Pair(1, true))
