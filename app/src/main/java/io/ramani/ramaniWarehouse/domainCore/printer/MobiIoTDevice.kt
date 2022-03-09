@@ -73,10 +73,10 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         try {
             //CsPrinter.printBitmap(bitmap,0)
            // val is_ticket = context.resources.openRawResource(bitmap)
-              val newBitmap =  CsPrinter.getResizedBitmap(bitmap, 400, bitmap.getScaledHeight(1))
-            CsPrinter.printSetDarkness(1)
-
-            CsPrinter.printBitmap(newBitmap, 0)
+//              val newBitmap =  CsPrinter.getResizedBitmap(bitmap, 400, 500)
+//            CsPrinter.printSetDarkness(0)
+//
+//            CsPrinter.printBitmap(newBitmap, 0)
 
 //            val errorMessage = CsPrinter.getLastError()
 //
@@ -94,6 +94,9 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             if (!Build.MODEL.contains("MPE")) {
 
                // val result = CsPrinter.printBitmap(inputStreamToByte, 0)
+                val newBitmap =  CsPrinter.getResizedBitmap(bitmap, 400, 500)
+                CsPrinter.printSetDarkness(0)
+
                 CsPrinter.printBitmap(newBitmap, 0)
                 //CsPrinter.printBitmap(inputStreamToByte, 0)
                // Log.e("print result bitmap", result.toString() + "")
