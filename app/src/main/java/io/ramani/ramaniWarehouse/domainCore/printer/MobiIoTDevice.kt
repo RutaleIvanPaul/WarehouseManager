@@ -36,7 +36,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 //            PrinterServiceUtil.getPrinterService()
 //            PrinterServiceUtil.getPrintIntent()
            // CsDevice.getDeviceInformation()
-           // MobiiotAPI(context)
+            MobiiotAPI(context)
 
             Log.d(TAG,"Open Printer succeed!")
         } catch (ex: DeviceException) {
