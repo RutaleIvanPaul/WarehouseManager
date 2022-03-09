@@ -102,7 +102,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
                // Log.e("print result bitmap", result.toString() + "")
                 Toast.makeText(context, "1", Toast.LENGTH_LONG).show()
             } else {
-                CsPrinter.printBitmapMPE(newBitmap.toByteArray(), 0)
+               // CsPrinter.printBitmapMPE(newBitmap.toByteArray(), 0)
                 Toast.makeText(context, "2", Toast.LENGTH_LONG).show()
 
             }
