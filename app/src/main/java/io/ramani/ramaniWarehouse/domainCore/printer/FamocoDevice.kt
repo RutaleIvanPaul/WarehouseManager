@@ -7,9 +7,7 @@ import com.cloudpos.DeviceException
 import com.cloudpos.POSTerminal
 import com.cloudpos.printer.Format
 import com.cloudpos.printer.PrinterDevice
-import com.nexgo.oaf.apiv3.APIProxy
-import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.common.presentation.language.StringProvider
+
 
 class FamocoDevice(val context: Context) : POSDevice {
     private var device: PrinterDevice? = null
