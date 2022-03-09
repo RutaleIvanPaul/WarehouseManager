@@ -73,7 +73,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         try {
             //CsPrinter.printBitmap(bitmap,0)
            // val is_ticket = context.resources.openRawResource(bitmap)
-              val newBitmap =  CsPrinter.getResizedBitmap(bitmap, bitmap.width, bitmap.height)
+              val newBitmap =  CsPrinter.getResizedBitmap(bitmap, 400, bitmap.getScaledHeight(1))
             CsPrinter.printSetDarkness(1)
 
             CsPrinter.printBitmap(newBitmap, 0)
