@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import com.cloudpos.DeviceException
 import com.cloudpos.printer.Format
 import com.mobiiot.androidqapi.api.CsPrinter
@@ -75,7 +76,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
               val newBitmap =  CsPrinter.getResizedBitmap(bitmap, bitmap.width, bitmap.height)
             CsPrinter.printSetDarkness(1)
 
-           // CsPrinter.printBitmap(newBitmap, 0)
+            CsPrinter.printBitmap(newBitmap, 0)
 
 //            val errorMessage = CsPrinter.getLastError()
 //
@@ -96,8 +97,11 @@ class MobiIoTDevice(val context: Context) : POSDevice {
                 CsPrinter.printBitmap(newBitmap, 0)
                 //CsPrinter.printBitmap(inputStreamToByte, 0)
                // Log.e("print result bitmap", result.toString() + "")
+                Toast.makeText(context, "1", Toast.LENGTH_LONG).show()
             } else {
                 CsPrinter.printBitmapMPE(newBitmap.toByteArray(), 0)
+                Toast.makeText(context, "2", Toast.LENGTH_LONG).show()
+
             }
 
         } catch (ex: DeviceException) {
