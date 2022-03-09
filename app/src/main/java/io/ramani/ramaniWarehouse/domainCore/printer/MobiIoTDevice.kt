@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.domainCore.printer
 
+import android.R
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
@@ -14,6 +15,9 @@ import com.mobiiot.androidqapi.api.MobiiotAPI
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
+import android.R.attr.bitmap
+import java.io.ByteArrayInputStream
+
 
 class MobiIoTDevice(val context: Context) : POSDevice {
     private val TAG = "MobiIoT"
@@ -97,10 +101,11 @@ class MobiIoTDevice(val context: Context) : POSDevice {
                 CsPrinter.printSetDarkness(1)
 
                 CsPrinter.printBitmap(newBitmap, 0)
-                val result = CsPrinter.printBitmap(inputStreamToByte, 0)
+                CsPrinter.printBitmap(inputStreamToByte, 0)
+                CsPrinter.printBitmap(inputStreamToByte, 0)
                 //CsPrinter.printBitmap(inputStreamToByte, 0)
                 //Log.e("print result bitmap", result.toString() + "")
-                Toast.makeText(context, result.toString() + "", Toast.LENGTH_LONG).show()
+                //Toast.makeText(context, result.toString() + "", Toast.LENGTH_LONG).show()
             } else {
                // CsPrinter.printBitmapMPE(newBitmap.toByteArray(), 0)
                 Toast.makeText(context, "2", Toast.LENGTH_LONG).show()
@@ -115,7 +120,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     fun Bitmap.toByteArray():ByteArray{
         ByteArrayOutputStream().apply {
-            compress(Bitmap.CompressFormat.JPEG,10,this)
+            compress(Bitmap.CompressFormat.JPEG,100,this)
             return toByteArray()
         }
     }
@@ -124,6 +129,13 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         Log.e("Build", Build.MODEL)
 
     }
+
+//    fun bitMapToInputStream(bitmap: Bitmap) :InputStream{
+//        val bos = ByteArrayOutputStream()
+//        R.attr.bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos)
+//        val bitmapdata = bos.toByteArray()
+//        val bs = ByteArrayInputStream(bitmapdata)
+//    }
 
 
 
