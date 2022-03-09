@@ -94,7 +94,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
                // val result = CsPrinter.printBitmap(inputStreamToByte, 0)
                // val newBitmap =  CsPrinter.getResizedBitmap(bitmap, 400, 500)
-                CsPrinter.printSetDarkness(0)
+                CsPrinter.printSetDarkness(1)
 
                 //CsPrinter.printBitmap(newBitmap, 0)
                 val result = CsPrinter.printBitmap(inputStreamToByte, 0)
