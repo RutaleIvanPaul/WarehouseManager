@@ -1,7 +1,6 @@
 package io.ramani.ramaniWarehouse.data.common.network
 
 import io.ramani.ramaniWarehouse.domainCore.prefs.Prefs
-import java.util.*
 
 /**
  * Created by Amr on 9/11/17.
@@ -15,6 +14,8 @@ class GenericHeadersProvider(private val prefsManager: Prefs) : HeadersProvider 
         const val HEADER_ACCEPT = "Accept"
         const val HEADER_CONTENT_TYPE_VALUE = "application/json"
         const val HEADER_CLIENT = "client"
+        const val HEADER_ACCOUNT_TYPE = "cType"
+        const val HEADER_TIMEZONE = "tz"
 
     }
 
@@ -30,6 +31,8 @@ class GenericHeadersProvider(private val prefsManager: Prefs) : HeadersProvider 
         map[HEADER_CONTENT_TYPE] = HEADER_CONTENT_TYPE_VALUE
         map[HEADER_ACCEPT] = HEADER_CONTENT_TYPE_VALUE
         map[HEADER_CLIENT] = ApiConstants.CLIENT_HEADER
+        map[HEADER_ACCOUNT_TYPE] = prefsManager.accountType
+        map[HEADER_TIMEZONE] = prefsManager.timeZone
         return map
     }
 

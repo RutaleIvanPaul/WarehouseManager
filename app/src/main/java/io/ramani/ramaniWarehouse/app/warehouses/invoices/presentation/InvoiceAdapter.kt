@@ -19,7 +19,7 @@ class InvoiceAdapter(
         with(helper) {
             setText(R.id.date_tv, item.createdAt)
             setText(R.id.invoice_tv, item.invoiceId)
-            setText(R.id.total_amount_tv, item.invoiceAmount.toString())
+            setText(R.id.total_amount_tv, String.format("%.2f", item.invoiceAmount))
             setText(
                 R.id.order_from,
                 getView<TextView>(R.id.order_from).text.toString().replacePlaceHolderWithText(
