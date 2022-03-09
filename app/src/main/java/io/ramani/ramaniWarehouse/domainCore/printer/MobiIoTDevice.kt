@@ -8,10 +8,7 @@ import com.cloudpos.DeviceException
 import com.cloudpos.printer.Format
 import com.mobiiot.androidqapi.api.CsPrinter
 import com.mobiiot.androidqapi.api.MobiiotAPI
-import com.mobiiot.androidqapi.api.Utils.PrinterServiceUtil
 
-import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.common.presentation.language.StringProvider
 
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -39,7 +36,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 //            PrinterServiceUtil.getPrinterService()
 //            PrinterServiceUtil.getPrintIntent()
            // CsDevice.getDeviceInformation()
-            MobiiotAPI(context)
+           // MobiiotAPI(context)
 
             Log.d(TAG,"Open Printer succeed!")
         } catch (ex: DeviceException) {
@@ -76,9 +73,9 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             //CsPrinter.printBitmap(bitmap,0)
            // val is_ticket = context.resources.openRawResource(bitmap)
               val newBitmap =  CsPrinter.getResizedBitmap(bitmap, bitmap.width, bitmap.height)
-            CsPrinter.printSetDarkness(0)
+            CsPrinter.printSetDarkness(1)
 
-            CsPrinter.printBitmap(newBitmap, 0)
+           // CsPrinter.printBitmap(newBitmap, 0)
 
 //            val errorMessage = CsPrinter.getLastError()
 //
