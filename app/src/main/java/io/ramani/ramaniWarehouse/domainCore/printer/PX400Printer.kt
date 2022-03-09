@@ -59,7 +59,6 @@ class PX400Printer(var context: Context) {
         }
     }
 
-
     init {
         if (device == null) {
             val printerDevice = POSTerminal.getInstance(context)
