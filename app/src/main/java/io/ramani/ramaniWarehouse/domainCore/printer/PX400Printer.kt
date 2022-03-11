@@ -63,7 +63,6 @@ class PX400Printer(var context: Context) {
     fun getDevice(device: String): POSDevice? {
         when (device) {
             Manufacturer.wizarPOS.name -> return FamocoDevice(context)
-            Manufacturer.NexGo.name -> return NexGoDevice(context)
             Manufacturer.MobiIot.name -> return MobiIoTDevice(context)
             Manufacturer.MobiWire.name -> return MobiIoTDevice(context)
             else -> return null

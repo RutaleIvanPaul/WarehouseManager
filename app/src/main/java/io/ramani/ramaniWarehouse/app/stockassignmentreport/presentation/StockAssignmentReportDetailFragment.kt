@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
@@ -148,6 +149,7 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
             val canvas = Canvas(bitmap)
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
+            bitmap.toFile(requireContext(), "assignment_report")
 
         }
 
