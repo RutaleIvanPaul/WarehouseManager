@@ -10,7 +10,8 @@ class ReturnItemsMapper:ModelMapper<AvailableProductItem,OfProducts> {
             from.productId,
             from.productName,
             from.quantity,
-            from.units
+            from.units,
+            from.supplierProductId
         )
 
     override fun mapTo(to: OfProducts): AvailableProductItem  =

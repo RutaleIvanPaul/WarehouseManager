@@ -4,15 +4,15 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "io.ramani.ramaniWarehouse",
+  "applicationId": "io.ramani.ramaniWarehouse.debug",
   "variantName": "debug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 65,
-      "versionName": "1.0.5",
+      "versionCode": 77,
+      "versionName": "1.1.1-debug",
       "outputFile": "app-debug.apk"
     }
   ],

@@ -45,6 +45,18 @@ open class PrefsManager(context: Context) : Prefs {
 //
 //        set(value) {}
 
+    override var accountType: String
+        get() = sharedPrefs.getString(PrefsConstants.PREF_ACCOUNT_TYPE, null) ?: ""
+        set(value) {
+            sharedPrefs.edit().putString(PrefsConstants.PREF_ACCOUNT_TYPE, value).apply()
+        }
+
+    override var timeZone: String
+        get() = sharedPrefs.getString(PrefsConstants.PREF_TIMEZONE, null) ?: ""
+        set(value) {
+            sharedPrefs.edit().putString(PrefsConstants.PREF_TIMEZONE, value).apply()
+        }
+
     override var invalidate_cache_company_products: Boolean
         get() = sharedPrefs.getBoolean(PrefsConstants.PREF_INVALIDATE_CACHE_COMPANY_PRODUCTS,false)
         set(value) {

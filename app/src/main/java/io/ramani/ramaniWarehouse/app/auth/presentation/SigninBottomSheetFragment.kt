@@ -18,11 +18,12 @@ import kotlinx.android.synthetic.main.fragment_signin_sheet.*
 import org.kodein.di.generic.factory
 
 class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
+    private val DEFAULT_COUNTRY_CODE = 255
     private val viewModelProvider: (Fragment) -> LoginViewModel by factory()
     private lateinit var viewModel: LoginViewModel
     override val baseViewModel: BaseViewModel?
         get() = viewModel
-
+    private var selectedCountryCode: Int = DEFAULT_COUNTRY_CODE
     private lateinit var flow: AuthFlow
 
     override fun onCreateView(
@@ -50,10 +51,10 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
     }
 
     private fun subscribeLoginResponse() {
-        viewModel.loginActionLiveData.observe(this, {
+        viewModel.loginActionLiveData.observe(this) {
             flow.openMainNav()
             dismiss()
-        })
+        }
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
@@ -85,7 +86,20 @@ class SigninBottomSheetFragment : BaseBottomSheetDialogFragment() {
             dismiss()
         }
         confirm_button.setOnSingleClickListener {
-            viewModel.login(phone_et.text.toString(), password_pwd_et.text.toString())
+            viewModel.login(
+                selectedCountryCode,
+                phone_et.text.toString(),
+                password_pwd_et.text.toString()
+            )
+        }
+
+        setupCountryFlagsAndCodes()
+    }
+
+    private fun setupCountryFlagsAndCodes() {
+        country_spinner.setCountryForPhoneCode(DEFAULT_COUNTRY_CODE)
+        country_spinner.setOnCountryChangeListener {
+            selectedCountryCode = country_spinner.selectedCountryCodeAsInt
         }
     }
 }
