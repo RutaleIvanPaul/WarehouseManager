@@ -72,23 +72,15 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         }
     }
 
-    override fun printBitmap(format: Format?, bitmap: Bitmap){
+    override fun printBitmap(bitmap: Bitmap){
         try {
             //CsPrinter.printBitmap(bitmap,0)
            // val is_ticket = context.resources.openRawResource(bitmap)
-              val newBitmap =  bitmap.processForPrinting()
-//            CsPrinter.printSetDarkness(0)
-//
-//            CsPrinter.printBitmap(newBitmap, 0)
+              val newBitmap =  bitmap.processForPrintingOnMobiWireDevice()
 
-//            val errorMessage = CsPrinter.getLastError()
-//
-//            Log.d("$TAG text error",errorMessage.toString())
-//
             var inputStreamToByte: ByteArray? = null
             try {
-               // inputStreamToByte = InputStreamToByte(bitmap)
-                //Convert bitmap to byte array
+
                 inputStreamToByte = newBitmap.toByteArray()
             } catch (e: IOException) {
                 e.printStackTrace()
@@ -96,16 +88,12 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             }
             if (!Build.MODEL.contains("MPE")) {
 
-               // val result = CsPrinter.printBitmap(inputStreamToByte, 0)
-               // val newBitmap =  CsPrinter.getResizedBitmap(bitmap, 400, 500)
                 CsPrinter.printSetDarkness(1)
 
                 CsPrinter.printBitmap(newBitmap, 0)
                 CsPrinter.printBitmap(inputStreamToByte, 0)
                 CsPrinter.printBitmap(inputStreamToByte, 0)
-                //CsPrinter.printBitmap(inputStreamToByte, 0)
-                //Log.e("print result bitmap", result.toString() + "")
-                //Toast.makeText(context, result.toString() + "", Toast.LENGTH_LONG).show()
+
             } else {
                // CsPrinter.printBitmapMPE(newBitmap.toByteArray(), 0)
                 Toast.makeText(context, "2", Toast.LENGTH_LONG).show()

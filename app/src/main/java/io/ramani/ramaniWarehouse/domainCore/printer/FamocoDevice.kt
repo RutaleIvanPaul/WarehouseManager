@@ -42,9 +42,6 @@ class FamocoDevice(val context: Context) : POSDevice {
 
     override fun printText(format: Format?, msg: String?) {
         try {
-            val format = Format()
-            format.setParameter(Format.FORMAT_FONT_SIZE, Format.FORMAT_FONT_SIZE_MEDIUM)
-            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
             device?.printText(format, msg)
             Log.d(TAG,"Print Text  succeed!")
         } catch (ex: DeviceException) {
@@ -53,12 +50,9 @@ class FamocoDevice(val context: Context) : POSDevice {
         }
     }
 
-    override fun printBitmap(format: Format?, bitmap: Bitmap){
+    override fun printBitmap( bitmap: Bitmap){
         try {
-            val format = Format()
-            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
-            format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
-            device?.printBitmap(format,bitmap)
+            device?.printBitmap(bitmap)
             Log.d(TAG,"Print Bitmap  succeed!")
         } catch (ex: DeviceException) {
             Log.d(TAG,"Print Bitmap Failed!")

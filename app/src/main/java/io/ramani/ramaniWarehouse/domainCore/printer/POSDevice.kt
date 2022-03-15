@@ -18,6 +18,6 @@ interface POSDevice {
 
     fun printText( format: Format? = null, msg: String?)
 
-    fun printBitmap(format: Format? = null, bitmap: Bitmap)
+    fun printBitmap(bitmap: Bitmap)
 
 }

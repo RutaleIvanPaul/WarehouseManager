@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
@@ -18,7 +19,9 @@ import io.ramani.ramaniWarehouse.app.stockassignmentreport.flow.StockAssignmentR
 import io.ramani.ramaniWarehouse.domain.datetime.formatTimeStampFromServerToCalendarFormat
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.ProductReceivedItemModel
 import io.ramani.ramaniWarehouse.domain.stockassignmentreport.model.StockAssignmentReportDistributorDateModel
+import kotlinx.android.synthetic.main.fragment_return_receipt.*
 import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.*
+import kotlinx.android.synthetic.main.fragment_stock_assignment_report_detail.scrollview
 import org.kodein.di.generic.factory
 
 class StockAssignmentReportDetailFragment : BaseFragment() {
@@ -147,9 +150,9 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
                     Bitmap.Config.ARGB_8888
                 )
             val canvas = Canvas(bitmap)
+            canvas.drawColor(Color.WHITE)
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
-            bitmap.toFile(requireContext(), "assignment_report")
 
         }
 
