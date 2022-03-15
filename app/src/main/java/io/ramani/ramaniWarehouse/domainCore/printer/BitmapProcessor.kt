@@ -8,7 +8,7 @@ fun Bitmap.processForPrinting(): Bitmap {
 }
 
 fun Bitmap.processForPrintingOnMobiWireDevice(): Bitmap {
-    return Bitmap.createScaledBitmap(this,384,this.height, false).trimBorders(Color.WHITE)
+    return Bitmap.createScaledBitmap(this,384,640, false).trimBorders(Color.WHITE)
 }
 
 fun Bitmap.trimBorders(color: Int): Bitmap {

@@ -150,7 +150,14 @@ class StockAssignmentReportDetailFragment : BaseFragment() {
                     Bitmap.Config.ARGB_8888
                 )
             val canvas = Canvas(bitmap)
-            canvas.drawColor(Color.WHITE)
+            val bgDrawable = scrollView.background
+
+            if (bgDrawable!=null){
+                bgDrawable.draw(canvas)
+            }
+            else{
+                canvas.drawColor(Color.WHITE)
+            }
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
 
