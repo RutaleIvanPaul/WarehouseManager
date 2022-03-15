@@ -19,5 +19,8 @@ data class AvailableProductItem(
     @SerializedName("secondaryUnits")
     val secondaryUnits: String = "",
     @SerializedName("units")
-    val units: String = ""
+    val units: String = "",
+    @SerializedName("supplierProductId")
+    val supplierProductId: String? = null
+
 )

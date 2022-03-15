@@ -40,7 +40,8 @@ class ProductRemoteMapper(
             from.supplierProductName ?: "",
             from.units ?: "",
             from.vat ?: "",
-            from.vatCategory ?: ""
+            from.vatCategory ?: "",
+            from.supplierProductId
         )
     }
 
@@ -71,7 +72,8 @@ class ProductRemoteMapper(
             to.supplierProductName,
             to.units,
             to.vat,
-            to.vatCategory
+            to.vatCategory,
+            supplierProductId = to.supplierProductId
         )
     }
 
