@@ -18,5 +18,6 @@ data class RemoteProductModel(
     val units: String? = "",
     val vat: String? = "",
     val vatCategory: String? = "",
-    val isAssigned: Boolean? = false
+    val isAssigned: Boolean? = false,
+    val supplierProductId: String? = null
 )
