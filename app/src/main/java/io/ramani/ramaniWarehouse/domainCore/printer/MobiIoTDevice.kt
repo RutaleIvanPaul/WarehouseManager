@@ -51,7 +51,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     override fun close() {
         try {
-            //CsPrinter.printEndLine()
+
         } catch (ex: DeviceException) {
             Log.d(TAG,"Close Printer Failed!")
             ex.printStackTrace()
