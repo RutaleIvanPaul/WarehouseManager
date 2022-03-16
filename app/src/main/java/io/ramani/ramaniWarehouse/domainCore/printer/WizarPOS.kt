@@ -70,6 +70,7 @@ class WizarPOS(var context: Context) : POSDevice{
             newFormat.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
             newFormat.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
             device?.printBitmap(newFormat,bitmap)
+            device?.printText(" \n \n")
             Log.d(TAG,"Print Bitmap  succeed!")
         } catch (ex: DeviceException) {
             Log.d(TAG,"Print Bitmap Failed!")

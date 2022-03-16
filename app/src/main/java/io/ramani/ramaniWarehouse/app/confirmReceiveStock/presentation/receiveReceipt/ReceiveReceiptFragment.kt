@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveRe
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
@@ -62,6 +63,14 @@ class ReceiveReceiptFragment : BaseFragment() {
                     Bitmap.Config.ARGB_8888
                 )
             val canvas = Canvas(bitmap)
+            val bgDrawable = scrollview.background
+
+            if (bgDrawable!=null){
+                bgDrawable.draw(canvas)
+            }
+            else{
+                canvas.drawColor(Color.WHITE)
+            }
             scrollview.draw(canvas)
             viewModel.printBitmap(bitmap)
         }

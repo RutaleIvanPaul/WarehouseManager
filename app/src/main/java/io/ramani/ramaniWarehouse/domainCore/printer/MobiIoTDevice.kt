@@ -91,7 +91,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
                 CsPrinter.printBitmap(newBitmap, 0)
                 CsPrinter.printBitmap(inputStreamToByte, 0)
-                CsPrinter.printBitmap(inputStreamToByte, 0)
+                CsPrinter.printEndLine()
                 CsPrinter.printEndLine()
 
             } else {
