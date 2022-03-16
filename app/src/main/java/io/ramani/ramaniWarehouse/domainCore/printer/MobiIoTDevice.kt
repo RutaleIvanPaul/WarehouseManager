@@ -76,7 +76,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         try {
             //CsPrinter.printBitmap(bitmap,0)
            // val is_ticket = context.resources.openRawResource(bitmap)
-              val newBitmap =  bitmap.processForPrintingOnMobiWireDevice()
+              val newBitmap =  bitmap.processForPrintingOnMobiWireDevice(bitmap.height)
 
             var inputStreamToByte: ByteArray? = null
             try {
