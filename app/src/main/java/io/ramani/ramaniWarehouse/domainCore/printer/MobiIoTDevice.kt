@@ -62,8 +62,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         try {
             CsPrinter.printText(msg)
             val errorMessage = CsPrinter.getLastError()
-
-
+            CsPrinter.printEndLine()
             Log.d("$TAG text error",errorMessage.toString())
 
         } catch (ex: DeviceException) {
@@ -93,6 +92,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
                 CsPrinter.printBitmap(newBitmap, 0)
                 CsPrinter.printBitmap(inputStreamToByte, 0)
                 CsPrinter.printBitmap(inputStreamToByte, 0)
+                CsPrinter.printEndLine()
 
             } else {
                // CsPrinter.printBitmapMPE(newBitmap.toByteArray(), 0)
