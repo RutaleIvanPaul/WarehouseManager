@@ -11,6 +11,7 @@ class UserRemoteMapper : ModelMapper<UserRemoteModel, UserModel> {
             .accountType(from.accountType)
             .companyId(from.companyId)
             .companyName(from.companyName)
+            .companyType(from.companyType)
             .currency(from.currency)
             .fcmToken(from.fcmToken)
             .hasSeenSFAOnboarding(from.hasSeenSFAOnboarding)
@@ -28,6 +29,7 @@ class UserRemoteMapper : ModelMapper<UserRemoteModel, UserModel> {
             to.accountType,
             to.companyId,
             to.companyName,
+            to.companyType,
             to.userName,
             to.phoneNumber,
             to.uuid,

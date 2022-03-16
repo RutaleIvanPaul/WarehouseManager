@@ -7,14 +7,40 @@ plugins {
     id 'com.google.firebase.crashlytics'
 }
 
+def getCurrentVariant() {
+    Gradle gradle = getGradle()
+    String tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+    println("tskReqStr: $tskReqStr")
+
+    if (tskReqStr.contains("assembleDebug"))
+        return "Debug"
+    else if (tskReqStr.contains("assembleStaging"))
+        return "Staging"
+    else if (tskReqStr.contains("assembleRelease"))
+        return "Release"
+    else if (tskReqStr.contains("assembleHotfix"))
+        return "Hotfix"
+    else {
+        println "NO MATCH FOUND"
+        return ""
+    }
+}
+
 android {
-    signingConfigs {
-//        staging {
-//            storeFile file('D:\\AmrWork\\projects\\ramani-warehouse\\keystore\\RamaniWarehouse')
-//            storePassword 'RamaniWarehouse'
-//            keyAlias 'RamaniWarehouse'
-//            keyPassword 'RamaniWarehouse'
-//        }
+    def versionPropsFile = file('version.properties')
+    def versionCodeNum
+    def versionNameStr
+    def enteredIncremental = false
+
+    if (versionPropsFile.canRead()) {
+        def versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        versionCodeNum = versionProps['VERSION_CODE'].toInteger()
+        versionNameStr = versionProps['VERSION_NAME']
+        println("Current version build -> $versionCodeNum")
+        println("Current version Code -> $versionNameStr")
+    } else {
+        throw new Exception('Couldn\'t read version.properties file')
     }
     def TRUE = "true"
     def FALSE = "false"
@@ -25,10 +51,10 @@ android {
 
     defaultConfig {
         applicationId "io.ramani.ramaniWarehouse"
-        minSdk 21
-        targetSdk 31
-        versionCode 65
-        versionName "1.0.5"
+        minSdk project.minSdkVersion
+        targetSdk project.targetSdkVersion
+        versionCode versionCodeNum
+        versionName versionNameStr
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
     }
@@ -43,34 +69,114 @@ android {
             signingConfig signingConfigs.debug
         }
 
+        hotfix {
+            buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, FALSE
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", 'BASE_URL', "\"https://ramani-app-server-production.herokuapp.com/\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            signingConfig signingConfigs.debug
+        }
+
         debug {
             minifyEnabled false
+            versionNameSuffix "-debug"
+            applicationIdSuffix ".debug"
             buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
             buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-dev.herokuapp.com/\""
-            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app_debug\""
         }
 
         staging {
+            versionNameSuffix "-staging"
+            applicationIdSuffix ".staging"
             buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-staging.herokuapp.com/\""
-            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app_staging\""
             buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
             signingConfig signingConfigs.debug
         }
     }
+
+    ext.autoIncrementBuildNumber = {
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            versionCodeNum = versionProps['VERSION_CODE'].toInteger() + 1
+            versionProps['VERSION_CODE'] = versionCodeNum.toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+            println("Version build incremented to $versionCodeNum")
+        } else {
+            throw new Exception('Couldn\'t read version.properties file')
+        }
+    }
+
+
+    ext.autoIncrementVersionBuildCode = {
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            versionNameStr = versionProps['VERSION_NAME']
+            def (firstPart, secondPart, thirdPart,fourthPart) = versionNameStr.tokenize('.')
+
+            if (getCurrentVariant() == 'Debug') {
+                fourthPart++
+            } else if (getCurrentVariant() == 'Staging') {
+                thirdPart++
+                fourthPart = 0
+            }else if (getCurrentVariant() == 'Hotfix') {
+                secondPart++
+                thirdPart = 0
+                fourthPart = 0
+            } else if (getCurrentVariant() == 'Release') {
+                firstPart++
+                secondPart = 0
+                thirdPart = 0
+                fourthPart = 0
+            }
+            versionNameStr = "$firstPart.$secondPart.$thirdPart.$fourthPart".toString()
+            versionProps['VERSION_NAME'] = versionNameStr
+            versionProps.store(versionPropsFile.newWriter(), null)
+            println("Version Code incremented to $versionNameStr")
+        } else {
+            throw new Exception('Couldn\'t read version.properties file')
+        }
+    }
+
+    gradle.taskGraph.whenReady { taskGraph ->
+        taskGraph.getAllTasks().forEach { task ->
+            if (task.name.matches('bundleProduction.*') ||
+                    task.name.matches('assembleRelease.*') ||
+                    task.name.matches('assembleStaging.*') ||
+                    task.name.matches('assembleHotfix.*') ||
+                    task.name.matches('assembleDebug.*')) {
+                if (!enteredIncremental) {
+                    enteredIncremental = true
+                    autoIncrementBuildNumber()
+                    autoIncrementVersionBuildCode()
+                }
+
+            }
+        }
+        enteredIncremental = false
+    }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
     buildFeatures {
         dataBinding true
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
 
 }
+
+androidExtensions {
+    experimental = true
+}
+
 
 dependencies {
 
@@ -158,6 +264,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx'
     implementation 'org.jetbrains:annotations:15.0'
     implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Jetbrains configurations
     def anko_version = '0.10.7'
@@ -185,4 +292,8 @@ dependencies {
 
     //Zebra Crossing ZXING
     implementation 'com.google.zxing:core:3.4.1'
+
+    // Country selection
+    implementation 'com.hbb20:ccp:1.7.1'
+
 }

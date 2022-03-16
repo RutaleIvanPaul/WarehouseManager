@@ -19,6 +19,8 @@
     <string name="salesperson">Salesperson</string>
     <string name="pickdate">Pick Date</string>
 
+    <string name="phone_number_hint">e.g 78733...</string>
+    
     <!-- Warehouse -->
     <string name="warehouse">Warehouse</string>
     <string name="ghala_brackets">(ghala)</string>
