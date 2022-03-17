@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.stockreport.presentation
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.Bundle
 import android.view.View
@@ -124,6 +125,14 @@ class StockReportDetailFragment : BaseFragment() {
                 Bitmap.Config.ARGB_8888
             )
             val canvas = Canvas(bitmap)
+            val bgDrawable = scrollView.background
+
+            if (bgDrawable!=null){
+                bgDrawable.draw(canvas)
+            }
+            else{
+                canvas.drawColor(Color.WHITE)
+            }
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
         }

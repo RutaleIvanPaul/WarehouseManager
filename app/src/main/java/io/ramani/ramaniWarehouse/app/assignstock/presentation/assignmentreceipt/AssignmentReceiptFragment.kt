@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.app.AssignedStock.presentation.assignmentrecei
 
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -63,6 +64,14 @@ class AssignmentReceiptFragment : BaseFragment() {
             val bitmap =
                 Bitmap.createBitmap(scrollView.width, scrollView.getChildAt(0).height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
+            val bgDrawable = scrollView.background
+
+            if (bgDrawable!=null){
+                bgDrawable.draw(canvas)
+            }
+            else{
+                canvas.drawColor(Color.WHITE)
+            }
             scrollView.draw(canvas)
             viewModel.printBitmap(bitmap)
         }

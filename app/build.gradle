@@ -202,6 +202,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation files('libs/MobiIotAPI.jar')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
 
@@ -286,7 +287,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // Famoco Printer
-    implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
+     implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
+
+
+    //Zebra Crossing ZXING
+    implementation 'com.google.zxing:core:3.4.1'
 
     // Country selection
     implementation 'com.hbb20:ccp:1.7.1'

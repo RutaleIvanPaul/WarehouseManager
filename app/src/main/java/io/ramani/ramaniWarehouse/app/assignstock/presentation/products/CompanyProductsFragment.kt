@@ -194,8 +194,6 @@ class CompanyProductsFragment : BaseFragment() {
                     } Assigned"
                 )
 
-
-
                 dialog.dismiss()
             }
         })

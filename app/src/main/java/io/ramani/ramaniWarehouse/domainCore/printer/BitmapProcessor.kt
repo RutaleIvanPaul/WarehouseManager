@@ -7,6 +7,10 @@ fun Bitmap.processForPrinting(): Bitmap {
     return Bitmap.createScaledBitmap(this,300,300, false).trimBorders(Color.WHITE)
 }
 
+fun Bitmap.processForPrintingOnMobiWireDevice(height: Int): Bitmap {
+    return Bitmap.createScaledBitmap(this,384,height, false).trimBorders(Color.WHITE)
+}
+
 fun Bitmap.trimBorders(color: Int): Bitmap {
     var startX = 0
     loop@ for (x in 0 until width) {
