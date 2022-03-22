@@ -29,7 +29,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
        // PrinterServiceUtil.bindService(context)
        // inter = PrinterServiceUtil.getPrinterService()
          //PrinterInterface()
-        MobiiotAPI(context)
+        //MobiiotAPI(context)
 
         return CsPrinter()
     }
@@ -87,7 +87,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             }
             if (!Build.MODEL.contains("MPE")) {
 
-                CsPrinter.printSetDarkness(1)
+                CsPrinter.printSetDarkness(2)
 
                 CsPrinter.printBitmap(newBitmap, 0)
                 CsPrinter.printBitmap(inputStreamToByte, 0)
