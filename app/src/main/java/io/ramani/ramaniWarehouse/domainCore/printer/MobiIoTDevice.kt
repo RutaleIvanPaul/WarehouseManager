@@ -26,21 +26,12 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
 
     override fun device(): Any {
-       // PrinterServiceUtil.bindService(context)
-       // inter = PrinterServiceUtil.getPrinterService()
-         //PrinterInterface()
-        //MobiiotAPI(context)
-
         return CsPrinter()
     }
 
 
     override fun open() {
         try {
-           // PrinterServiceUtil.bindService(context)
-//            PrinterServiceUtil.getPrinterService()
-//            PrinterServiceUtil.getPrintIntent()
-           // CsDevice.getDeviceInformation()
 
             Log.d(TAG,"Open Printer succeed!")
         } catch (ex: DeviceException) {
@@ -73,34 +64,22 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     override fun printBitmap(bitmap: Bitmap){
         try {
-            //CsPrinter.printBitmap(bitmap,0)
-           // val is_ticket = context.resources.openRawResource(bitmap)
+
               val newBitmap =  bitmap.processForPrintingOnMobiWireDevice(bitmap.height)
 
-//            var inputStreamToByte: ByteArray? = null
-//            try {
-//
-//                inputStreamToByte = newBitmap.toByteArray()
-//            } catch (e: IOException) {
-//                e.printStackTrace()
-//                CsPrinter.printBitmap(bitmap)
-//            }
             if (!Build.MODEL.contains("MPE")) {
 
                 CsPrinter.printSetDarkness(2)
 
                 CsPrinter.printBitmap(newBitmap, 0)
-               // CsPrinter.printBitmap(inputStreamToByte, 0)
                 CsPrinter.printEndLine()
                 CsPrinter.printEndLine()
 
             } else {
-               // CsPrinter.printBitmapMPE(newBitmap.toByteArray(), 0)
                 Toast.makeText(context, "2", Toast.LENGTH_LONG).show()
             }
 
         } catch (ex: DeviceException) {
-            Log.d(TAG,"Print Bitmap Failed!")
             ex.printStackTrace()
         }
     }
@@ -116,14 +95,6 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         Log.e("Build", Build.MODEL)
 
     }
-
-//    fun bitMapToInputStream(bitmap: Bitmap) :InputStream{
-//        val bos = ByteArrayOutputStream()
-//        R.attr.bitmap.compress(Bitmap.CompressFormat.PNG, 0 /*ignored for PNG*/, bos)
-//        val bitmapdata = bos.toByteArray()
-//        val bs = ByteArrayInputStream(bitmapdata)
-//    }
-
 
 
 }
