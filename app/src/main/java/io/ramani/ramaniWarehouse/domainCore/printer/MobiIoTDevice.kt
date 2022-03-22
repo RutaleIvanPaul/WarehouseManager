@@ -77,20 +77,20 @@ class MobiIoTDevice(val context: Context) : POSDevice {
            // val is_ticket = context.resources.openRawResource(bitmap)
               val newBitmap =  bitmap.processForPrintingOnMobiWireDevice(bitmap.height)
 
-            var inputStreamToByte: ByteArray? = null
-            try {
-
-                inputStreamToByte = newBitmap.toByteArray()
-            } catch (e: IOException) {
-                e.printStackTrace()
-                CsPrinter.printBitmap(bitmap)
-            }
+//            var inputStreamToByte: ByteArray? = null
+//            try {
+//
+//                inputStreamToByte = newBitmap.toByteArray()
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//                CsPrinter.printBitmap(bitmap)
+//            }
             if (!Build.MODEL.contains("MPE")) {
 
                 CsPrinter.printSetDarkness(2)
 
                 CsPrinter.printBitmap(newBitmap, 0)
-                CsPrinter.printBitmap(inputStreamToByte, 0)
+               // CsPrinter.printBitmap(inputStreamToByte, 0)
                 CsPrinter.printEndLine()
                 CsPrinter.printEndLine()
 
