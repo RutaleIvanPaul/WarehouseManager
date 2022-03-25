@@ -17,7 +17,7 @@ dist/
 *.log
 
 # Package files
-*.jar
+# *.jar
 
 # Maven
 target/
@@ -279,6 +279,8 @@ fabric.properties
 ### AndroidStudio Patch ###
 
 !/gradle/wrapper/gradle-wrapper.jar
+
+!/libs/MobilotAPI.jar
 
 
 
