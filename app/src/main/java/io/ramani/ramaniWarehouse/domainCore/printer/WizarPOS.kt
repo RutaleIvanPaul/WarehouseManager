@@ -24,6 +24,7 @@ class WizarPOS(var context: Context) : POSDevice{
 
     override fun open() {
         try {
+            initDevice()
             if(device is PrinterDevice) device?.open()
             else {
                 val printerDevice = POSTerminal.getInstance(context)
@@ -44,6 +45,7 @@ class WizarPOS(var context: Context) : POSDevice{
     override fun close() {
         try {
             device?.close()
+            device = null
             Log.d(TAG,"Close Printer succeed!")
         } catch (ex: DeviceException) {
             Log.d(TAG,"Close Printer Failed!")
@@ -78,7 +80,7 @@ class WizarPOS(var context: Context) : POSDevice{
         }
     }
 
-    init {
+    private fun initDevice(){
         if (device == null) {
             val printerDevice = POSTerminal.getInstance(context)
                 .getDevice("cloudpos.device.printer")
