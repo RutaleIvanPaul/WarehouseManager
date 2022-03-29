@@ -16,6 +16,7 @@ class PX400Printer(var context: Context) {
 
     fun open() {
         try {
+            initDevice()
             device?.open()
             Log.d(TAG,"Open Printer succeed!")
         } catch (ex: DeviceException) {
@@ -27,6 +28,7 @@ class PX400Printer(var context: Context) {
     fun close() {
         try {
             device?.close()
+            device = null
             Log.d(TAG,"Close Printer succeed!")
         } catch (ex: DeviceException) {
             Log.d(TAG,"Close Printer Failed!")
@@ -69,10 +71,14 @@ class PX400Printer(var context: Context) {
         }
     }
 
+   private fun initDevice(){
+       val name = Build.MANUFACTURER
+       if (device == null) {
+           device = getDevice(name)
+       }
+    }
+
     init {
-        val name = Build.MANUFACTURER
-        if (device == null) {
-            device = getDevice(name)
-        }
+
     }
 }
