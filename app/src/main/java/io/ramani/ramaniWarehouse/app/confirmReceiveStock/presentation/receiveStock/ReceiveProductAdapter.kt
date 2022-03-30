@@ -63,11 +63,12 @@ class ReceiveProductAdapter(
                 productStatus.text = context.getString(R.string.received)
                 productStatus.textColor =
                     ContextCompat.getColor(context, R.color.text_green)
+                setGone(R.id.status_received_iv, false)
             } else {
                 productStatus.text = context.getString(R.string.receive)
                 productStatus.textColor =
                     ContextCompat.getColor(context, R.color.secondary_blue)
-                setGone(R.id.status_received_iv, item.isReceived == false)
+                setGone(R.id.status_received_iv, true)
             }
             productStatus.setOnSingleClickListener {
                 if (item.isReceived == false) {
