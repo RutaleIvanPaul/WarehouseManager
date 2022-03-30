@@ -36,8 +36,15 @@ class WizarPOS(var context: Context) : POSDevice{
 
             Log.d(TAG,"Open Printer succeed!")
         } catch (ex: DeviceException) {
-            Log.d(TAG,"Open Printer Failed!")
-            ex.printStackTrace()
+            try {
+                device?.close()
+                device?.open()
+            }
+            catch (deviceException: DeviceException){
+                Log.d(TAG,"Open Printer Failed!")
+                deviceException.printStackTrace()
+            }
+
         }
     }
 
