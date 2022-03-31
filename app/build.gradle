@@ -57,6 +57,9 @@ android {
         versionName versionNameStr
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
+
+        ndk.abiFilters "armeabi-v7a", "x86", "armeabi", "mips", "arm64"
+
     }
 
     buildTypes {
@@ -203,6 +206,12 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
     implementation files('libs/MobiIotAPI.jar')
+
+
+    //nexgo sdk with its dependencies
+    implementation(name: 'nexgo-smartpos-sdk',ext: 'aar')
+    implementation files('libs/iso8583_V1.0.jar')
+    implementation files('libs/spdh_V1.6.jar')
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
 
