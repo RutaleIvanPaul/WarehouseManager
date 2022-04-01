@@ -6,14 +6,19 @@ import android.graphics.Bitmap
 import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import com.nexgo.oaf.apiv3.APIProxy
 
+import com.nexgo.oaf.apiv3.DeviceEngine
+
+import com.nexgo.oaf.apiv3.SdkResult
+
+import com.nexgo.oaf.apiv3.device.printer.AlignEnum
+
+import com.nexgo.oaf.apiv3.device.printer.Printer
 
 
 import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
-import android.R.attr.bitmap
-import java.io.ByteArrayInputStream
+
 
 
 class NexGoDevice(val context: Context) : POSDevice {

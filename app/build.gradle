@@ -209,9 +209,10 @@ dependencies {
 
 
     //nexgo sdk with its dependencies
-    implementation(name: 'nexgo-smartpos-sdk',ext: 'aar')
     implementation files('libs/iso8583_V1.0.jar')
     implementation files('libs/spdh_V1.6.jar')
+    implementation(name: 'nexgo-smartpos-sdk',ext: 'aar')
+
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
 
