@@ -78,7 +78,10 @@ class AssignStockFragment : BaseFragment() {
                     AssignStockViewModel.allowToGoNext.postValue(Pair(1, false))
                 }
                 else -> {
-                    assign_stock_host_next_button.text = getText(R.string.done)
+                    assign_stock_host_next_button.apply {
+                        text = getText(R.string.done)
+                        isEnabled = false
+                    }
                     viewModel.assignStock(requireContext())
                 }
             }
@@ -178,6 +181,10 @@ class AssignStockFragment : BaseFragment() {
             if (it) {
                 assign_stock_viewpager.currentItem = 0
             }
+        })
+
+        viewModel.onPostAssignedItemsLiveDataError.observe(this, {
+            if(it) assign_stock_host_next_button.isEnabled = true
         })
     }
 

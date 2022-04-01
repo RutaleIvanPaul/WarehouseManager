@@ -63,6 +63,7 @@ class AssignStockViewModel(
     var warehouseModel: WarehouseModel? = null
     val onItemsAssignedLiveData = MutableLiveData<Boolean>()
     val onItemsAssignedLiveDataError = MutableLiveData<String>()
+    val onPostAssignedItemsLiveDataError = MutableLiveData<Boolean>()//
 
     override fun start(args: Map<String, Any?>) {
         sessionManager.getCurrentWarehouse().subscribeBy {
@@ -119,6 +120,7 @@ class AssignStockViewModel(
                 )
                 onItemsAssignedLiveData.postValue(false)
                 onItemsAssignedLiveDataError.postValue(getString(R.string.an_error_has_occured_with_assignment))
+                onPostAssignedItemsLiveDataError.postValue(true)
 
             }
         )

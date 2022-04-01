@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model
 
+import com.google.gson.annotations.SerializedName
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.data.stockassignment.model.AllProducts
 import io.ramani.ramaniWarehouse.data.stockassignment.model.ProductCategory
@@ -30,4 +31,5 @@ data class ProductsUIModel(
     var assignedNumber: Int? = 0,
     var assignedResource: Int? = 0,
     var assignedResourceID: Int? = R.drawable.button_round_coral_green,
+    val supplierProductId: String? = null
 )

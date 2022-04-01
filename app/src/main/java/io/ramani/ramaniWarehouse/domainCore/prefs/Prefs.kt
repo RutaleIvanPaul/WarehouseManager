@@ -11,6 +11,8 @@ interface Prefs {
     val hasAccessToken: Boolean
     var refreshToken: String
     var currentWarehouse:String
+    var accountType: String
+    var timeZone: String
     var invalidate_cache_company_products:Boolean
     var invalidate_cache_available_products: Boolean
     var invalidate_cache_assignments_reports: Boolean

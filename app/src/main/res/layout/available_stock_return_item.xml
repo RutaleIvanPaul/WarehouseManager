@@ -19,6 +19,9 @@
         <TextView
             android:id="@+id/return_product_name"
             style="@style/NormalTextLabel"
+            android:layout_width="150dp"
+            android:breakStrategy="simple"
+            android:layout_margin="5dp"
             android:layout_marginStart="5dp"
             android:text="@string/return_stock" />
     </LinearLayout>

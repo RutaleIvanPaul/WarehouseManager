@@ -13,6 +13,8 @@ data class UserRemoteModel(
     val companyId: String = "",
     @SerializedName("companyName")
     val companyName: String = "",
+    @SerializedName("companyType")
+    val companyType: String = "",
     @SerializedName("userName")
     val userName: String = "",
     @SerializedName("phoneNumber")

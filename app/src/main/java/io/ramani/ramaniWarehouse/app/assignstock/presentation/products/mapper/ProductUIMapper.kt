@@ -3,10 +3,6 @@ package io.ramani.ramaniWarehouse.app.assignstock.presentation.products.mapper
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductCategoryUIModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.RewardUIModel
-import io.ramani.ramaniWarehouse.data.stockassignment.model.AllProducts
-import io.ramani.ramaniWarehouse.data.stockassignment.model.ProductCategory
-import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
-import io.ramani.ramaniWarehouse.data.stockassignment.model.Reward
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductCategoryEntity
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
@@ -45,7 +41,8 @@ class ProductUIMapper(
             from.supplierProductName,
             from.units,
             from.vat,
-            from.vatCategory
+            from.vatCategory,
+            supplierProductId= from.supplierProductId
         )
     }
 

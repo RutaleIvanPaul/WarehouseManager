@@ -60,6 +60,7 @@ class AssignStockSalesPersonViewModel(
             subscribeSingle(single,
                 onSuccess = {
                     isLoadingVisible = false
+                    salesPeopleList.clear()
                     salesPeopleList.addAll(
                         it.mapFromWith(salespersonRVMapper).toMutableList()
                     )
