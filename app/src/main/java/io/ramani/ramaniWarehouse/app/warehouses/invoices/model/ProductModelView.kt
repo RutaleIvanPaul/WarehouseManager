@@ -10,11 +10,11 @@ data class ProductModelView(
     var productName: String? = null,
     var price: Double? = null,
     var quantity: Double? = null,
-    var unit: String? = null,
-    var quantityAccepted: Double? = null,
-    var quantityDeclined: Double? = null,
+    var units: String? = null,
+    var qtyAccepted: Double? = null,
+    var qtyDeclined: Double? = null,
     var isReceived: Boolean? = null,
-    var declineReason: String? = null,
+    var declinedReason: String? = null,
     var temperature: String? = null,
     var viewType: Int = TYPE.PRODUCT
 ) : Parcelable, MultiItemEntity {
@@ -37,13 +37,13 @@ data class ProductModelView(
     fun copy(productModelView: ProductModelView?) {
         this.productId = productModelView?.productId
         this.productName = productModelView?.productName
-        this.quantityDeclined = productModelView?.quantityDeclined
-        this.unit = productModelView?.unit
+        this.qtyDeclined = productModelView?.qtyDeclined
+        this.units = productModelView?.units
         this.viewType = productModelView?.viewType ?: TYPE.PRODUCT
-        this.declineReason = productModelView?.declineReason
+        this.declinedReason = productModelView?.declinedReason
         this.isReceived = productModelView?.isReceived
         this.price = productModelView?.price
-        this.quantityAccepted = productModelView?.quantityAccepted
+        this.qtyAccepted = productModelView?.qtyAccepted
         this.temperature = productModelView?.temperature
 
     }
@@ -137,11 +137,11 @@ data class ProductModelView(
         parcel.writeString(productName)
         parcel.writeValue(price)
         parcel.writeValue(quantity)
-        parcel.writeString(unit)
-        parcel.writeValue(quantityAccepted)
-        parcel.writeValue(quantityDeclined)
+        parcel.writeString(units)
+        parcel.writeValue(qtyAccepted)
+        parcel.writeValue(qtyDeclined)
         parcel.writeValue(isReceived)
-        parcel.writeString(declineReason)
+        parcel.writeString(declinedReason)
         parcel.writeString(temperature)
     }
 
