@@ -54,8 +54,8 @@ class ConfirmedProductAdapter(
             productStatus.setTypeface(null, Typeface.NORMAL)
 
             productName.text = item.productName
-            productQty.text = "${item.quantityAccepted.toString()} ${item.unit}"
-            productStatus.text = "${item.quantityDeclined.toString()} ${item.unit}"
+            productQty.text = "${item.qtyAccepted.toString()} ${item.units}"
+            productStatus.text = "${item.qtyDeclined.toString()} ${item.units}"
             setGone(R.id.status_received_iv, true)
         }
     }

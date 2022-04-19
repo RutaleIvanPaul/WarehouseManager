@@ -48,10 +48,30 @@ class ReceiveStockFragment : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
         flow = ReceiveStockFlowController(baseActivity!!)
+
         setupRV()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        productsAdapter.setList(getProducts())
+    }
+
     private fun setupRV() {
+        val products = getProducts()
+        productsAdapter = ReceiveProductAdapter(products) {
+            flow.openConfirmProductSheet(it.productId ?: "") {
+                productsAdapter.notifyDataSetChanged()
+                RECEIVE_MODELS.refreshReceiveProductListLiveData.postValue(true)
+            }
+        }
+        products_rv.apply {
+            this.adapter = productsAdapter
+        }
+    }
+
+    private fun getProducts(): MutableList<ProductModelView> {
         val products = mutableListOf<ProductModelView>()
         products.add(
             ProductModelView.Builder()
@@ -64,15 +84,8 @@ class ReceiveStockFragment : BaseFragment() {
         products.addAll(
             RECEIVE_MODELS.invoiceModelView?.products?.toMutableList() ?: mutableListOf()
         )
-        productsAdapter = ReceiveProductAdapter(products) {
-            flow.openConfirmProductSheet(it.productId ?: "") {
-                productsAdapter.notifyDataSetChanged()
-                RECEIVE_MODELS.refreshReceiveProductListLiveData.postValue(true)
-            }
-        }
-        products_rv.apply {
-            this.adapter = productsAdapter
-        }
+
+        return products
     }
 
     private fun observeOnRefreshReceivingProductList() {

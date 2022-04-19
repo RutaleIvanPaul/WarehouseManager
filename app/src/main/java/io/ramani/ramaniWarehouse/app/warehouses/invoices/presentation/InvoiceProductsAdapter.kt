@@ -10,7 +10,7 @@ class InvoiceProductsAdapter(data: MutableList<ProductModelView>) :
     override fun convert(helper: BaseViewHolder, item: ProductModelView) {
         with(helper) {
             setText(R.id.invoice_product_tv, item.productName ?: "")
-            setText(R.id.invoice_product_qty_tv, "${item.quantity ?: ""} ${item.unit ?: ""}")
+            setText(R.id.invoice_product_qty_tv, "${item.quantity ?: ""} ${item.units ?: ""}")
         }
     }
 }
