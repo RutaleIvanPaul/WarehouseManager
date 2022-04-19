@@ -83,6 +83,9 @@ class ProductConfirmBottomSheetFragment(
         qty_incoming.text = "${selectedProduct?.quantity} ${selectedProduct?.units}"
         percent_delivered.text = calculatePercentage(selectedProduct)
         var lastKnownAcceptedText = ""
+
+        //[2022.4.19][Adrian] To improve user's convenience, I believe we have to validate values when clicking Receive button rather than realtime check
+        /*
         qty_accepted.doAfterTextChanged { text ->
             if (text.toString() != lastKnownAcceptedText) {
                 lastKnownAcceptedText = text.toString()
@@ -150,6 +153,7 @@ class ProductConfirmBottomSheetFragment(
                 }
             }
         }
+        */
 
         temp_et.doAfterTextChanged { text ->
             if (text.isNullOrBlank()) {
@@ -165,15 +169,16 @@ class ProductConfirmBottomSheetFragment(
                     selectedProduct?.declinedReason = textSelected
                 })
         }
+
         receive_btn.setOnSingleClickListener {
-            if (qty_accepted.error == null && qty_declined.error == null && viewModel.validateQty(
-                    selectedProduct?.quantity,
-                    qty_accepted.text.toString().toDouble(),
-                    qty_declined.text.toString().toDouble()
-                )
-            ) {
+            val qtyAccepted = qty_accepted.text.toString().toDouble()
+            val qtyDeclined = qty_declined.text.toString().toDouble()
+
+            if (viewModel.validateQty(selectedProduct?.quantity, qtyAccepted, qtyDeclined)) {
                 selectedProduct?.isReceived = true
                 selectedProduct?.temperature = temp_et.text.toString()
+                selectedProduct?.qtyAccepted = qtyAccepted
+                selectedProduct?.qtyDeclined = qtyDeclined
                 RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
                     ?.map {
                         it.copy(selectedProduct)
