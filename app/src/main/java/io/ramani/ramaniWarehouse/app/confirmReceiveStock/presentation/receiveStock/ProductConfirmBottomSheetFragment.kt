@@ -80,7 +80,7 @@ class ProductConfirmBottomSheetFragment(
         var selectedProduct =
             RECEIVE_MODELS.invoiceModelView?.products?.find { it.productId == productId }
         product_name.text = selectedProduct?.productName
-        qty_incoming.text = "${selectedProduct?.quantity} ${selectedProduct?.unit}"
+        qty_incoming.text = "${selectedProduct?.quantity} ${selectedProduct?.units}"
         percent_delivered.text = calculatePercentage(selectedProduct)
         var lastKnownAcceptedText = ""
         qty_accepted.doAfterTextChanged { text ->
@@ -94,7 +94,7 @@ class ProductConfirmBottomSheetFragment(
                                 qty_declined.text.toString().toDouble()
                             )
                         ) {
-                            selectedProduct?.quantityAccepted =
+                            selectedProduct?.qtyAccepted =
                                 qty_accepted.text.toString().toDouble()
                             qty_accepted.error = null
                             qty_declined.error = null
@@ -128,7 +128,7 @@ class ProductConfirmBottomSheetFragment(
                                 qty_accepted.text.toString().toDouble()
                             )
                         ) {
-                            selectedProduct?.quantityDeclined =
+                            selectedProduct?.qtyDeclined =
                                 qty_declined.text.toString().toDouble()
                             qty_declined.error = null
                             qty_accepted.error = null
@@ -162,7 +162,7 @@ class ProductConfirmBottomSheetFragment(
                 wrapWidth = true,
                 onItemClick = { _, textSelected, _ ->
                     decline_reason.text = textSelected
-                    selectedProduct?.declineReason = textSelected
+                    selectedProduct?.declinedReason = textSelected
                 })
         }
         receive_btn.setOnSingleClickListener {
@@ -192,8 +192,8 @@ class ProductConfirmBottomSheetFragment(
     }
 
     private fun calculatePercentage(selectedProduct: ProductModelView?): String? {
-        val accepted = (selectedProduct?.quantityAccepted ?: 0).toDouble()
-        val declined: Double = (selectedProduct?.quantityDeclined ?: 0).toDouble()
+        val accepted = (selectedProduct?.qtyAccepted ?: 0).toDouble()
+        val declined: Double = (selectedProduct?.qtyDeclined ?: 0).toDouble()
         val footer = accepted + declined
         if (footer != 0.0) {
             val percentage =
