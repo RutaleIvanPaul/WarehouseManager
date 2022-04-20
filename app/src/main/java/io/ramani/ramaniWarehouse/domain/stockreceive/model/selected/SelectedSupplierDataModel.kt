@@ -5,6 +5,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.app.common.io.toFile
+import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelPayLoad
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.SupplierModel
 import okhttp3.MediaType
 import okhttp3.RequestBody
@@ -40,7 +42,7 @@ class SelectedSupplierDataModel {
         val time = SimpleDateFormat("HH:mm:ss").format(confirmDate)
         val date = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(confirmDate)
 
-        val productsJson = Gson().toJson(products);
+        val productsJson = Gson().toJson(getProductsPayload());
 
         val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
             .addFormDataPart("invoiceId", "")
@@ -83,6 +85,16 @@ class SelectedSupplierDataModel {
         return RequestBody.create(MediaType.parse("application/octet-stream"), bos.toByteArray())
          */
         return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile(context))
+    }
+
+    private fun getProductsPayload(): List<ProductModelPayLoad> {
+        val productsPayload = mutableListOf<ProductModelPayLoad>()
+        products?.forEach {
+            var productPayload = ProductModelPayLoad.Builder().build()
+            productPayload.copy(it)
+            productsPayload.add(productPayload)
+        }
+        return productsPayload
     }
 
 }
