@@ -130,10 +130,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:minEms="10"
-            android:text="0"
             android:gravity="center"
             android:inputType="number"
+            android:minEms="10"
             android:textColor="@color/grey_separator"
             android:textStyle="bold" />
 
@@ -159,10 +158,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:minEms="10"
-            android:text="0"
             android:gravity="center"
+
             android:inputType="number"
+            android:minEms="10"
             android:textColor="@color/grey_separator"
             android:textStyle="bold" />
 
@@ -188,21 +187,21 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:minEms="10"
-            android:text="0"
             android:gravity="center"
+
             android:inputType="number"
+            android:minEms="10"
             android:textColor="@color/grey_separator"
             android:textStyle="bold" />
 
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/decline_reason_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/decline_reason_layout"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/_16sdp">
+        android:layout_marginTop="@dimen/_16sdp"
+        android:visibility="gone">
 
         <TextView
             android:layout_width="wrap_content"
@@ -219,22 +218,22 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:minEms="10"
             android:elevation="9dp"
+            android:minEms="10"
             android:textColor="@color/grey_separator"
             android:textStyle="bold" />
     </RelativeLayout>
 
     <TextView
         android:id="@+id/receive_btn"
-        android:background="@drawable/rounded_border_button_green"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_green"
         android:layout_marginTop="@dimen/_16sdp"
+        android:background="@drawable/rounded_border_button_green"
         android:paddingStart="@dimen/_16sdp"
-        android:paddingEnd="@dimen/_16sdp"
         android:paddingTop="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_16sdp"
         android:paddingBottom="@dimen/_8sdp"
-        android:text="@string/receive" />
+        android:text="@string/receive"
+        android:textColor="@color/text_green" />
 </LinearLayout>

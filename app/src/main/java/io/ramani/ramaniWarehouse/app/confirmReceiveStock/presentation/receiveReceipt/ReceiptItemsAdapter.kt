@@ -11,8 +11,8 @@ class ReceiptItemsAdapter(
     override fun convert(holder: BaseViewHolder, item: ProductModelView) {
         with(holder) {
             setText(R.id.product_name, item.productName)
-            setText(R.id.declined_tv, "${item.quantityDeclined} ${item.unit}")
-            setText(R.id.accepted_tv, "${item.quantityAccepted} ${item.unit}")
+            setText(R.id.declined_tv, "${item.qtyDeclined} ${item.units}")
+            setText(R.id.accepted_tv, "${item.qtyAccepted} ${item.units}")
         }
     }
 }

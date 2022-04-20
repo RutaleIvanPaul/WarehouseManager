@@ -2,64 +2,67 @@ package io.ramani.ramaniWarehouse.app.warehouses.invoices.model
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.chad.library.adapter.base.entity.MultiItemEntity
+import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
 import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
-data class ProductModelView(
+data class ProductModelPayLoad(
     var productId: String? = null,
     var productName: String? = null,
-    var price: Double? = null,
-    var quantity: Double? = null,
     var units: String? = null,
-    var qtyAccepted: Double? = null,
-    var qtyDeclined: Double? = null,
-    var isReceived: Boolean? = null,
+    var qtyAccepted: Int? = null,
+    var qtyDeclined: Int? = null,
     var declinedReason: String? = null,
-    var temperature: String? = null,
-    var viewType: Int = TYPE.PRODUCT
-) : Parcelable, MultiItemEntity {
+    var temperature: Int? = null,
+    var supplierProductId: String? = ""
+) : Parcelable {
 
 
     constructor(parcel: Parcel) : this(
         parcel.readString(),
         parcel.readString(),
-        parcel.readValue(Double::class.java.classLoader) as? Double,
-        parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.readString(),
-        parcel.readValue(Double::class.java.classLoader) as? Double,
-        parcel.readValue(Double::class.java.classLoader) as? Double,
-        parcel.readValue(Boolean::class.java.classLoader) as? Boolean,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
-        parcel.readString()
+        parcel.readValue(Int::class.java.classLoader) as? Int
     ) {
     }
 
     fun copy(productModelView: ProductModelView?) {
         this.productId = productModelView?.productId
         this.productName = productModelView?.productName
-        this.qtyDeclined = productModelView?.qtyDeclined
+        this.qtyDeclined = productModelView?.qtyDeclined?.toInt()
         this.units = productModelView?.units
-        this.viewType = productModelView?.viewType ?: TYPE.PRODUCT
         this.declinedReason = productModelView?.declinedReason
-        this.isReceived = productModelView?.isReceived
-        this.price = productModelView?.price
-        this.qtyAccepted = productModelView?.qtyAccepted
-        this.temperature = productModelView?.temperature
+        this.qtyAccepted = productModelView?.qtyAccepted?.toInt()
+        this.temperature = productModelView?.temperature?.toInt()
+        this.supplierProductId = ""
 
     }
 
-    class Builder : IBuilder<ProductModelView> {
+   fun copy(productModelView: SelectedProductModel?) {
+        this.productId = productModelView?.productId
+        this.productName = productModelView?.productName
+        this.qtyDeclined = productModelView?.qtyDeclined
+        this.units = productModelView?.units
+        this.declinedReason = productModelView?.declinedReason
+        this.qtyAccepted = productModelView?.qtyAccepted
+        this.temperature = productModelView?.temperature?.toInt()
+        this.supplierProductId = ""
+
+    }
+
+    class Builder : IBuilder<ProductModelPayLoad> {
         private var productId: String? = null
         private var productName: String? = null
         private var price: Double? = null
         private var quantity: Double? = null
         private var unit: String? = null
-        private var quantityAccepted: Double? = null
-        private var quantityDeclined: Double? = null
+        private var quantityAccepted: Int? = null
+        private var quantityDeclined: Int? = null
         private var isReceived: Boolean? = null
         private var declineReason: String? = null
-        private var temp: String? = null
-        private var viewType: Int = TYPE.PRODUCT
+        private var temp: Int? = null
 
         fun productId(productId: String?): Builder {
             this.productId = productId
@@ -86,12 +89,12 @@ data class ProductModelView(
             return this
         }
 
-        fun quantityAccepted(quantityAccepted: Double?): Builder {
+        fun quantityAccepted(quantityAccepted: Int?): Builder {
             this.quantityAccepted = quantityAccepted
             return this
         }
 
-        fun quantityDeclined(quantityDeclined: Double?): Builder {
+        fun quantityDeclined(quantityDeclined: Int?): Builder {
             this.quantityDeclined = quantityDeclined
             return this
         }
@@ -106,65 +109,45 @@ data class ProductModelView(
             return this
         }
 
-        fun temp(temp: String?): Builder {
+        fun temp(temp: Int?): Builder {
             this.temp = temp
             return this
         }
 
-        fun viewType(viewType: Int): Builder {
-            this.viewType = viewType
-            return this
-        }
-
-        override fun build(): ProductModelView =
-            ProductModelView(
+        override fun build(): ProductModelPayLoad =
+            ProductModelPayLoad(
                 productId,
                 productName,
-                price,
-                quantity,
                 unit,
                 quantityAccepted,
                 quantityDeclined,
-                isReceived,
                 declineReason,
-                temp,
-                viewType
+                temp
             )
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(productId)
         parcel.writeString(productName)
-        parcel.writeValue(price)
-        parcel.writeValue(quantity)
         parcel.writeString(units)
         parcel.writeValue(qtyAccepted)
         parcel.writeValue(qtyDeclined)
-        parcel.writeValue(isReceived)
         parcel.writeString(declinedReason)
-        parcel.writeString(temperature)
+        parcel.writeValue(temperature)
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<ProductModelView> {
-        override fun createFromParcel(parcel: Parcel): ProductModelView {
-            return ProductModelView(parcel)
+    companion object CREATOR : Parcelable.Creator<ProductModelPayLoad> {
+        override fun createFromParcel(parcel: Parcel): ProductModelPayLoad {
+            return ProductModelPayLoad(parcel)
         }
 
-        override fun newArray(size: Int): Array<ProductModelView?> {
+        override fun newArray(size: Int): Array<ProductModelPayLoad?> {
             return arrayOfNulls(size)
         }
     }
-
-    object TYPE {
-        const val LABEL = 0
-        const val PRODUCT = 1
-    }
-
-    override val itemType: Int
-        get() = viewType
 
 }
