@@ -24,6 +24,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 import android.widget.LinearLayout
+import androidx.core.widget.doAfterTextChanged
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
 import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL.Companion.DATA_PRODUCTS
@@ -99,7 +100,7 @@ class StockReceiveProductsFragment : BaseFragment() {
         product_add_parameter.setOnClickListener {
             addParametersLayout(ProductParameterModel("Temperature", ""))
         }
-        addParametersLayout(ProductParameterModel("Temperature", ""))
+        addParametersLayout(ProductParameterModel("Temperature", "0"))
 
         // Add action
         products_add_product_button.setOnClickListener {
@@ -227,6 +228,8 @@ class StockReceiveProductsFragment : BaseFragment() {
 
         val expireDate = products_expire_date.text.toString()
 
+        val temperature = if (parameters.size > 0) parameters[0].size.toInt() else 0
+
         val selectedProduct = availableProducts[products_product_spinner.selectedIndex]
         if (!needToUpdateProduct) {
             // Create one object
@@ -239,7 +242,8 @@ class StockReceiveProductsFragment : BaseFragment() {
                 declinedAmounts,
                 if (declinedAmounts > 0) products_why_declined_spinner.text.toString() else "",
                 unitPrice,
-                null,
+                temperature,
+                parameters,
                 expireDate
             )
             addedProducts.add(product)
@@ -342,6 +346,10 @@ class StockReceiveProductsFragment : BaseFragment() {
         val itemView = LinearLayout.inflate(requireContext(), R.layout.item_stock_receive_product_parameter, null)
         itemView.products_parameter_spinner.setItems(listItem)
         itemView.products_parameter_size.setText(parameter.size)
+        itemView.products_parameter_size.doAfterTextChanged { text ->
+            parameter.name = itemView.products_parameter_spinner.text.toString()
+            parameter.size = text.toString()
+        }
         itemView.products_parameter_delete.setOnSingleClickListener {
             products_parameter_container.removeView(itemView)
         }
