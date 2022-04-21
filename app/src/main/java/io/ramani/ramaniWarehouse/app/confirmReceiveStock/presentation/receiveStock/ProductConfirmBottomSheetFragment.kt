@@ -204,6 +204,9 @@ temp_et.doAfterTextChanged { text ->
                 selectedProduct?.temperature = temp_et.text.toString()
                 selectedProduct?.qtyAccepted = qtyAccepted
                 selectedProduct?.qtyDeclined = qtyDeclined
+                if (selectedProduct?.qtyDeclined != null && selectedProduct?.qtyDeclined!! > 0 && selectedProduct?.declinedReason?.isBlank() == true) { // didn't click on rejected reasons drop down. [AMR 21/4/2021]
+                    selectedProduct?.declinedReason = RECEIVE_MODELS.declineReasons.first()
+                }
                 RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
                     ?.map {
                         it.copy(selectedProduct)
