@@ -101,6 +101,8 @@ class ConfirmReceiveStockFragment : BaseFragment() {
     override fun initView(view: View?) {
         super.initView(view)
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
+        setupRV()
+        setupSignpad()
     }
 
     private fun setupSignpad() {
@@ -124,9 +126,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-
-        setupRV()
-        setupSignpad()
+        productsAdapter.notifyDataSetChanged()
     }
 
 

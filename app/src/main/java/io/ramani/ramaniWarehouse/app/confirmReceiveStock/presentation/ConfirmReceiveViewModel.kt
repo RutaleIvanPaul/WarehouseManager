@@ -13,6 +13,7 @@ import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelPayLoad
 import io.ramani.ramaniWarehouse.data.common.network.HeadersProvider
 import io.ramani.ramaniWarehouse.data.stockreceive.model.GoodsReceivedRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
@@ -86,7 +87,11 @@ class ConfirmReceiveViewModel(
     /**
      * Post Goods Received
      */
-    fun postGoodsReceived(context: Context,storeKeeperSignature: Bitmap?, deliveryPersonSignature: Bitmap?) {
+    fun postGoodsReceived(
+        context: Context,
+        storeKeeperSignature: Bitmap?,
+        deliveryPersonSignature: Bitmap?
+    ) {
         if (storeKeeperSignature == null) {
             notifyErrorObserver(
                 stringProvider.getString(R.string.missing_store_keeper_signature),
@@ -155,12 +160,14 @@ class ConfirmReceiveViewModel(
                 RECEIVE_MODELS.invoiceModelView?.serverCreatedAtDateTime
                     ?: "" /* "2021-10-19T23:00:00.000Z" */
             )
-            .addFormDataPart("items", Gson().toJson(RECEIVE_MODELS.invoiceModelView?.products))
+            .addFormDataPart(
+                "items", Gson().toJson(getProductsPayload())
+            )
         builder.addFormDataPart("storeKeeperName", RECEIVE_MODELS.invoiceModelView?.storeKeeperName)
         storeKeeperSignature?.let {
             builder.addFormDataPart(
                 "storeKeeperSignature", RECEIVE_MODELS.invoiceModelView?.storeKeeperName ?: "",
-                createImageFormData(storeKeeperSignature,context)
+                createImageFormData(storeKeeperSignature, context)
             )
         }
         builder.addFormDataPart(
@@ -171,14 +178,24 @@ class ConfirmReceiveViewModel(
             builder.addFormDataPart(
                 "deliveryPersonSignature",
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: "",
-                createImageFormData(deliveryPersonSignature,context)
+                createImageFormData(deliveryPersonSignature, context)
             )
         }
 
         return builder.build()
     }
 
-    private fun createImageFormData(bitmap: Bitmap,context: Context): RequestBody {
+    private fun getProductsPayload(): List<ProductModelPayLoad> {
+        val productsPayload = mutableListOf<ProductModelPayLoad>()
+        RECEIVE_MODELS.invoiceModelView?.products?.forEach {
+            var productPayload = ProductModelPayLoad.Builder().build()
+            productPayload.copy(it)
+            productsPayload.add(productPayload)
+        }
+        return productsPayload
+    }
+
+    private fun createImageFormData(bitmap: Bitmap, context: Context): RequestBody {
 //        val bos = ByteArrayOutputStream()
 //        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
         return RequestBody.create(MediaType.parse("image/jpg"), bitmap.toFile(context))
