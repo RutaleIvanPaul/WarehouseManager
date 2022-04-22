@@ -98,7 +98,7 @@ class StockReceiveProductsFragment : BaseFragment() {
 
         // Manage parameters
         product_add_parameter.setOnClickListener {
-            addParametersLayout(ProductParameterModel("Temperature", ""))
+            addParametersLayout(ProductParameterModel("Temperature", "0"))
         }
         addParametersLayout(ProductParameterModel("Temperature", "0"))
 
