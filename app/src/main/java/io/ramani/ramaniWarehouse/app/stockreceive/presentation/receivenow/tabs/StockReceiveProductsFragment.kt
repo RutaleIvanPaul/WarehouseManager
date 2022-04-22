@@ -228,7 +228,7 @@ class StockReceiveProductsFragment : BaseFragment() {
 
         val expireDate = products_expire_date.text.toString()
 
-        val temperature = if (parameters.size > 0) parameters[0].size.toInt() else 0
+        val temperature = if (parameters.size > 0) parameters[0].size.toIntOrNull() else 0
 
         val selectedProduct = availableProducts[products_product_spinner.selectedIndex]
         if (!needToUpdateProduct) {
@@ -242,7 +242,7 @@ class StockReceiveProductsFragment : BaseFragment() {
                 declinedAmounts,
                 if (declinedAmounts > 0) products_why_declined_spinner.text.toString() else "",
                 unitPrice,
-                temperature,
+                temperature ?: 0,
                 parameters,
                 expireDate
             )
