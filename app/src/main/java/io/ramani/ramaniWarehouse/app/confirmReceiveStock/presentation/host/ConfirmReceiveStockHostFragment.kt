@@ -13,6 +13,7 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setArgs
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -107,12 +108,12 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     override fun initView(view: View?) {
         super.initView(view)
-        stock_receive_now_host_back.setOnClickListener {
+        stock_receive_now_host_back.setOnSingleClickListener {
             onBackButtonPressed()
         }
         flow = ReceiveStockFlowController(baseActivity!!)
         initTabLayout()
-        stock_receive_now_host_next_button.setOnClickListener {
+        stock_receive_now_host_next_button.setOnSingleClickListener {
             when (stock_receive_now_host_viewpager.currentItem) {
                 0 -> {
                     stock_receive_now_host_viewpager.currentItem++
