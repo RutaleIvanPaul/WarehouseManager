@@ -98,7 +98,7 @@ class StockReceiveProductsFragment : BaseFragment() {
 
         // Manage parameters
         product_add_parameter.setOnClickListener {
-            addParametersLayout(ProductParameterModel("Temperature", ""))
+            addParametersLayout(ProductParameterModel("Temperature", "0"))
         }
         addParametersLayout(ProductParameterModel("Temperature", "0"))
 
@@ -228,7 +228,7 @@ class StockReceiveProductsFragment : BaseFragment() {
 
         val expireDate = products_expire_date.text.toString()
 
-        val temperature = if (parameters.size > 0) parameters[0].size.toInt() else 0
+        val temperature = if (parameters.size > 0) parameters[0].size.toIntOrNull() else 0
 
         val selectedProduct = availableProducts[products_product_spinner.selectedIndex]
         if (!needToUpdateProduct) {
@@ -242,7 +242,7 @@ class StockReceiveProductsFragment : BaseFragment() {
                 declinedAmounts,
                 if (declinedAmounts > 0) products_why_declined_spinner.text.toString() else "",
                 unitPrice,
-                temperature,
+                temperature ?: 0,
                 parameters,
                 expireDate
             )
