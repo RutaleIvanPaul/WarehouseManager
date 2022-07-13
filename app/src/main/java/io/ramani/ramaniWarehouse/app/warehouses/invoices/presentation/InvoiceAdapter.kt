@@ -27,11 +27,11 @@ class InvoiceAdapter(
                     item.distributorName ?: ""
                 )
             )
-            val productsAdapter =
-                InvoiceProductsAdapter(item.products?.toMutableList() ?: mutableListOf())
-            getView<RecyclerView>(R.id.products_rv).apply {
-                adapter = productsAdapter
-            }
+//            val productsAdapter =
+//                InvoiceProductsAdapter(item.products?.toMutableList() ?: mutableListOf())
+//            getView<RecyclerView>(R.id.products_rv).apply {
+//                adapter = productsAdapter
+//            }
 
             getView<TextView>(R.id.accept_btn).setOnSingleClickListener {
                 onConfirmClicked(item)

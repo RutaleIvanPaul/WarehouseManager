@@ -125,8 +125,11 @@
     <string name="order_from">Order from: {{warehouse}}</string>
     <string name="date">Date:</string>
     <string name="invoice">Invoice:</string>
+    <string name="delivery_status">Delivery Status:</string>
     <string name="accept_confirm"><![CDATA[Accept & Confirm]]></string>
+    <string name="receive_delivery">Receive Delivery</string>
     <string name="total_amount">Total Amount</string>
+    <string name="order_total">Order Total</string>
     <string name="no_data_available">No Data Available</string>
     <string name="missing_quantity">Cannot Confirm without entering quantity</string>
     <string name="proforma_invoice">Proforma Invoice</string>

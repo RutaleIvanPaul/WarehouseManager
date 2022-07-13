@@ -33,14 +33,18 @@ class ReceiveProductAdapter(
             val productName = getView<TextView>(R.id.product_name)
             val productQty = getView<TextView>(R.id.product_qty)
             val productStatus = getView<TextView>(R.id.product_status)
+            val productDeliveryStatus = getView<TextView>(R.id.product_delivery_status)
 
             productName.setTypeface(null, Typeface.BOLD)
             productQty.setTypeface(null, Typeface.BOLD)
             productStatus.setTypeface(null, Typeface.BOLD)
+            productDeliveryStatus.setTypeface(null, Typeface.BOLD)
 
-            productName.text = ""
+            productName.text = "Item Name"
             productQty.text = item.productName
             productStatus.text = item.temperature
+            //change to delivery status when api is ready
+            productDeliveryStatus.text = item.units
 
             setGone(R.id.status_received_iv, true)
             setGone(R.id.separator, true)
@@ -52,13 +56,17 @@ class ReceiveProductAdapter(
             val productName = getView<TextView>(R.id.product_name)
             val productQty = getView<TextView>(R.id.product_qty)
             val productStatus = getView<TextView>(R.id.product_status)
+            val productDeliveryStatus = getView<TextView>(R.id.product_delivery_status)
 
             productName.setTypeface(null, Typeface.NORMAL)
             productQty.setTypeface(null, Typeface.NORMAL)
             productStatus.setTypeface(null, Typeface.NORMAL)
+            productDeliveryStatus.setTypeface(null, Typeface.BOLD)
 
             productName.text = item.productName
             productQty.text = item.quantity.toString()
+            //change to delivery status when api is ready
+            productDeliveryStatus.text = item.units
             if (item.isReceived == true) {
                 productStatus.text = context.getString(R.string.received)
                 productStatus.textColor =
