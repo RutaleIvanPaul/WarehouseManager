@@ -67,7 +67,6 @@ class PX400Printer(var context: Context) {
             Manufacturer.wizarPOS.name -> return WizarPOS(context)
             Manufacturer.MobiIot.name -> return MobiIoTDevice(context)
             Manufacturer.MobiWire.name -> return MobiIoTDevice(context)
-            Manufacturer.sprd.name -> return NexGoDevice(context)
             else -> return null
         }
     }

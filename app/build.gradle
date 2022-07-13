@@ -294,11 +294,7 @@ dependencies {
 
     // Famoco Printer
      implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
-     implementation files('libs/nexgo-smartpos-sdk.aar')
 
-    //nexgo sdk with its dependencies
-    implementation files('libs/iso8583_V1.0.jar')
-    implementation files('libs/spdh_V1.6.jar')
 
 
     //Zebra Crossing ZXING
