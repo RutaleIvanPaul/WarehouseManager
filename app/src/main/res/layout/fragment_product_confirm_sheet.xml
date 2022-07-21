@@ -7,233 +7,232 @@
 
     <TextView
         android:id="@+id/product_name"
+        style="@style/BoldTextLabel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black_text"
-        android:textStyle="bold" />
+        android:textSize="@dimen/_14sdp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp">
+    <LinearLayout style="@style/ReceiveStockLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/incoming"
-            android:textColor="@color/grey_separator" />
+            style="@style/ReceiveStock.Text"
+            android:text="@string/incoming" />
 
         <TextView
             android:id="@+id/qty_incoming"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/grey_separator"
-            android:textStyle="bold" />
+            style="@style/ReceiveStock.Text.Value"
+            android:hint="729 Packets" />
+    </LinearLayout>
 
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp">
+    <LinearLayout style="@style/ReceiveStockLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/percent_delivered"
-            android:textColor="@color/grey_separator" />
+            style="@style/ReceiveStock.Text"
+            android:text="@string/percent_delivered" />
 
         <TextView
             android:id="@+id/percent_delivered"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/grey_separator"
-            android:textStyle="bold" />
+            style="@style/ReceiveStock.Text.Value"
+            android:hint="0%" />
+    </LinearLayout>
 
-    </RelativeLayout>
+    <LinearLayout style="@style/ReceiveStockLayout">
 
-    <RelativeLayout
+        <TextView
+            style="@style/ReceiveStock.Text"
+            android:text="@string/qty_delivered" />
+
+        <TextView
+            android:id="@+id/qty_delivered"
+            style="@style/ReceiveStock.Text.Value"
+            android:hint="0 PC" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ReceiveStockLayout">
+
+        <TextView
+            style="@style/ReceiveStock.Text"
+            android:text="@string/qty_returned" />
+
+        <TextView
+            android:id="@+id/qty_returned"
+            style="@style/ReceiveStock.Text.Value"
+            android:hint="0 PC" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/ReceiveStockLayout">
+
+        <TextView
+            style="@style/ReceiveStock.Text"
+            android:text="@string/qty_pending" />
+
+        <TextView
+            android:id="@+id/qty_pending"
+            style="@style/ReceiveStock.Text.Value"
+            android:hint="0 PC"
+            android:textColor="@color/pending" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/qty_pending_warning"
+        style="@style/SmallTextLabel"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp"
+        android:textColor="@color/gloss_red"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:visibility="gone"
+        android:textSize="@dimen/_8sdp"
+        android:gravity="end"
+        android:alpha="0.8"
+        android:text="@string/warning_invalid_delivery" />
+
+    <LinearLayout
+        style="@style/ReceiveStockLayout"
         android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/batch_no"
-            android:textColor="@color/grey_separator" />
+            style="@style/ReceiveStock.Text"
+            android:text="@string/batch_no" />
 
         <TextView
             android:id="@+id/batch_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/grey_separator"
-            android:textStyle="bold" />
+            style="@style/ReceiveStock.Text.Value"
+            android:hint="512-647" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_8sdp"
+    <LinearLayout
+        style="@style/ReceiveStockLayout"
         android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/expire_date"
-            android:textColor="@color/grey_separator" />
+            style="@style/ReceiveStock.Text"
+            android:text="@string/expire_date" />
 
         <TextView
             android:id="@+id/expire_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/grey_separator"
-            android:textStyle="bold" />
+            style="@style/ReceiveStock.Text.Value"
+            android:hint="24-08-2021" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp">
+    <LinearLayout
+        style="@style/ReceiveStockLayout"
+        android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/temp"
-            android:textColor="@color/grey_separator" />
+            style="@style/ReceiveStock.Text"
+            android:layout_weight="2"
+            android:text="@string/temp" />
 
         <EditText
             android:id="@+id/temp_et"
             style="@style/CustomSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_weight="1"
             android:gravity="center"
             android:inputType="number"
             android:minEms="10"
             android:textColor="@color/grey_separator"
             android:textStyle="bold" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp">
+    <LinearLayout style="@style/ReceiveStockLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/qty_accepted"
-            android:textColor="@color/grey_separator" />
+            style="@style/ReceiveStock.Text"
+            android:layout_weight="2"
+            android:text="@string/qty_accepted" />
 
         <EditText
-            android:id="@+id/qty_accepted"
+            android:id="@+id/et_accepted"
             style="@style/CustomSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_weight="1"
             android:gravity="center"
-
             android:inputType="number"
             android:minEms="10"
             android:textColor="@color/grey_separator"
             android:textStyle="bold" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp">
+    <LinearLayout style="@style/ReceiveStockLayout">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/qty_declined"
-            android:textColor="@color/grey_separator" />
+            style="@style/ReceiveStock.Text"
+            android:layout_weight="2"
+            android:text="@string/qty_returned" />
 
         <EditText
-            android:id="@+id/qty_declined"
+            android:id="@+id/et_returned"
             style="@style/CustomSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_weight="1"
             android:gravity="center"
-
             android:inputType="number"
             android:minEms="10"
             android:textColor="@color/grey_separator"
             android:textStyle="bold" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/decline_reason_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
+        style="@style/ReceiveStockLayout"
         android:visibility="gone">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:text="@string/decline_reason"
-            android:textColor="@color/grey_separator" />
+            style="@style/ReceiveStock.Text"
+            android:layout_weight="2"
+            android:text="@string/decline_reason" />
 
         <TextView
             android:id="@+id/decline_reason"
             style="@style/CustomSpinner"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
+            android:layout_weight="1"
             android:elevation="9dp"
             android:minEms="10"
             android:textColor="@color/grey_separator"
             android:textStyle="bold" />
-    </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout style="@style/ReceiveStockLayout">
+
+        <TextView
+            style="@style/ReceiveStock.Text"
+            android:layout_weight="2"
+            android:text="@string/qty_pending"
+            android:textColor="@color/pending" />
+
+        <TextView
+            android:id="@+id/et_pending"
+            style="@style/CustomSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@color/pending"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/receive_btn"
-        android:layout_width="wrap_content"
+        style="@style/BoldTextLabel"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:background="@drawable/rounded_border_button_green"
-        android:paddingStart="@dimen/_16sdp"
-        android:paddingTop="@dimen/_8sdp"
-        android:paddingEnd="@dimen/_16sdp"
-        android:paddingBottom="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_35sdp"
+        android:background="@drawable/rounded_green_button_status"
+        android:enabled="false"
+        android:gravity="center"
+        android:paddingTop="@dimen/_10sdp"
+        android:paddingBottom="@dimen/_10sdp"
         android:text="@string/receive"
-        android:textColor="@color/text_green" />
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12sdp" />
 </LinearLayout>

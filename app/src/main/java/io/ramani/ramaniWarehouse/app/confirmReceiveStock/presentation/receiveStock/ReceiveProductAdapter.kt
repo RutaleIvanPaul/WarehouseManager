@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveStock
 
-import android.graphics.Typeface
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
@@ -16,38 +17,13 @@ class ReceiveProductAdapter(
 ) :
     BaseMultiItemQuickAdapter<ProductModelView, BaseViewHolder>(data) {
     init {
-        addItemType(ProductModelView.TYPE.LABEL, R.layout.item_stock_confirm_receive_product)
+        addItemType(ProductModelView.TYPE.LABEL, R.layout.item_stock_confirm_receive_label)
         addItemType(ProductModelView.TYPE.PRODUCT, R.layout.item_stock_confirm_receive_product)
     }
 
     override fun convert(helper: BaseViewHolder, item: ProductModelView) {
-        if (item.viewType == ProductModelView.TYPE.LABEL) {
-            convertLabel(helper, item)
-        } else {
+        if (item.viewType == ProductModelView.TYPE.PRODUCT) {
             convertProduct(helper, item)
-        }
-    }
-
-    private fun convertLabel(helper: BaseViewHolder, item: ProductModelView) {
-        with(helper) {
-            val productName = getView<TextView>(R.id.product_name)
-            val productQty = getView<TextView>(R.id.product_qty)
-            val productStatus = getView<TextView>(R.id.product_status)
-            val productDeliveryStatus = getView<TextView>(R.id.product_delivery_status)
-
-            productName.setTypeface(null, Typeface.BOLD)
-            productQty.setTypeface(null, Typeface.BOLD)
-            productStatus.setTypeface(null, Typeface.BOLD)
-            productDeliveryStatus.setTypeface(null, Typeface.BOLD)
-
-            productName.text = "Item Name"
-            productQty.text = item.productName
-            productStatus.text = item.temperature
-            //change to delivery status when api is ready
-            productDeliveryStatus.text = item.units
-
-            setGone(R.id.status_received_iv, true)
-            setGone(R.id.separator, true)
         }
     }
 
@@ -55,30 +31,36 @@ class ReceiveProductAdapter(
         with(helper) {
             val productName = getView<TextView>(R.id.product_name)
             val productQty = getView<TextView>(R.id.product_qty)
-            val productStatus = getView<TextView>(R.id.product_status)
             val productDeliveryStatus = getView<TextView>(R.id.product_delivery_status)
-
-            productName.setTypeface(null, Typeface.NORMAL)
-            productQty.setTypeface(null, Typeface.NORMAL)
-            productStatus.setTypeface(null, Typeface.NORMAL)
-            productDeliveryStatus.setTypeface(null, Typeface.BOLD)
+            val receivedStatusTv = getView<TextView>(R.id.received_status_tv)
+            val receivedStatusIv = getView<ImageView>(R.id.received_status_iv)
 
             productName.text = item.productName
-            productQty.text = item.quantity.toString()
-            //change to delivery status when api is ready
-            productDeliveryStatus.text = item.units
-            if (item.isReceived == true) {
-                productStatus.text = context.getString(R.string.received)
-                productStatus.textColor =
-                    ContextCompat.getColor(context, R.color.text_green)
-                setGone(R.id.status_received_iv, false)
-            } else {
-                productStatus.text = context.getString(R.string.receive)
-                productStatus.textColor =
-                    ContextCompat.getColor(context, R.color.secondary_blue)
-                setGone(R.id.status_received_iv, true)
+            productQty.text = String.format("%.0f", item.qtyPending)
+            productDeliveryStatus.text = item.status
+
+            item.status.let {
+                var colorId: Int = R.color.transparent
+                when (it) {
+                    "In Progress" -> colorId = R.color.status_in_progress
+                    "Complete" -> colorId = R.color.ramani_green
+                    else -> colorId = R.color.status_pending
+                }
+
+                getView<ImageView>(R.id.product_delivery_status_iv).backgroundTintList = ContextCompat.getColorStateList(context, colorId)
             }
-            productStatus.setOnSingleClickListener {
+
+            if (item.isReceived == true) {
+                receivedStatusTv.text = context.getString(R.string.received)
+                receivedStatusTv.textColor = ContextCompat.getColor(context, R.color.ramani_green)
+                receivedStatusIv.visibility = View.VISIBLE
+            } else {
+                receivedStatusTv.text = context.getString(R.string.receive)
+                receivedStatusTv.textColor = ContextCompat.getColor(context, R.color.secondary_blue)
+                receivedStatusIv.visibility = View.GONE
+            }
+
+            getView<View>(R.id.product_receive_layout).setOnSingleClickListener {
                 if (item.isReceived == false) {
                     onReceiveClicked(item)
                 }

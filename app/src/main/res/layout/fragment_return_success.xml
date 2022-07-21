@@ -1,43 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/print_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:id="@+id/print_layout"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".app.returnstock.presentation.confirm.ReturnSuccessFragment">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/imageViewSuccessCheckMark"
         style="@style/CheckMarksSuccess"
-        android:layout_marginTop="236dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@color/light_green" />
+        app:tint="@color/ramani_green" />
 
     <TextView
-        android:id="@+id/textView"
         style="@style/BoldTextLabel"
-        android:layout_marginTop="42dp"
-        android:text="@string/receive_success"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewSuccessCheckMark" />
+        android:layout_marginTop="@dimen/_16sdp"
+        android:text="@string/delivery_received"
+        android:textSize="@dimen/_12sdp" />
+
+    <TextView
+        style="@style/NormalTextLabel"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:gravity="center"
+        android:text="@string/delivery_received_hint"
+        android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/return_stock_view_receipt"
         style="@style/GreenFillActionButton"
-        android:layout_width="129dp"
-        android:layout_height="43dp"
-        android:layout_marginTop="42dp"
-        android:text="@string/view_receipt"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:height="25dp"
+        android:paddingStart="@dimen/_17sdp"
+        android:paddingEnd="@dimen/_17sdp"
+        android:text="@string/print_receipt" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

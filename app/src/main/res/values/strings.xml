@@ -155,13 +155,17 @@
     <string name="returned">Returned</string>
     <string name="assigned_label">Assigned</string>
     <string name="view_receipt">View Receipt</string>
+    <string name="print_receipt">Print Receipt</string>
     <string name="no_assigned_products">Salesperson appears to have no assigned stock. Please go back and assign or choose a different salesperson</string>
     <string name="qty">qty</string>
     <string name="status">status</string>
     <string name="receive">Receive</string>
     <string name="received">Received</string>
     <string name="incoming">Incoming</string>
-    <string name="percent_delivered">Percent delievered</string>
+    <string name="percent_delivered">Percent Delivered</string>
+    <string name="qty_delivered">Qty Delivered</string>
+    <string name="qty_returned">Qty Returned</string>
+    <string name="qty_pending">Qty Pending</string>
     <string name="batch_no">Batch No.</string>
     <string name="qty_accepted">Qty Accepted</string>
     <string name="qty_declined">Qty Declined</string>
@@ -169,8 +173,9 @@
     <string name="qty_validation">Accepted added to declined quantity should equal to {{product_qty}}</string>
     <string name="missing_store_keeper_signature">Missing store keeper signature</string>
     <string name="missing_delivery_person_signature">Missing delivery person signature</string>
-    <string name="temp">Temprature</string>
-    <string name="receive_success">Receive success</string>
+    <string name="temp">Temperature</string>
+    <string name="delivery_received">Delivery Received</string>
+    <string name="delivery_received_hint">Your delivery of goods has been\nsuccessfully received. Click the button\nbelow to print your receipt.</string>
     <string name="assign_success">Assignment Successful</string>
     <string name="no_printer">Could not Find Printer Connected to device.</string>
     <string name="printer_opened">Printer Opened</string>
@@ -187,4 +192,12 @@
     <string name="an_error_has_occured_with_assignment">Please ensure to select date stock was taken</string>
     <string name="assignment_date">Assignment Date</string>
     <string name="return_date">Return Date</string>
+
+    <string name="delivery_status_1">Delivery Status</string>
+    <string name="warning_invalid_delivery">The sum of accepted and returned can never be greater than\nthe current Qty Pending</string>
+
+    <string name="qty_accepted_1">Qty\nAccepted</string>
+    <string name="qty_returned_1">Qty\nReturned</string>
+    <string name="qty_pending_1">Qty\nPending</string>
+
 </resources>

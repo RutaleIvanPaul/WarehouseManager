@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.confirmStock
 
+import android.annotation.SuppressLint
 import android.graphics.Typeface
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
@@ -12,8 +13,8 @@ class ConfirmedProductAdapter(
 ) :
     BaseMultiItemQuickAdapter<ProductModelView, BaseViewHolder>(data) {
     init {
-        addItemType(ProductModelView.TYPE.LABEL, R.layout.item_stock_confirm_receive_product)
-        addItemType(ProductModelView.TYPE.PRODUCT, R.layout.item_stock_confirm_receive_product)
+        addItemType(ProductModelView.TYPE.LABEL, R.layout.item_stock_receive_confirm)
+        addItemType(ProductModelView.TYPE.PRODUCT, R.layout.item_stock_receive_confirm)
     }
 
     override fun convert(helper: BaseViewHolder, item: ProductModelView) {
@@ -24,21 +25,24 @@ class ConfirmedProductAdapter(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun convertLabel(helper: BaseViewHolder, item: ProductModelView) {
         with(helper) {
             val productName = getView<TextView>(R.id.product_name)
-            val productQty = getView<TextView>(R.id.product_qty)
-            val productStatus = getView<TextView>(R.id.product_status)
+            val qtyAccepted = getView<TextView>(R.id.qty_accepted)
+            val qtyReturned = getView<TextView>(R.id.qty_returned)
+            val qtyPending = getView<TextView>(R.id.qty_pending)
 
             productName.setTypeface(null, Typeface.BOLD)
-            productQty.setTypeface(null, Typeface.BOLD)
-            productStatus.setTypeface(null, Typeface.BOLD)
+            qtyAccepted.setTypeface(null, Typeface.BOLD)
+            qtyReturned.setTypeface(null, Typeface.BOLD)
+            qtyPending.setTypeface(null, Typeface.BOLD)
 
-            productName.text = ""
-            productQty.text = item.productName
-            productStatus.text = item.temperature
+            productName.text = "Item name"
+            qtyAccepted.text = "Qty\nAccepted"
+            qtyReturned.text = "Qty\nReturned"
+            qtyPending.text = "Qty\nPending"
 
-            setGone(R.id.status_received_iv, true)
             setGone(R.id.separator, true)
         }
     }
@@ -46,17 +50,20 @@ class ConfirmedProductAdapter(
     private fun convertProduct(helper: BaseViewHolder, item: ProductModelView) {
         with(helper) {
             val productName = getView<TextView>(R.id.product_name)
-            val productQty = getView<TextView>(R.id.product_qty)
-            val productStatus = getView<TextView>(R.id.product_status)
+            val qtyAccepted = getView<TextView>(R.id.qty_accepted)
+            val qtyReturned = getView<TextView>(R.id.qty_returned)
+            val qtyPending = getView<TextView>(R.id.qty_pending)
 
             productName.setTypeface(null, Typeface.NORMAL)
-            productQty.setTypeface(null, Typeface.NORMAL)
-            productStatus.setTypeface(null, Typeface.NORMAL)
+            qtyAccepted.setTypeface(null, Typeface.NORMAL)
+            qtyReturned.setTypeface(null, Typeface.NORMAL)
+            qtyPending.setTypeface(null, Typeface.NORMAL)
 
+            val pending = item.qtyPending!! - (item.qtyAccepted!! + item.qtyDeclined!!)
             productName.text = item.productName
-            productQty.text = "${item.qtyAccepted.toString()} ${item.units}"
-            productStatus.text = "${item.qtyDeclined.toString()} ${item.units}"
-            setGone(R.id.status_received_iv, true)
+            qtyAccepted.text = String.format("%.0f %s", item.qtyAccepted, item.units)
+            qtyReturned.text = String.format("%.0f %s", item.qtyDeclined, item.units)
+            qtyPending.text = String.format("%.0f %s", pending, item.units)
         }
     }
 }

@@ -1,5 +1,6 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveStock
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.language.replacePlaceHo
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
 import kotlinx.android.synthetic.main.fragment_product_confirm_sheet.*
 import kotlinx.android.synthetic.main.fragment_signin_sheet.*
 import org.kodein.di.generic.factory
@@ -159,22 +161,12 @@ temp_et.doAfterTextChanged { text ->
         temp_et.setText("0")
     }
 }*/
-        qty_accepted.doAfterTextChanged { text ->
-            percent_delivered.text = calculatePercentage(
-                if (!qty_accepted.text.isNullOrBlank()) qty_accepted.text.toString()
-                    .toDouble() else 0.0,
-                if (!qty_declined.text.isNullOrBlank()) qty_declined.text.toString()
-                    .toDouble() else 0.0
-            )
+        et_accepted.doAfterTextChanged { text ->
+            validateAndUpdate(selectedProduct!!)
         }
-        qty_declined.doAfterTextChanged { text ->
+        et_returned.doAfterTextChanged { text ->
             decline_reason_layout.visible(!text.isNullOrBlank() && text.toString().toDouble() > 0)
-            percent_delivered.text = calculatePercentage(
-                if (!qty_accepted.text.isNullOrBlank()) qty_accepted.text.toString()
-                    .toDouble() else 0.0,
-                if (!qty_declined.text.isNullOrBlank()) qty_declined.text.toString()
-                    .toDouble() else 0.0
-            )
+            validateAndUpdate(selectedProduct!!)
         }
         decline_reason.text = RECEIVE_MODELS.declineReasons.firstOrNull() ?: ""
         decline_reason.setOnClickListener {
@@ -187,32 +179,43 @@ temp_et.doAfterTextChanged { text ->
         }
 
         receive_btn.setOnSingleClickListener {
-            if (qty_accepted.text.isNullOrBlank()) {
-                qty_accepted.setText("0")
+            if (et_accepted.text.isNullOrBlank()) {
+                et_accepted.setText("0")
             }
-            if (qty_declined.text.isNullOrBlank()) {
-                qty_declined.setText("0")
+            if (et_returned.text.isNullOrBlank()) {
+                et_returned.setText("0")
             }
             if (temp_et.text.isNullOrBlank()) {
                 temp_et.setText("0")
             }
-            val qtyAccepted = qty_accepted.text.toString().toDouble()
-            val qtyDeclined = qty_declined.text.toString().toDouble()
+            val qtyAccepted = et_accepted.text.toString().toDouble()
+            val qtyDeclined = et_returned.text.toString().toDouble()
 
-            if (viewModel.validateQty(selectedProduct?.quantity, qtyAccepted, qtyDeclined)) {
-                selectedProduct?.isReceived = true
-                selectedProduct?.temperature = temp_et.text.toString()
-                selectedProduct?.qtyAccepted = qtyAccepted
-                selectedProduct?.qtyDeclined = qtyDeclined
-                if (selectedProduct?.qtyDeclined != null && selectedProduct?.qtyDeclined!! > 0 && selectedProduct?.declinedReason?.isBlank() == true) { // didn't click on rejected reasons drop down. [AMR 21/4/2021]
-                    selectedProduct?.declinedReason = RECEIVE_MODELS.declineReasons.first()
+            var qtyPending = 0.0
+            selectedProduct?.qtyPending?.let {
+                qtyPending = it - (qtyAccepted + qtyDeclined)
+                if (qtyPending < 0)
+                    qtyPending = 0.0
+            }
+
+            selectedProduct?.isReceived = true
+            selectedProduct?.temperature = temp_et.text.toString()
+            selectedProduct?.qtyAccepted = qtyAccepted
+            selectedProduct?.qtyDeclined = qtyDeclined
+            selectedProduct?.qtyPending = qtyPending
+
+            if (selectedProduct?.qtyDeclined != null && selectedProduct?.qtyDeclined!! > 0 && selectedProduct?.declinedReason?.isBlank() == true) { // didn't click on rejected reasons drop down. [AMR 21/4/2021]
+                selectedProduct.declinedReason = RECEIVE_MODELS.declineReasons.first()
+            }
+            RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
+                ?.map {
+                    it.copy(selectedProduct)
                 }
-                RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
-                    ?.map {
-                        it.copy(selectedProduct)
-                    }
-                onReceiveClicked(selectedProduct?.productId ?: "")
-                dismiss()
+            onReceiveClicked(selectedProduct?.productId ?: "")
+            dismiss()
+
+            /*
+            if (viewModel.validateQty(selectedProduct?.quantity, qtyAccepted, qtyDeclined)) {
             } else {
                 Toast.makeText(
                     requireContext(), getString(R.string.qty_validation).replacePlaceHolderWithText(
@@ -221,16 +224,39 @@ temp_et.doAfterTextChanged { text ->
                     ), Toast.LENGTH_SHORT
                 ).show()
             }
+            */
         }
+
+        validateAndUpdate(selectedProduct!!)
     }
 
-    private fun calculatePercentage(qtyAccepted: Double, qtyDeclined: Double): String? {
-        val footer = qtyAccepted + qtyDeclined
-        if (footer != 0.0) {
-            val percentage =
-                qtyAccepted / footer * 100
-            return "$percentage %"
+    @SuppressLint("SetTextI18n")
+    private fun validateAndUpdate(product: ProductModelView) {
+        val qtyAccepted = if (!et_accepted.text.isNullOrBlank()) et_accepted.text.toString().toDouble() else 0.0
+        val qtyDeclined = if (!et_returned.text.isNullOrBlank()) et_returned.text.toString().toDouble() else 0.0
+        val qtyPending = product.qtyPending!! - (qtyAccepted + qtyDeclined)
+
+        qty_delivered.text = String.format("%.0f %s", qtyAccepted, product.units)
+        qty_returned.text = String.format("%.0f %s", qtyDeclined, product.units)
+        qty_pending.text = String.format("%.0f %s", qtyPending, product.units)
+        et_pending.text = String.format("%.0f", qtyPending)
+        qty_pending_warning.visibility = if (qtyPending < 0) View.VISIBLE else View.GONE
+
+        percent_delivered.text = String.format("%.1f%%", calculatePercentage(qtyAccepted, qtyDeclined, product.qtyPending!!))
+
+        var canBeEnabled = qtyPending >= 0 && !et_accepted.text.isNullOrBlank() && !et_returned.text.isNullOrBlank()
+        if (!et_returned.text.isNullOrBlank()) {
+            canBeEnabled = canBeEnabled && !decline_reason.text.isNullOrBlank()
         }
-        return "0 %"
+
+        receive_btn.isEnabled = canBeEnabled
+    }
+
+    private fun calculatePercentage(qtyAccepted: Double, qtyDeclined: Double, qtyPending: Double): Double {
+        val total = qtyAccepted + qtyDeclined
+        return if (total > 0)
+            qtyPending / total * 100
+        else
+            0.0
     }
 }
