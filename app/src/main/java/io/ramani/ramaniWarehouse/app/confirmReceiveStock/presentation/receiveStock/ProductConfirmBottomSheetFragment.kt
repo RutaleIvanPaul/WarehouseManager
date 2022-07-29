@@ -80,7 +80,7 @@ class ProductConfirmBottomSheetFragment(
         var selectedProduct =
             RECEIVE_MODELS.invoiceModelView?.products?.find { it.productId == productId }
         product_name.text = selectedProduct?.productName
-        qty_incoming.text = "${selectedProduct?.quantity} ${selectedProduct?.units}"
+        qty_incoming.text = String.format("%.0f %s", selectedProduct?.quantity, selectedProduct?.units)
         percent_delivered.text = "0 %"
 //[2022.4.19][Adrian] To improve user's convenience, I believe we have to validate values when clicking Receive button rather than realtime check
 /*
@@ -255,7 +255,7 @@ temp_et.doAfterTextChanged { text ->
     private fun calculatePercentage(qtyAccepted: Double, qtyDeclined: Double, qtyPending: Double): Double {
         val total = qtyAccepted + qtyDeclined
         return if (total > 0)
-            qtyPending / total * 100
+            total / qtyPending * 100
         else
             0.0
     }

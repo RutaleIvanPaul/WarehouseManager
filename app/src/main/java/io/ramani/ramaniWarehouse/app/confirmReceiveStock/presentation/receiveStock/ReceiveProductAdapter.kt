@@ -60,10 +60,13 @@ class ReceiveProductAdapter(
                 receivedStatusIv.visibility = View.GONE
             }
 
+            val canReceive = (item.qtyPending!! > 0)
+            if (!canReceive)
+                receivedStatusTv.textColor = ContextCompat.getColor(context, R.color.mid_dark_grey)
+
+            getView<View>(R.id.product_receive_layout).isEnabled = canReceive
             getView<View>(R.id.product_receive_layout).setOnSingleClickListener {
-                if (item.isReceived == false) {
-                    onReceiveClicked(item)
-                }
+                onReceiveClicked(item)
             }
         }
     }
