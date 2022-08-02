@@ -162,6 +162,7 @@
     <string name="receive">Receive</string>
     <string name="received">Received</string>
     <string name="incoming">Incoming</string>
+    <string name="qty_ordered">Qty Ordered</string>
     <string name="percent_delivered">Percent Delivered</string>
     <string name="qty_delivered">Qty Delivered</string>
     <string name="qty_returned">Qty Returned</string>

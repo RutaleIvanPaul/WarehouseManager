@@ -36,7 +36,7 @@ class ReceiveProductAdapter(
             val receivedStatusIv = getView<ImageView>(R.id.received_status_iv)
 
             productName.text = item.productName
-            productQty.text = String.format("%.0f", item.qtyPending)
+            productQty.text = String.format("%.0f", item.quantity)
             productDeliveryStatus.text = item.status
 
             item.status.let {

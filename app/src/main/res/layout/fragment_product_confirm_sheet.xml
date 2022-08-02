@@ -15,7 +15,7 @@
 
         <TextView
             style="@style/ReceiveStock.Text"
-            android:text="@string/incoming" />
+            android:text="@string/qty_ordered" />
 
         <TextView
             android:id="@+id/qty_incoming"
