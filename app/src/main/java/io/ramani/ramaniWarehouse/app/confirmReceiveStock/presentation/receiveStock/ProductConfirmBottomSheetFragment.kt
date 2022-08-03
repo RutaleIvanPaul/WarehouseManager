@@ -82,6 +82,7 @@ class ProductConfirmBottomSheetFragment(
         product_name.text = selectedProduct?.productName
         qty_incoming.text = String.format("%.0f %s", selectedProduct?.quantity, selectedProduct?.units)
         percent_delivered.text = "0 %"
+
 //[2022.4.19][Adrian] To improve user's convenience, I believe we have to validate values when clicking Receive button rather than realtime check
 /*
 
@@ -228,13 +229,16 @@ temp_et.doAfterTextChanged { text ->
         }
 
         validateAndUpdate(selectedProduct!!)
+
+        et_accepted.setText(String.format("%.0f", selectedProduct.qtyAccepted))
+        et_returned.setText(String.format("%.0f", selectedProduct.qtyDeclined))
     }
 
     @SuppressLint("SetTextI18n")
     private fun validateAndUpdate(product: ProductModelView) {
         val qtyAccepted = if (!et_accepted.text.isNullOrBlank()) et_accepted.text.toString().toDouble() else 0.0
         val qtyDeclined = if (!et_returned.text.isNullOrBlank()) et_returned.text.toString().toDouble() else 0.0
-        val qtyPending = product.qtyPending!! - (qtyAccepted + qtyDeclined)
+        val qtyPending = product.quantity!! - (qtyAccepted + qtyDeclined)
 
         qty_delivered.text = String.format("%.0f %s", qtyAccepted, product.units)
         qty_returned.text = String.format("%.0f %s", qtyDeclined, product.units)
@@ -248,6 +252,9 @@ temp_et.doAfterTextChanged { text ->
         if (!et_returned.text.isNullOrBlank()) {
             canBeEnabled = canBeEnabled && !decline_reason.text.isNullOrBlank()
         }
+
+        if (qtyAccepted == 0.0 && qtyDeclined == 0.0)
+            canBeEnabled = false
 
         receive_btn.isEnabled = canBeEnabled
     }
