@@ -84,7 +84,7 @@ class ReceiveReceiptFragment : BaseFragment() {
     private fun initPrintingView() {
         if (viewModel.loggedInUser != null) {
             company_name.text = (viewModel.loggedInUser.companyName)
-            date.text = "Date: ${viewModel.getNowCalendarDate()}"
+            date.text = String.format("Date: %s", RECEIVE_MODELS.invoiceModelView?.createdAt)
             storekeeper_text.text = (RECEIVE_MODELS.invoiceModelView?.storeKeeperName)
             assignee_text.text = (RECEIVE_MODELS.invoiceModelView?.deliveryPersonName)
             storekeeper_image.setImageBitmap(RECEIVE_MODELS.invoiceModelView?.storeKeeperSign)

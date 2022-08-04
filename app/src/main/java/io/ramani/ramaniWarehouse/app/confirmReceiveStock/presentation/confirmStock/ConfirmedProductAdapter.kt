@@ -59,11 +59,10 @@ class ConfirmedProductAdapter(
             qtyReturned.setTypeface(null, Typeface.NORMAL)
             qtyPending.setTypeface(null, Typeface.NORMAL)
 
-            val pending = item.quantity!! - (item.qtyAccepted!! + item.qtyDeclined!!)
             productName.text = item.productName
             qtyAccepted.text = String.format("%.0f %s", item.qtyAccepted, item.units)
             qtyReturned.text = String.format("%.0f %s", item.qtyDeclined, item.units)
-            qtyPending.text = String.format("%.0f %s", pending, item.units)
+            qtyPending.text = String.format("%.0f %s", item.qtyPending, item.units)
         }
     }
 }

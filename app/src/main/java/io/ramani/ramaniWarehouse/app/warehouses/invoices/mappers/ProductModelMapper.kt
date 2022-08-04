@@ -20,5 +20,6 @@ class ProductModelMapper : UniModelMapper<ProductModel, ProductModelView> {
             .temp("")
             .status(from.status)
             .quantityPending(from.quantityPending)
+            .quantityPendingBackup(from.quantityPending)
             .build()
 }

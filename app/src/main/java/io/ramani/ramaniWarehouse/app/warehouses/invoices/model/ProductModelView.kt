@@ -18,6 +18,7 @@ data class ProductModelView(
     var temperature: String? = null,
     var status: String? = null,
     var qtyPending: Double? = null,
+    var qtyPendingBackup: Double? = null,
     var viewType: Int = TYPE.PRODUCT
 ) : Parcelable, MultiItemEntity {
 
@@ -35,6 +36,7 @@ data class ProductModelView(
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
+        parcel.readValue(Double::class.java.classLoader) as? Double,
     ) {
     }
 
@@ -51,6 +53,7 @@ data class ProductModelView(
         this.temperature = productModelView?.temperature
         this.status = productModelView?.status
         this.qtyPending = productModelView?.qtyPending
+        this.qtyPendingBackup = productModelView?.qtyPendingBackup
     }
 
     class Builder : IBuilder<ProductModelView> {
@@ -66,6 +69,7 @@ data class ProductModelView(
         private var temp: String? = null
         private var status: String? = null
         private var quantityPending: Double? = null
+        private var quantityPendingBackup: Double? = null
         private var viewType: Int = TYPE.PRODUCT
 
         fun productId(productId: String?): Builder {
@@ -128,6 +132,11 @@ data class ProductModelView(
             return this
         }
 
+        fun quantityPendingBackup(quantityPendingBackup: Double?): Builder {
+            this.quantityPendingBackup = quantityPendingBackup
+            return this
+        }
+
         fun viewType(viewType: Int): Builder {
             this.viewType = viewType
             return this
@@ -147,6 +156,7 @@ data class ProductModelView(
                 temp,
                 status,
                 quantityPending,
+                quantityPendingBackup,
                 viewType
             )
     }
@@ -164,6 +174,7 @@ data class ProductModelView(
         parcel.writeString(temperature)
         parcel.writeString(status)
         parcel.writeValue(qtyPending)
+        parcel.writeValue(qtyPendingBackup)
     }
 
     override fun describeContents(): Int {

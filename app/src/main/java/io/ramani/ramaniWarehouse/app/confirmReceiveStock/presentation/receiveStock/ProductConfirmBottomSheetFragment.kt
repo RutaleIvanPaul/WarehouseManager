@@ -77,8 +77,8 @@ class ProductConfirmBottomSheetFragment(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var selectedProduct =
-            RECEIVE_MODELS.invoiceModelView?.products?.find { it.productId == productId }
+
+        val selectedProduct = RECEIVE_MODELS.invoiceModelView?.products?.find { it.productId == productId }
         product_name.text = selectedProduct?.productName
         qty_incoming.text = String.format("%.0f %s", selectedProduct?.quantity, selectedProduct?.units)
         percent_delivered.text = "0 %"
@@ -193,39 +193,34 @@ temp_et.doAfterTextChanged { text ->
             val qtyDeclined = et_returned.text.toString().toDouble()
 
             var qtyPending = 0.0
-            selectedProduct?.qtyPending?.let {
-                qtyPending = it - (qtyAccepted + qtyDeclined)
-                if (qtyPending < 0)
-                    qtyPending = 0.0
+            selectedProduct?.apply {
+                // Apply values to product
+                qtyPendingBackup?.let {
+                    qtyPending = it - (qtyAccepted + qtyDeclined)
+                    if (qtyPending < 0) {
+                        // Typically, this case should be filtered when user put the large amount than pending amount on validation phase.
+                        // However, we set it as zero if the new calculated pending amount is less than zero.
+                        qtyPending = 0.0
+                    }
+                }
+
+                isReceived = true
+                temperature = temp_et.text.toString()
+                this.qtyAccepted = qtyAccepted
+                this.qtyDeclined = qtyDeclined
+                this.qtyPending = qtyPending
+
+                if (this.qtyDeclined != null && this.qtyDeclined!! > 0 && this.declinedReason?.isBlank() == true) { // didn't click on rejected reasons drop down. [AMR 21/4/2021]
+                    selectedProduct.declinedReason = RECEIVE_MODELS.declineReasons.first()
+                }
             }
 
-            selectedProduct?.isReceived = true
-            selectedProduct?.temperature = temp_et.text.toString()
-            selectedProduct?.qtyAccepted = qtyAccepted
-            selectedProduct?.qtyDeclined = qtyDeclined
-            selectedProduct?.qtyPending = qtyPending
-
-            if (selectedProduct?.qtyDeclined != null && selectedProduct?.qtyDeclined!! > 0 && selectedProduct?.declinedReason?.isBlank() == true) { // didn't click on rejected reasons drop down. [AMR 21/4/2021]
-                selectedProduct.declinedReason = RECEIVE_MODELS.declineReasons.first()
-            }
             RECEIVE_MODELS.invoiceModelView?.products?.filter { it.productId == selectedProduct?.productId }
                 ?.map {
                     it.copy(selectedProduct)
                 }
             onReceiveClicked(selectedProduct?.productId ?: "")
             dismiss()
-
-            /*
-            if (viewModel.validateQty(selectedProduct?.quantity, qtyAccepted, qtyDeclined)) {
-            } else {
-                Toast.makeText(
-                    requireContext(), getString(R.string.qty_validation).replacePlaceHolderWithText(
-                        StringsPlaceHolders.QTY_VALIDATION,
-                        "${selectedProduct?.quantity}"
-                    ), Toast.LENGTH_SHORT
-                ).show()
-            }
-            */
         }
 
         validateAndUpdate(selectedProduct!!)
@@ -238,7 +233,7 @@ temp_et.doAfterTextChanged { text ->
     private fun validateAndUpdate(product: ProductModelView) {
         val qtyAccepted = if (!et_accepted.text.isNullOrBlank()) et_accepted.text.toString().toDouble() else 0.0
         val qtyDeclined = if (!et_returned.text.isNullOrBlank()) et_returned.text.toString().toDouble() else 0.0
-        val qtyPending = product.quantity!! - (qtyAccepted + qtyDeclined)
+        val qtyPending = product.qtyPendingBackup!! - (qtyAccepted + qtyDeclined)
 
         qty_delivered.text = String.format("%.0f %s", qtyAccepted, product.units)
         qty_returned.text = String.format("%.0f %s", qtyDeclined, product.units)
