@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import io.ramani.ramaniWarehouse.R
@@ -14,8 +13,6 @@ import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.showSelectPopUp
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
-import io.ramani.ramaniWarehouse.app.common.presentation.language.StringsPlaceHolders
-import io.ramani.ramaniWarehouse.app.common.presentation.language.replacePlaceHolderWithText
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
@@ -241,7 +238,8 @@ temp_et.doAfterTextChanged { text ->
         et_pending.text = String.format("%.0f", qtyPending)
         qty_pending_warning.visibility = if (qtyPending < 0) View.VISIBLE else View.GONE
 
-        percent_delivered.text = String.format("%.1f%%", calculatePercentage(qtyAccepted, qtyDeclined, product.qtyPending!!))
+        val deliveredPercent = 100 - (qtyPending / product.quantity!!) * 100.0
+        percent_delivered.text = String.format("%.1f%%", deliveredPercent)
 
         var canBeEnabled = qtyPending >= 0 && !et_accepted.text.isNullOrBlank() && !et_returned.text.isNullOrBlank()
         if (!et_returned.text.isNullOrBlank()) {
