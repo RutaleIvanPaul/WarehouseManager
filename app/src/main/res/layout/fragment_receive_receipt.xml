@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/return_receipt_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/buttons_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/return_stock_print_receipt"
+            style="@style/GreenFillActionButton"
+            android:layout_width="120dp"
+            android:text="@string/print" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/return_stock_done"
+            style="@style/BlueStrokeActionButton"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/done" />
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollview"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/buttons_section"
+        android:layout_centerHorizontal="true"
+        android:background="@color/light_white_grey"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/topText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:text="@string/start_of_goods_received"
+                android:textColor="@color/black"
+                android:textSize="11sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/company_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/masyl_general_enteprices"
+                android:textColor="@color/black"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/issued_note"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/goods_issued_note"
+                android:textColor="@color/black"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/date_24_july_2021"
+                android:textColor="@color/black"
+                android:textSize="9sp"
+                android:textStyle="bold" />
+
+            <View
+                android:id="@+id/horizontal_rule"
+                android:layout_width="200dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/date" />
+
+            <LinearLayout
+                android:id="@+id/signature_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/storekeeper_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.45"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/storekeeper_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/store_keeper"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/storekeeper_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/christian_michael"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/storekeeper_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:contentDescription="@string/store_keeper_signature"
+                        android:paddingTop="10dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_round_check_icon" />
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/vertical_split"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black" />
+
+                <LinearLayout
+                    android:id="@+id/assignee_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/assignee_label"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/assigned_to"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/assignee_text"
+                        style="@style/GreyTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/christian_michael"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="11sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/assignee_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:contentDescription="@string/assigned_to_signature"
+                        android:paddingTop="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_round_check_icon" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/horizontal_line"
+                android:layout_width="200dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/black" />
+
+            <LinearLayout
+                android:id="@+id/list_title"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_grey"
+                android:orientation="horizontal"
+                android:gravity="center"
+                app:layout_constraintTop_toBottomOf="@+id/horizontal_line">
+
+                <TextView
+                    style="@style/BoldTextLabel"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/goods"
+                    android:textSize="7sp" />
+
+                <TextView
+                    android:id="@+id/accepted_title"
+                    style="@style/BoldTextLabel"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/qty_accepted_1"
+                    android:textSize="7sp" />
+
+                <TextView
+                    android:id="@+id/declined_title"
+                    style="@style/BoldTextLabel"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:text="@string/qty_returned_1"
+                    android:textSize="7sp" />
+
+                <TextView
+                    android:id="@+id/pending_title"
+                    style="@style/BoldTextLabel"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/qty_pending_1"
+                    android:textSize="7sp" />
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/returned_items_RV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/bottomText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:paddingBottom="20dp"
+                android:text="@string/end_of_goods_received"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

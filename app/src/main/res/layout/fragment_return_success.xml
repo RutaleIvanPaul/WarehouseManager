@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/print_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imageViewSuccessCheckMark"
+        style="@style/CheckMarksSuccess"
+        app:tint="@color/ramani_green" />
+
+    <TextView
+        style="@style/BoldTextLabel"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:text="@string/delivery_received"
+        android:textSize="@dimen/_12sdp" />
+
+    <TextView
+        style="@style/NormalTextLabel"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:gravity="center"
+        android:text="@string/delivery_received_hint"
+        android:textStyle="bold" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/return_stock_view_receipt"
+        style="@style/GreenFillActionButton"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:height="25dp"
+        android:paddingStart="@dimen/_17sdp"
+        android:paddingEnd="@dimen/_17sdp"
+        android:text="@string/print_receipt" />
+
+</LinearLayout>

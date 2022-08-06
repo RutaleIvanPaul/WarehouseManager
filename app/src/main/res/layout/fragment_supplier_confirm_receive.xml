@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Receiving Date -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/light_blue_stroke"
+                android:orientation="vertical"
+                android:padding="@dimen/_15sdp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/BoldTextLabel"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:text="@string/receiving_date" />
+
+                    <TextView
+                        android:id="@+id/supplier_receiving_date_label"
+                        style="@style/NormalTextLabel"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="5"
+                        android:text="12 sep 2021"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <!-- Supplier -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/BoldTextLabel"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:text="@string/supplier" />
+
+                    <TextView
+                        android:id="@+id/supplier_receiving_tv"
+                        style="@style/NormalTextLabel"
+                        android:layout_width="0dp"
+                        android:layout_weight="5"
+                        android:text="@string/select_supplier"
+                        android:textAlignment="viewEnd"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Supporting Document -->
+
+            <TextView
+                style="@style/BoldTextLabel"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:text="@string/proforma_invoice" />
+
+            <RelativeLayout
+                android:id="@+id/proforma_invoice_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_300sdp"
+                android:layout_marginTop="@dimen/_13sdp"
+                android:background="@drawable/light_blue_stroke"
+                android:padding="@dimen/_10sdp">
+
+                <io.ramani.android.app.pdfviewer.PdfViewerWidget
+                    android:id="@+id/proforma_invoice_iv"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_600sdp" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <ProgressBar
+        android:id="@+id/stock_receive_supplier_loader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
+
+</RelativeLayout>

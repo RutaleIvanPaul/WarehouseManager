@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_12sdp"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/invoice_product_tv"
+        android:layout_width="0dp"
+        android:layout_weight="0.7"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="start"
+        android:layout_marginEnd="@dimen/_4sdp"
+        android:layout_marginStart="@dimen/_16sdp" />
+
+    <TextView
+        android:id="@+id/invoice_product_qty_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.3"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginEnd="@dimen/_19sdp"
+        android:textStyle="bold" />
+</LinearLayout>
+

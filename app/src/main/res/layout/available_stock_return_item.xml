@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="10dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="10dp"
+    android:paddingBottom="20dp">
+
+    <LinearLayout
+        android:id="@+id/stock_receive_now_host_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/return_product_name"
+            style="@style/NormalTextLabel"
+            android:layout_width="150dp"
+            android:breakStrategy="simple"
+            android:layout_margin="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/return_stock" />
+    </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/return_stock_edit_quantity"
+        style="@style/NormalActionButtonInactive"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/return_stock_confirm_quantity_button"
+        android:width="92dp"
+        android:hint="@string/_4"
+        android:inputType="number"
+        android:textAlignment="center" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/return_stock_confirm_quantity_button"
+        style="@style/NormalActionButtonInactive"
+        android:layout_alignParentEnd="true"
+        android:text="@string/confirm"
+        android:textColor="@color/button_599BCB" />
+</RelativeLayout>

@@ -1,0 +1,306 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
+    id 'com.google.firebase.crashlytics'
+}
+
+def getCurrentVariant() {
+    Gradle gradle = getGradle()
+    String tskReqStr = gradle.getStartParameter().getTaskRequests().toString()
+    println("tskReqStr: $tskReqStr")
+
+    if (tskReqStr.contains("assembleDebug"))
+        return "Debug"
+    else if (tskReqStr.contains("assembleStaging"))
+        return "Staging"
+    else if (tskReqStr.contains("assembleRelease"))
+        return "Release"
+    else if (tskReqStr.contains("assembleHotfix"))
+        return "Hotfix"
+    else {
+        println "NO MATCH FOUND"
+        return ""
+    }
+}
+
+android {
+    def versionPropsFile = file('version.properties')
+    def versionCodeNum
+    def versionNameStr
+    def enteredIncremental = false
+
+    if (versionPropsFile.canRead()) {
+        def versionProps = new Properties()
+        versionProps.load(new FileInputStream(versionPropsFile))
+        versionCodeNum = versionProps['VERSION_CODE'].toInteger()
+        versionNameStr = versionProps['VERSION_NAME']
+        println("Current version build -> $versionCodeNum")
+        println("Current version Code -> $versionNameStr")
+    } else {
+        throw new Exception('Couldn\'t read version.properties file')
+    }
+    def TRUE = "true"
+    def FALSE = "false"
+    def BOOLEAN = "boolean"
+    def HTTP_LOGGING_ENABLED = "HTTP_LOGGING_ENABLED"
+
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "io.ramani.ramaniWarehouse"
+        minSdk project.minSdkVersion
+        targetSdk project.targetSdkVersion
+        versionCode versionCodeNum
+        versionName versionNameStr
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.debug
+
+        ndk.abiFilters "armeabi-v7a", "x86", "armeabi", "mips", "arm64"
+
+    }
+
+    buildTypes {
+        release {
+            buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, FALSE
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", 'BASE_URL', "\"https://ramani-app-server-production.herokuapp.com/\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            signingConfig signingConfigs.debug
+        }
+
+        hotfix {
+            buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, FALSE
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", 'BASE_URL', "\"https://ramani-app-server-production.herokuapp.com/\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app\""
+            signingConfig signingConfigs.debug
+        }
+
+        debug {
+            minifyEnabled false
+            versionNameSuffix "-debug"
+            applicationIdSuffix ".debug"
+            buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
+            buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-dev.herokuapp.com/\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app_debug\""
+        }
+
+        staging {
+            versionNameSuffix "-staging"
+            applicationIdSuffix ".staging"
+            buildConfigField "String", 'BASE_URL', "\"https://mongo-base-server-staging.herokuapp.com/\""
+            buildConfigField "String", 'APP_NAME', "\"stock_track_app_staging\""
+            buildConfigField BOOLEAN, HTTP_LOGGING_ENABLED, TRUE
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    ext.autoIncrementBuildNumber = {
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            versionCodeNum = versionProps['VERSION_CODE'].toInteger() + 1
+            versionProps['VERSION_CODE'] = versionCodeNum.toString()
+            versionProps.store(versionPropsFile.newWriter(), null)
+            println("Version build incremented to $versionCodeNum")
+        } else {
+            throw new Exception('Couldn\'t read version.properties file')
+        }
+    }
+
+
+    ext.autoIncrementVersionBuildCode = {
+        if (versionPropsFile.canRead()) {
+            def Properties versionProps = new Properties()
+            versionProps.load(new FileInputStream(versionPropsFile))
+            versionNameStr = versionProps['VERSION_NAME']
+            def (firstPart, secondPart, thirdPart,fourthPart) = versionNameStr.tokenize('.')
+
+            if (getCurrentVariant() == 'Debug') {
+                fourthPart++
+            } else if (getCurrentVariant() == 'Staging') {
+                thirdPart++
+                fourthPart = 0
+            }else if (getCurrentVariant() == 'Hotfix') {
+                secondPart++
+                thirdPart = 0
+                fourthPart = 0
+            } else if (getCurrentVariant() == 'Release') {
+                firstPart++
+                secondPart = 0
+                thirdPart = 0
+                fourthPart = 0
+            }
+            versionNameStr = "$firstPart.$secondPart.$thirdPart.$fourthPart".toString()
+            versionProps['VERSION_NAME'] = versionNameStr
+            versionProps.store(versionPropsFile.newWriter(), null)
+            println("Version Code incremented to $versionNameStr")
+        } else {
+            throw new Exception('Couldn\'t read version.properties file')
+        }
+    }
+
+    gradle.taskGraph.whenReady { taskGraph ->
+        taskGraph.getAllTasks().forEach { task ->
+            if (task.name.matches('bundleProduction.*') ||
+                    task.name.matches('assembleRelease.*') ||
+                    task.name.matches('assembleStaging.*') ||
+                    task.name.matches('assembleHotfix.*') ||
+                    task.name.matches('assembleDebug.*')) {
+                if (!enteredIncremental) {
+                    enteredIncremental = true
+                    autoIncrementBuildNumber()
+                    autoIncrementVersionBuildCode()
+                }
+
+            }
+        }
+        enteredIncremental = false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
+    buildFeatures {
+        dataBinding true
+    }
+
+
+}
+
+androidExtensions {
+    experimental = true
+}
+
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.6.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+
+    //gson
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    //extensions
+    implementation "android.arch.lifecycle:extensions:1.1.1"
+
+    //retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.4.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.4.0"
+    implementation "com.squareup.retrofit2:converter-scalars:2.4.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.4.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
+
+
+    //glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.0'
+    implementation files('libs/MobiIotAPI.jar')
+
+
+
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+
+    //constraint layout
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+
+    // Spinner
+    implementation "com.github.skydoves:powerspinner:1.1.9"
+
+    // RX
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+//    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+    implementation("io.reactivex.rxjava2:rxkotlin:2.4.0")
+//    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+
+    // Room
+    def room_version = "2.3.0"
+
+    implementation 'android.arch.persistence.room:runtime:1.0.0'
+    annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:1.0.0-alpha5"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    //Recycler view
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    // card view
+    implementation 'androidx.cardview:cardview:1.0.0'
+    // Base recycler
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
+
+    // Joda time
+    implementation "joda-time:joda-time:2.9.9"
+
+    // apache commons
+    implementation "commons-io:commons-io:2.6"
+
+    // Kodien
+    implementation "org.kodein.di:kodein-di-generic-jvm:5.3.0"
+    implementation "org.kodein.di:kodein-di-framework-android-x:5.3.0"
+
+    // sdp
+    implementation 'com.intuit.sdp:sdp-android:1.0.4'
+// lifecycle
+    def lifecycle_version = "2.2.0-alpha03"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    // Google play services
+    def google_play_services_version = '17.0.0'
+    implementation "com.google.android.gms:play-services-location:${google_play_services_version}"
+    implementation "com.google.android.gms:play-services-maps:${google_play_services_version}"
+
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:29.0.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'org.jetbrains:annotations:15.0'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    // Jetbrains configurations
+    def anko_version = '0.10.7'
+    implementation "org.jetbrains.anko:anko-commons:$anko_version"
+    implementation "org.jetbrains.anko:anko-sdk25:$anko_version"
+    implementation "org.jetbrains.anko:anko-appcompat-v7:$anko_version"
+
+    // Base Adapter
+    implementation "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4"
+
+    // Date time picker
+    implementation "com.wdullaer:materialdatetimepicker:3.4.0"
+    implementation 'com.williamww:silky-signature:0.1.0'
+
+    // PDF
+    implementation project(':pdfviewer')
+
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    // Famoco Printer
+     implementation files('libs/cloudpossdkV1.5.3.089_Standard_20220104.aar')
+
+
+
+    //Zebra Crossing ZXING
+    implementation 'com.google.zxing:core:3.4.1'
+
+    // Country selection
+    implementation 'com.hbb20:ccp:1.7.1'
+
+}

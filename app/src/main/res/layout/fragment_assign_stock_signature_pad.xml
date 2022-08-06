@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="40dp"
+    android:padding="30dp">
+
+    <com.williamww.silkysignature.views.SignaturePad
+        android:id="@+id/assign_stock_signature_pad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:penColor="@android:color/black" />
+
+    <ImageView
+        android:id="@+id/assign_stock_signature_pad_clear"
+        android:contentDescription="@string/clear_signature"
+        style="@style/refreshButton"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/item_outline_round"
+        android:elevation="11dp"
+        android:padding="5dp" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/assign_stock_signature_pad_confirm"
+        style="@style/GreenFillActionButton"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/confirm" />
+
+</RelativeLayout>

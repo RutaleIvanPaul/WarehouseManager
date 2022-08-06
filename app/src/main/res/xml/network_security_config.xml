@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!--This is for charles proxy-->
+    <debug-overrides>
+        <trust-anchors>
+            <!-- Trust user added CAs while debuggable only -->
+            <certificates src="user" />
+        </trust-anchors>
+    </debug-overrides>
+    <!--end for charles proxy code-block-->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">https://752b-102-219-153-73.ngrok.io/</domain>
+    </domain-config>
+</network-security-config>

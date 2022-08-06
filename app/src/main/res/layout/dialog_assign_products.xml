@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+
+    >
+
+    <data>
+        <variable
+            name="viewmodel"
+            type="io.ramani.ramaniWarehouse.app.assignstock.presentation.products.CompanyProductsViewmodel" />
+
+    </data>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dialog_background_drawable"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <!--Details of order-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/price_img"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                     />
+
+                <TextView
+                    android:id="@+id/layout_custom_rewards_dialogue_box_product_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:layout_toRightOf="@+id/price_img"
+                    android:fontFamily="@font/raleway"
+                    android:text="Tanga Fresh Mtindi 500ML"
+                    android:textAlignment="center"
+                    android:textColor="@color/custom_black"
+                    android:textFontWeight="600"
+                    android:textSize="20sp"
+                    android:textStyle="normal" />
+
+<!--                <TextView-->
+<!--                    android:id="@+id/add_custom_rewards_cancel_button"-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:layout_alignParentEnd="true"-->
+<!--                    android:layout_marginStart="10dp"-->
+<!--                    android:layout_marginTop="10dp"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    android:background="@drawable/ic_baseline_clear_24" />-->
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/layout_custom_rewards_dialogue_box_product_id"
+                    android:layout_marginTop="15dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:background="@drawable/round_grey_outline_edit">
+
+                    <TextView
+                        android:id="@+id/dialogue_custom_forms_custom_price_button"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/round_white_outline_with_no_borders"
+                        android:fontFamily="@font/raleway"
+                        android:gravity="center"
+                        android:text="PCS"
+                        android:textColor="@color/custom_black"
+                        android:textFontWeight="600"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        />
+
+                    <TextView
+                        android:id="@+id/dialogue_custom_forms_qty_button"
+                        android:layout_width="120dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_toEndOf="@+id/dialogue_custom_forms_custom_price_button"
+                        android:layout_toRightOf="@+id/dialogue_custom_forms_custom_price_button"
+                        android:fontFamily="@font/raleway"
+                        android:gravity="center"
+                        android:text="Packet"
+                        android:textColor="@color/grey_text"
+                        android:textFontWeight="600"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        />
+
+
+                </RelativeLayout>
+            </RelativeLayout>
+            <!--Conversion Chart if needed...-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/dialogue_custom_forms_conversion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Units"
+                android:fontFamily="@font/raleway"
+                android:textColor="@color/custom_black"
+                android:textFontWeight="700"
+                android:textSize="14dp"
+                android:textStyle="normal"
+                android:layout_marginTop="20dp"
+                />
+
+
+            <EditText
+                android:id="@+id/layout_first_edit_text_dialogue_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="@string/hint_qty"
+                android:background="@drawable/round_grey_outline_edit"
+                android:padding="10dp"
+                android:fontFamily="@font/raleway"
+                android:textFontWeight="600"
+                android:textSize="14dp"
+                android:layout_marginTop="5dp"
+                android:inputType="numberDecimal"
+                />
+
+
+        </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/custom_products_assign_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/button_round_coral_green"
+                android:text="@string/assign_product"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:fontFamily="@font/raleway"
+                android:textFontWeight="700"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                />
+
+
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
+</layout>
