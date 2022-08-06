@@ -283,4 +283,23 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="ReceiveStockLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/_15sdp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="ReceiveStock.Text" parent="NormalTextLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/grey_separator</item>
+    </style>
+
+    <style name="ReceiveStock.Text.Value" parent="ReceiveStock.Text">
+        <item name="android:fontFamily">@font/raleway_bold</item>
+        <item name="android:textAlignment">viewEnd</item>
+    </style>
+
 </resources>

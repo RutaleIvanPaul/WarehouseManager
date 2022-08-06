@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/_5sdp">
+
+        <TextView
+            android:id="@+id/product_name"
+            style="@style/SmallTextLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Item name" />
+
+        <TextView
+            android:id="@+id/qty_accepted"
+            style="@style/SmallTextLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_weight="1"
+            android:text="Qty"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/qty_returned"
+            style="@style/SmallTextLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_weight="1"
+            android:text="Qty"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/qty_pending"
+            style="@style/SmallTextLabel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:layout_weight="1"
+            android:text="Qty"
+            android:textAlignment="center" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@color/unpaid_order_list_separator" />
+
+</LinearLayout>

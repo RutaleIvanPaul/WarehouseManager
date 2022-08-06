@@ -16,6 +16,7 @@ data class InvoiceModelView(
     val supplierName: String? = null,
     val invoiceAmount: Double? = null,
     val products: List<ProductModelView>? = null,
+    val invoiceStatus: String? = null,
     var storeKeeperName: String? = null,
     var deliveryPersonName: String? = null,
     var storeKeeperSign: Bitmap? = null,
@@ -31,8 +32,9 @@ data class InvoiceModelView(
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
-        parcel.createTypedArrayList(ProductModelView)
-    ) {
+        parcel.createTypedArrayList(ProductModelView),
+        parcel.readString()
+        ) {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -43,6 +45,7 @@ data class InvoiceModelView(
         parcel.writeString(supplierName)
         parcel.writeValue(invoiceAmount)
         parcel.writeTypedList(products)
+        parcel.writeString(invoiceStatus)
     }
 
     override fun describeContents(): Int {
@@ -69,6 +72,7 @@ data class InvoiceModelView(
         private var supplierName: String? = null
         private var invoiceAmount: Double? = null
         private var products: List<ProductModelView>? = null
+        private var invoiceStatus: String? = null
         private var serverCreatedAtDateTime: String? = null
 
         fun invoiceId(invoiceId: String?): Builder {
@@ -116,6 +120,11 @@ data class InvoiceModelView(
             return this
         }
 
+        fun invoiceStatus(invoiceStatus: String?): Builder {
+            this.invoiceStatus = invoiceStatus
+            return this
+        }
+
         fun serverCreatedAtDateTime(serverCreatedAtDateTime: String?): Builder {
             this.serverCreatedAtDateTime = serverCreatedAtDateTime
             return this
@@ -131,6 +140,7 @@ data class InvoiceModelView(
             supplierName,
             invoiceAmount,
             products,
+            invoiceStatus,
             serverCreatedAtDateTime = serverCreatedAtDateTime
         )
 

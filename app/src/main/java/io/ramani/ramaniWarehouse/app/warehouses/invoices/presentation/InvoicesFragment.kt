@@ -35,7 +35,7 @@ class InvoicesFragment : BaseFragment() {
         viewModel = viewModelProvider(this)
         flow = InvoicesFlowController(baseActivity!!)
         viewModel.start()
-        invoiceAdapter = InvoiceAdapter(viewModel.invoicesList) {
+        invoiceAdapter = InvoiceAdapter(viewModel.invoicesList, viewModel.currency) {
             flow.openConfirmReceiveStock(it)
         }
         initSubscribers()

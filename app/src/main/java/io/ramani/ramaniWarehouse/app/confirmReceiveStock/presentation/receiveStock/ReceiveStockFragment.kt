@@ -76,8 +76,6 @@ class ReceiveStockFragment : BaseFragment() {
         products.add(
             ProductModelView.Builder()
                 .viewType(ProductModelView.TYPE.LABEL)
-                .productName(getString(R.string.qty).capitalize())
-                .temp(getString(R.string.status).capitalize())
                 .isReceived(false)
                 .build()
         )

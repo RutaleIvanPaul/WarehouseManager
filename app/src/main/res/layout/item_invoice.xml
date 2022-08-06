@@ -70,21 +70,44 @@
 
     </RelativeLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/products_rv"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_33sdp"
-        android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+        android:layout_marginTop="@dimen/_12sdp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_centerVertical="true"
+            android:text="@string/delivery_status" />
+
+        <ImageView
+            android:id="@+id/delivery_status_iv"
+            android:layout_width="@dimen/_5sdp"
+            android:layout_height="@dimen/_5sdp"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/delivery_status_tv"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:background="@drawable/solid_circle"
+            android:backgroundTint="@color/red"/>
+
+        <TextView
+            android:id="@+id/delivery_status_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="@dimen/_19sdp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginTop="@dimen/_35sdp"
+        android:layout_marginTop="@dimen/_18sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:background="@color/grey_separator" />
 
@@ -98,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginStart="@dimen/_16sdp"
-            android:text="@string/total_amount" />
+            android:text="@string/order_total" />
 
         <TextView
             android:id="@+id/total_amount_tv"
@@ -112,16 +135,18 @@
 
     <TextView
         android:id="@+id/accept_btn"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_6sdp"
+        android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_22sdp"
+        android:layout_marginEnd="@dimen/_19sdp"
         android:layout_marginBottom="@dimen/_22sdp"
         android:background="@drawable/rounded_border_button_green"
         android:paddingStart="@dimen/_22sdp"
         android:paddingTop="@dimen/_12sdp"
         android:paddingEnd="@dimen/_22sdp"
         android:paddingBottom="@dimen/_12sdp"
-        android:text="@string/accept_confirm"
+        android:text="@string/receive_delivery"
+        android:textAlignment="center"
         android:textColor="@color/colorAccent" />
 </LinearLayout>
