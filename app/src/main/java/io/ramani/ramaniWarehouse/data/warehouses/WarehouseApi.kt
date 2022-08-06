@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.data.warehouses
 
 import io.ramani.ramaniWarehouse.data.common.network.ApiConstants.API_VERSION_1
+import io.ramani.ramaniWarehouse.data.common.network.ApiConstants.API_VERSION_2
 import io.ramani.ramaniWarehouse.data.common.network.ApiConstants.PAGINATION_PER_PAGE_SIZE
 import io.ramani.ramaniWarehouse.data.entities.BasePagedRemoteResponseModel
 import io.ramani.ramaniWarehouse.data.entities.BaseResponse
@@ -18,7 +19,7 @@ interface WarehouseApi {
         @Query("size") perPage: Int = PAGINATION_PER_PAGE_SIZE
     ): Single<BaseResponse<BasePagedRemoteResponseModel<List<WarehouseRemoteModel>>>>
 
-    @GET("${API_VERSION_1}/invoices/pending/distributorId")
+    @GET("${API_VERSION_2}/invoices/pending/distributorId")
     fun getInvoices(
         @Query("companyId") companyId: String,
         @Query("page") page: Int,

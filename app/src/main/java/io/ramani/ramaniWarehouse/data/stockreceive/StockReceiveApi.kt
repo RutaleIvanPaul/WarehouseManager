@@ -18,7 +18,7 @@ interface StockReceiveApi {
     @GET("/api/v1/account/decline-reasons")
     fun getDeclineReasons(): Single<BaseResponse<List<String>>>
 
-    @POST("/api/v1/invoice/goods-received")
+    @POST("/api/v2/invoice/goods-received")
     fun postGoodsReceived(
         @Body body: RequestBody
     ): Single<BaseResponse<GoodsReceivedRemoteModel>>

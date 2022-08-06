@@ -18,5 +18,8 @@ class ProductModelMapper : UniModelMapper<ProductModel, ProductModelView> {
             .isReceived(false)
             .price(0.0)
             .temp("")
+            .status(from.status)
+            .quantityPending(from.quantityPending)
+            .quantityPendingBackup(from.quantityPending)
             .build()
 }

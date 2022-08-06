@@ -18,7 +18,8 @@ data class SelectedProductModel(
     var unitPrice: Double = 0.0,
     var temperature: Int? = 0,
     var parameters: List<ProductParameterModel>? = null,
-    var expireDate: String? = ""
+    var expireDate: String? = "",
+    var qtyPending: Int = 0,
 )
 
 data class ProductParameterModel(
