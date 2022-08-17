@@ -26,7 +26,6 @@ class MobiIoTDevice(val context: Context) : POSDevice {
     private lateinit var mBluetoothSocket: BluetoothSocket
     private var mBluetooth = local.getRemoteDevice("02:03:00:00:00:00")
 
-    var device = CsPrinter()
     lateinit var thermalPrinter: ThermalPrinter
 
     init {
