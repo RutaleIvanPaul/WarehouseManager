@@ -15,6 +15,7 @@ data class InvoiceModel(
     val supplierName: String? = null,
     val invoiceAmount: Double? = null,
     val products: List<ProductModel>? = null,
+    val invoiceStatus: String? = null,
     val serverCreatedAtDateTime: String? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
@@ -27,6 +28,7 @@ data class InvoiceModel(
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.createTypedArrayList(ProductModel),
+        parcel.readString(),
         parcel.readString()
     ) {
     }
@@ -39,6 +41,7 @@ data class InvoiceModel(
         parcel.writeString(supplierName)
         parcel.writeValue(invoiceAmount)
         parcel.writeTypedList(products)
+        parcel.writeString(invoiceStatus)
         parcel.writeString(serverCreatedAtDateTime)
     }
 
@@ -66,6 +69,7 @@ data class InvoiceModel(
         private var supplierName: String? = null
         private var invoiceAmount: Double? = null
         private var products: List<ProductModel>? = null
+        private var invoiceStatus:String?=null
         private var serverCreatedAtDateTime:String?=null
 
         fun invoiceId(invoiceId: String?): Builder {
@@ -113,6 +117,11 @@ data class InvoiceModel(
             return this
         }
 
+        fun invoiceStatus(invoiceStatus:String?):Builder{
+            this.invoiceStatus = invoiceStatus
+            return this
+        }
+
         fun serverCreatedAtDateTime(serverCreatedAtDateTime:String?):Builder{
             this.serverCreatedAtDateTime = serverCreatedAtDateTime
             return this
@@ -128,6 +137,7 @@ data class InvoiceModel(
             supplierName,
             invoiceAmount,
             products,
+            invoiceStatus,
             serverCreatedAtDateTime
         )
 

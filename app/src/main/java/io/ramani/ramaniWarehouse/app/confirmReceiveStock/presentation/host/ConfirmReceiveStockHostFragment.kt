@@ -7,6 +7,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
@@ -114,41 +116,10 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
         flow = ReceiveStockFlowController(baseActivity!!)
         initTabLayout()
         stock_receive_now_host_next_button.setOnSingleClickListener {
-            when (stock_receive_now_host_viewpager.currentItem) {
-                0 -> {
-                    stock_receive_now_host_viewpager.currentItem++
-                    stock_receive_now_host_indicator_1.visible()
-                }
-                1 -> {
-                    if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
-                        turnMarkOneToGreen()
-                        stock_receive_now_host_indicator_2.visible()
-                        stock_receive_now_host_viewpager.currentItem++
-                        stock_receive_now_host_next_button.text =
-                            getString(R.string.done).capitalize()
-                    } else {
-                        flow.openConfirmProductSheet(
-                            RECEIVE_MODELS.invoiceModelView?.products?.first { it.isReceived == false }?.productId
-                                ?: ""
-                        ) {
-                            if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
-                                turnMarkOneToGreen()
-                            }
-                            RECEIVE_MODELS.refreshHostReceiveProductListLiveData.postValue(true)
-                        }
-                    }
-                }
-                else -> {
-                    viewModel.postGoodsReceived(
-                        requireContext(),
-                        RECEIVE_MODELS.invoiceModelView?.storeKeeperSign,
-                        RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign
-                    )
-                }
-            }
 //            if (stock_receive_now_host_viewpager.currentItem < 2) {
 //                stock_receive_now_host_viewpager.currentItem++
 //            }
+            checkPage(true,-1)
         }
     }
 
@@ -183,8 +154,23 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
         ) { tab, position ->
             tab.text = adapter.getTabTitle(position)
         }.attach()
-        stock_receive_now_host_tablayout.touchables.map { it.isClickable = false }
+
         stock_receive_now_host_viewpager.offscreenPageLimit = 2
+        stock_receive_now_host_tablayout.touchables.map {
+            it.isClickable = true
+        }
+
+        stock_receive_now_host_tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     private fun turnMarkOneToGreen() {
@@ -201,6 +187,53 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
             return true
         } else {
             return super.onBackButtonPressed()
+        }
+    }
+
+    private fun checkPage(isFromNextButton: Boolean, selectedTab: Int) {
+        when (stock_receive_now_host_viewpager.currentItem) {
+            0 -> {
+                stock_receive_now_host_viewpager.currentItem++
+                stock_receive_now_host_indicator_1.visible()
+            }
+            1 -> {
+                if (RECEIVE_MODELS.invoiceModelView?.products?.any { it.isReceived == true } == true) {
+                    turnMarkOneToGreen()
+                    stock_receive_now_host_indicator_2.visible()
+                    stock_receive_now_host_viewpager.currentItem++
+                    stock_receive_now_host_next_button.text =
+                        getString(R.string.done).capitalize()
+                } else {
+                    if (isFromNextButton || selectedTab == 2)
+                        errorDialog("Please set delivery of each products")
+
+                    /*
+                    flow.openConfirmProductSheet(
+                        RECEIVE_MODELS.invoiceModelView?.products?.first { it.isReceived == false }?.productId
+                            ?: ""
+                    ) {
+                        if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
+                            turnMarkOneToGreen()
+                        }
+                        RECEIVE_MODELS.refreshHostReceiveProductListLiveData.postValue(true)
+                    }
+                    */
+                }
+            }
+            else -> {
+                if (isFromNextButton) {
+                    if (RECEIVE_MODELS.invoiceModelView?.products?.any { it.isReceived == true } == false) {
+                        errorDialog("Please set delivery of each products on Products page")
+                        return
+                    }
+
+                    viewModel.postGoodsReceived(
+                        requireContext(),
+                        RECEIVE_MODELS.invoiceModelView?.storeKeeperSign,
+                        RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign
+                    )
+                }
+            }
         }
     }
 

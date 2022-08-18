@@ -23,6 +23,7 @@ class InvoiceRemoteModelMapper(
             .supplierName(from.supplierName)
             .products(from.products?.mapFromWith(productRemoteModelMapper))
             .purchaseOrderId(from.purchaseOrderId)
+            .invoiceStatus(from.invoiceStatus)
             .serverCreatedAtDateTime(from.createdAt)
             .build()
 }

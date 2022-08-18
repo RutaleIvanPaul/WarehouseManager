@@ -15,6 +15,7 @@
     <color name="mid_dark_grey">#d9dbdd</color>
     <color name="light_white_grey">#FAFAFA</color>
     <color name="text_hint_color">#AEAEAE</color>
+    <color name="light_blue">#ced9e1</color>
 
     <color name="purples">#6b70ff</color>
 
@@ -87,4 +88,8 @@
     <color name="confirm_action_button_background">#91FF90</color>
 
     <color name="light_grey_bg">#F3F3F3</color>
+
+    <color name="status_pending">#FFb0c1cf</color>
+    <color name="status_in_progress">#FFf5c448</color>
+    <color name="pending">#1d8cf8</color>
 </resources>

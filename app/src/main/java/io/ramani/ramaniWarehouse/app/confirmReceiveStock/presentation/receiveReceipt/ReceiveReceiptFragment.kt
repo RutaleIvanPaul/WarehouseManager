@@ -16,6 +16,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavFragment
 import kotlinx.android.synthetic.main.fragment_receive_receipt.*
 import org.kodein.di.generic.factory
@@ -40,10 +41,15 @@ class ReceiveReceiptFragment : BaseFragment() {
     override fun initView(view: View?) {
         flow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
         initPrintingView()
-        receiptItemsAdapter =
-            ReceiptItemsAdapter(
-                RECEIVE_MODELS.invoiceModelView?.products?.toMutableList() ?: mutableListOf()
-            )
+
+        val products = mutableListOf<ProductModelView>()
+        RECEIVE_MODELS.invoiceModelView?.products?.forEach {
+            if (it.isReceived == true) {
+                products.add(it)
+            }
+        }
+
+        receiptItemsAdapter = ReceiptItemsAdapter(products)
         val layoutManagerWithDisabledScrolling =
             object : LinearLayoutManager(requireContext()) {
                 override fun canScrollVertically(): Boolean {
@@ -52,8 +58,6 @@ class ReceiveReceiptFragment : BaseFragment() {
             }
         returned_items_RV.layoutManager = layoutManagerWithDisabledScrolling
         returned_items_RV.adapter = receiptItemsAdapter
-
-
 
         return_stock_print_receipt.setOnClickListener {
             val bitmap =
@@ -84,7 +88,7 @@ class ReceiveReceiptFragment : BaseFragment() {
     private fun initPrintingView() {
         if (viewModel.loggedInUser != null) {
             company_name.text = (viewModel.loggedInUser.companyName)
-            date.text = "Date: ${viewModel.getNowCalendarDate()}"
+            date.text = String.format("Date: %s", RECEIVE_MODELS.invoiceModelView?.createdAt)
             storekeeper_text.text = (RECEIVE_MODELS.invoiceModelView?.storeKeeperName)
             assignee_text.text = (RECEIVE_MODELS.invoiceModelView?.deliveryPersonName)
             storekeeper_image.setImageBitmap(RECEIVE_MODELS.invoiceModelView?.storeKeeperSign)

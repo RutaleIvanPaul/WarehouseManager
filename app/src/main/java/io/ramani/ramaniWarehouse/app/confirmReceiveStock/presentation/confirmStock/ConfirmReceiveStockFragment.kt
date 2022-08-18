@@ -126,7 +126,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        productsAdapter.notifyDataSetChanged()
+        setupRV()
     }
 
 
@@ -140,9 +140,13 @@ class ConfirmReceiveStockFragment : BaseFragment() {
                 .isReceived(false)
                 .build()
         )
-        products.addAll(
-            RECEIVE_MODELS.invoiceModelView?.products?.toMutableList() ?: mutableListOf()
-        )
+
+        RECEIVE_MODELS.invoiceModelView?.products?.forEach {
+            if (it.isReceived == true) {
+                products.add(it)
+            }
+        }
+
         productsAdapter = ConfirmedProductAdapter(products)
         products_rv.apply {
             this.adapter = productsAdapter
