@@ -188,9 +188,11 @@ class ConfirmReceiveViewModel(
     private fun getProductsPayload(): List<ProductModelPayLoad> {
         val productsPayload = mutableListOf<ProductModelPayLoad>()
         RECEIVE_MODELS.invoiceModelView?.products?.forEach {
-            var productPayload = ProductModelPayLoad.Builder().build()
-            productPayload.copy(it)
-            productsPayload.add(productPayload)
+            if (it.isReceived == true) {
+                val productPayload = ProductModelPayLoad.Builder().build()
+                productPayload.copy(it)
+                productsPayload.add(productPayload)
+            }
         }
         return productsPayload
     }
