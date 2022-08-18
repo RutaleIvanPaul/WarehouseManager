@@ -197,7 +197,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 stock_receive_now_host_indicator_1.visible()
             }
             1 -> {
-                if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
+                if (RECEIVE_MODELS.invoiceModelView?.products?.any { it.isReceived == true } == true) {
                     turnMarkOneToGreen()
                     stock_receive_now_host_indicator_2.visible()
                     stock_receive_now_host_viewpager.currentItem++
@@ -222,7 +222,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
             }
             else -> {
                 if (isFromNextButton) {
-                    if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == false) {
+                    if (RECEIVE_MODELS.invoiceModelView?.products?.any { it.isReceived == true } == false) {
                         errorDialog("Please set delivery of each products on Products page")
                         return
                     }
