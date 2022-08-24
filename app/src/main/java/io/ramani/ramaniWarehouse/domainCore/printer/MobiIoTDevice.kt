@@ -1,6 +1,7 @@
 package io.ramani.ramaniWarehouse.domainCore.printer
 
 import android.Manifest
+import android.app.Activity
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
 import android.content.Context
@@ -18,12 +19,13 @@ import java.io.IOException
 import java.io.OutputStream
 import java.util.*
 
+
 class MobiIoTDevice(val context: Context) : POSDevice {
     private val TAG = "MobiIoT"
 
-    private var local = BluetoothAdapter.getDefaultAdapter()
+    private var mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
     private lateinit var mBluetoothSocket: BluetoothSocket
-    private var mBluetooth = local.getRemoteDevice("02:03:00:00:00:00")
+    private var mBluetooth = mBluetoothAdapter.getRemoteDevice("02:03:00:00:00:00")
 
     lateinit var thermalPrinter: ThermalPrinter
 
@@ -35,11 +37,14 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
     override fun device(): ThermalPrinter {
         //return CsPrinter()
-
-        if (local == null) {
+        if (mBluetoothAdapter == null) {
             Toast.makeText(context, "No default adapter detected", Toast.LENGTH_SHORT).show()
         } else {
-            if (!local.isEnabled()) {
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+                requestBlePermissions(context, 1000)
+            }
+
+            if (!mBluetoothAdapter.isEnabled()) {
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
 
                 if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
@@ -105,7 +110,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             val applicationUUID = UUID.randomUUID()
             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
                 mBluetoothSocket = mBluetooth.createRfcommSocketToServiceRecord(applicationUUID)
-                local.cancelDiscovery()
+                mBluetoothAdapter.cancelDiscovery()
                 mBluetoothSocket.connect()
 
                 os = mBluetoothSocket.outputStream
@@ -117,5 +122,23 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         }
     }
 
+    private val BLE_PERMISSIONS = arrayOf(
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
+    private val ANDROID_12_BLE_PERMISSIONS = arrayOf(
+        Manifest.permission.BLUETOOTH_SCAN,
+        Manifest.permission.BLUETOOTH_CONNECT,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
+
+    private fun requestBlePermissions(context: Context, requestCode: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            ActivityCompat.requestPermissions(context as Activity, ANDROID_12_BLE_PERMISSIONS, requestCode)
+        } else {
+            ActivityCompat.requestPermissions(context as Activity, BLE_PERMISSIONS, requestCode)
+        }
+    }
 
 }
