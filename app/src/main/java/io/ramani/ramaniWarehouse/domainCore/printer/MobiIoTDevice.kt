@@ -40,10 +40,6 @@ class MobiIoTDevice(val context: Context) : POSDevice {
         if (mBluetoothAdapter == null) {
             Toast.makeText(context, "No default adapter detected", Toast.LENGTH_SHORT).show()
         } else {
-            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-                requestBlePermissions(context, 1000)
-            }
-
             if (!mBluetoothAdapter.isEnabled()) {
                 val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
 
@@ -57,7 +53,6 @@ class MobiIoTDevice(val context: Context) : POSDevice {
 
         return thermalPrinter
     }
-
 
     override fun open() {
         try {
@@ -121,24 +116,4 @@ class MobiIoTDevice(val context: Context) : POSDevice {
             return os as os?
         }
     }
-
-    private val BLE_PERMISSIONS = arrayOf(
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
-
-    private val ANDROID_12_BLE_PERMISSIONS = arrayOf(
-        Manifest.permission.BLUETOOTH_SCAN,
-        Manifest.permission.BLUETOOTH_CONNECT,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    )
-
-    private fun requestBlePermissions(context: Context, requestCode: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            ActivityCompat.requestPermissions(context as Activity, ANDROID_12_BLE_PERMISSIONS, requestCode)
-        } else {
-            ActivityCompat.requestPermissions(context as Activity, BLE_PERMISSIONS, requestCode)
-        }
-    }
-
 }
