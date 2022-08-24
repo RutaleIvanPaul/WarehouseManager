@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.cloudpos.DeviceException
 import com.cloudpos.printer.Format
-import com.mobiiot.androidqapi.api.CsPrinter
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
@@ -29,7 +28,7 @@ class MobiIoTDevice(val context: Context) : POSDevice {
     lateinit var thermalPrinter: ThermalPrinter
 
     init {
-        //device()
+        device()
         Log.e("Build", Build.MODEL)
 
     }
