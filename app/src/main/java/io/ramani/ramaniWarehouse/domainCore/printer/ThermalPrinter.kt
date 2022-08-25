@@ -198,7 +198,7 @@ class ThermalPrinter(os: OutputStream) {
             byteBuffer[chunk]
             os!!.write(chunk, 0, chunk.size)
             try {
-                lock.wait(10)
+                //lock.wait(10)
             } catch (e: InterruptedException) {
                 e.printStackTrace()
             }
