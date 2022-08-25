@@ -93,65 +93,64 @@ class ThermalPrinter(os: OutputStream) {
         // Each bit indicates if the pixel at that position in the slice should be dark or not.
         var row = 0
         while (row < height) {
-            try {
-                val imageData = outputStream
-                writeToPrinterBuffer(imageData, PRINTER_SET_LINE_SPACE_24)
+            val imageData = outputStream
+            writeToPrinterBuffer(imageData, PRINTER_SET_LINE_SPACE_24)
 
-                // Need to send these two sets of bytes at the beginning of each row.
-                writeToPrinterBuffer(imageData, PRINTER_SELECT_BIT_IMAGE_MODE)
-                writeToPrinterBuffer(imageData, controlByte)
+            // Need to send these two sets of bytes at the beginning of each row.
+            writeToPrinterBuffer(imageData, PRINTER_SELECT_BIT_IMAGE_MODE)
+            writeToPrinterBuffer(imageData, controlByte)
 
-                // Columns, unlike rows, are one at a time.
-                for (col in 0 until width) {
-                    val bandBytes = byteArrayOf(0x0, 0x0, 0x0)
+            // Columns, unlike rows, are one at a time.
+            for (col in 0 until width) {
+                val bandBytes = byteArrayOf(0x0, 0x0, 0x0)
 
-                    // Ugh, the nesting of forloops.  For each starting row/col position, evaluate
-                    // each pixel in a column, or "band", 24 pixels high.  Convert into 3 bytes.
-                    for (rowOffset in 0..7) {
+                // Ugh, the nesting of forloops.  For each starting row/col position, evaluate
+                // each pixel in a column, or "band", 24 pixels high.  Convert into 3 bytes.
+                for (rowOffset in 0..7) {
 
-                        // Because the printer only maintains correct height/width ratio
-                        // at the highest density, where it takes 24 bit-deep slices, process
-                        // a 24-bit-deep slice as 3 bytes.
-                        val pixelSlice = IntArray(3)
-                        val pixel2Row = row + rowOffset + 8
-                        val pixel3Row = row + rowOffset + 16
+                    // Because the printer only maintains correct height/width ratio
+                    // at the highest density, where it takes 24 bit-deep slices, process
+                    // a 24-bit-deep slice as 3 bytes.
+                    val pixelSlice = IntArray(3)
+                    val pixel2Row = row + rowOffset + 8
+                    val pixel3Row = row + rowOffset + 16
 
-                        // If we go past the bottom of the image, just send white pixels so the printer
-                        // doesn't do anything.  Everything still needs to be sent in sets of 3 rows.
-                        Log.e("Thermal printer ***", "[row: ${row}, height:${height}]")
+                    // If we go past the bottom of the image, just send white pixels so the printer
+                    // doesn't do anything.  Everything still needs to be sent in sets of 3 rows.
+                    Log.e("Thermal printer ***", "[row: ${row}, height:${height}]")
 
-                        pixelSlice[0] = bitmap.getPixel(col, row + rowOffset)
-                        pixelSlice[1] =
-                            if (pixel2Row >= bitmap.height) Color.WHITE else bitmap.getPixel(
-                                col,
-                                pixel2Row
-                            )
-                        pixelSlice[2] =
-                            if (pixel3Row >= bitmap.height) Color.WHITE else bitmap.getPixel(
-                                col,
-                                pixel3Row
-                            )
+                    if (row + rowOffset >= height)
+                        break;
 
-                        val isDark = booleanArrayOf(
-                            pixelSlice[0] == Color.BLACK,
-                            pixelSlice[1] == Color.BLACK,
-                            pixelSlice[2] == Color.BLACK
+                    pixelSlice[0] = bitmap.getPixel(col, row + rowOffset)
+                    pixelSlice[1] =
+                        if (pixel2Row >= bitmap.height) Color.WHITE else bitmap.getPixel(
+                            col,
+                            pixel2Row
+                        )
+                    pixelSlice[2] =
+                        if (pixel3Row >= bitmap.height) Color.WHITE else bitmap.getPixel(
+                            col,
+                            pixel3Row
                         )
 
-                        // Towing that fine line between "should I forloop or not".  This will only
-                        // ever be 3 elements deep.
-                        if (isDark[0]) bandBytes[0] = bandBytes[0] or (1 shl 7 - rowOffset).toByte()
-                        if (isDark[1]) bandBytes[1] = bandBytes[1] or (1 shl 7 - rowOffset).toByte()
-                        if (isDark[2]) bandBytes[2] = bandBytes[2] or (1 shl 7 - rowOffset).toByte()
-                    }
-                    writeToPrinterBuffer(imageData, bandBytes)
+                    val isDark = booleanArrayOf(
+                        pixelSlice[0] == Color.BLACK,
+                        pixelSlice[1] == Color.BLACK,
+                        pixelSlice[2] == Color.BLACK
+                    )
+
+                    // Towing that fine line between "should I forloop or not".  This will only
+                    // ever be 3 elements deep.
+                    if (isDark[0]) bandBytes[0] = bandBytes[0] or (1 shl 7 - rowOffset).toByte()
+                    if (isDark[1]) bandBytes[1] = bandBytes[1] or (1 shl 7 - rowOffset).toByte()
+                    if (isDark[2]) bandBytes[2] = bandBytes[2] or (1 shl 7 - rowOffset).toByte()
                 }
-                addLineFeed(imageData, 1)
-                print(imageData)
-                row += BAND_HEIGHT
-            } catch (ex: Exception) {
-                ex.printStackTrace()
+                writeToPrinterBuffer(imageData, bandBytes)
             }
+            addLineFeed(imageData, 1)
+            print(imageData)
+            row += BAND_HEIGHT
         }
     }
 
