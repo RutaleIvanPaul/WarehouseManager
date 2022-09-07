@@ -11,7 +11,9 @@ data class ProductModel(
     val quantity: Double? = null,
     val unit: String? = null,
     val status: String? = null,
-    val quantityPending: Double? = null
+    val quantityPending: Double? = null,
+    val quantityAccepted: Double? = null,
+    val quantityDeclined: Double? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -20,6 +22,8 @@ data class ProductModel(
         parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.readString(),
         parcel.readString(),
+        parcel.readValue(Double::class.java.classLoader) as? Double,
+        parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.readValue(Double::class.java.classLoader) as? Double,
     )
 
@@ -31,6 +35,8 @@ data class ProductModel(
         parcel.writeString(unit)
         parcel.writeString(status)
         parcel.writeValue(quantityPending)
+        parcel.writeValue(quantityAccepted)
+        parcel.writeValue(quantityDeclined)
     }
 
     override fun describeContents(): Int {
@@ -55,6 +61,8 @@ data class ProductModel(
         private var unit: String? = null
         private var status: String? = null
         private var quantityPending: Double? = null
+        private var quantityAccepted: Double? = null
+        private var quantityDeclined: Double? = null
 
         fun productId(productId: String?): Builder {
             this.productId = productId
@@ -91,8 +99,18 @@ data class ProductModel(
             return this
         }
 
+        fun quantityAccepted(quantityAccepted: Double?): Builder {
+            this.quantityAccepted = quantityAccepted
+            return this
+        }
+
+        fun quantityDeclined(quantityDeclined: Double?): Builder {
+            this.quantityDeclined = quantityDeclined
+            return this
+        }
+
         override fun build(): ProductModel =
-            ProductModel(productId, productName, price, quantity, unit, status, quantityPending)
+            ProductModel(productId, productName, price, quantity, unit, status, quantityPending, quantityAccepted, quantityDeclined)
     }
 
 }
