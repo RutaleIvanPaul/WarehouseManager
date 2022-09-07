@@ -232,8 +232,8 @@ temp_et.doAfterTextChanged { text ->
         val qtyDeclined = if (!et_returned.text.isNullOrBlank()) et_returned.text.toString().toDouble() else 0.0
         val qtyPending = product.qtyPendingBackup!! - (qtyAccepted + qtyDeclined)
 
-        qty_delivered.text = String.format("%.0f %s", qtyAccepted, product.units)
-        qty_returned.text = String.format("%.0f %s", qtyDeclined, product.units)
+        qty_delivered.text = String.format("%.0f %s", qtyAccepted + (product.qtyAccepted ?: 0.0), product.units)
+        qty_returned.text = String.format("%.0f %s", qtyDeclined + (product.qtyDeclined ?: 0.0), product.units)
         qty_pending.text = String.format("%.0f %s", qtyPending, product.units)
         et_pending.text = String.format("%.0f", qtyPending)
         qty_pending_warning.visibility = if (qtyPending < 0) View.VISIBLE else View.GONE
