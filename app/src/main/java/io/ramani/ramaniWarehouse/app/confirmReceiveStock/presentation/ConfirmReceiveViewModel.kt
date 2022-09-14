@@ -204,8 +204,8 @@ class ConfirmReceiveViewModel(
                     productPayload.qtyDeclined = 0
                 } else if (it.status.equals("complete", true) || it.status.equals("completed", true)) {
                     productPayload.qtyPending = it.qtyPendingBackup?.toInt()
-                    productPayload.qtyAccepted = it.qtyAcceptedBackup?.toInt()
-                    productPayload.qtyDeclined = it.qtyDeclinedBackup?.toInt()
+                    productPayload.qtyAccepted = 0
+                    productPayload.qtyDeclined = 0
                 }
 
                 productsPayload.add(productPayload)
