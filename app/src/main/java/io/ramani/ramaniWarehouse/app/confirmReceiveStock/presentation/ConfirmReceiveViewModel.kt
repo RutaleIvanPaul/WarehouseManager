@@ -30,6 +30,7 @@ import io.reactivex.rxkotlin.subscribeBy
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import java.util.*
 
 class ConfirmReceiveViewModel(
     application: Application,
@@ -191,6 +192,22 @@ class ConfirmReceiveViewModel(
             if (it.isReceived == true) {
                 val productPayload = ProductModelPayLoad.Builder().build()
                 productPayload.copy(it)
+                productsPayload.add(productPayload)
+            } else {
+                // [RI-1099] If this item is not selected on this delivery, it should be contains on posting
+                val productPayload = ProductModelPayLoad.Builder().build()
+                productPayload.copy(it)
+
+                if (it.status.equals("pending", true)) {
+                    productPayload.qtyPending = 0
+                    productPayload.qtyAccepted = 0
+                    productPayload.qtyDeclined = 0
+                } else if (it.status.equals("complete", true) || it.status.equals("completed", true)) {
+                    productPayload.qtyPending = it.qtyPendingBackup?.toInt()
+                    productPayload.qtyAccepted = it.qtyAcceptedBackup?.toInt()
+                    productPayload.qtyDeclined = it.qtyDeclinedBackup?.toInt()
+                }
+
                 productsPayload.add(productPayload)
             }
         }
