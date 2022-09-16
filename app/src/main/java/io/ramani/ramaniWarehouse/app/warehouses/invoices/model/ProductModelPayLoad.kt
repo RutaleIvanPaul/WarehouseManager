@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.warehouses.invoices.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.text.TextUtils
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
 import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
@@ -38,9 +39,14 @@ data class ProductModelPayLoad(
         this.units = productModelView?.units
         this.declinedReason = productModelView?.declinedReason
         this.qtyAccepted = productModelView?.qtyAccepted?.toInt()
-        this.temperature = productModelView?.temperature?.toInt()
         this.supplierProductId = ""
         this.qtyPending = productModelView?.qtyPending?.toInt()
+        productModelView?.temperature?.let {
+            if (it.isEmpty())
+                this.temperature = 0
+            else
+                this.temperature = it.toInt()
+        }
     }
 
    fun copy(productModelView: SelectedProductModel?) {
@@ -50,7 +56,7 @@ data class ProductModelPayLoad(
         this.units = productModelView?.units
         this.declinedReason = productModelView?.declinedReason
         this.qtyAccepted = productModelView?.qtyAccepted
-        this.temperature = productModelView?.temperature?.toInt()
+        this.temperature = productModelView?.temperature
         this.supplierProductId = ""
         this.qtyPending = productModelView?.qtyPending
     }

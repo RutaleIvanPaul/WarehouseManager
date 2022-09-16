@@ -21,5 +21,7 @@ class ProductModelMapper : UniModelMapper<ProductModel, ProductModelView> {
             .status(from.status)
             .quantityPending(from.quantityPending)
             .quantityPendingBackup(from.quantityPending)
+            .quantityAcceptedBackup(from.quantityAccepted)
+            .quantityDeclinedBackup(from.quantityDeclined)
             .build()
 }
