@@ -14,5 +14,7 @@ class ProductRemoteModelMapper : UniModelMapper<ProductRemoteModel, ProductModel
             .unit(from.unit)
             .status(from.status)
             .quantityPending(from.qtyPending)
+            .quantityAccepted(from.qtyAccepted)
+            .quantityDeclined(from.qtyDeclined)
             .build()
 }
