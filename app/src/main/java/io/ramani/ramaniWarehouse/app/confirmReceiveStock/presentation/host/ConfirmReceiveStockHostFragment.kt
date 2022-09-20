@@ -166,6 +166,8 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
             override fun onTabSelected(tab: TabLayout.Tab?) {
                 if (!isNeedToBack)
                     checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
+
+                isNeedToBack = false
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -195,8 +197,6 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     }
 
     private fun checkPage(isFromNextButton: Boolean, selectedTab: Int) {
-        isNeedToBack = false
-
         when (stock_receive_now_host_viewpager.currentItem) {
             0 -> {
                 stock_receive_now_host_viewpager.currentItem++
