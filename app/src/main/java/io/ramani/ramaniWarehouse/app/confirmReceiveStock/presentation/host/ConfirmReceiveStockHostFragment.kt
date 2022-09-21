@@ -57,6 +57,8 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     private lateinit var flow: ReceiveStockFlow
     override fun getLayoutResId(): Int = R.layout.fragment_stock_receive_now_host
 
+    private var isNeedToBack = false
+
     //    private var invoiceModelView: InvoiceModelView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -162,7 +164,10 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
         stock_receive_now_host_tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
+                if (!isNeedToBack)
+                    checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
+
+                isNeedToBack = false
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -182,6 +187,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     override fun onBackButtonPressed(): Boolean {
         if (stock_receive_now_host_viewpager.currentItem > 0) {
+            isNeedToBack = true
             stock_receive_now_host_next_button.text = getString(R.string.continue_)
             stock_receive_now_host_viewpager.currentItem--
             return true
