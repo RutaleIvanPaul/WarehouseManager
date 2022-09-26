@@ -7,6 +7,8 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
@@ -54,6 +56,8 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     private lateinit var flow: ReceiveStockFlow
     override fun getLayoutResId(): Int = R.layout.fragment_stock_receive_now_host
+
+    private var doNotRecursiveCheck = false     // We'll use this flag when back or continue operation should be done.
 
     //    private var invoiceModelView: InvoiceModelView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -114,41 +118,11 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
         flow = ReceiveStockFlowController(baseActivity!!)
         initTabLayout()
         stock_receive_now_host_next_button.setOnSingleClickListener {
-            when (stock_receive_now_host_viewpager.currentItem) {
-                0 -> {
-                    stock_receive_now_host_viewpager.currentItem++
-                    stock_receive_now_host_indicator_1.visible()
-                }
-                1 -> {
-                    if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
-                        turnMarkOneToGreen()
-                        stock_receive_now_host_indicator_2.visible()
-                        stock_receive_now_host_viewpager.currentItem++
-                        stock_receive_now_host_next_button.text =
-                            getString(R.string.done).capitalize()
-                    } else {
-                        flow.openConfirmProductSheet(
-                            RECEIVE_MODELS.invoiceModelView?.products?.first { it.isReceived == false }?.productId
-                                ?: ""
-                        ) {
-                            if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
-                                turnMarkOneToGreen()
-                            }
-                            RECEIVE_MODELS.refreshHostReceiveProductListLiveData.postValue(true)
-                        }
-                    }
-                }
-                else -> {
-                    viewModel.postGoodsReceived(
-                        requireContext(),
-                        RECEIVE_MODELS.invoiceModelView?.storeKeeperSign,
-                        RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign
-                    )
-                }
-            }
 //            if (stock_receive_now_host_viewpager.currentItem < 2) {
 //                stock_receive_now_host_viewpager.currentItem++
 //            }
+            doNotRecursiveCheck = true
+            checkPage(true,-1)
         }
     }
 
@@ -183,8 +157,26 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
         ) { tab, position ->
             tab.text = adapter.getTabTitle(position)
         }.attach()
-        stock_receive_now_host_tablayout.touchables.map { it.isClickable = false }
+
         stock_receive_now_host_viewpager.offscreenPageLimit = 2
+        stock_receive_now_host_tablayout.touchables.map {
+            it.isClickable = true
+        }
+
+        stock_receive_now_host_tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                if (!doNotRecursiveCheck)
+                    checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
+
+                doNotRecursiveCheck = false
+            }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+            }
+
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+            }
+        })
     }
 
     private fun turnMarkOneToGreen() {
@@ -196,11 +188,59 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     override fun onBackButtonPressed(): Boolean {
         if (stock_receive_now_host_viewpager.currentItem > 0) {
+            doNotRecursiveCheck = true
             stock_receive_now_host_next_button.text = getString(R.string.continue_)
             stock_receive_now_host_viewpager.currentItem--
             return true
         } else {
             return super.onBackButtonPressed()
+        }
+    }
+
+    private fun checkPage(isFromNextButton: Boolean, selectedTab: Int) {
+        when (stock_receive_now_host_viewpager.currentItem) {
+            0 -> {
+                stock_receive_now_host_viewpager.currentItem++
+                stock_receive_now_host_indicator_1.visible()
+            }
+            1 -> {
+                if (RECEIVE_MODELS.invoiceModelView?.products?.any { it.isReceived == true } == true) {
+                    turnMarkOneToGreen()
+                    stock_receive_now_host_indicator_2.visible()
+                    stock_receive_now_host_viewpager.currentItem++
+                    stock_receive_now_host_next_button.text =
+                        getString(R.string.done).capitalize()
+                } else {
+                    if (isFromNextButton || selectedTab == 2)
+                        errorDialog("Please set delivery of each products")
+
+                    /*
+                    flow.openConfirmProductSheet(
+                        RECEIVE_MODELS.invoiceModelView?.products?.first { it.isReceived == false }?.productId
+                            ?: ""
+                    ) {
+                        if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
+                            turnMarkOneToGreen()
+                        }
+                        RECEIVE_MODELS.refreshHostReceiveProductListLiveData.postValue(true)
+                    }
+                    */
+                }
+            }
+            else -> {
+                if (isFromNextButton) {
+                    if (RECEIVE_MODELS.invoiceModelView?.products?.any { it.isReceived == true } == false) {
+                        errorDialog("Please set delivery of each products on Products page")
+                        return
+                    }
+
+                    viewModel.postGoodsReceived(
+                        requireContext(),
+                        RECEIVE_MODELS.invoiceModelView?.storeKeeperSign,
+                        RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign
+                    )
+                }
+            }
         }
     }
 

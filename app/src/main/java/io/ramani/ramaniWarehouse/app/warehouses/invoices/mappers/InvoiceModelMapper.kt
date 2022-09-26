@@ -15,7 +15,7 @@ class InvoiceModelMapper(
     UniModelMapper<InvoiceModel, InvoiceModelView> {
     override fun mapFrom(from: InvoiceModel): InvoiceModelView =
         InvoiceModelView.Builder()
-            .createdAt(dateFormatter.convertToDateWithDashes(from.createdAt ?: 0L))
+            .createdAt(dateFormatter.convertToCalendarFormatDate(from.createdAt ?: 0L))
             .distributorId(from.distributorId)
             .distributorName(from.distributorName)
             .invoiceAmount(from.invoiceAmount)
@@ -24,6 +24,7 @@ class InvoiceModelMapper(
             .supplierId(from.supplierId)
             .supplierName(from.supplierName)
             .purchaseOrderId(from.purchaseOrderId)
+            .invoiceStatus(from.invoiceStatus)
             .serverCreatedAtDateTime(from.serverCreatedAtDateTime)
             .build()
 }

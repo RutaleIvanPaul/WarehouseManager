@@ -1,46 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/list_title"
     android:layout_width="200dp"
     android:layout_height="50dp"
     android:background="@color/white"
+    android:gravity="center"
     android:orientation="horizontal"
     app:layout_constraintTop_toBottomOf="@+id/horizontal_line">
 
     <TextView
         android:id="@+id/product_name"
-        android:layout_width="80dp"
+        style="@style/BoldTextLabel"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
         android:text="Nguvu Blend 100g"
-        android:textColor="@color/black"
-        android:textSize="9sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/declined_tv"
-        android:layout_width="45dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="10dp"
-        android:text="@string/declined"
-        android:textColor="@color/black"
-        android:textSize="9sp"
-        android:textStyle="bold" />
+        android:textSize="7sp" />
 
     <TextView
         android:id="@+id/accepted_tv"
-        android:layout_width="45dp"
+        style="@style/BoldTextLabel"
+        android:layout_width="35dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_marginEnd="10dp"
-        android:layout_toStartOf="@+id/declined_tv"
         android:text="@string/accepted"
-        android:textColor="@color/black"
-        android:textSize="9sp"
-        android:textStyle="bold" />
+        android:textSize="7sp" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/declined_tv"
+        style="@style/BoldTextLabel"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:text="@string/declined"
+        android:textSize="7sp" />
+
+    <TextView
+        android:id="@+id/pending_tv"
+        style="@style/BoldTextLabel"
+        android:layout_width="35dp"
+        android:layout_height="wrap_content"
+        android:text="@string/qty_pending_1"
+        android:textSize="7sp" />
+
+</LinearLayout>

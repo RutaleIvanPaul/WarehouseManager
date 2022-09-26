@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.warehouses.invoices.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.text.TextUtils
 import io.ramani.ramaniWarehouse.domain.stockreceive.model.selected.SelectedProductModel
 import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
 
@@ -13,7 +14,8 @@ data class ProductModelPayLoad(
     var qtyDeclined: Int? = null,
     var declinedReason: String? = null,
     var temperature: Int? = null,
-    var supplierProductId: String? = ""
+    var supplierProductId: String? = "",
+    var qtyPending: Int? = null,
 ) : Parcelable {
 
 
@@ -22,6 +24,8 @@ data class ProductModelPayLoad(
         parcel.readString(),
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readValue(Int::class.java.classLoader) as? Int,
+        parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int,
         parcel.readString(),
         parcel.readValue(Int::class.java.classLoader) as? Int
@@ -35,9 +39,14 @@ data class ProductModelPayLoad(
         this.units = productModelView?.units
         this.declinedReason = productModelView?.declinedReason
         this.qtyAccepted = productModelView?.qtyAccepted?.toInt()
-        this.temperature = productModelView?.temperature?.toInt()
         this.supplierProductId = ""
-
+        this.qtyPending = productModelView?.qtyPending?.toInt()
+        productModelView?.temperature?.let {
+            if (it.isEmpty())
+                this.temperature = 0
+            else
+                this.temperature = it.toInt()
+        }
     }
 
    fun copy(productModelView: SelectedProductModel?) {
@@ -47,9 +56,9 @@ data class ProductModelPayLoad(
         this.units = productModelView?.units
         this.declinedReason = productModelView?.declinedReason
         this.qtyAccepted = productModelView?.qtyAccepted
-        this.temperature = productModelView?.temperature?.toInt()
+        this.temperature = productModelView?.temperature
         this.supplierProductId = ""
-
+        this.qtyPending = productModelView?.qtyPending
     }
 
     class Builder : IBuilder<ProductModelPayLoad> {
@@ -63,6 +72,7 @@ data class ProductModelPayLoad(
         private var isReceived: Boolean? = null
         private var declineReason: String? = null
         private var temp: Int? = null
+        private var quantityPending: Int? = null
 
         fun productId(productId: String?): Builder {
             this.productId = productId
@@ -114,6 +124,11 @@ data class ProductModelPayLoad(
             return this
         }
 
+        fun quantityPending(quantityPending: Int?): Builder {
+            this.quantityPending = quantityPending
+            return this
+        }
+
         override fun build(): ProductModelPayLoad =
             ProductModelPayLoad(
                 productId,
@@ -122,7 +137,9 @@ data class ProductModelPayLoad(
                 quantityAccepted,
                 quantityDeclined,
                 declineReason,
-                temp
+                temp,
+                "",
+                quantityPending
             )
     }
 
@@ -134,6 +151,7 @@ data class ProductModelPayLoad(
         parcel.writeValue(qtyDeclined)
         parcel.writeString(declinedReason)
         parcel.writeValue(temperature)
+        parcel.writeValue(qtyPending)
     }
 
     override fun describeContents(): Int {

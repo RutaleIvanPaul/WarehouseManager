@@ -28,6 +28,7 @@ class InvoicesViewModel(
 
 ) : BaseViewModel(application, stringProvider, sessionManager) {
     val invoicesList = mutableListOf<InvoiceModelView>()
+    var currency = ""
     private var page = 1
     var hasMoreToLoad = true
     val onInvoicesLoadedLiveData = MutableLiveData<Boolean>()
@@ -40,6 +41,7 @@ class InvoicesViewModel(
         if (hasMoreToLoad) {
             isLoadingVisible = true
             sessionManager.getLoggedInUser().subscribeBy {
+                currency = it.currency
                 val single =
                     loadInvoicesUseCase.getSingle(GetWarehousesRequestModel(it.companyId, page))
                 subscribeSingle(single, onSuccess = {

@@ -12,5 +12,13 @@ data class ProductRemoteModel(
     @SerializedName("qty")
      val quantity: Double? = null,
     @SerializedName("units")
-    val unit: String? = null
+    val unit: String? = null,
+    @SerializedName("status")
+    val status: String? = null,
+    @SerializedName("qtyPending")
+    val qtyPending: Double? = null,
+    @SerializedName("qtyAccepted")
+    val qtyAccepted: Double? = null,
+    @SerializedName("qtyDeclined")
+    val qtyDeclined: Double? = null
 )

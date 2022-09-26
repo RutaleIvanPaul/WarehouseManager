@@ -21,5 +21,7 @@ data class InvoiceRemoteModel(
     @SerializedName("invoiceAmount")
     val invoiceAmount: Double? = null,
     @SerializedName("products")
-    val products: List<ProductRemoteModel>? = null
+    val products: List<ProductRemoteModel>? = null,
+    @SerializedName("invoiceStatus")
+    val invoiceStatus: String? = null
 )
