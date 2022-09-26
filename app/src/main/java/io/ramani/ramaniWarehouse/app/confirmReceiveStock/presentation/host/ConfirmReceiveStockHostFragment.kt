@@ -57,7 +57,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     private lateinit var flow: ReceiveStockFlow
     override fun getLayoutResId(): Int = R.layout.fragment_stock_receive_now_host
 
-    private var isNeedToBack = false
+    private var doNotRecursiveCheck = false     // We'll use this flag when back or continue operation should be done.
 
     //    private var invoiceModelView: InvoiceModelView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -121,6 +121,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 //            if (stock_receive_now_host_viewpager.currentItem < 2) {
 //                stock_receive_now_host_viewpager.currentItem++
 //            }
+            doNotRecursiveCheck = true
             checkPage(true,-1)
         }
     }
@@ -164,10 +165,10 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
         stock_receive_now_host_tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (!isNeedToBack)
+                if (!doNotRecursiveCheck)
                     checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
 
-                isNeedToBack = false
+                doNotRecursiveCheck = false
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -187,7 +188,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     override fun onBackButtonPressed(): Boolean {
         if (stock_receive_now_host_viewpager.currentItem > 0) {
-            isNeedToBack = true
+            doNotRecursiveCheck = true
             stock_receive_now_host_next_button.text = getString(R.string.continue_)
             stock_receive_now_host_viewpager.currentItem--
             return true
