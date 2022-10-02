@@ -230,7 +230,7 @@ temp_et.doAfterTextChanged { text ->
     private fun validateAndUpdate(product: ProductModelView) {
         val qtyAccepted = if (!et_accepted.text.isNullOrBlank()) et_accepted.text.toString().toDouble() else 0.0
         val qtyDeclined = if (!et_returned.text.isNullOrBlank()) et_returned.text.toString().toDouble() else 0.0
-        val qtyPending = product.qtyPendingBackup!! - (qtyAccepted + qtyDeclined)
+        val qtyPending = product.quantity!! - (qtyAccepted + qtyDeclined)
 
         qty_delivered.text = String.format("%.0f %s", qtyAccepted + (product.qtyAcceptedBackup ?: 0.0), product.units)
         qty_returned.text = String.format("%.0f %s", qtyDeclined + (product.qtyDeclinedBackup ?: 0.0), product.units)
@@ -238,8 +238,12 @@ temp_et.doAfterTextChanged { text ->
         et_pending.text = String.format("%.0f", qtyPending)
         qty_pending_warning.visibility = if (qtyPending < 0) View.VISIBLE else View.GONE
 
-        val deliveredPercent = 100 - (qtyPending / product.quantity!!) * 100.0
-        percent_delivered.text = String.format("%.1f%%", deliveredPercent)
+        if (qtyPending >= 0) {
+            val deliveredPercent = 100 - (qtyPending / product.quantity!!) * 100.0
+            percent_delivered.text = String.format("%.1f%%", deliveredPercent)
+        } else {
+            percent_delivered.text = "N/A"
+        }
 
         var canBeEnabled = qtyPending >= 0 && !et_accepted.text.isNullOrBlank() && !et_returned.text.isNullOrBlank()
         if (!et_returned.text.isNullOrBlank()) {
@@ -250,13 +254,5 @@ temp_et.doAfterTextChanged { text ->
             canBeEnabled = false
 
         receive_btn.isEnabled = canBeEnabled
-    }
-
-    private fun calculatePercentage(qtyAccepted: Double, qtyDeclined: Double, qtyPending: Double): Double {
-        val total = qtyAccepted + qtyDeclined
-        return if (total > 0)
-            total / qtyPending * 100
-        else
-            0.0
     }
 }
