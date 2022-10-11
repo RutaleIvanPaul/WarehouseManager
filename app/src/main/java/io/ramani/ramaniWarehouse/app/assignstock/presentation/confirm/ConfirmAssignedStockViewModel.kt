@@ -71,7 +71,7 @@ class ConfirmAssignedStockViewModel(
         private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ConfirmAssignedStockViewModel::class.java)) {
                 return ConfirmAssignedStockViewModel(
                     application,

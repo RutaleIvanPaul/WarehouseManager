@@ -1,13 +1,12 @@
 package io.ramani.ramaniWarehouse.domainCore.printer
 
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.util.Log
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.ByteBuffer
-import kotlin.experimental.or
+
 
 class ThermalPrinter(os: OutputStream) {
     private val TAG = "ThermalPrinter"
@@ -33,6 +32,7 @@ class ThermalPrinter(os: OutputStream) {
     companion object {
         private val PRINTER_SELECT_BIT_IMAGE_MODE = byteArrayOf(0x1B, 0x2A, 33)
     }
+
     // Config settings for Ada 597 thermal printer.
     init {
         configurePrinter(os)
@@ -80,77 +80,89 @@ class ThermalPrinter(os: OutputStream) {
             return
         }
 
-        val width = bitmap.width
-        val height = bitmap.height
-        val controlByte = byteArrayOf((0x00ff and width).toByte(), (0xff00 and width shr 8).toByte())
-        val pixels = IntArray(width * height)
-        bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
+        /*   val width = bitmap.width
+           val height = bitmap.height
+           val controlByte = byteArrayOf((0x00ff and width).toByte(), (0xff00 and width shr 8).toByte())
+           val pixels = IntArray(width * height)
+           bitmap.getPixels(pixels, 0, width, 0, 0, width, height)
 
-        val BAND_HEIGHT = 24
+           val BAND_HEIGHT = 24
 
-        // Bands of pixels are sent that are 8 pixels high.  Iterate through bitmap
-        // 24 rows of pixels at a time, capturing bytes representing vertical slices 1 pixel wide.
-        // Each bit indicates if the pixel at that position in the slice should be dark or not.
-        var row = 0
-        while (row < height) {
-            val imageData = outputStream
-            writeToPrinterBuffer(imageData, PRINTER_SET_LINE_SPACE_24)
+           // Bands of pixels are sent that are 8 pixels high.  Iterate through bitmap
+           // 24 rows of pixels at a time, capturing bytes representing vertical slices 1 pixel wide.
+           // Each bit indicates if the pixel at that position in the slice should be dark or not.
+           var row = 0
+           while (row < height) {
+               val imageData = outputStream
+               writeToPrinterBuffer(imageData, PRINTER_SET_LINE_SPACE_24)
 
-            // Need to send these two sets of bytes at the beginning of each row.
-            writeToPrinterBuffer(imageData, PRINTER_SELECT_BIT_IMAGE_MODE)
-            writeToPrinterBuffer(imageData, controlByte)
+               // Need to send these two sets of bytes at the beginning of each row.
+               writeToPrinterBuffer(imageData, PRINTER_SELECT_BIT_IMAGE_MODE)
+               writeToPrinterBuffer(imageData, controlByte)
 
-            // Columns, unlike rows, are one at a time.
-            for (col in 0 until width) {
-                val bandBytes = byteArrayOf(0x0, 0x0, 0x0)
+               // Columns, unlike rows, are one at a time.
+               for (col in 0 until width) {
+                   val bandBytes = byteArrayOf(0x0, 0x0, 0x0)
 
-                // Ugh, the nesting of forloops.  For each starting row/col position, evaluate
-                // each pixel in a column, or "band", 24 pixels high.  Convert into 3 bytes.
-                for (rowOffset in 0..7) {
+                   // Ugh, the nesting of forloops.  For each starting row/col position, evaluate
+                   // each pixel in a column, or "band", 24 pixels high.  Convert into 3 bytes.
+                   for (rowOffset in 0..7) {
 
-                    // Because the printer only maintains correct height/width ratio
-                    // at the highest density, where it takes 24 bit-deep slices, process
-                    // a 24-bit-deep slice as 3 bytes.
-                    val pixelSlice = IntArray(3)
-                    val pixel2Row = row + rowOffset + 8
-                    val pixel3Row = row + rowOffset + 16
+                       // Because the printer only maintains correct height/width ratio
+                       // at the highest density, where it takes 24 bit-deep slices, process
+                       // a 24-bit-deep slice as 3 bytes.
+                       val pixelSlice = IntArray(3)
+                       val pixel2Row = row + rowOffset + 8
+                       val pixel3Row = row + rowOffset + 16
 
-                    // If we go past the bottom of the image, just send white pixels so the printer
-                    // doesn't do anything.  Everything still needs to be sent in sets of 3 rows.
-                    Log.e("Thermal printer ***", "[row: ${row}, height:${height}]")
+                       // If we go past the bottom of the image, just send white pixels so the printer
+                       // doesn't do anything.  Everything still needs to be sent in sets of 3 rows.
+   //                    Log.e("Thermal printer ***", "[row: ${row}, height:${height}]")
 
-                    if (row + rowOffset >= height)
-                        break;
+                       if (row + rowOffset >= height)
+                           break;
 
-                    pixelSlice[0] = bitmap.getPixel(col, row + rowOffset)
-                    pixelSlice[1] =
-                        if (pixel2Row >= bitmap.height) Color.WHITE else bitmap.getPixel(
-                            col,
-                            pixel2Row
-                        )
-                    pixelSlice[2] =
-                        if (pixel3Row >= bitmap.height) Color.WHITE else bitmap.getPixel(
-                            col,
-                            pixel3Row
-                        )
+                       pixelSlice[0] = bitmap.getPixel(col, row + rowOffset)
+                       pixelSlice[1] =
+                           if (pixel2Row >= bitmap.height) Color.WHITE else bitmap.getPixel(
+                               col,
+                               pixel2Row
+                           )
+                       pixelSlice[2] =
+                           if (pixel3Row >= bitmap.height) Color.WHITE else bitmap.getPixel(
+                               col,
+                               pixel3Row
+                           )
 
-                    val isDark = booleanArrayOf(
-                        pixelSlice[0] == Color.BLACK,
-                        pixelSlice[1] == Color.BLACK,
-                        pixelSlice[2] == Color.BLACK
-                    )
+                       val isDark = booleanArrayOf(
+                           pixelSlice[0] == Color.BLACK,
+                           pixelSlice[1] == Color.BLACK,
+                           pixelSlice[2] == Color.BLACK
+                       )
 
-                    // Towing that fine line between "should I forloop or not".  This will only
-                    // ever be 3 elements deep.
-                    if (isDark[0]) bandBytes[0] = bandBytes[0] or (1 shl 7 - rowOffset).toByte()
-                    if (isDark[1]) bandBytes[1] = bandBytes[1] or (1 shl 7 - rowOffset).toByte()
-                    if (isDark[2]) bandBytes[2] = bandBytes[2] or (1 shl 7 - rowOffset).toByte()
-                }
-                writeToPrinterBuffer(imageData, bandBytes)
-            }
-            addLineFeed(imageData, 1)
-            print(imageData)
-            row += BAND_HEIGHT
+                       // Towing that fine line between "should I forloop or not".  This will only
+                       // ever be 3 elements deep.
+                       if (isDark[0]) bandBytes[0] = bandBytes[0] or (1 shl 7 - rowOffset).toByte()
+                       if (isDark[1]) bandBytes[1] = bandBytes[1] or (1 shl 7 - rowOffset).toByte()
+                       if (isDark[2]) bandBytes[2] = bandBytes[2] or (1 shl 7 - rowOffset).toByte()
+                   }
+                   writeToPrinterBuffer(imageData, bandBytes)
+               }
+               addLineFeed(imageData, 1)
+               print(imageData)
+               row += BAND_HEIGHT
+           }*/
+        val printPic: PrintPic = PrintPic.instance
+        printPic.init(bitmap)
+
+        val bytes = printPic.printDraw()
+        val printBytes = ArrayList<ByteArray>()
+        printBytes.add(bytes)
+        for (byte in printBytes) {
+            writeUartData(byte)
+        }
+        for (i in 0..7) {
+            printLn("  ")
         }
     }
 

@@ -84,7 +84,7 @@ class InvoicesViewModel(
         private val invoiceModelMapper: UniModelMapper<InvoiceModel, InvoiceModelView>
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(InvoicesViewModel::class.java)) {
                 return InvoicesViewModel(
                     application,

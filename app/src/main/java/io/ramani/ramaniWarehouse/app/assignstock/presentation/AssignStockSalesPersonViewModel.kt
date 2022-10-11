@@ -1,28 +1,21 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.assignstocksalesperson.model.SalesPersonRVModel
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.model.SalespersonRVModel
 import io.ramani.ramaniWarehouse.app.stockassignmentreport.presentation.StockAssignmentReportViewModel
-import io.ramani.ramaniWarehouse.data.returnStock.model.GetSalespeopleRequestModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.GetSalesPersonRequestModel
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
-import io.ramani.ramaniWarehouse.domain.returnStock.model.SalespeopleModel
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.reactivex.rxkotlin.subscribeBy
@@ -49,8 +42,6 @@ class AssignStockSalesPersonViewModel(
     override fun start(args: Map<String, Any?>) {
         TODO("Not yet implemented")
     }
-
-
 
 
     fun getSalespeople() {
@@ -89,7 +80,7 @@ class AssignStockSalesPersonViewModel(
 
     }
 
-    fun updateStockTakenDateItem(value: Boolean){
+    fun updateStockTakenDateItem(value: Boolean) {
         onStockTakenDateSelectedLiveData.postValue(value)
 
     }
@@ -105,8 +96,7 @@ class AssignStockSalesPersonViewModel(
         private val salespersonRVMapper: ModelMapper<SalesPersonModel, SalesPersonRVModel>,
         private val dateFormatter: DateFormatter
     ) : ViewModelProvider.Factory {
-
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AssignStockSalesPersonViewModel::class.java)) {
                 return AssignStockSalesPersonViewModel(
                     application,

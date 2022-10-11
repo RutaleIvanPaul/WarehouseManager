@@ -179,7 +179,7 @@ class StockReceiveNowViewModel(
         private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(StockReceiveNowViewModel::class.java)) {
                 return StockReceiveNowViewModel(
                     application,

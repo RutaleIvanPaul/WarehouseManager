@@ -123,7 +123,7 @@ class StockReportViewModel(
         private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(StockReportViewModel::class.java)) {
                 return StockReportViewModel(
                     application,
