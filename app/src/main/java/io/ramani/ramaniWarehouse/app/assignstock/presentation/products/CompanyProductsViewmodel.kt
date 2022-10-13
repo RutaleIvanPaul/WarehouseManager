@@ -135,7 +135,7 @@ class CompanyProductsViewmodel(application: Application,
         private val prefs: PrefsManager,
         private val productUIModelMapper: ModelMapper<ProductEntity, ProductsUIModel>,
     ): ViewModelProvider.Factory{
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(CompanyProductsViewmodel::class.java)) {
                 return CompanyProductsViewmodel(
                     application,

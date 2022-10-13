@@ -91,7 +91,7 @@ class AssignmentReportSalesPersonViewModel(
         private val dateFormatter: DateFormatter
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AssignmentReportSalesPersonViewModel::class.java)) {
                 return AssignmentReportSalesPersonViewModel(
                     application,

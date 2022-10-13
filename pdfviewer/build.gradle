@@ -27,6 +27,7 @@ android {
 
         }
     }
+    namespace 'io.ramani.android.app.pdfviewer'
 
 }
 

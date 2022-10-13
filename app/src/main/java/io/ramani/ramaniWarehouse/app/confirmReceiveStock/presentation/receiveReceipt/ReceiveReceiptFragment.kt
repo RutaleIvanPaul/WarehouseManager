@@ -1,11 +1,15 @@
 package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.receiveReceipt
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PixelFormat
+import android.os.Build
 import android.os.Bundle
 import android.view.View
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
@@ -16,8 +20,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.ConfirmReceiveViewModel
-import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
-import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavFragment
+import io.ramani.ramaniWarehouse.domainCore.printer.Manufacturer
 import kotlinx.android.synthetic.main.fragment_receive_receipt.*
 import org.kodein.di.generic.factory
 
@@ -41,15 +44,10 @@ class ReceiveReceiptFragment : BaseFragment() {
     override fun initView(view: View?) {
         flow = AuthFlowController(baseActivity!!, R.id.main_fragment_container)
         initPrintingView()
-
-        val products = mutableListOf<ProductModelView>()
-        RECEIVE_MODELS.invoiceModelView?.products?.forEach {
-            if (it.isReceived == true) {
-                products.add(it)
-            }
-        }
-
-        receiptItemsAdapter = ReceiptItemsAdapter(products)
+        receiptItemsAdapter =
+            ReceiptItemsAdapter(
+                RECEIVE_MODELS.invoiceModelView?.products?.toMutableList() ?: mutableListOf()
+            )
         val layoutManagerWithDisabledScrolling =
             object : LinearLayoutManager(requireContext()) {
                 override fun canScrollVertically(): Boolean {
@@ -60,29 +58,46 @@ class ReceiveReceiptFragment : BaseFragment() {
         returned_items_RV.adapter = receiptItemsAdapter
 
         return_stock_print_receipt.setOnClickListener {
-            val bitmap =
-                Bitmap.createBitmap(
-                    scrollview.width,
-                    scrollview.getChildAt(0).height,
-                    Bitmap.Config.ARGB_8888
-                )
-            val canvas = Canvas(bitmap)
-            val bgDrawable = scrollview.background
+            var canPrint = true
 
-            if (bgDrawable!=null){
-                bgDrawable.draw(canvas)
+            // If printer is bluetooth printer, then check bluetooth permission
+            if (Build.MANUFACTURER.equals(Manufacturer.MobiIot.name) || Build.MANUFACTURER.equals(Manufacturer.MobiWire.name)) {
+                if (ActivityCompat.checkSelfPermission(requireActivity(), Manifest.permission.BLUETOOTH) != PackageManager.PERMISSION_GRANTED) {
+                    requireBluetoothPermission()
+                    canPrint = false
+                }
             }
-            else{
-                canvas.drawColor(Color.WHITE)
+
+            if (canPrint) {
+                val bitmap =
+                    Bitmap.createBitmap(
+                        scrollview.width,
+                        scrollview.getChildAt(0).height,
+                        Bitmap.Config.ARGB_8888
+                    )
+                val canvas = Canvas(bitmap)
+                val bgDrawable = scrollview.background
+
+                if (bgDrawable != null) {
+                    bgDrawable.draw(canvas)
+                } else {
+                    canvas.drawColor(Color.WHITE)
+                }
+                scrollview.draw(canvas)
+                viewModel.printBitmap(bitmap)
             }
-            scrollview.draw(canvas)
-            viewModel.printBitmap(bitmap)
         }
 
         return_stock_done.setOnClickListener {
             (requireActivity() as BaseActivity).navigationManager?.popToRootFragment()
             RECEIVE_MODELS.reset()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        requireBluetoothPermission()
     }
 
     private fun initPrintingView() {
@@ -96,6 +111,10 @@ class ReceiveReceiptFragment : BaseFragment() {
         }
     }
 
+    private fun requireBluetoothPermission() {
+        ActivityCompat.requestPermissions(requireActivity(), BLE_PERMISSIONS, 1000)
+    }
+
     override fun getLayoutResId(): Int = R.layout.fragment_receive_receipt
 
     companion object {
@@ -103,4 +122,10 @@ class ReceiveReceiptFragment : BaseFragment() {
         fun newInstance() =
             ReceiveReceiptFragment()
     }
+
+    private val BLE_PERMISSIONS = arrayOf(
+        Manifest.permission.BLUETOOTH,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    )
 }

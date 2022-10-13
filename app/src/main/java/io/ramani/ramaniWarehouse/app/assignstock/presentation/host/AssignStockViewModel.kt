@@ -139,7 +139,7 @@ class AssignStockViewModel(
         private val prefs: PrefsManager
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AssignStockViewModel::class.java)) {
                 return AssignStockViewModel(
                     application,

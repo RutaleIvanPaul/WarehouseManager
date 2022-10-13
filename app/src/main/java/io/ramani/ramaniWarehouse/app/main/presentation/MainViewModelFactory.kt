@@ -16,7 +16,7 @@ class MainViewModelFactory(
     private val sessionManager: ISessionManager
 ) : ViewModelProvider.Factory {
 
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
             return MainViewModel(application, stringProvider,sessionManager) as T
         }
