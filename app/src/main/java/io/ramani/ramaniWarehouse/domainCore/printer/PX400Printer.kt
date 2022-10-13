@@ -51,9 +51,9 @@ class PX400Printer(var context: Context) {
 
     fun printBitmap(bitmap: Bitmap){
         try {
-            val format = Format()
-            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
-            format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
+//            val format = Format()
+//            format.setParameter(Format.FORMAT_ALIGN, Format.FORMAT_ALIGN_CENTER)
+//            format.setParameter(Format.FORMAT_FONT_SIZE_EXTRASMALL, Format.FORMAT_FONT_SIZE_EXTRASMALL)
             device?.printBitmap(bitmap)
             Log.d(TAG,"Print Bitmap  succeed!")
         } catch (ex: DeviceException) {

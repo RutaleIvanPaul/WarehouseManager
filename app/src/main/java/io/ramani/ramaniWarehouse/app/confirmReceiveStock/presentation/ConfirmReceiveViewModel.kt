@@ -231,7 +231,7 @@ class ConfirmReceiveViewModel(
         private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ConfirmReceiveViewModel::class.java)) {
                 return ConfirmReceiveViewModel(
                     application,
