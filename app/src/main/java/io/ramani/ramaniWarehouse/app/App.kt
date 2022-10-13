@@ -44,7 +44,7 @@ class App : Application(), KodeinAware {
         super.onCreate()
         initPusNotificationsManager()
         registerActivityLifecycleCallbacks(BaseActivityLifeCycleCallbacks())
-        if(Build.MANUFACTURER == Manufacturer.MobiIot.name ||Build.MANUFACTURER == Manufacturer.MobiWire.name) MobiiotAPI(this)
+        //if(Build.MANUFACTURER == Manufacturer.MobiIot.name ||Build.MANUFACTURER == Manufacturer.MobiWire.name) MobiiotAPI(this)
 //            initInstaBug()
     }
 

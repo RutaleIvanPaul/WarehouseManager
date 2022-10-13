@@ -22,7 +22,7 @@ class ReturnSuccessViewModel(
         private val sessionManager: ISessionManager
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(ReturnSuccessViewModel::class.java)) {
                 return ReturnSuccessViewModel(
                     application,

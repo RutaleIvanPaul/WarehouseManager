@@ -204,7 +204,7 @@ class StockAssignmentReportViewModel(
         private val salespersonRVMapper: ModelMapper<SalesPersonModel, SalesPersonRVModel>,
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(StockAssignmentReportViewModel::class.java)) {
                 return StockAssignmentReportViewModel(
                     application,
