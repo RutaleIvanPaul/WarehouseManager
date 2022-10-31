@@ -47,7 +47,7 @@ android {
     def BOOLEAN = "boolean"
     def HTTP_LOGGING_ENABLED = "HTTP_LOGGING_ENABLED"
 
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "io.ramani.ramaniWarehouse"
@@ -173,6 +173,7 @@ android {
         dataBinding true
     }
     namespace 'io.ramani.ramaniWarehouse'
+    buildToolsVersion '33.0.0'
 
 
 }

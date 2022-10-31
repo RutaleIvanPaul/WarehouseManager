@@ -80,7 +80,8 @@ data class SalespeopleModel(
         return 0
     }
 
-    override fun writeToParcel(parcel: Parcel?, flags: Int) {
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel?.writeString(companyId)
         parcel?.writeByte(if (isActive) 1 else 0)
         parcel?.writeByte(if (isAdmin) 1 else 0)
