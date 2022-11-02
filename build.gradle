@@ -21,7 +21,7 @@ buildscript {
 
 project.ext {
     minSdkVersion = 21
-    targetSdkVersion = 31
+    targetSdkVersion = 33
 }
 
 task clean(type: Delete) {
