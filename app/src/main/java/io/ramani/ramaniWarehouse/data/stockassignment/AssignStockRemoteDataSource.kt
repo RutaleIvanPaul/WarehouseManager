@@ -16,10 +16,7 @@ import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
 import io.ramani.ramaniWarehouse.data.common.network.toErrorResponseModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
 import io.ramani.ramaniWarehouse.data.common.source.remote.BaseRemoteDataSource
-import io.ramani.ramaniWarehouse.data.stockassignment.model.AssignProductsRequestModel
-import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItemsResponse
-import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
-import io.ramani.ramaniWarehouse.data.stockassignment.model.SalesPersonRemoteModel
+import io.ramani.ramaniWarehouse.data.stockassignment.model.*
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.entities.BaseErrorResponse
@@ -141,6 +138,17 @@ class AssignStockRemoteDataSource(
         return callSingle(
             assignStockAPI.postAssignedStock(body).flatMap {
                 Single.just(it.data)
+            }
+        )
+    }
+
+    override fun postAssignedWarehouseStock(
+        body: PostWarehouseAssignedItems,
+        warehouseId: String
+    ): Single<String> {
+        return callSingle(
+            assignStockAPI.postAssignedWarehouseStock(body,warehouseId).flatMap {
+                Single.just(it.message)
             }
         )
     }

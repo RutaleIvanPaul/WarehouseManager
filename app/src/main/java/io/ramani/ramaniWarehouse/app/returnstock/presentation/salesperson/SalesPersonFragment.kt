@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import io.ramani.ramaniWarehouse.R
-import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showDatePicker
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
@@ -16,7 +15,6 @@ import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockVi
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import kotlinx.android.synthetic.main.fragment_sales_person.*
 import org.kodein.di.generic.factory
-import java.util.*
 
 class SalesPersonFragment : BaseFragment() {
     private val viewModelProvider: (Fragment) -> SalesPersonViewModel by factory()
@@ -60,7 +58,7 @@ class SalesPersonFragment : BaseFragment() {
 
         SalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
 
-        select_salesperson_spinner.setOnSingleClickListener {
+        select_assignto_spinner.setOnSingleClickListener {
             flow.openSalesPersonBottomSheet()
         }
     }
@@ -69,7 +67,7 @@ class SalesPersonFragment : BaseFragment() {
         super.onResume()
         SalesPersonViewModel.salesPeopleList.clear()
         viewModel.getSalespeople()
-        select_salesperson_spinner.text = ""
+        select_assignto_spinner.text = ""
 
     }
 
@@ -77,10 +75,10 @@ class SalesPersonFragment : BaseFragment() {
 
         SalesPersonViewModel.selectedSalespersonLiveData.observe(this,{
             if (it != null) {
-                select_salesperson_spinner.text = it
+                select_assignto_spinner.text = it
                 ReturnStockViewModel.allowToGoNext.postValue(Pair(0, true))
             } else {
-                select_salesperson_spinner.text = ""
+                select_assignto_spinner.text = ""
                 ReturnStockViewModel.allowToGoNext.postValue(Pair(0, false))
             }
         })

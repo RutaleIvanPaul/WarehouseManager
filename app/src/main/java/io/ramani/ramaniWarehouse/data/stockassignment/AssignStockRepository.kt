@@ -18,4 +18,11 @@ class AssignStockRepository(
     override fun postAssignedStock(postAssignedItems: AssignProductsRequestModel): Single<PostAssignedItemsResponse> =
         assignStockRemoteDataSource.postAssignedStock(postAssignedItems)
 
+    override fun postAssignedWarehouseStock(
+        body: PostWarehouseAssignedItems,
+        warehouseId: String
+    ): Single<String> =
+        assignStockRemoteDataSource.postAssignedWarehouseStock(body,warehouseId)
+
+
 }

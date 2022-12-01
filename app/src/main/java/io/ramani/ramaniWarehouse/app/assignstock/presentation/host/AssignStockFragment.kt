@@ -11,7 +11,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonWarehouseFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.ConfirmAssignedStockFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
@@ -20,11 +20,8 @@ import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import kotlinx.android.synthetic.main.fragment_assign_stock.*
 import kotlinx.android.synthetic.main.fragment_assign_stock.assign_stock_host_next_button
-import kotlinx.android.synthetic.main.fragment_return_stock.*
 
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
@@ -49,7 +46,7 @@ class AssignStockFragment : BaseFragment() {
         AssignStockSalesPersonViewModel.onStockTakenDateSelectedLiveData.postValue(false)
     }
 
-    private var salespersonFragment: AssignStockSalesPersonFragment? = null
+    private var salespersonFragment: AssignStockSalesPersonWarehouseFragment? = null
     private var productsFragment: CompanyProductsFragment? = null
     private var confirmAssignmentFragment: ConfirmAssignedStockFragment? = null
 
@@ -204,7 +201,7 @@ class AssignStockFragment : BaseFragment() {
 
 
     private fun initTabLayout() {
-        salespersonFragment = AssignStockSalesPersonFragment.newInstance()
+        salespersonFragment = AssignStockSalesPersonWarehouseFragment.newInstance()
         productsFragment = CompanyProductsFragment.newInstance()
         confirmAssignmentFragment = ConfirmAssignedStockFragment()
 

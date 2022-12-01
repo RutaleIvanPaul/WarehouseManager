@@ -10,6 +10,7 @@ import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
 import io.ramani.ramaniWarehouse.domain.stockassignment.usecases.GetCompanyProductsUseCase
 import io.ramani.ramaniWarehouse.domain.stockassignment.usecases.GetSalesPersonUseCase
 import io.ramani.ramaniWarehouse.domain.stockassignment.usecases.PostAssignedStockUseCase
+import io.ramani.ramaniWarehouse.domain.stockassignment.usecases.PostWarehouseAssignedStockUseCase
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -29,6 +30,12 @@ val assignStockDomainModule = Kodein.Module("assignStockDomainModule") {
 
     bind<BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>>("postAssignedStockUseCase")with provider{
         PostAssignedStockUseCase(
+            instance(),instance(),instance("assignStockRepository")
+        )
+    }
+
+    bind<BaseSingleUseCase<String, PostWarehouseAssignedItems>>("postWarehouseAssignedStockUseCase")with provider{
+        PostWarehouseAssignedStockUseCase(
             instance(),instance(),instance("assignStockRepository")
         )
     }

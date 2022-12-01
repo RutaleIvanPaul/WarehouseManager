@@ -85,12 +85,18 @@ class AssignmentReceiptFragment : BaseFragment() {
     private fun subscribeObservers() {
         viewModel.loadedUserDetails.observe(this) {
             if (it != null) {
-                company_name.text = it.companyName
-                date.setText("Date: ${viewModel.dateFormatter.convertToCalendarFormatDate(now())}")
-                storekeeper_text.setText(AssignedItemDetails.storekeeperName)
-                assignee_text.setText(AssignedItemDetails.salespersonName)
-                storekeeper_image.setImageBitmap(AssignedItemDetails.signatureInfoStoreKeeper)
-                assignee_image.setImageBitmap(AssignedItemDetails.signatureInfoSalesPerson)
+                if (AssignedItemDetails.isWarehouseAssignment) {
+                    assignee_text.setText(AssignedItemDetails.assignedToWarehouseStoreKeeperName)
+                    issued_note.setText(getString(R.string.goods_transferred))
+                }
+                else {
+                    company_name.text = it.companyName
+                    date.setText("Date: ${viewModel.dateFormatter.convertToCalendarFormatDate(now())}")
+                    storekeeper_text.setText(AssignedItemDetails.storekeeperName)
+                    assignee_text.setText(AssignedItemDetails.salespersonName)
+                    storekeeper_image.setImageBitmap(AssignedItemDetails.signatureInfoStoreKeeper)
+                    assignee_image.setImageBitmap(AssignedItemDetails.signatureInfoSalesPerson)
+                }
             }
         }
 

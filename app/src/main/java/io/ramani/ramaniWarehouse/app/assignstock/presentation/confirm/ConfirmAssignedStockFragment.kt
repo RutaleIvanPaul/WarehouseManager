@@ -1,6 +1,8 @@
 package io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -31,6 +33,21 @@ class ConfirmAssignedStockFragment : BaseFragment() {
 
     private lateinit var flow: AssignStockFlow
     private val selectedCompanyProductsList = mutableListOf<ProductsUIModel>()
+
+    val storeKeeperTextWatcher = object : TextWatcher {
+
+        override fun afterTextChanged(s: Editable) {}
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+            if (stock_assign_confirm_other_storekeeper_name.text.isNullOrEmpty()){
+                confirm_assign_sign_salesperson.isEnabled = false
+            }else{
+                confirm_assign_sign_salesperson.isEnabled = true
+            }
+        }
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,8 +92,16 @@ class ConfirmAssignedStockFragment : BaseFragment() {
         }
 
         confirm_assign_sign_salesperson.setOnSingleClickListener {
-            flow.openAssignStockSignPad(AssignedStockSignaturePadFragment.PARAM_SALESPERSON_SIGN)
+            if(AssignedItemDetails.isWarehouseAssignment){
+                if(!stock_assign_confirm_other_storekeeper_name.text.isNullOrEmpty()) {
+                    AssignedItemDetails.assignedToWarehouseStoreKeeperName = stock_assign_confirm_other_storekeeper_name.text.toString()
+                    AssignStockViewModel.allowToGoNext.postValue(Pair(2, true))
+                }
+            }else {
+                flow.openAssignStockSignPad(AssignedStockSignaturePadFragment.PARAM_SALESPERSON_SIGN)
+            }
         }
+        stock_assign_confirm_other_storekeeper_name.addTextChangedListener(storeKeeperTextWatcher)
     }
 
     private fun subscribeObservers() {
@@ -166,8 +191,28 @@ class ConfirmAssignedStockFragment : BaseFragment() {
         super.onResume()
         confirm_assign_store_keeper_name.text =
             AssignStockViewModel.assignedItemDetails.storekeeperName
-        confirm_assign_salesperson_name.text =
-            AssignStockViewModel.assignedItemDetails.salespersonName
+
+
+        if(AssignedItemDetails.isWarehouseAssignment){
+            stock_assign_confirm_other_storekeeper_name.visibility = View.VISIBLE
+            confirm_assign_salesperson_name.visibility = View.GONE
+            confirm_assign_to_label.text = requireContext().getString(R.string.store_keeper)
+            confirm_assign_sign_store_keeper.visibility = View.GONE
+            confirm_assign_sign_salesperson.text = "Done"
+            confirm_assign_sign_salesperson.isEnabled = false
+        }
+        else{
+            stock_assign_confirm_other_storekeeper_name.visibility = View.GONE
+            confirm_assign_salesperson_name.visibility = View.VISIBLE
+            confirm_assign_to_label.text = requireContext().getString(R.string.salesperson)
+            confirm_assign_salesperson_name.text =
+                AssignStockViewModel.assignedItemDetails.salespersonName
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        stock_assign_confirm_other_storekeeper_name.removeTextChangedListener(storeKeeperTextWatcher)
     }
 
     companion object {

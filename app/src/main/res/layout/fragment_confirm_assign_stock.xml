@@ -62,6 +62,7 @@
 
          <TextView
              style="@style/BoldTextLabel"
+             android:id="@+id/confirm_assign_to_label"
              android:layout_marginTop="30dp"
              android:text="@string/salesperson" />
 
@@ -78,6 +79,17 @@
                 android:layout_width="0dp"
                 android:layout_weight="3"
                 android:text="@string/salesperson"/>
+
+            <EditText
+                android:id="@+id/stock_assign_confirm_other_storekeeper_name"
+                style="@style/NormalEditText"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:visibility="gone"
+                android:hint="@string/enter_other_storekeeper"
+                android:lines="1"
+                android:maxLines="1"
+                android:singleLine="true" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/confirm_assign_sign_salesperson"
