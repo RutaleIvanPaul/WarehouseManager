@@ -67,7 +67,7 @@ class MainNavFragment : BaseFragment() {
     private fun setupNavs() {
 
         warehouses_spinner.setOnSingleClickListener {
-            flow.openWarehousesBottomSheet()
+            flow.openWarehousesBottomSheet(true)
             warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
         }
 

@@ -15,8 +15,8 @@ import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.WarehouseBo
 import org.jetbrains.anko.AnkoLogger
 
 class MainNavFlowController(private val activity: BaseActivity) : MainNavFlow, AnkoLogger {
-    override fun openWarehousesBottomSheet() {
-        val fragment = WarehouseBottomSheetFragment()
+    override fun openWarehousesBottomSheet(showCurrent:Boolean) {
+        val fragment = WarehouseBottomSheetFragment(showCurrent)
         activity?.supportFragmentManager?.let { fragment.show(it, "warehouse_sheet_fragment") }
 
     }

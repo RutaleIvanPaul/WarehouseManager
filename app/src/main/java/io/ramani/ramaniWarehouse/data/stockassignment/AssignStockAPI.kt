@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.data.stockassignment
 
 import io.ramani.ramaniWarehouse.data.entities.BaseResponse
 import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItemsResponse
+import io.ramani.ramaniWarehouse.data.stockassignment.model.PostWarehouseAssignedItems
 import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
 import io.ramani.ramaniWarehouse.data.stockassignment.model.SalesPersonRemoteModel
 import io.reactivex.Single
@@ -36,4 +37,9 @@ interface AssignStockAPI {
 //        @Part("storeKeeperSignature")  storeKeeperSignature: RequestBody,
 //        @Part("salesPersonSignature") salesPersonSignature: RequestBody
     ): Single<BaseResponse<PostAssignedItemsResponse>>
+
+    @POST("/api/v1/warehouse/{warehouseId}/transfer")
+    fun postAssignedWarehouseStock(
+        @Body body: PostWarehouseAssignedItems, @Path("warehouseId") warehouseId: String
+    ): Single<BaseResponse<String>>
 }

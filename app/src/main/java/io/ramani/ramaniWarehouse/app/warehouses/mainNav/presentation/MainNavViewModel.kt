@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.warehouses.mainNav.model.WarehouseModelView
@@ -37,6 +38,7 @@ class MainNavViewModel(
         var hasMoreToLoad = true
         var currentWarehouse: WarehouseModel? = null
         val onWarehousesLoadedLiveData = SingleLiveEvent<Boolean>()
+        val onWarehousesSelectedLiveData = MutableLiveData<Pair<String?, Boolean>>()
 
         fun reset(){
             warehousesList.clear()
@@ -46,7 +48,7 @@ class MainNavViewModel(
         }
     }
 
-    val onWarehousesSelectedLiveData = MutableLiveData<Boolean>()
+
     override fun start(args: Map<String, Any?>) {
 
     }
@@ -98,17 +100,22 @@ class MainNavViewModel(
         }
     }
 
-    fun onWarehouseSelected(id: String) {
-        warehousesList.map {
-            it.isSelected = it.id == id
+    fun onWarehouseSelected(id: String, showCurrent: Boolean) {
+        if (showCurrent) {
+            warehousesList.map {
+                it.isSelected = it.id == id
+            }
+            currentWarehouse =
+                warehousesList.firstOrNull { it.id == id }?.mapToWith(warehouseModelMapper)
+            if (currentWarehouse != null) {
+                prefs.currentWarehouse = currentWarehouse.toString()
+            }
+//            onWarehousesSelectedLiveData.postValue(Pair(currentWarehouse?.name,true))
+            onWarehousesLoadedLiveData.postValue(true)
+        }else{
+            onWarehousesSelectedLiveData.postValue(Pair(warehousesList.firstOrNull { it.id == id }?.name,true))
+            AssignedItemDetails.assignedToWarehouseId = id
         }
-        currentWarehouse =
-            warehousesList.firstOrNull { it.id == id }?.mapToWith(warehouseModelMapper)
-        if (currentWarehouse != null) {
-            prefs.currentWarehouse = currentWarehouse.toString()
-        }
-        onWarehousesSelectedLiveData.postValue(true)
-        onWarehousesLoadedLiveData.postValue(true)
     }
 
     class Factory(

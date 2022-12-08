@@ -13,10 +13,11 @@ import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.BaseBottomSheetDialogFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.model.WarehouseModelView
 import kotlinx.android.synthetic.main.fragment_warehouse_list.*
 import org.kodein.di.generic.factory
 
-class WarehouseBottomSheetFragment : BaseBottomSheetDialogFragment() {
+class WarehouseBottomSheetFragment(showCurrent: Boolean): BaseBottomSheetDialogFragment() {
     private val viewModelProvider: (Fragment) -> MainNavViewModel by factory()
     private lateinit var viewModel: MainNavViewModel
     override val baseViewModel: BaseViewModel?
@@ -24,6 +25,8 @@ class WarehouseBottomSheetFragment : BaseBottomSheetDialogFragment() {
 
     private lateinit var flow: AuthFlow
     private var isLoading = false
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,8 +34,8 @@ class WarehouseBottomSheetFragment : BaseBottomSheetDialogFragment() {
     ): View? =
         inflater.inflate(R.layout.fragment_warehouse_list, container, false)
 
-    private val warehouseAdapter = WarehouseAdapter(MainNavViewModel.warehousesList) {
-        viewModel.onWarehouseSelected(it.id ?: "")
+    private val warehouseAdapter = WarehouseAdapter(if(showCurrent)MainNavViewModel.warehousesList else MainNavViewModel.warehousesList.filter { it.isSelected != true } as MutableList<WarehouseModelView>) {
+        viewModel.onWarehouseSelected(it.id ?: "", showCurrent)
         dismiss()
     }
 

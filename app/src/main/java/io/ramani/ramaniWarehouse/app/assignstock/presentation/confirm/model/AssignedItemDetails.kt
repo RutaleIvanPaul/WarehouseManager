@@ -4,8 +4,6 @@ import android.content.Context
 import android.graphics.Bitmap
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.returnstock.presentation.confirm.model.ReturnItemDetails
-import io.ramani.ramaniWarehouse.data.returnStock.model.AvailableProductItem
-import io.ramani.ramaniWarehouse.data.stockassignment.model.ConfirmProducts
 import java.io.File
 
 object AssignedItemDetails {
@@ -19,6 +17,10 @@ object AssignedItemDetails {
     var signatureInfoStoreKeeperFile: File? = null
     var signatureInfoSalesPersonFile: File? = null
     val context: Context? = null
+    var isWarehouseAssignment: Boolean = false
+    var assigningWarehouseId: String = ""
+    var assignedToWarehouseId:String = ""
+    var assignedToWarehouseStoreKeeperName: String = ""
 
     fun clearAssignedItemDetails(){
         storekeeperName = ""

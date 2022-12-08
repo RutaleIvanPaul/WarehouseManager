@@ -2,7 +2,6 @@ package io.ramani.ramaniWarehouse.app.assignstock.presentation
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,32 +10,33 @@ import android.widget.Toast
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlow
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel.Companion.dateStockTakenLiveData
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel.Companion.onStockTakenDateSelectedLiveData
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
-import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.showDatePicker
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlow
-import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.salesperson.SalesPersonViewModel
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow.MainNavFlow
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.flow.MainNavFlowController
+import io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation.MainNavViewModel
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import kotlinx.android.synthetic.main.fragment_sales_person.*
-import kotlinx.android.synthetic.main.fragment_stock_assignment_report_page.*
 import org.kodein.di.generic.factory
 import org.kodein.di.generic.instance
 import java.util.*
 
-class AssignStockSalesPersonFragment : BaseFragment() {
+class AssignStockSalesPersonWarehouseFragment : BaseFragment() {
     private val viewModelProvider: (Fragment) -> AssignStockSalesPersonViewModel by factory()
     private lateinit var viewModel: AssignStockSalesPersonViewModel
     override val baseViewModel: BaseViewModel?
         get() = viewModel
 
+    private val mainNavViewModelProvider: (Fragment) -> MainNavViewModel by factory()
+    private lateinit var mainNavViewModel: MainNavViewModel
+
     private lateinit var flow: AssignStockFlow
+    private lateinit var warehouseBottomFlow: MainNavFlow
 
     private val dateFormatter: DateFormatter by instance()
     private var calendar = Calendar.getInstance()
@@ -46,7 +46,9 @@ class AssignStockSalesPersonFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = viewModelProvider(this)
+        mainNavViewModel = mainNavViewModelProvider(this)
         flow = AssignStockFlowcontroller(baseActivity!!, R.id.main_fragment_container)
+        warehouseBottomFlow = MainNavFlowController(baseActivity!!)
         subscribeObservers()
     }
 
@@ -80,12 +82,22 @@ class AssignStockSalesPersonFragment : BaseFragment() {
 //            ).show()
 //        }
 
-        select_salesperson_spinner.text = ""
+        select_assignto_spinner.text = ""
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.postValue(null)
         AssignStockSalesPersonViewModel.dateStockTakenLiveData.postValue(return_stock_datepicker_text.text.toString())
 
-        select_salesperson_spinner.setOnSingleClickListener {
-            flow.openAssignStockSalesPersonBottomSheet()
+        select_assignto_spinner.setOnSingleClickListener {
+            select_assignee_spinner.visibility = View.GONE
+            assignToSalesWarehouseLabel.visibility = View.GONE
+            flow.openAssignToBottomSheet()
+        }
+
+        select_assignee_spinner.setOnSingleClickListener {
+            if(AssignStockSalesPersonViewModel.selectedAssignToOption.equals("Salesperson")) {
+                flow.openAssignStockSalesPersonBottomSheet()
+            }else{
+                warehouseBottomFlow.openWarehousesBottomSheet(false)
+            }
         }
 
     }
@@ -93,9 +105,12 @@ class AssignStockSalesPersonFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         AssignStockSalesPersonViewModel.salesPeopleList.clear()
+        viewModel.getAssignToOptions()
         viewModel.getSalespeople()
-        select_salesperson_spinner.text = ""
-
+        select_assignto_spinner.text = ""
+        select_assignee_spinner.text = ""
+        select_assignee_spinner.visibility = View.GONE
+        assignToSalesWarehouseLabel.visibility = View.GONE
     }
 
     private fun subscribeObservers() {
@@ -111,7 +126,7 @@ class AssignStockSalesPersonFragment : BaseFragment() {
         AssignStockSalesPersonViewModel.selectedSalespersonLiveData.observe(this, {
 
             if (it != null) {
-                select_salesperson_spinner.text = it
+                select_assignee_spinner.text = it
                 if(onStockTakenDateSelectedLiveData.value == true) {
                     AssignStockViewModel.allowToGoNext.postValue(Pair(0, true))
                     onStockTakenDateSelectedLiveData.postValue(false)
@@ -122,6 +137,33 @@ class AssignStockSalesPersonFragment : BaseFragment() {
             } else {
                 AssignStockViewModel.allowToGoNext.postValue(Pair(0, false))
             }
+        })
+
+        MainNavViewModel.onWarehousesSelectedLiveData.observe(this,{
+            select_assignee_spinner.text = it.first
+            AssignStockViewModel.allowToGoNext.postValue(Pair(0, true))
+        })
+
+        AssignStockSalesPersonViewModel.selectedAssignToOptionLiveData.observe(this,{
+            if (it.equals("Salesperson")){
+                AssignStockSalesPersonViewModel.selectedAssignToOption = "Salesperson"
+                assignToSalesWarehouseLabel.visibility = View.VISIBLE
+                assignToSalesWarehouseLabel.text = "Salesperson"
+                select_assignee_spinner.visibility = View.VISIBLE
+                select_assignto_spinner.text = "Salesperson"
+                select_assignee_spinner.hint = "Select Salesperson"
+                AssignedItemDetails.isWarehouseAssignment = false
+            }
+            else{
+                AssignStockSalesPersonViewModel.selectedAssignToOption = "Warehouse"
+                assignToSalesWarehouseLabel.visibility = View.VISIBLE
+                assignToSalesWarehouseLabel.text = "Warehouse"
+                select_assignee_spinner.visibility = View.VISIBLE
+                select_assignto_spinner.text = "Warehouse"
+                select_assignee_spinner.hint = "Select Warehouse"
+                AssignedItemDetails.isWarehouseAssignment = true
+            }
+
         })
     }
 
@@ -144,6 +186,6 @@ class AssignStockSalesPersonFragment : BaseFragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = AssignStockSalesPersonFragment()
+        fun newInstance() = AssignStockSalesPersonWarehouseFragment()
     }
 }

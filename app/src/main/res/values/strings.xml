@@ -20,7 +20,7 @@
     <string name="pickdate">Pick Date</string>
 
     <string name="phone_number_hint">e.g 78733...</string>
-    
+
     <!-- Warehouse -->
     <string name="warehouse">Warehouse</string>
     <string name="ghala_brackets">(ghala)</string>
@@ -190,7 +190,7 @@
     <string name="printer_closed">Printer closed</string>
     <string name="exceeding_stock">The stock being returned cannot exceed the outstanding stock.</string>
     <string name="empty_return">The stock being returned cannot be less than 1.</string>
-    <string name="an_error_has_occured_with_assignment">Please ensure to select date stock was taken</string>
+    <string name="an_error_has_occured_with_assignment">An Error has occured with assignment</string>
     <string name="assignment_date">Assignment Date</string>
     <string name="return_date">Return Date</string>
 
@@ -200,5 +200,9 @@
     <string name="qty_accepted_1">Qty\nAccepted</string>
     <string name="qty_returned_1">Qty\nReturned</string>
     <string name="qty_pending_1">Qty\nPending</string>
+    <string name="assign_to">Assign to:</string>
+    <string name="assign_to_">Assign To</string>
+    <string name="enter_other_storekeeper">Enter other storekeeper</string>
+    <string name="goods_transferred">Goods Transferred Note</string>
 
 </resources>

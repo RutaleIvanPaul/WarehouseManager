@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.assignstock.flow
 
 import io.ramani.ramaniWarehouse.app.AssignedStock.presentation.assignmentreceipt.AssignmentReceiptFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonBottomSheetFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignToBottomSheetFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.AssignSuccessFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.AssignedStockSignaturePadFragment
 import io.ramani.ramaniWarehouse.app.auth.presentation.SigninBottomSheetFragment
@@ -16,6 +17,11 @@ class AssignStockFlowcontroller(
     private val activity: BaseActivity,
     private val mainFragmentContainer: Int
 ) : AssignStockFlow {
+    override fun openAssignToBottomSheet() {
+        val fragment = AssignToBottomSheetFragment()
+        activity?.supportFragmentManager?.let { fragment.show(it, "assignto_sheet_fragment") }
+    }
+
     override fun openAssignStockSalesPersonBottomSheet() {
         val fragment = AssignStockSalesPersonBottomSheetFragment()
         activity?.supportFragmentManager?.let { fragment.show(it, "salesperson_sheet_fragment") }
