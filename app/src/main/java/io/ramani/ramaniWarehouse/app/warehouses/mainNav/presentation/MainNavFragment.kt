@@ -76,6 +76,7 @@ class MainNavFragment : BaseFragment() {
         }
 
         assign_stock_button.setOnSingleClickListener {
+//            throw RuntimeException("Test Crash") // Force a crash
             flow.openAssignStock()
         }
 
