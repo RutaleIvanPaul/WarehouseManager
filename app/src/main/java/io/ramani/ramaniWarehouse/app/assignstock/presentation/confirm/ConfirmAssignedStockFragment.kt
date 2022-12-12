@@ -42,9 +42,10 @@ class ConfirmAssignedStockFragment : BaseFragment() {
 
         override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
             if (stock_assign_confirm_other_storekeeper_name.text.isNullOrEmpty()){
-                confirm_assign_sign_salesperson.isEnabled = false
+                AssignStockViewModel.allowToGoNext.postValue(Pair(2, false))
             }else{
-                confirm_assign_sign_salesperson.isEnabled = true
+                AssignedItemDetails.assignedToWarehouseStoreKeeperName = stock_assign_confirm_other_storekeeper_name.text.toString()
+                AssignStockViewModel.allowToGoNext.postValue(Pair(2, true))
             }
         }
     }
@@ -92,14 +93,8 @@ class ConfirmAssignedStockFragment : BaseFragment() {
         }
 
         confirm_assign_sign_salesperson.setOnSingleClickListener {
-            if(AssignedItemDetails.isWarehouseAssignment){
-                if(!stock_assign_confirm_other_storekeeper_name.text.isNullOrEmpty()) {
-                    AssignedItemDetails.assignedToWarehouseStoreKeeperName = stock_assign_confirm_other_storekeeper_name.text.toString()
-                    AssignStockViewModel.allowToGoNext.postValue(Pair(2, true))
-                }
-            }else {
-                flow.openAssignStockSignPad(AssignedStockSignaturePadFragment.PARAM_SALESPERSON_SIGN)
-            }
+            flow.openAssignStockSignPad(AssignedStockSignaturePadFragment.PARAM_SALESPERSON_SIGN)
+
         }
         stock_assign_confirm_other_storekeeper_name.addTextChangedListener(storeKeeperTextWatcher)
     }
@@ -198,8 +193,7 @@ class ConfirmAssignedStockFragment : BaseFragment() {
             confirm_assign_salesperson_name.visibility = View.GONE
             confirm_assign_to_label.text = requireContext().getString(R.string.store_keeper)
             confirm_assign_sign_store_keeper.visibility = View.GONE
-            confirm_assign_sign_salesperson.text = "Done"
-            confirm_assign_sign_salesperson.isEnabled = false
+            confirm_assign_sign_salesperson.visibility = View.GONE
         }
         else{
             stock_assign_confirm_other_storekeeper_name.visibility = View.GONE
@@ -207,6 +201,13 @@ class ConfirmAssignedStockFragment : BaseFragment() {
             confirm_assign_to_label.text = requireContext().getString(R.string.salesperson)
             confirm_assign_salesperson_name.text =
                 AssignStockViewModel.assignedItemDetails.salespersonName
+        }
+
+        if (stock_assign_confirm_other_storekeeper_name.text.isNullOrEmpty()){
+            AssignStockViewModel.allowToGoNext.postValue(Pair(2, false))
+        }else{
+            AssignedItemDetails.assignedToWarehouseStoreKeeperName = stock_assign_confirm_other_storekeeper_name.text.toString()
+            AssignStockViewModel.allowToGoNext.postValue(Pair(2, true))
         }
     }
 
