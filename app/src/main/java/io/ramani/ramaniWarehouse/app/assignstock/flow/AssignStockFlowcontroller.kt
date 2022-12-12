@@ -5,6 +5,7 @@ import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPe
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignToBottomSheetFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.AssignSuccessFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.AssignedStockSignaturePadFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.CompanyProductsFragment
 import io.ramani.ramaniWarehouse.app.auth.presentation.SigninBottomSheetFragment
 import io.ramani.ramaniWarehouse.app.common.navgiation.NavigationManager
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
@@ -48,4 +49,5 @@ class AssignStockFlowcontroller(
             openMethod = NavigationManager.OpenMethod.REPLACE
         )
     }
+
 }

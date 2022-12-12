@@ -18,6 +18,7 @@ import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNM
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.CompanyProductsFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import kotlinx.android.synthetic.main.fragment_assign_stock.*
@@ -44,6 +45,9 @@ class AssignStockFragment : BaseFragment() {
         viewModel = viewModelProvider(this)
         ASSIGNMENT_RECEIVE_MODELS.resetAssignmentDetails()
         AssignStockSalesPersonViewModel.onStockTakenDateSelectedLiveData.postValue(false)
+        subscribeLoadingError(viewModel)
+        subscribeError(viewModel)
+        observerError(viewModel, this)
     }
 
     private var salespersonFragment: AssignStockSalesPersonWarehouseFragment? = null
@@ -83,6 +87,11 @@ class AssignStockFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
     }
 
     private fun subscribeObservers() {
@@ -169,6 +178,7 @@ class AssignStockFragment : BaseFragment() {
                     requireContext().getString(R.string.an_error_has_occured_with_assignment),
                     Toast.LENGTH_LONG
                 ).show()
+                assign_stock_viewpager.currentItem--
             }
 
         })
