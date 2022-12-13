@@ -77,9 +77,7 @@ class MainNavFragment : BaseFragment() {
         }
 
         assign_stock_button.setOnSingleClickListener {
-            FirebaseCrashlytics.getInstance().recordException(Exception("Test Firebase Crashlytics"))
-            throw RuntimeException("Test Crash")
-//            flow.openAssignStock()
+            flow.openAssignStock()
         }
 
         return_stock_button.setOnSingleClickListener {
