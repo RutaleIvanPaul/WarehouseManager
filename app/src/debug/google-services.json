@@ -1,129 +1,33 @@
 {
   "project_info": {
-    "project_number": "250725655847",
-    "firebase_url": "https://projectx-38e73.firebaseio.com",
-    "project_id": "projectx-38e73",
-    "storage_bucket": "projectx-38e73.appspot.com"
+    "project_number": "1012662926936",
+    "project_id": "ramaniio",
+    "storage_bucket": "ramaniio.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:7b9d407f9651721c",
-        "android_client_info": {
-          "package_name": "com.example.driversignup"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:c5e2dda70aeb21b7",
-        "android_client_info": {
-          "package_name": "io.ramani"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:384c0c485fd0e4a14ef502",
-        "android_client_info": {
-          "package_name": "io.ramani.driver"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "250725655847-6hf0fv44p81irg3ilg1pv16offs81ub1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.ramani.driver",
-            "certificate_hash": "3c2fa66a0b9e6a1a70c52a4c1d3fc59c5377de12"
-          }
-        },
-        {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:d5402ef4f6abeb954ef502",
+        "mobilesdk_app_id": "1:1012662926936:android:2cc3274b88c3c9d45c942d",
         "android_client_info": {
           "package_name": "io.ramani.ramaniWarehouse"
         }
       },
       "oauth_client": [
         {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+          "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
+          "current_key": "AIzaSyAjFhzz2eCa0-nM6DcEtMQ76o3E-HsD1_o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+              "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -132,27 +36,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:58c867ad76ebda0e4ef502",
+        "mobilesdk_app_id": "1:1012662926936:android:e56b2f762e35850b5c942d",
         "android_client_info": {
           "package_name": "io.ramani.ramaniWarehouse.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+          "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
+          "current_key": "AIzaSyAjFhzz2eCa0-nM6DcEtMQ76o3E-HsD1_o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+              "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -161,27 +65,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:45a700201f81c53c4ef502",
+        "mobilesdk_app_id": "1:1012662926936:android:d7a869dc249af9045c942d",
         "android_client_info": {
           "package_name": "io.ramani.ramaniWarehouse.staging"
         }
       },
       "oauth_client": [
         {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+          "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
+          "current_key": "AIzaSyAjFhzz2eCa0-nM6DcEtMQ76o3E-HsD1_o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+              "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -190,64 +94,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:436e3dda48c470504ef502",
-        "android_client_info": {
-          "package_name": "io.ramani.ramanidirect"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "250725655847-o0qnko5mnsvq2s8pskie280crd4tmdgl.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.ramani.ramanidirect",
-            "certificate_hash": "6e96677ee5f3acafe5a3d92454fef4b58b6c49b7"
-          }
-        },
-        {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:200a8d9be4b9101f4ef502",
+        "mobilesdk_app_id": "1:1012662926936:android:97ac0c084b5929795c942d",
         "android_client_info": {
           "package_name": "io.ramani.ramanisalesforce"
         }
       },
       "oauth_client": [
         {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+          "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
+          "current_key": "AIzaSyAjFhzz2eCa0-nM6DcEtMQ76o3E-HsD1_o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+              "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -256,43 +123,27 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:9c96c85e79c57a4e4ef502",
+        "mobilesdk_app_id": "1:1012662926936:android:daaa00c6ebb66ed75c942d",
         "android_client_info": {
-          "package_name": "io.ramani_drivers"
+          "package_name": "io.ramani.ramanistreamapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "250725655847-3f43lnbkdi0sqdep2l6c7bn350bgt5b2.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.ramani_drivers",
-            "certificate_hash": "3c2fa66a0b9e6a1a70c52a4c1d3fc59c5377de12"
-          }
-        },
-        {
-          "client_id": "250725655847-m4ntiv0m0mhh7oitg9ss5li5vmfl11vh.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "io.ramani_drivers",
-            "certificate_hash": "c5bc1c3833a433bdc34528f6b1ace7423ea13602"
-          }
-        },
-        {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+          "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
+          "current_key": "AIzaSyAjFhzz2eCa0-nM6DcEtMQ76o3E-HsD1_o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+              "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
@@ -301,27 +152,56 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:250725655847:android:a2262a7883d4094c4ef502",
+        "mobilesdk_app_id": "1:1012662926936:android:8046e58a3362f4015c942d",
         "android_client_info": {
-          "package_name": "io.ramaniapp"
+          "package_name": "io.ramani.ramanistreamapp.debug"
         }
       },
       "oauth_client": [
         {
-          "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+          "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBfjVbk_Rfuj8LhQ1RivAd9OGcQKDmFXIU"
+          "current_key": "AIzaSyAjFhzz2eCa0-nM6DcEtMQ76o3E-HsD1_o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "250725655847-q7rhritjd9iu5flgq0a50ve6rkj4nltt.apps.googleusercontent.com",
+              "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1012662926936:android:96d23ce19e54b3cb5c942d",
+        "android_client_info": {
+          "package_name": "io.ramani.stockaudit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjFhzz2eCa0-nM6DcEtMQ76o3E-HsD1_o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1012662926936-qjt5c750lmgtn39ffsucj38on3q26kgc.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
