@@ -20,6 +20,7 @@ import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleC
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
 import kotlinx.android.synthetic.main.fragment_confirm_assign_stock.*
 import org.kodein.di.generic.factory
 
@@ -213,7 +214,11 @@ class ConfirmAssignedStockFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        stock_assign_confirm_other_storekeeper_name.removeTextChangedListener(storeKeeperTextWatcher)
+        if(storeKeeperTextWatcher.isNotNull()) {
+            stock_assign_confirm_other_storekeeper_name.removeTextChangedListener(
+                storeKeeperTextWatcher
+            )
+        }
     }
 
     companion object {
