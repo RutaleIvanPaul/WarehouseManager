@@ -341,6 +341,7 @@ abstract class BaseFragment : Fragment(), KodeinAware, AnkoLogger, DisposablesHo
     }
 
     private val REQUEST_EXTERNAL_STORAGE = 1
+    protected val REQUEST_CAMERA = 2
     private val PERMISSIONS_STORAGE = arrayOf<String>(
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE

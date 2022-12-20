@@ -204,5 +204,9 @@
     <string name="assign_to_">Assign To</string>
     <string name="enter_other_storekeeper">Enter other storekeeper</string>
     <string name="goods_transferred">Goods Transferred Note</string>
+    <string name="signature">Signature</string>
+    <string name="upload_camera_doc">Upload camera document</string>
+    <string name="capture">Capture</string>
+    <string name="captured">Captured</string>
 
 </resources>
