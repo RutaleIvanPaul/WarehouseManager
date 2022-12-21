@@ -87,12 +87,51 @@
 
             </LinearLayout>
 
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:id="@+id/store_keeper_captured_image_preview"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:visibility="gone"/>
+
             <!-- Delivery Person -->
 
             <TextView
                 style="@style/BoldTextLabel"
                 android:layout_marginTop="30dp"
                 android:text="@string/delivery_person" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/signature_radio_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:checked="true"
+                        android:text="@string/signature" />
+
+                    <RadioButton
+                        android:id="@+id/doc_radio_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"
+                        android:text="@string/upload_camera_doc" />
+
+
+                </RadioGroup>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -117,6 +156,13 @@
                     android:text="@string/sign" />
 
             </LinearLayout>
+
+            <ImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:id="@+id/delivery_person_captured_image_preview"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:visibility="gone"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

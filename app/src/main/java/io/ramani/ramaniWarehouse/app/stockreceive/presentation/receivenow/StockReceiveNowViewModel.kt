@@ -135,31 +135,44 @@ class StockReceiveNowViewModel(
             sessionManager.getCurrentWarehouse().subscribeBy {
                 warehouseId = it.id ?: ""
 
-                isLoadingVisible = true
+                if (STOCK_RECEIVE_MODEL.supplierData.storeKeeperData?.bitmap == null) {
+                    notifyErrorObserver(
+                        stringProvider.getString(R.string.missing_store_keeper_signature),
+                        PresentationError.ERROR_TEXT
+                    )
+                } else if (STOCK_RECEIVE_MODEL.supplierData.deliveryPersonData?.bitmap == null) {
+                    notifyErrorObserver(
+                        stringProvider.getString(R.string.missing_delivery_person_signature),
+                        PresentationError.ERROR_TEXT
+                    )
+                } else {
+                    isLoadingVisible = true
 
-                // Create request body
-                val requestBody: RequestBody = STOCK_RECEIVE_MODEL.supplierData.createRequestBody(
-                    context,
-                    warehouseId,
-                    userId,
-                    companyId
-                )
+                    // Create request body
+                    val requestBody: RequestBody =
+                        STOCK_RECEIVE_MODEL.supplierData.createRequestBody(
+                            context,
+                            warehouseId,
+                            userId,
+                            companyId
+                        )
 
-                val request = GoodsReceivedRequestModel(requestBody)
+                    val request = GoodsReceivedRequestModel(requestBody)
 
-                val single = postGoodsReceivedUseCase.getSingle(request)
-                subscribeSingle(single, onSuccess = {
-                    isLoadingVisible = false
+                    val single = postGoodsReceivedUseCase.getSingle(request)
+                    subscribeSingle(single, onSuccess = {
+                        isLoadingVisible = false
 
-                    postGoodsReceivedActionLiveData.postValue(it)
-                }, onError = {
-                    isLoadingVisible = false
+                        postGoodsReceivedActionLiveData.postValue(it)
+                    }, onError = {
+                        isLoadingVisible = false
                     notifyErrorObserver(
                         it.message
                             ?: getString(R.string.an_error_has_occured_please_try_again),
                         PresentationError.ERROR_TEXT
                     )
                 })
+                }
             }
         }
     }
