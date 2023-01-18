@@ -6,10 +6,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import com.google.gson.Gson
 import io.ramani.ramaniWarehouse.BuildConfig
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.model.AssignedItemDetails
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.data.common.network.ErrorConstants
@@ -26,6 +24,8 @@ import io.ramani.ramaniWarehouse.domain.entities.exceptions.NotAuthorizedExcepti
 import io.ramani.ramaniWarehouse.domain.entities.exceptions.ParseResponseException
 import io.ramani.ramaniWarehouse.domain.stockassignment.AssignStockDataSource
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
+import io.ramani.ramaniWarehouse.domain.stockassignment.model.ReportsQueryRequestModel
+import io.ramani.ramaniWarehouse.domain.stockassignment.model.ReportsQueryModel
 import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
 import io.ramani.ramaniWarehouse.domainCore.exceptions.NotAuthenticatedException
 import io.ramani.ramaniWarehouse.domainCore.lang.isNotNull
@@ -43,6 +43,7 @@ class AssignStockRemoteDataSource(
     private val assignStockAPI: AssignStockAPI,
     private val salesPersonRemoteMapper: ModelMapper<SalesPersonRemoteModel, SalesPersonModel>,
     private val productRemoteMapper: ModelMapper<RemoteProductModel, ProductEntity>,
+    private val reportsQueryRemoteMapper: ModelMapper<ReportsQueryRemoteModel, ReportsQueryModel>,
     private val prefs: PrefsManager
 ) : AssignStockDataSource, BaseRemoteDataSource() {
     private var calendar = Calendar.getInstance()
@@ -152,6 +153,44 @@ class AssignStockRemoteDataSource(
             }
         )
     }
+
+    override fun getReportsQuery(body: ReportsQueryRequestModel): Single<ReportsQueryModel> =
+        callSingle(
+            assignStockAPI.getReportsQuery(body).flatMap {
+                val data = it.data
+                if (data != null) {
+                    Single.just(data.mapFromWith(reportsQueryRemoteMapper))
+                } else {
+                    Single.error(ParseResponseException())
+                }
+            }.onErrorResumeNext {
+                if (it is HttpException) {
+                    val code = it.code()
+                    val errorResponse = it.toErrorResponseModel<BaseErrorResponse<Any>>()
+                    when (code) {
+                        ErrorConstants.INPUT_VALIDATION_400,
+                        ErrorConstants.NOT_FOUND_404 ->
+                            Single.error(InvalidLoginException(errorResponse?.message))
+                        ErrorConstants.NOT_AUTHORIZED_403 ->
+                            Single.error(AccountNotActiveException(errorResponse?.message))
+                        else -> Single.error(it)
+                    }
+                } else if (it is NotAuthenticatedException) {
+                    val message =
+                        if (!it.message.isNullOrBlank()) it.message
+                        else if (it.cause.isNotNull() && !it.cause?.message.isNullOrBlank()) it.cause?.message
+                        else "No active user with those credentials"
+                    Single.error(
+                        NotAuthorizedException(
+                            message ?: ""
+                        )
+                    )
+
+                } else {
+                    Single.error(it)
+                }
+            }
+        )
 
     private fun createRequestBody(
         postAssignedItems: AssignProductsRequestModel, storeKeeperSignature: File?,
