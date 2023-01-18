@@ -104,6 +104,9 @@
     <string name="quantity">Quantity</string>
     <string name="no_stocks">No stocks</string>
 
+    <string name="left_in_warehouse">%d %s left in warehouse</string>
+    <string name="only_left_in_warehouse">Only %d %s left in warehouse</string>
+
     <!-- Warning Messages -->
     <string name="warning_select_supplier">Please select supplier</string>
     <string name="warning_add_product">Please add one more of product</string>

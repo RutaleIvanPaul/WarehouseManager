@@ -63,6 +63,7 @@ val assignStockModule = Kodein.Module("assignStockModule") {
             fragment, CompanyProductsViewmodel.Factory(
                 instance(), instance(), instance(),
                 instance("getCompanyProductsUseCase"),
+                instance("reportsQueryUseCase"),
                 instance(), instance()
             )
         ).get(CompanyProductsViewmodel::class.java)

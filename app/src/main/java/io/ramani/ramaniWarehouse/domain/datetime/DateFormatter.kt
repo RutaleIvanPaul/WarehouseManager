@@ -133,6 +133,11 @@ class DateFormatter(private val dateTimeManager: IDateTimeManager) : IDateFormat
         return simpleDateFormat.format(date)
     }
 
+    fun getFullTimeString(date: Date): String {
+        val simpleDateFormat = SimpleDateFormat(SERVER_RECEIVE_DATE_FORMAT)
+        return simpleDateFormat.format(date)
+    }
+
     fun getServerTimeFromServerDate(createdAt: String?): String =
         //2021-12-22T16:31:03.823Z
         createdAt?.split("T")?.get(1)?.split(".")?.get(0) ?: ""

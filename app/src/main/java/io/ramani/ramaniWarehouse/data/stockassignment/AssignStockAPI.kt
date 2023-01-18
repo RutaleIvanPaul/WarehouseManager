@@ -1,10 +1,9 @@
 package io.ramani.ramaniWarehouse.data.stockassignment
 
 import io.ramani.ramaniWarehouse.data.entities.BaseResponse
-import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItemsResponse
-import io.ramani.ramaniWarehouse.data.stockassignment.model.PostWarehouseAssignedItems
-import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
-import io.ramani.ramaniWarehouse.data.stockassignment.model.SalesPersonRemoteModel
+import io.ramani.ramaniWarehouse.data.stockassignment.model.*
+import io.ramani.ramaniWarehouse.domain.stockassignment.model.ReportsQueryRequestModel
+import io.ramani.ramaniWarehouse.domain.stockassignment.model.ReportsQueryModel
 import io.reactivex.Single
 import okhttp3.RequestBody
 import retrofit2.http.*
@@ -42,4 +41,10 @@ interface AssignStockAPI {
     fun postAssignedWarehouseStock(
         @Body body: PostWarehouseAssignedItems, @Path("warehouseId") warehouseId: String
     ): Single<BaseResponse<String>>
+
+    @POST("/reports/query")
+    fun getReportsQuery(
+        @Body body: ReportsQueryRequestModel
+    ): Single<BaseResponse<ReportsQueryRemoteModel>>
+
 }
