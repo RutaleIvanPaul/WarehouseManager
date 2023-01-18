@@ -4,20 +4,11 @@ import io.ramani.ramaniWarehouse.data.common.network.ServiceHelper
 import io.ramani.ramaniWarehouse.data.stockassignment.AssignStockAPI
 import io.ramani.ramaniWarehouse.data.stockassignment.AssignStockRemoteDataSource
 import io.ramani.ramaniWarehouse.data.stockassignment.AssignStockRepository
-import io.ramani.ramaniWarehouse.data.stockassignment.mappers.ProductRemoteMapper
-import io.ramani.ramaniWarehouse.data.stockassignment.mappers.RemoteProdcutCategoryMapper
-import io.ramani.ramaniWarehouse.data.stockassignment.mappers.RemoteRewardMapper
-import io.ramani.ramaniWarehouse.data.stockassignment.mappers.SalesPersonRemoteMapper
-import io.ramani.ramaniWarehouse.data.stockassignment.model.ProductCategory
-import io.ramani.ramaniWarehouse.data.stockassignment.model.RemoteProductModel
-import io.ramani.ramaniWarehouse.data.stockassignment.model.Reward
-import io.ramani.ramaniWarehouse.data.stockassignment.model.SalesPersonRemoteModel
+import io.ramani.ramaniWarehouse.data.stockassignment.mappers.*
+import io.ramani.ramaniWarehouse.data.stockassignment.model.*
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.stockassignment.AssignStockDataSource
-import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductCategoryEntity
-import io.ramani.ramaniWarehouse.domain.stockassignment.model.ProductEntity
-import io.ramani.ramaniWarehouse.domain.stockassignment.model.RewardEntity
-import io.ramani.ramaniWarehouse.domain.stockassignment.model.SalesPersonModel
+import io.ramani.ramaniWarehouse.domain.stockassignment.model.*
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -29,7 +20,7 @@ val assignStockDataModule = Kodein.Module("assignStockDataModule") {
     }
 
     bind<AssignStockDataSource>("assignStockRemoteDataSource") with provider {
-        AssignStockRemoteDataSource(instance(), instance(), instance(), instance())
+        AssignStockRemoteDataSource(instance(), instance(), instance(), instance(), instance())
     }
 
     bind<ModelMapper<SalesPersonRemoteModel, SalesPersonModel>>() with provider {
@@ -46,6 +37,10 @@ val assignStockDataModule = Kodein.Module("assignStockDataModule") {
 
     bind<ModelMapper<Reward, RewardEntity>>() with provider {
         RemoteRewardMapper()
+    }
+
+    bind<ModelMapper<ReportsQueryRemoteModel, ReportsQueryModel>>() with provider {
+        ReportsQueryRemoteMapper()
     }
 
     bind<AssignStockDataSource>("assignStockRepository") with provider {
