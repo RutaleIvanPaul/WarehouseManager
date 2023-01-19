@@ -28,6 +28,7 @@
     <string name="warehouse_stock">Warehouse Stock</string>
     <string name="assign_stock">Assign Stock</string>
     <string name="return_stock">Return Stock</string>
+    <string name="view_stock_balance">View Stock Balance</string>
     <string name="return_success">Return Success</string>
     <string name="activities">Activities</string>
     <string name="stock_report">Stock Report</string>
@@ -212,4 +213,5 @@
     <string name="capture">Capture</string>
     <string name="captured">Captured</string>
 
+    <string name="available_balance">Available Balance</string>
 </resources>

@@ -204,6 +204,42 @@
                         android:src="@drawable/ic_white_right_arrow" />
 
                 </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/view_stock_balance_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:background="@drawable/rounded_button_blue"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_16sdp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_white_return_stock" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/_25sdp"
+                        android:text="@string/view_stock_balance"
+                        android:textColor="@color/white" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_white_right_arrow" />
+
+                </RelativeLayout>
+
             </LinearLayout>
 
             <LinearLayout
