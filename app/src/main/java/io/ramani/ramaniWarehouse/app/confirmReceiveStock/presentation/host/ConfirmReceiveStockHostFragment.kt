@@ -3,6 +3,8 @@ package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.host
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -84,7 +86,13 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 stock_receive_now_host_indicator_2.drawable,
                 ContextCompat.getColor(requireContext(), R.color.ramani_green)
             )
+
             flow.openReceiveSuccess()
+
+            //[DEB-811] This page should be last page, so the previous page should be cleared from the stack.
+            Handler(Looper.getMainLooper()).postDelayed({
+                pop()
+            }, 1000) //millis
         })
     }
 

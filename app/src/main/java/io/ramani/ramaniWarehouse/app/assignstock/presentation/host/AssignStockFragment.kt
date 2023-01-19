@@ -2,6 +2,8 @@ package io.ramani.ramaniWarehouse.app.assignstock.presentation.host
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
@@ -172,7 +174,11 @@ class AssignStockFragment : BaseFragment() {
         viewModel.onItemsAssignedLiveData.observe(this, {
             if (it) {
                 flow.openAssignSuccess()
-                (activity as BaseActivity).navigationManager?.remove(this)
+
+                //[DEB-811] This page should be last page, so the previous page should be cleared from the stack.
+                Handler(Looper.getMainLooper()).postDelayed({
+                    pop()
+                }, 1000) //millis
             } else {
                 Toast.makeText(requireContext(),
                     requireContext().getString(R.string.an_error_has_occured_with_assignment),
