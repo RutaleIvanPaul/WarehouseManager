@@ -1,6 +1,8 @@
 package io.ramani.ramaniWarehouse.app.returnstock.presentation.host
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat
@@ -126,7 +128,11 @@ class ReturnStockFragment : BaseFragment() {
 
         viewModel.onItemsReturnedLiveData.observe(this, {
             flow.openReturnSuccess()
-            (activity as BaseActivity).navigationManager?.remove(this)
+
+            //[DEB-811] This page should be last page, so the previous page should be cleared from the stack.
+            Handler(Looper.getMainLooper()).postDelayed({
+                pop()
+            }, 1000) //millis
         })
 
 
