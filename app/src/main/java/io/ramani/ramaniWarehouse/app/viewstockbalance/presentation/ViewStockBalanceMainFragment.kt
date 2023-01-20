@@ -1,12 +1,16 @@
 package io.ramani.ramaniWarehouse.app.viewstockbalance.presentation
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.afterTextChanged
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
@@ -56,14 +60,14 @@ class ViewStockBalanceMainFragment : BaseFragment() {
             if (!it) {
                 view_stock_balance_list.apply {
                     layoutManager = LinearLayoutManager(requireContext())
-                    adapter =
-                        ViewStockBalanceRVAdapter(viewModel.stockBalanceModel.rows as MutableList<List<String>>)
                     addItemDecoration(
                         DividerItemDecoration(
                             requireActivity(),
                             DividerItemDecoration.VERTICAL
                         )
                     )
+
+                    updateList()
                 }
             }
         }
@@ -80,11 +84,25 @@ class ViewStockBalanceMainFragment : BaseFragment() {
 
         view_stock_balance_date.text = dateFormatter.convertToCalendarFormatDate(now())
         view_stock_balance_warehouse_name.text = viewModel.warehouseName
+
+        view_stock_balance_search_field.afterTextChanged {
+            updateList(it)
+        }
+
     }
 
     override fun onResume() {
         super.onResume()
         viewModel.getReportsQuery(dateFormatter.getFullTimeString(Date()))
+    }
+
+    private fun updateList(withKey: String = "") {
+        val rows = viewModel.getFilteredProducts(withKey)
+
+        view_stock_balance_list.apply {
+            adapter =
+                ViewStockBalanceRVAdapter(rows as MutableList<List<String>>)
+        }
     }
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {

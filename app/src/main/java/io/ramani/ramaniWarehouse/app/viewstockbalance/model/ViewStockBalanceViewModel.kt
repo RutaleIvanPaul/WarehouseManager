@@ -2,6 +2,7 @@ package io.ramani.ramaniWarehouse.app.viewstockbalance.model
 
 import android.annotation.SuppressLint
 import android.app.Application
+import android.text.TextUtils
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -121,6 +122,21 @@ class ViewStockBalanceViewModel(application: Application,
         request.queries = listOf(query)
 
         return request
+    }
+
+    fun getFilteredProducts(withKey: String = ""): List<List<String>> {
+        if (TextUtils.isEmpty(withKey))
+            return stockBalanceModel.rows
+
+        val rows = mutableListOf<List<String>>()
+        for (row in stockBalanceModel.rows) {
+            // Assume that sixth element is id, and third element is balance in the warehouse
+            if (row[0].isNotEmpty() && row[0].lowercase().contains(withKey.lowercase())) {
+                rows.add(row)
+            }
+        }
+
+        return rows
     }
 
     class Factory(

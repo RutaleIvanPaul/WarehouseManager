@@ -108,13 +108,18 @@
 
             <!-- Search Bar -->
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/return_items_searchbar"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:background="@drawable/item_outline_with_white_solid_round"
-                android:hint="Search products" />
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <EditText
+                    android:id="@+id/view_stock_balance_search_field"
+                    style="@style/NormalEditText"
+                    android:drawableStart="@drawable/ic_search"
+                    android:hint="@string/search_products" />
+
+            </RelativeLayout>
 
             <!-- List -->
 
