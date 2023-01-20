@@ -84,6 +84,10 @@ class MainNavFragment : BaseFragment() {
             flow.openReturnStock()
         }
 
+        view_stock_balance_button.setOnSingleClickListener {
+            flow.openViewStockBalance()
+        }
+
         stock_report_button.setOnSingleClickListener {
             flow.openStockReport()
         }
