@@ -30,7 +30,7 @@ data class ReportsQueryProperty(
 data class ReportsQueryFilter(
     val id: String = "",
     val property: String = "Warehouse",
-    val function: String = "equals",
+    val function: String = "Equals",
     val field: String = "warehouseId",
     var value: String = "Table",    // warehouse id
     var label: String = "",         // this is name of the warehouse
