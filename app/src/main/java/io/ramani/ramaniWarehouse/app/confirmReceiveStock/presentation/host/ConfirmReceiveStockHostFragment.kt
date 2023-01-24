@@ -3,6 +3,8 @@ package io.ramani.ramaniWarehouse.app.confirmReceiveStock.presentation.host
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -57,6 +59,8 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
     private lateinit var flow: ReceiveStockFlow
     override fun getLayoutResId(): Int = R.layout.fragment_stock_receive_now_host
 
+    private var doNotRecursiveCheck = false     // We'll use this flag when back or continue operation should be done.
+
     //    private var invoiceModelView: InvoiceModelView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,7 +86,13 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 stock_receive_now_host_indicator_2.drawable,
                 ContextCompat.getColor(requireContext(), R.color.ramani_green)
             )
+
             flow.openReceiveSuccess()
+
+            //[DEB-811] This page should be last page, so the previous page should be cleared from the stack.
+            Handler(Looper.getMainLooper()).postDelayed({
+                pop()
+            }, 1000) //millis
         })
     }
 
@@ -119,6 +129,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 //            if (stock_receive_now_host_viewpager.currentItem < 2) {
 //                stock_receive_now_host_viewpager.currentItem++
 //            }
+            doNotRecursiveCheck = true
             checkPage(true,-1)
         }
     }
@@ -162,7 +173,10 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
         stock_receive_now_host_tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {
-                checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
+                if (!doNotRecursiveCheck)
+                    checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
+
+                doNotRecursiveCheck = false
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {
@@ -182,6 +196,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
 
     override fun onBackButtonPressed(): Boolean {
         if (stock_receive_now_host_viewpager.currentItem > 0) {
+            doNotRecursiveCheck = true
             stock_receive_now_host_next_button.text = getString(R.string.continue_)
             stock_receive_now_host_viewpager.currentItem--
             return true
@@ -197,7 +212,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
                 stock_receive_now_host_indicator_1.visible()
             }
             1 -> {
-                if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == true) {
+                if (RECEIVE_MODELS.invoiceModelView?.products?.any { it.isReceived == true } == true) {
                     turnMarkOneToGreen()
                     stock_receive_now_host_indicator_2.visible()
                     stock_receive_now_host_viewpager.currentItem++
@@ -222,7 +237,7 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
             }
             else -> {
                 if (isFromNextButton) {
-                    if (RECEIVE_MODELS.invoiceModelView?.products?.all { it.isReceived == true } == false) {
+                    if (RECEIVE_MODELS.invoiceModelView?.products?.any { it.isReceived == true } == false) {
                         errorDialog("Please set delivery of each products on Products page")
                         return
                     }

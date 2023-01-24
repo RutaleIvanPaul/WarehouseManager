@@ -1,6 +1,8 @@
 package io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
@@ -140,6 +142,11 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
             // Navigate to Success page
             flow.openReceiveSuccessPage(it)
+
+            //[DEB-811] This page should be last page, so the previous page should be cleared from the stack.
+            Handler(Looper.getMainLooper()).postDelayed({
+                pop()
+            }, 1000) //millis
         })
 
         STOCK_RECEIVE_MODEL.allowToGoNextLiveData.observe(this, {

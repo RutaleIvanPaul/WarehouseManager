@@ -19,6 +19,8 @@ data class ProductModelView(
     var status: String? = null,
     var qtyPending: Double? = null,
     var qtyPendingBackup: Double? = null,
+    var qtyAcceptedBackup: Double? = null,
+    var qtyDeclinedBackup: Double? = null,
     var viewType: Int = TYPE.PRODUCT
 ) : Parcelable, MultiItemEntity {
 
@@ -37,7 +39,9 @@ data class ProductModelView(
         parcel.readString(),
         parcel.readValue(Double::class.java.classLoader) as? Double,
         parcel.readValue(Double::class.java.classLoader) as? Double,
-    ) {
+        parcel.readValue(Double::class.java.classLoader) as? Double,
+        parcel.readValue(Double::class.java.classLoader) as? Double,
+        ) {
     }
 
     fun copy(productModelView: ProductModelView?) {
@@ -54,6 +58,8 @@ data class ProductModelView(
         this.status = productModelView?.status
         this.qtyPending = productModelView?.qtyPending
         this.qtyPendingBackup = productModelView?.qtyPendingBackup
+        this.qtyAcceptedBackup = productModelView?.qtyAcceptedBackup
+        this.qtyDeclinedBackup = productModelView?.qtyDeclinedBackup
     }
 
     class Builder : IBuilder<ProductModelView> {
@@ -70,6 +76,8 @@ data class ProductModelView(
         private var status: String? = null
         private var quantityPending: Double? = null
         private var quantityPendingBackup: Double? = null
+        private var quantityAcceptedBackup: Double? = null
+        private var quantityDeclinedBackup: Double? = null
         private var viewType: Int = TYPE.PRODUCT
 
         fun productId(productId: String?): Builder {
@@ -137,6 +145,16 @@ data class ProductModelView(
             return this
         }
 
+        fun quantityAcceptedBackup(quantityAcceptedBackup: Double?): Builder {
+            this.quantityAcceptedBackup = quantityAcceptedBackup
+            return this
+        }
+
+        fun quantityDeclinedBackup(quantityDeclinedBackup: Double?): Builder {
+            this.quantityDeclinedBackup = quantityDeclinedBackup
+            return this
+        }
+
         fun viewType(viewType: Int): Builder {
             this.viewType = viewType
             return this
@@ -157,6 +175,8 @@ data class ProductModelView(
                 status,
                 quantityPending,
                 quantityPendingBackup,
+                quantityAcceptedBackup,
+                quantityDeclinedBackup,
                 viewType
             )
     }
@@ -175,6 +195,8 @@ data class ProductModelView(
         parcel.writeString(status)
         parcel.writeValue(qtyPending)
         parcel.writeValue(qtyPendingBackup)
+        parcel.writeValue(qtyAcceptedBackup)
+        parcel.writeValue(qtyDeclinedBackup)
     }
 
     override fun describeContents(): Int {

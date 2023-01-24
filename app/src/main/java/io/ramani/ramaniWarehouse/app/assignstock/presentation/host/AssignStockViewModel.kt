@@ -18,16 +18,14 @@ import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.data.common.prefs.PrefsManager
-import io.ramani.ramaniWarehouse.data.stockassignment.model.AssignProductsRequestModel
-import io.ramani.ramaniWarehouse.data.stockassignment.model.ConfirmProducts
-import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItems
-import io.ramani.ramaniWarehouse.data.stockassignment.model.PostAssignedItemsResponse
+import io.ramani.ramaniWarehouse.data.stockassignment.model.*
 import io.ramani.ramaniWarehouse.domain.auth.manager.ISessionManager
 import io.ramani.ramaniWarehouse.domain.auth.model.UserModel
 import io.ramani.ramaniWarehouse.domain.base.mappers.ModelMapper
 import io.ramani.ramaniWarehouse.domain.base.mappers.mapFromWith
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
+import io.ramani.ramaniWarehouse.domain.stockassignment.usecases.PostWarehouseAssignedStockUseCase
 import io.ramani.ramaniWarehouse.domain.warehouses.models.WarehouseModel
 import io.ramani.ramaniWarehouse.domainCore.date.now
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
@@ -39,6 +37,7 @@ class AssignStockViewModel(
     stringProvider: IStringProvider,
     sessionManager: ISessionManager,
     private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>,
+    private val postWarehouseAssignedStockUseCase: BaseSingleUseCase<String, PostWarehouseAssignedItems>,
     private val dateFormatter: DateFormatter,
     private val assignedItemsMapper: ModelMapper<ProductsUIModel, ConfirmProducts>,
     private val prefs: PrefsManager
@@ -75,7 +74,42 @@ class AssignStockViewModel(
     }
 
     fun assignStock(context: Context) {
-        isLoadingVisible = true
+        if (AssignedItemDetails.isWarehouseAssignment) {
+            AssignedItemDetails.assigningWarehouseId = warehouseModel?.id!!
+            val assignedProducts = mutableListOf<WarehouseAssignedProduct>()
+                AssignedItemDetails.assignedItems.forEach { product ->
+                assignedProducts.add(WarehouseAssignedProduct(product._id,product.assignedNumber!!,product.units))
+            }
+            val items = PostWarehouseAssignedItems(
+                AssignedItemDetails.assignedToWarehouseStoreKeeperName,
+            AssignedItemDetails.assignedToWarehouseId,
+            userModel?.uuid!!,
+            assignedProducts
+            )
+
+            val single = postWarehouseAssignedStockUseCase.getSingle(
+             items
+            )
+
+            subscribeSingle(
+                single,
+                onSuccess = {
+                    onItemsAssignedLiveData.postValue(true)
+                }, onError = {
+
+                    isLoadingVisible = false
+                    notifyError(
+                        it.message
+                            ?: getString(R.string.an_error_has_occured_please_try_again),
+                        PresentationError.ERROR_TEXT
+                    )
+                    onItemsAssignedLiveData.postValue(false)
+
+                }
+            )
+
+        } else{
+            isLoadingVisible = true
         val assignedItems = assignedItemDetails
 
 
@@ -126,6 +160,7 @@ class AssignStockViewModel(
         )
 
     }
+    }
 
 
 
@@ -134,18 +169,20 @@ class AssignStockViewModel(
         private val stringProvider: IStringProvider,
         private val sessionManager: ISessionManager,
         private val postAssignedStockUseCase: BaseSingleUseCase<PostAssignedItemsResponse, AssignProductsRequestModel>,
+        private val postWarehouseAssignedStockUseCase: BaseSingleUseCase<String, PostWarehouseAssignedItems>,
         private val dateFormatter: DateFormatter,
         private val assignedItemsMapper: ModelMapper<ProductsUIModel, ConfirmProducts>,
         private val prefs: PrefsManager
     ) : ViewModelProvider.Factory {
 
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(AssignStockViewModel::class.java)) {
                 return AssignStockViewModel(
                     application,
                     stringProvider,
                     sessionManager,
                     postAssignedStockUseCase,
+                    postWarehouseAssignedStockUseCase,
                     dateFormatter,
                     assignedItemsMapper,
                     prefs

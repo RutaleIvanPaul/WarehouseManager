@@ -92,4 +92,6 @@
     <color name="status_pending">#FFb0c1cf</color>
     <color name="status_in_progress">#FFf5c448</color>
     <color name="pending">#1d8cf8</color>
+
+    <color name="view_stock_balance_header">#f6f7f9</color>
 </resources>

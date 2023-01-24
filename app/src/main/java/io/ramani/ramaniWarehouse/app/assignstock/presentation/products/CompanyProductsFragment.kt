@@ -2,22 +2,30 @@ package io.ramani.ramaniWarehouse.app.assignstock.presentation.products
 
 import android.app.Dialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.widget.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.AssignStockViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.model.ProductsUIModel
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.afterTextChanged
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.loadImage
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
+import io.ramani.ramaniWarehouse.domain.datetime.DateFormatter
 import kotlinx.android.synthetic.main.fragment_stock_assign_product.*
 import org.kodein.di.generic.factory
+import org.kodein.di.generic.instance
+import java.util.*
 
 
 class CompanyProductsFragment : BaseFragment() {
@@ -26,10 +34,12 @@ class CompanyProductsFragment : BaseFragment() {
     private lateinit var viewModel: CompanyProductsViewmodel
     override val baseViewModel: BaseViewModel?
         get() = viewModel
+
+    private val dateFormatter: DateFormatter by instance()
+
     private val companyProductsList = mutableListOf<ProductsUIModel>()
     private val selectedCompanyProductsList = mutableListOf<ProductsUIModel>()
     private val assignedItemsList = mutableListOf<String>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -112,9 +122,33 @@ class CompanyProductsFragment : BaseFragment() {
             dialog.findViewById(R.id.layout_first_edit_text_dialogue_edit_text) as EditText
         val productImage = dialog.findViewById(R.id.price_img) as ImageView
         val assignProductButton = dialog.findViewById(R.id.custom_products_assign_button) as Button
-        if (item.assignedNumber ?: 0 > 0) assignmentQuantity.setText(item.assignedNumber.toString())
+        val validationText = dialog.findViewById(R.id.dialog_assign_products_validate) as TextView
 
+        val balanceFromWarehouse = viewModel.getBalance(item._id)
+        assignmentQuantity.afterTextChanged {
+            val amount = if (!TextUtils.isEmpty(it)) it.toInt() else 0
+            val remained = balanceFromWarehouse - amount
 
+            if (balanceFromWarehouse < 0) {
+                validationText.visibility = View.INVISIBLE
+            } else if (remained < 0) {
+                validationText.text = String.format(getString(R.string.only_left_in_warehouse), balanceFromWarehouse, item.units)
+                validationText.setTextColor(ContextCompat.getColor(requireContext(), R.color.red))
+            } else {
+                validationText.text = String.format(getString(R.string.left_in_warehouse), remained, item.units)
+                validationText.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorAccent))
+            }
+
+            assignProductButton.isEnabled = (amount > 0) && (remained >= 0)
+        }
+
+        if ((item.assignedNumber ?: 0) > 0) {
+            assignmentQuantity.clearFocus()
+            assignmentQuantity.setText(item.assignedNumber.toString())
+            assignmentQuantity.requestFocus()
+        } else {
+            assignmentQuantity.setText("")
+        }
 
         body.text = item.name
         primaryUnits.text = item.units
@@ -197,17 +231,17 @@ class CompanyProductsFragment : BaseFragment() {
                 dialog.dismiss()
             }
         })
+
         dialog.show()
-
     }
-
 
     override fun onResume() {
         super.onResume()
         viewModel.resetViewModelData()
         viewModel.serverProductsLoaded.observeForever {
             if (it == false) {
-                viewModel.getCompanyProducts()
+                //viewModel.getCompanyProducts()
+                viewModel.getReportsQuery(dateFormatter.getFullTimeString(Date()))
             }
         }
     }

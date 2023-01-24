@@ -67,7 +67,7 @@ class SelectReturnItemsViewmodel(application: Application,
         private val sessionManager: ISessionManager,
         private val getAvailableStockUsecase: BaseSingleUseCase<List<AvailableStockReturnedListItem>, GetAvailableStockRequestModel>
     ): ViewModelProvider.Factory{
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(SelectReturnItemsViewmodel::class.java)) {
                 return SelectReturnItemsViewmodel(
                     application,

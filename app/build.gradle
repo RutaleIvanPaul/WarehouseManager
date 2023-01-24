@@ -47,7 +47,7 @@ android {
     def BOOLEAN = "boolean"
     def HTTP_LOGGING_ENABLED = "HTTP_LOGGING_ENABLED"
 
-    compileSdk 31
+    compileSdk 33
 
     defaultConfig {
         applicationId "io.ramani.ramaniWarehouse"
@@ -172,6 +172,8 @@ android {
     buildFeatures {
         dataBinding true
     }
+    namespace 'io.ramani.ramaniWarehouse'
+    buildToolsVersion '33.0.0'
 
 
 }
@@ -255,9 +257,9 @@ dependencies {
     // sdp
     implementation 'com.intuit.sdp:sdp-android:1.0.4'
 // lifecycle
-    def lifecycle_version = "2.2.0-alpha03"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.0"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    def lifecycle_version = "2.4.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:2.2.0-alpha03"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     // Google play services

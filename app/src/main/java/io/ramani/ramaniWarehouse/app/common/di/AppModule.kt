@@ -11,6 +11,7 @@ import io.ramani.ramaniWarehouse.app.stockassignmentreport.di.stockAssignmentRep
 import io.ramani.ramaniWarehouse.app.warehouses.di.warehousesModule
 import io.ramani.ramaniWarehouse.app.stockreceive.di.stockReceiveModule
 import io.ramani.ramaniWarehouse.app.stockreport.di.stockReportModule
+import io.ramani.ramaniWarehouse.app.viewstockbalance.di.viewStockBalanceModule
 import org.kodein.di.Kodein
 
 /**
@@ -30,6 +31,7 @@ val appModule = Kodein.Module("appModule") {
     import(stockReceiveModule)
     import(returnStockModule)
     import(assignStockModule)
+    import(viewStockBalanceModule)
     import(stockReportModule)
     import(stockAssignmentReportModule)
     import(confirmReceiveModule)
