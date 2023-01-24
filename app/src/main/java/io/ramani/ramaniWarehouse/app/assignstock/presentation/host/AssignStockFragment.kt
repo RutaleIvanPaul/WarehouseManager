@@ -2,6 +2,8 @@ package io.ramani.ramaniWarehouse.app.assignstock.presentation.host
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
@@ -11,20 +13,18 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.google.android.material.tabs.TabLayoutMediator
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.assignstock.flow.AssignStockFlowcontroller
-import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonFragment
+import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonWarehouseFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.AssignStockSalesPersonViewModel
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.confirm.ConfirmAssignedStockFragment
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.host.model.ASSIGNMENT_RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.assignstock.presentation.products.CompanyProductsFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
 import io.ramani.ramaniWarehouse.app.common.presentation.adapters.TabPagerAdapter
+import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
-import io.ramani.ramaniWarehouse.app.returnstock.flow.ReturnStockFlowcontroller
-import io.ramani.ramaniWarehouse.app.returnstock.presentation.host.ReturnStockViewModel
 import kotlinx.android.synthetic.main.fragment_assign_stock.*
 import kotlinx.android.synthetic.main.fragment_assign_stock.assign_stock_host_next_button
-import kotlinx.android.synthetic.main.fragment_return_stock.*
 
 import org.jetbrains.anko.backgroundDrawable
 import org.kodein.di.generic.factory
@@ -47,9 +47,12 @@ class AssignStockFragment : BaseFragment() {
         viewModel = viewModelProvider(this)
         ASSIGNMENT_RECEIVE_MODELS.resetAssignmentDetails()
         AssignStockSalesPersonViewModel.onStockTakenDateSelectedLiveData.postValue(false)
+        subscribeLoadingError(viewModel)
+        subscribeError(viewModel)
+        observerError(viewModel, this)
     }
 
-    private var salespersonFragment: AssignStockSalesPersonFragment? = null
+    private var salespersonFragment: AssignStockSalesPersonWarehouseFragment? = null
     private var productsFragment: CompanyProductsFragment? = null
     private var confirmAssignmentFragment: ConfirmAssignedStockFragment? = null
 
@@ -86,6 +89,11 @@ class AssignStockFragment : BaseFragment() {
                 }
             }
         }
+    }
+
+    override fun showError(error: String) {
+        super.showError(error)
+        errorDialog(error)
     }
 
     private fun subscribeObservers() {
@@ -166,12 +174,17 @@ class AssignStockFragment : BaseFragment() {
         viewModel.onItemsAssignedLiveData.observe(this, {
             if (it) {
                 flow.openAssignSuccess()
-                (activity as BaseActivity).navigationManager?.remove(this)
+
+                //[DEB-811] This page should be last page, so the previous page should be cleared from the stack.
+                Handler(Looper.getMainLooper()).postDelayed({
+                    pop()
+                }, 1000) //millis
             } else {
                 Toast.makeText(requireContext(),
                     requireContext().getString(R.string.an_error_has_occured_with_assignment),
                     Toast.LENGTH_LONG
                 ).show()
+                assign_stock_viewpager.currentItem--
             }
 
         })
@@ -204,7 +217,7 @@ class AssignStockFragment : BaseFragment() {
 
 
     private fun initTabLayout() {
-        salespersonFragment = AssignStockSalesPersonFragment.newInstance()
+        salespersonFragment = AssignStockSalesPersonWarehouseFragment.newInstance()
         productsFragment = CompanyProductsFragment.newInstance()
         confirmAssignmentFragment = ConfirmAssignedStockFragment()
 

@@ -37,10 +37,22 @@ class AssignStockSalesPersonViewModel(
         val onStockTakenDateSelectedLiveData = MutableLiveData<Boolean>()
         val selectedSalespersonLiveData = MutableLiveData<String>()
         val dateStockTakenLiveData = MutableLiveData<String>()
+        val assignToOptionsList = mutableListOf<String>()
+        val selectedAssignToOptionLiveData = MutableLiveData<String>()
+        var selectedAssignToOption ="Salesperson"
     }
 
     override fun start(args: Map<String, Any?>) {
         TODO("Not yet implemented")
+    }
+
+    fun getAssignToOptions(){
+       assignToOptionsList.add("Salesperson")
+        assignToOptionsList.add("Warehouse")
+    }
+
+    fun onAssignToOptionSelected(selectedAssignToOption: String){
+        selectedAssignToOptionLiveData.postValue(selectedAssignToOption)
     }
 
 

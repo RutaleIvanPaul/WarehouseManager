@@ -3,6 +3,7 @@ package io.ramani.ramaniWarehouse.app.warehouses.mainNav.presentation
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
@@ -67,7 +68,7 @@ class MainNavFragment : BaseFragment() {
     private fun setupNavs() {
 
         warehouses_spinner.setOnSingleClickListener {
-            flow.openWarehousesBottomSheet()
+            flow.openWarehousesBottomSheet(true)
             warehouses_spinner.text = MainNavViewModel.currentWarehouse?.name ?: ""
         }
 
@@ -81,6 +82,10 @@ class MainNavFragment : BaseFragment() {
 
         return_stock_button.setOnSingleClickListener {
             flow.openReturnStock()
+        }
+
+        view_stock_balance_button.setOnSingleClickListener {
+            flow.openViewStockBalance()
         }
 
         stock_report_button.setOnSingleClickListener {
