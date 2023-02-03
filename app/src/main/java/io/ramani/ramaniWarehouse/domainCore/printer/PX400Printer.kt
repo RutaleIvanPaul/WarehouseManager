@@ -8,20 +8,28 @@ import com.cloudpos.DeviceException
 import com.cloudpos.POSTerminal
 import com.cloudpos.printer.Format
 import com.cloudpos.printer.PrinterDevice
+import io.ramani.ramaniWarehouse.R
+import io.ramani.ramaniWarehouse.app.common.presentation.language.StringProvider.getString
 
 
 class PX400Printer(var context: Context) {
     private var device: POSDevice? = null
     private val TAG = "Printer Work"
 
-    fun open() {
-        try {
-            initDevice()
-            device?.open()
-            Log.d(TAG,"Open Printer succeed!")
-        } catch (ex: DeviceException) {
-            Log.d(TAG,"Open Printer Failed!")
-            ex.printStackTrace()
+    fun open():Boolean {
+        initDevice()
+        if (device != null) {
+            try {
+                device?.open()
+                Log.d(TAG, "Open Printer succeed!")
+                return true
+            } catch (ex: DeviceException) {
+                Log.d(TAG, "Open Printer Failed!")
+                ex.printStackTrace()
+                return false
+            }
+        }else {
+            return false
         }
     }
 
