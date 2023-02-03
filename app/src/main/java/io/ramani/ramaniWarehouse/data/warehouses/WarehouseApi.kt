@@ -23,7 +23,8 @@ interface WarehouseApi {
     fun getInvoices(
         @Query("companyId") companyId: String,
         @Query("page") page: Int,
-        @Query("size") perPage: Int = PAGINATION_PER_PAGE_SIZE
+        @Query("size") perPage: Int = PAGINATION_PER_PAGE_SIZE,
+        @Query("showReimbursement") showReimbursement: Boolean = false,
     ): Single<BaseResponse<BasePagedRemoteResponseModel<List<InvoiceRemoteModel>>>>
 
 }
