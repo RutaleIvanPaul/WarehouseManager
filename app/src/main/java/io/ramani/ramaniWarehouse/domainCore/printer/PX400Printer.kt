@@ -82,7 +82,12 @@ class PX400Printer(var context: Context) {
    private fun initDevice(){
        val name = Build.MANUFACTURER
        if (device == null) {
-           device = getDevice(name)
+           try {
+               device = getDevice(name)
+           }catch (ex:Exception){
+               device = null
+               Log.d(TAG,"Could not get device")
+           }
        }
     }
 
