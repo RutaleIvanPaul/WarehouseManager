@@ -13,9 +13,8 @@ class PrinterHelper(
         return Build.MANUFACTURER == "wizarPOS"
     }
 
-    fun open(): String {
-        pX400Printer.open()
-        return getString(R.string.printer_opened)
+    fun open(): Boolean {
+        return pX400Printer.open()
     }
 
     fun close(): String {
@@ -24,18 +23,24 @@ class PrinterHelper(
     }
 
     fun printBitmap(bitmap: Bitmap): PrintStatus {
-        open()
-        pX400Printer.printBitmap(bitmap)
-        close()
-        return PrintStatus(true)
+        if (open()) {
+            pX400Printer.printBitmap(bitmap)
+            close()
+            return PrintStatus(true)
+        }else{
+            return PrintStatus(false, getString(R.string.no_printer))
+        }
 
     }
 
     fun printText(string: String): PrintStatus {
-        open()
-        pX400Printer.printText(string)
-        close()
-        return PrintStatus(true)
+        if (open()) {
+            pX400Printer.printText(string)
+            close()
+            return PrintStatus(true)
+        }else{
+            return PrintStatus(false,getString(R.string.no_printer))
+        }
     }
 
 
