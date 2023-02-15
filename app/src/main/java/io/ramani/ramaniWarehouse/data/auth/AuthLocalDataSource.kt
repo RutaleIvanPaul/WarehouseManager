@@ -42,7 +42,11 @@ class AuthLocalDataSource(
         }
 
     override fun getCurrentWarehouse(): Single<WarehouseModel> =
-        Single.just(Gson().fromJson(prefsManager.currentWarehouse, WarehouseModel::class.java))
+        if(prefsManager.currentWarehouse.isNullOrBlank()){
+            Single.just(WarehouseModel())
+        } else {
+            Single.just(Gson().fromJson(prefsManager.currentWarehouse, WarehouseModel::class.java))
+        }
 
 
 }
