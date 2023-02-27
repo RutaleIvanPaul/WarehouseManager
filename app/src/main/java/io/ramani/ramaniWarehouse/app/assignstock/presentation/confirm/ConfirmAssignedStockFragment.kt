@@ -214,8 +214,9 @@ class ConfirmAssignedStockFragment : BaseFragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if(storeKeeperTextWatcher.isNotNull()) {
-            if (isAdded) {
+
+        if (isAdded) {
+            if(storeKeeperTextWatcher.isNotNull() && stock_assign_confirm_other_storekeeper_name != null) {
                 stock_assign_confirm_other_storekeeper_name.removeTextChangedListener(
                     storeKeeperTextWatcher
                 )
