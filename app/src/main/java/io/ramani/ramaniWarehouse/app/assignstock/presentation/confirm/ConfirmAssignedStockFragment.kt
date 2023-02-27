@@ -213,15 +213,13 @@ class ConfirmAssignedStockFragment : BaseFragment() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
-
-        if (isAdded) {
-            if(storeKeeperTextWatcher.isNotNull() && stock_assign_confirm_other_storekeeper_name != null) {
-                stock_assign_confirm_other_storekeeper_name.removeTextChangedListener(
-                    storeKeeperTextWatcher
-                )
-            }
+        if (isAdded && stock_assign_confirm_other_storekeeper_name != null && storeKeeperTextWatcher.isNotNull()) {
+            stock_assign_confirm_other_storekeeper_name.removeTextChangedListener(
+                storeKeeperTextWatcher
+            )
         }
+
+        super.onDestroy()
     }
 
     companion object {
