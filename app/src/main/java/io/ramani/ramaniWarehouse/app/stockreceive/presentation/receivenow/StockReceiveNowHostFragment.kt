@@ -62,7 +62,9 @@ class StockReceiveNowHostFragment : BaseFragment() {
         }
 
         // Next button handler
-        stock_receive_now_host_next_button.setOnSingleClickListener {
+        //[2023.3.1][Adrian] We'll do not use setOnSingleClickListener because sometimes the server response will be over 2 seconds
+        //that's why this button is enabled again before operation is completed
+        stock_receive_now_host_next_button.setOnClickListener {
             var allowGo = true
 
             val supplierData = STOCK_RECEIVE_MODEL.supplierData
@@ -103,6 +105,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
                 // There is no need to go ahead.
                 allowGo = false
 
+                it.isEnabled = false
                 viewModel.postGoodsReceived(requireContext())
             }
 
@@ -126,6 +129,9 @@ class StockReceiveNowHostFragment : BaseFragment() {
     override fun showError(error: String) {
         super.showError(error)
         errorDialog(error)
+
+        //[DEB-845] if posting operation is failed, then posting button will be enabled again.
+        stock_receive_now_host_next_button.isEnabled = true
     }
 
     private fun subscribeObservers() {
@@ -137,7 +143,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
 
         })
 
-        viewModel.postGoodsReceivedActionLiveData.observe(this, {
+        viewModel.postGoodsReceivedActionLiveData.observe(this) {
             //STOCK_RECEIVE_MODEL.clearData()
 
             // Navigate to Success page
@@ -147,7 +153,7 @@ class StockReceiveNowHostFragment : BaseFragment() {
             Handler(Looper.getMainLooper()).postDelayed({
                 pop()
             }, 1000) //millis
-        })
+        }
 
         STOCK_RECEIVE_MODEL.allowToGoNextLiveData.observe(this, {
             if (it.second) {
