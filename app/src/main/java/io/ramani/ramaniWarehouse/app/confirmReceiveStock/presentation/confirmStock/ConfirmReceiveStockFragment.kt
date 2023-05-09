@@ -135,21 +135,21 @@ class ConfirmReceiveStockFragment : BaseFragment() {
 
     private fun setupDeliveryPersonSignature() {
 
-        radio_group.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.signature_radio_button -> {
-                    stock_receive_confirm_sign_delivery_person.text = getString(R.string.sign)
-                    resetButtonStyle()
-                    resetData()
-                }
-
-                R.id.doc_radio_button -> {
-                    stock_receive_confirm_sign_delivery_person.text = getString(R.string.capture)
-                    resetButtonStyle()
-                    resetData()
-                }
-            }
-        }
+//        radio_group.setOnCheckedChangeListener { _, checkedId ->
+//            when (checkedId) {
+//                R.id.signature_radio_button -> {
+//                    stock_receive_confirm_sign_delivery_person.text = getString(R.string.sign)
+//                    resetButtonStyle()
+//                    resetData()
+//                }
+//
+//                R.id.doc_radio_button -> {
+//                    stock_receive_confirm_sign_delivery_person.text = getString(R.string.capture)
+//                    resetButtonStyle()
+//                    resetData()
+//                }
+//            }
+//        }
     }
 
     private fun resetData() {
@@ -189,29 +189,29 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         stock_receive_confirm_sign_delivery_person.setOnSingleClickListener {
             val signedName = stock_receive_confirm_delivery_person_name.text.toString()
 
-            if (signedName.isNotEmpty()) {
-                if (signature_radio_button.isChecked) {
-                    flow.openSignaturePad(StockReceiveSignaturePadSheetFragment.PARAM_DELIVERY_PERSON_SIGN)
-                } else {
-                    if (ContextCompat.checkSelfPermission(
-                            requireContext(),
-                            Manifest.permission.CAMERA
-                        )
-                        == PackageManager.PERMISSION_DENIED
-                    ) {
-                        ActivityCompat.requestPermissions(
-                            requireActivity(),
-                            arrayOf(Manifest.permission.CAMERA),
-                            REQUEST_CAMERA
-                        )
-
-                    } else {
-                        openCameraActivity()
-                    }
-                }
-            } else {
-                errorDialog("Please enter the delivery person name")
-            }
+//            if (signedName.isNotEmpty()) {
+//                if (signature_radio_button.isChecked) {
+//                    flow.openSignaturePad(StockReceiveSignaturePadSheetFragment.PARAM_DELIVERY_PERSON_SIGN)
+//                } else {
+//                    if (ContextCompat.checkSelfPermission(
+//                            requireContext(),
+//                            Manifest.permission.CAMERA
+//                        )
+//                        == PackageManager.PERMISSION_DENIED
+//                    ) {
+//                        ActivityCompat.requestPermissions(
+//                            requireActivity(),
+//                            arrayOf(Manifest.permission.CAMERA),
+//                            REQUEST_CAMERA
+//                        )
+//
+//                    } else {
+//                        openCameraActivity()
+//                    }
+//                }
+//            } else {
+//                errorDialog("Please enter the delivery person name")
+//            }
         }
     }
 

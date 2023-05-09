@@ -76,37 +76,6 @@
                     android:layout_marginTop="30dp"
                     android:text="@string/delivery_person" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <RadioGroup
-                        android:id="@+id/radio_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/signature_radio_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="16dp"
-                            android:checked="true"
-                            android:text="@string/signature" />
-
-                        <RadioButton
-                            android:id="@+id/doc_radio_button"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="false"
-                            android:text="@string/upload_camera_doc" />
-
-
-                    </RadioGroup>
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -134,6 +103,110 @@
                         android:text="@string/sign" />
 
                 </LinearLayout>
+
+                <TextView
+                    style="@style/BoldTextLabel"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/supporting_document" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/round_grey_fill"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/gallery_support_doc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:background="@drawable/image_blue" />
+
+                        <TextView
+                            style="@style/BoldTextLabelGrey"
+                            android:layout_marginLeft="35dp"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/gallery" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginEnd="@dimen/_10sdp"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/dotted_divider" />
+
+                    <LinearLayout
+                        android:id="@+id/take_photo_support_doc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:background="@drawable/camera_blue" />
+
+                        <TextView
+                            style="@style/BoldTextLabelGrey"
+                            android:layout_marginLeft="35dp"
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/take_photo" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingBottom="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_10sdp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="51dp"
+                            android:background="@drawable/round_white_outline_with_no_borders"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:orientation="horizontal"
+                            android:text="@string/uploading" >
+
+                            <View
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center_vertical"
+                                android:background="@drawable/image_icon" />
+
+                            <TextView
+                                style="@style/BoldTextLabelGrey"
+                                android:layout_centerInParent="true"
+                                android:letterSpacing="0.01"
+                                android:text="@string/view_file"
+                                android:textColor="#606060"
+                                android:textSize="10sp" />
+
+                            <View
+                                android:layout_width="10dp"
+                                android:layout_height="14dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerInParent="true"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginEnd="@dimen/_10sdp"
+                                android:background="@drawable/delete_image" />
+
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+
                 <ImageView
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_100sdp"

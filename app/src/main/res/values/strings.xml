@@ -216,4 +216,8 @@
 
     <string name="available_balance">Available Balance</string>
     <string name="search_products">Search products</string>
+    <string name="gallery">Gallery</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="uploading">Uploading...</string>
+    <string name="view_file">View File</string>
 </resources>
