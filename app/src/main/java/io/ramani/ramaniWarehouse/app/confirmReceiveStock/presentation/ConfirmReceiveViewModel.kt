@@ -47,6 +47,7 @@ class ConfirmReceiveViewModel(
     var loggedInUser = UserModel()
     var currentWarehoues = WarehouseModel()
     val postGoodsReceivedActionLiveData = MutableLiveData<GoodsReceivedModel>()
+    val onSupportingDocAdded = MutableLiveData<Boolean>()
     override fun start(args: Map<String, Any?>) {
         sessionManager.getLoggedInUser().subscribeBy {
             token = it.token

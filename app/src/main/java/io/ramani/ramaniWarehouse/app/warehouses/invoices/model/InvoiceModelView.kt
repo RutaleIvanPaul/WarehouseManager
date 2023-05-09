@@ -21,7 +21,8 @@ data class InvoiceModelView(
     var deliveryPersonName: String? = null,
     var storeKeeperSign: Bitmap? = null,
     var deliveryPersonSign: Bitmap? = null,
-    val serverCreatedAtDateTime: String? = null
+    val serverCreatedAtDateTime: String? = null,
+    val supportingDocs:MutableList<String> = mutableListOf()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),

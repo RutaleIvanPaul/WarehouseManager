@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
@@ -52,6 +53,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         get() = viewModel
     private lateinit var flow: StockReceiveFlow
     private lateinit var productsAdapter: ConfirmedProductAdapter
+    private lateinit var supportingDocumentAdapter: SupportingDocumentAdapter
     override fun getLayoutResId(): Int = R.layout.fragment_confirm_receive_stock
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,6 +71,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         subscribeError(viewModel)
         observerError(viewModel, this)
         subscribeWhenReceiveSign()
+        subscribeWhenDocAdded()
     }
 
     private fun subscribeWhenReceiveSign() {
@@ -79,16 +82,14 @@ class ConfirmReceiveStockFragment : BaseFragment() {
 
                 stock_receive_confirm_sign_store_keeper.setCompoundDrawables(
                     ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_check_icon
+                        requireContext(), R.drawable.ic_check_icon
                     ), null, null, null
                 )
                 stock_receive_confirm_sign_store_keeper.setBackgroundResource(R.drawable.green_stroke_action_button)
                 stock_receive_confirm_sign_store_keeper.setText(R.string.signed)
                 stock_receive_confirm_sign_store_keeper.setTextColor(
                     ContextCompat.getColor(
-                        requireContext(),
-                        R.color.light_lime_yellow
+                        requireContext(), R.color.light_lime_yellow
                     )
                 )
 
@@ -103,16 +104,14 @@ class ConfirmReceiveStockFragment : BaseFragment() {
 
                 stock_receive_confirm_sign_delivery_person.setCompoundDrawables(
                     ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_check_icon
+                        requireContext(), R.drawable.ic_check_icon
                     ), null, null, null
                 )
                 stock_receive_confirm_sign_delivery_person.setBackgroundResource(R.drawable.green_stroke_action_button)
                 stock_receive_confirm_sign_delivery_person.setText(R.string.signed)
                 stock_receive_confirm_sign_delivery_person.setTextColor(
                     ContextCompat.getColor(
-                        requireContext(),
-                        R.color.light_lime_yellow
+                        requireContext(), R.color.light_lime_yellow
                     )
                 )
 
@@ -129,28 +128,42 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         super.initView(view)
         flow = StockReceiveFlowController(baseActivity!!, R.id.main_fragment_container)
         setupRV()
-        setupDeliveryPersonSignature()
+        setupSupportingDocs()
         setupSignpad()
     }
 
-    private fun setupDeliveryPersonSignature() {
+    private fun setupSupportingDocs() {
+        take_photo_support_doc.setOnSingleClickListener {
+            val signedName = stock_receive_confirm_delivery_person_name.text.toString()
 
-//        radio_group.setOnCheckedChangeListener { _, checkedId ->
-//            when (checkedId) {
-//                R.id.signature_radio_button -> {
-//                    stock_receive_confirm_sign_delivery_person.text = getString(R.string.sign)
-//                    resetButtonStyle()
-//                    resetData()
-//                }
-//
-//                R.id.doc_radio_button -> {
-//                    stock_receive_confirm_sign_delivery_person.text = getString(R.string.capture)
-//                    resetButtonStyle()
-//                    resetData()
-//                }
-//            }
-//        }
+            if (signedName.isNotEmpty()) {
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(), Manifest.permission.CAMERA
+                    ) == PackageManager.PERMISSION_DENIED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(), arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA
+                    )
+
+                } else {
+                    openCameraActivity()
+                }
+            } else {
+                errorDialog("Please enter the delivery person name")
+            }
+        }
+
+        gallery_support_doc.setOnSingleClickListener {
+            val signedName = stock_receive_confirm_delivery_person_name.text.toString()
+
+            if (signedName.isNotEmpty()) {
+
+            } else {
+                errorDialog("Please enter the delivery person name")
+            }
+        }
     }
+
 
     private fun resetData() {
         delivery_person_captured_image_preview.gone()
@@ -165,16 +178,13 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         if (sdk < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             stock_receive_confirm_sign_delivery_person.backgroundDrawable =
                 ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.blue_stroke_action_button
+                    requireContext(), R.drawable.blue_stroke_action_button
                 )
 
         } else {
-            stock_receive_confirm_sign_delivery_person.background =
-                ContextCompat.getDrawable(
-                    requireContext(),
-                    R.drawable.blue_stroke_action_button
-                )
+            stock_receive_confirm_sign_delivery_person.background = ContextCompat.getDrawable(
+                requireContext(), R.drawable.blue_stroke_action_button
+            )
         }
     }
 
@@ -189,29 +199,11 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         stock_receive_confirm_sign_delivery_person.setOnSingleClickListener {
             val signedName = stock_receive_confirm_delivery_person_name.text.toString()
 
-//            if (signedName.isNotEmpty()) {
-//                if (signature_radio_button.isChecked) {
-//                    flow.openSignaturePad(StockReceiveSignaturePadSheetFragment.PARAM_DELIVERY_PERSON_SIGN)
-//                } else {
-//                    if (ContextCompat.checkSelfPermission(
-//                            requireContext(),
-//                            Manifest.permission.CAMERA
-//                        )
-//                        == PackageManager.PERMISSION_DENIED
-//                    ) {
-//                        ActivityCompat.requestPermissions(
-//                            requireActivity(),
-//                            arrayOf(Manifest.permission.CAMERA),
-//                            REQUEST_CAMERA
-//                        )
-//
-//                    } else {
-//                        openCameraActivity()
-//                    }
-//                }
-//            } else {
-//                errorDialog("Please enter the delivery person name")
-//            }
+            if (signedName.isNotEmpty()) {
+                flow.openSignaturePad(StockReceiveSignaturePadSheetFragment.PARAM_DELIVERY_PERSON_SIGN)
+            } else {
+                errorDialog("Please enter the delivery person name")
+            }
         }
     }
 
@@ -219,8 +211,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
 
         val directory =
             File("${Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).absolutePath}/${BuildConfig.APP_NAME}/")
-        if (!directory.exists())
-            directory.mkdir()
+        if (!directory.exists()) directory.mkdir()
 
         val fileNameToSave = "${Calendar.getInstance().timeInMillis}.jpg"
 
@@ -249,22 +240,26 @@ class ConfirmReceiveStockFragment : BaseFragment() {
                 // There are no request codes
                 stock_receive_confirm_sign_delivery_person.setCompoundDrawables(
                     ContextCompat.getDrawable(
-                        requireContext(),
-                        R.drawable.ic_check_icon
+                        requireContext(), R.drawable.ic_check_icon
                     ), null, null, null
                 )
                 stock_receive_confirm_sign_delivery_person.setBackgroundResource(R.drawable.green_stroke_action_button)
                 stock_receive_confirm_sign_delivery_person.setText(R.string.captured)
                 stock_receive_confirm_sign_delivery_person.setTextColor(
                     ContextCompat.getColor(
-                        requireContext(),
-                        R.color.light_lime_yellow
+                        requireContext(), R.color.light_lime_yellow
                     )
                 )
                 val image = BitmapFactory.decodeFile(capturedImage?.absolutePath)
                 val deliveryPersonName = stock_receive_confirm_delivery_person_name.text.toString()
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonName = deliveryPersonName
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign = image
+                capturedImage?.absolutePath?.let { it1 ->
+                    RECEIVE_MODELS.invoiceModelView?.supportingDocs?.add(
+                        it1
+                    )
+                    viewModel.onSupportingDocAdded.postValue(true)
+                }
                 delivery_person_captured_image_preview.visible()
                 delivery_person_captured_image_preview.setImageBitmap(image)
             }
@@ -280,12 +275,17 @@ class ConfirmReceiveStockFragment : BaseFragment() {
     private fun setupRV() {
         val products = mutableListOf<ProductModelView>()
         products.add(
-            ProductModelView.Builder()
-                .viewType(ProductModelView.TYPE.LABEL)
-                .productName(getString(R.string.accepted).capitalize())
-                .temp(getString(R.string.declined).capitalize())
-                .isReceived(false)
-                .build()
+            ProductModelView.Builder().viewType(ProductModelView.TYPE.LABEL)
+                .productName(getString(R.string.accepted).replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    ) else it.toString()
+                })
+                .temp(getString(R.string.declined).replaceFirstChar {
+                    if (it.isLowerCase()) it.titlecase(
+                        Locale.getDefault()
+                    ) else it.toString()
+                }).isReceived(false).build()
         )
 
         RECEIVE_MODELS.invoiceModelView?.products?.forEach {
@@ -297,6 +297,20 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         productsAdapter = ConfirmedProductAdapter(products)
         products_rv.apply {
             this.adapter = productsAdapter
+        }
+
+        supportingDocumentAdapter = SupportingDocumentAdapter(RECEIVE_MODELS.invoiceModelView!!.supportingDocs){
+            errorDialog(it)
+        }
+        supporting_docs_rv.apply {
+            this.adapter = supportingDocumentAdapter
+            this.layoutManager = LinearLayoutManager(requireContext())
+        }
+    }
+
+    private fun subscribeWhenDocAdded() {
+        viewModel.onSupportingDocAdded.observe(this){
+            supportingDocumentAdapter.notifyDataSetChanged()
         }
     }
 
