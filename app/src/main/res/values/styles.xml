@@ -85,6 +85,11 @@
         <item name="android:textColor">@color/secondary_blue</item>
     </style>
 
+    <style name="RedStrokeActionButton" parent="NormalActionButton">
+        <item name="android:background">@drawable/red_stroke_action_button</item>
+        <item name="android:textColor">@color/redbutton</item>
+    </style>
+
     <style name="GreenFillActionButton" parent="NormalActionButton">
         <item name="android:layout_height">40dp</item>
         <item name="android:background">@drawable/green_action_button</item>

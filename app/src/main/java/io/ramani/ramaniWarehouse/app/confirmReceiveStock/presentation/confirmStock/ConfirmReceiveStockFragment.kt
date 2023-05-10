@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Environment
@@ -11,6 +12,8 @@ import android.provider.MediaStore
 import android.view.View
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -32,16 +35,39 @@ import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
 import kotlinx.android.synthetic.main.fragment_confirm_receive_stock.*
+import kotlinx.android.synthetic.main.preview_support_doc.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.textColor
 import org.kodein.di.generic.factory
 import java.io.File
+import java.io.InputStream
 import java.util.*
 
 
 class ConfirmReceiveStockFragment : BaseFragment() {
     private var capturedImage: File? = null
     private var capturePhotoActivityResult: ActivityResultLauncher<Intent>? = null
+    private var currentBitmap:Bitmap? = null
+
+
+    private var selectPictureActivityResult = registerForActivityResult(ActivityResultContracts.GetContent()){
+        delivery_person_captured_image_preview.visible()
+
+        val inputStream: InputStream? = requireContext().contentResolver.openInputStream(it)
+        val bitmap = BitmapFactory.decodeStream(inputStream)
+        inputStream?.close()
+
+        delivery_person_captured_image_preview.setImageBitmap(bitmap)
+
+
+            RECEIVE_MODELS.invoiceModelView?.supportingDocs?.add(
+                bitmap
+            )
+
+            viewModel.onSupportingDocAdded.postValue(true)
+    }
+
+    private lateinit var builder:AlertDialog
 
     companion object {
         fun newInstance() = ConfirmReceiveStockFragment()
@@ -130,6 +156,22 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         setupRV()
         setupSupportingDocs()
         setupSignpad()
+        setupSupportingDocsPreview()
+    }
+
+
+
+    private fun setupSupportingDocsPreview() {
+        builder = AlertDialog.Builder(requireContext())
+            .create()
+        val view = layoutInflater.inflate(R.layout.preview_support_doc,null)
+        builder.setView(view)
+        view.findViewById<AppCompatButton>(R.id.deleteimage_preview).setOnSingleClickListener {
+            RECEIVE_MODELS.invoiceModelView?.supportingDocs?.remove(currentBitmap)
+            supportingDocumentAdapter.notifyDataSetChanged()
+            builder.dismiss()
+        }
+        builder.setCanceledOnTouchOutside(true)
     }
 
     private fun setupSupportingDocs() {
@@ -157,6 +199,18 @@ class ConfirmReceiveStockFragment : BaseFragment() {
             val signedName = stock_receive_confirm_delivery_person_name.text.toString()
 
             if (signedName.isNotEmpty()) {
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_DENIED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 3
+                    )
+
+                }else{
+                    //continue to select image
+                    selectPictureActivityResult.launch("image/*")
+                }
 
             } else {
                 errorDialog("Please enter the delivery person name")
@@ -254,12 +308,11 @@ class ConfirmReceiveStockFragment : BaseFragment() {
                 val deliveryPersonName = stock_receive_confirm_delivery_person_name.text.toString()
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonName = deliveryPersonName
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign = image
-                capturedImage?.absolutePath?.let { it1 ->
-                    RECEIVE_MODELS.invoiceModelView?.supportingDocs?.add(
-                        it1
+                RECEIVE_MODELS.invoiceModelView?.supportingDocs?.add(
+                        image
                     )
-                    viewModel.onSupportingDocAdded.postValue(true)
-                }
+                viewModel.onSupportingDocAdded.postValue(true)
+
                 delivery_person_captured_image_preview.visible()
                 delivery_person_captured_image_preview.setImageBitmap(image)
             }
@@ -299,8 +352,15 @@ class ConfirmReceiveStockFragment : BaseFragment() {
             this.adapter = productsAdapter
         }
 
-        supportingDocumentAdapter = SupportingDocumentAdapter(RECEIVE_MODELS.invoiceModelView!!.supportingDocs){
-            errorDialog(it)
+        supportingDocumentAdapter = SupportingDocumentAdapter(RECEIVE_MODELS.invoiceModelView!!.supportingDocs){bitmap,delete ->
+            if (delete){
+                RECEIVE_MODELS.invoiceModelView!!.supportingDocs.remove(bitmap)
+                supportingDocumentAdapter.notifyDataSetChanged()
+            }else {
+                builder.show()
+                builder.preview_imageview.setImageBitmap(bitmap)
+                currentBitmap = bitmap
+            }
         }
         supporting_docs_rv.apply {
             this.adapter = supportingDocumentAdapter
