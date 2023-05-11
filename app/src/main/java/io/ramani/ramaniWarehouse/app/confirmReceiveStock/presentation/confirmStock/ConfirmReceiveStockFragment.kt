@@ -23,6 +23,7 @@ import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.gone
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.greaterThan
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
@@ -35,6 +36,7 @@ import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
 import kotlinx.android.synthetic.main.fragment_confirm_receive_stock.*
+import kotlinx.android.synthetic.main.fragment_stock_assign_product.*
 import kotlinx.android.synthetic.main.preview_support_doc.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.textColor
@@ -51,13 +53,11 @@ class ConfirmReceiveStockFragment : BaseFragment() {
 
 
     private var selectPictureActivityResult = registerForActivityResult(ActivityResultContracts.GetContent()){
-        delivery_person_captured_image_preview.visible()
 
         val inputStream: InputStream? = requireContext().contentResolver.openInputStream(it)
         val bitmap = BitmapFactory.decodeStream(inputStream)
         inputStream?.close()
 
-        delivery_person_captured_image_preview.setImageBitmap(bitmap)
 
 
             RECEIVE_MODELS.invoiceModelView?.supportingDocs?.add(
@@ -169,51 +169,68 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         view.findViewById<AppCompatButton>(R.id.deleteimage_preview).setOnSingleClickListener {
             RECEIVE_MODELS.invoiceModelView?.supportingDocs?.remove(currentBitmap)
             supportingDocumentAdapter.notifyDataSetChanged()
+            checkShouldRVBeVisible()
             builder.dismiss()
         }
         builder.setCanceledOnTouchOutside(true)
+    }
+
+    private fun checkShouldRVBeVisible() {
+        if (RECEIVE_MODELS.invoiceModelView?.supportingDocs?.isEmpty() == true) {
+            supporting_docs_rv.visibility = View.GONE
+        } else {
+            supporting_docs_rv.visibility = View.VISIBLE
+        }
     }
 
     private fun setupSupportingDocs() {
         take_photo_support_doc.setOnSingleClickListener {
             val signedName = stock_receive_confirm_delivery_person_name.text.toString()
 
-            if (signedName.isNotEmpty()) {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(), Manifest.permission.CAMERA
-                    ) == PackageManager.PERMISSION_DENIED
-                ) {
-                    ActivityCompat.requestPermissions(
-                        requireActivity(), arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA
-                    )
-
-                } else {
-                    openCameraActivity()
-                }
+            if (RECEIVE_MODELS?.invoiceModelView?.supportingDocs?.size == 10) {
+                errorDialog("Cannot upload more than 10 items.")
             } else {
-                errorDialog("Please enter the delivery person name")
+                if (signedName.isNotEmpty()) {
+                    if (ContextCompat.checkSelfPermission(
+                            requireContext(), Manifest.permission.CAMERA
+                        ) == PackageManager.PERMISSION_DENIED
+                    ) {
+                        ActivityCompat.requestPermissions(
+                            requireActivity(), arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA
+                        )
+
+                    } else {
+                        openCameraActivity()
+                    }
+                } else {
+                    errorDialog("Please enter the delivery person name")
+                }
             }
         }
 
         gallery_support_doc.setOnSingleClickListener {
             val signedName = stock_receive_confirm_delivery_person_name.text.toString()
 
-            if (signedName.isNotEmpty()) {
-                if (ContextCompat.checkSelfPermission(
-                        requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
-                    ) == PackageManager.PERMISSION_DENIED
-                ) {
-                    ActivityCompat.requestPermissions(
-                        requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 3
-                    )
-
-                }else{
-                    //continue to select image
-                    selectPictureActivityResult.launch("image/*")
-                }
-
+            if (RECEIVE_MODELS?.invoiceModelView?.supportingDocs?.size == 10) {
+                errorDialog("Cannot upload more than 10 items.")
             } else {
-                errorDialog("Please enter the delivery person name")
+                if (signedName.isNotEmpty()) {
+                    if (ContextCompat.checkSelfPermission(
+                            requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+                        ) == PackageManager.PERMISSION_DENIED
+                    ) {
+                        ActivityCompat.requestPermissions(
+                            requireActivity(), arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 3
+                        )
+
+                    } else {
+                        //continue to select image
+                        selectPictureActivityResult.launch("image/*")
+                    }
+
+                } else {
+                    errorDialog("Please enter the delivery person name")
+                }
             }
         }
     }
@@ -313,8 +330,6 @@ class ConfirmReceiveStockFragment : BaseFragment() {
                     )
                 viewModel.onSupportingDocAdded.postValue(true)
 
-                delivery_person_captured_image_preview.visible()
-                delivery_person_captured_image_preview.setImageBitmap(image)
             }
         }
     }
@@ -356,6 +371,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
             if (delete){
                 RECEIVE_MODELS.invoiceModelView!!.supportingDocs.remove(bitmap)
                 supportingDocumentAdapter.notifyDataSetChanged()
+                checkShouldRVBeVisible()
             }else {
                 builder.show()
                 builder.preview_imageview.setImageBitmap(bitmap)
@@ -371,7 +387,13 @@ class ConfirmReceiveStockFragment : BaseFragment() {
     private fun subscribeWhenDocAdded() {
         viewModel.onSupportingDocAdded.observe(this){
             supportingDocumentAdapter.notifyDataSetChanged()
+            checkShouldRVBeVisible()
         }
+    }
+
+    override fun setLoadingIndicatorVisible(visible: Boolean) {
+        super.setLoadingIndicatorVisible(visible)
+        receive_stock_loader.visible(visible)
     }
 
 

@@ -27,6 +27,7 @@ import io.ramani.ramaniWarehouse.domainCore.date.now
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
+import kotlinx.coroutines.delay
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -182,6 +183,14 @@ class ConfirmReceiveViewModel(
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: "",
                 createImageFormData(deliveryPersonSignature, context)
             )
+
+            RECEIVE_MODELS.invoiceModelView?.supportingDocs?.map { bitmap ->
+                builder.addFormDataPart(
+                    "supportingDocument", "supportingDocument",
+                    createImageFormData(bitmap, context)
+                )
+//                RECEIVE_MODELS.invoiceModelView?.supportingDocs?.remove(bitmap)
+            }
         }
 
         return builder.build()

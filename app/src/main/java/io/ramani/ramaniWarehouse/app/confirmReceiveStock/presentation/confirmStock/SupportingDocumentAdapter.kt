@@ -7,9 +7,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
+import java.util.LinkedList
 
 class SupportingDocumentAdapter(
-    data: MutableList<Bitmap>,
+    data: LinkedList<Bitmap>,
     val onItemClick:(Bitmap,Boolean) -> Unit
 ):BaseQuickAdapter<Bitmap,BaseViewHolder>(R.layout.supporting_document_item,data) {
     override fun convert(helper: BaseViewHolder, item: Bitmap) {
