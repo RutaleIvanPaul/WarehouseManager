@@ -393,7 +393,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
 
     override fun setLoadingIndicatorVisible(visible: Boolean) {
         super.setLoadingIndicatorVisible(visible)
-        receive_stock_loader.visible(visible)
+        loader.visible(visible)
     }
 
 

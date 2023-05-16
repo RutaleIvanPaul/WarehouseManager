@@ -11,6 +11,7 @@ import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.io.toFile
 import io.ramani.ramaniWarehouse.app.common.presentation.errors.PresentationError
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.greaterThan
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelPayLoad
@@ -27,11 +28,9 @@ import io.ramani.ramaniWarehouse.domainCore.date.now
 import io.ramani.ramaniWarehouse.domainCore.presentation.language.IStringProvider
 import io.ramani.ramaniWarehouse.domainCore.printer.PrinterHelper
 import io.reactivex.rxkotlin.subscribeBy
-import kotlinx.coroutines.delay
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.util.*
 
 class ConfirmReceiveViewModel(
     application: Application,
@@ -40,6 +39,7 @@ class ConfirmReceiveViewModel(
     private val headersProvider: HeadersProvider,
     private val declineReasonsUseCase: BaseSingleUseCase<List<String>, Params>,
     private val postGoodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>,
+    private val putMoreSupportingDocsUseCase: BaseSingleUseCase<String, GoodsReceivedRequestModel>,
     private val dateFormatter: DateFormatter,
     private val printerHelper: PrinterHelper
 ) : BaseViewModel(application, stringProvider, sessionManager) {
@@ -120,8 +120,36 @@ class ConfirmReceiveViewModel(
                 isLoadingVisible = false
 
                 postGoodsReceivedActionLiveData.postValue(it)
+                putMoreSupportingDocs(context, it.id)
             }, onError = {
                 isLoadingVisible = false
+                notifyErrorObserver(
+                    it.message
+                        ?: stringProvider.getString(R.string.an_error_has_occured_please_try_again),
+                    PresentationError.ERROR_TEXT
+                )
+            })
+        }
+    }
+
+    fun putMoreSupportingDocs(context: Context, id: String){
+        if (RECEIVE_MODELS.invoiceModelView?.supportingDocs?.size?.greaterThan(0) == true) {
+            val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
+                .addFormDataPart("warehouseStockId", id)
+            val bitmap = RECEIVE_MODELS.invoiceModelView?.supportingDocs?.first
+            builder.addFormDataPart(
+                "supportingDocument", "supportingDocument",
+                createImageFormData(bitmap!!, context)
+            )
+            val request = GoodsReceivedRequestModel(
+                builder.build()
+            )
+            val single = putMoreSupportingDocsUseCase.getSingle(request)
+
+            subscribeSingle(single, onSuccess = {
+                RECEIVE_MODELS.invoiceModelView?.supportingDocs?.remove(bitmap)
+                putMoreSupportingDocs(context, id)
+            }, onError = {
                 notifyErrorObserver(
                     it.message
                         ?: stringProvider.getString(R.string.an_error_has_occured_please_try_again),
@@ -183,14 +211,6 @@ class ConfirmReceiveViewModel(
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonName ?: "",
                 createImageFormData(deliveryPersonSignature, context)
             )
-
-            RECEIVE_MODELS.invoiceModelView?.supportingDocs?.map { bitmap ->
-                builder.addFormDataPart(
-                    "supportingDocument", "supportingDocument",
-                    createImageFormData(bitmap, context)
-                )
-//                RECEIVE_MODELS.invoiceModelView?.supportingDocs?.remove(bitmap)
-            }
         }
 
         return builder.build()
@@ -237,6 +257,7 @@ class ConfirmReceiveViewModel(
         private val headersProvider: HeadersProvider,
         private val declineReasonsUseCase: BaseSingleUseCase<List<String>, Params>,
         private val postGoodsReceivedUseCase: BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>,
+        private val putMoreSupportingDocsUseCase: BaseSingleUseCase<String, GoodsReceivedRequestModel>,
         private val dateFormatter: DateFormatter,
         private val printerHelper: PrinterHelper
     ) : ViewModelProvider.Factory {
@@ -250,6 +271,7 @@ class ConfirmReceiveViewModel(
                     headersProvider,
                     declineReasonsUseCase,
                     postGoodsReceivedUseCase,
+                    putMoreSupportingDocsUseCase,
                     dateFormatter,
                     printerHelper
                 ) as T
