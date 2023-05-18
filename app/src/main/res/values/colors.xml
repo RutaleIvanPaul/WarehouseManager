@@ -94,4 +94,6 @@
     <color name="pending">#1d8cf8</color>
 
     <color name="view_stock_balance_header">#f6f7f9</color>
+    <color name="light_grey_99282828">#99282828</color>
+    <color name="redbutton">#FF9393</color>
 </resources>

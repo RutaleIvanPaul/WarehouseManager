@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.os.Parcel
 import android.os.Parcelable
 import io.ramani.ramaniWarehouse.domainCore.entities.IBuilder
+import java.util.*
 
 data class InvoiceModelView(
 
@@ -21,7 +22,8 @@ data class InvoiceModelView(
     var deliveryPersonName: String? = null,
     var storeKeeperSign: Bitmap? = null,
     var deliveryPersonSign: Bitmap? = null,
-    val serverCreatedAtDateTime: String? = null
+    val serverCreatedAtDateTime: String? = null,
+    val supportingDocs: LinkedList<Bitmap> = LinkedList()
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
