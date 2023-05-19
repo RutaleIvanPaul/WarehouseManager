@@ -324,7 +324,6 @@ class ConfirmReceiveStockFragment : BaseFragment() {
                 val image = BitmapFactory.decodeFile(capturedImage?.absolutePath)
                 val deliveryPersonName = stock_receive_confirm_delivery_person_name.text.toString()
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonName = deliveryPersonName
-                RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign = image
                 RECEIVE_MODELS.invoiceModelView?.supportingDocs?.add(
                         image
                     )
