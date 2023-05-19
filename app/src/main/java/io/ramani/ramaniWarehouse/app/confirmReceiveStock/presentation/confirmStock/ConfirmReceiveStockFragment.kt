@@ -52,11 +52,11 @@ class ConfirmReceiveStockFragment : BaseFragment() {
     private var currentBitmap:Bitmap? = null
 
 
-    private var selectPictureActivityResult = registerForActivityResult(ActivityResultContracts.GetContent()){
-
-        val inputStream: InputStream? = requireContext().contentResolver.openInputStream(it)
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-        inputStream?.close()
+    private var selectPictureActivityResult = registerForActivityResult(ActivityResultContracts.GetContent()){ uri ->
+        uri?.let {
+            val inputStream: InputStream? = requireContext().contentResolver.openInputStream(it)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+            inputStream?.close()
 
 
 
@@ -65,6 +65,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
             )
 
             viewModel.onSupportingDocAdded.postValue(true)
+        }
     }
 
     private lateinit var builder:AlertDialog
