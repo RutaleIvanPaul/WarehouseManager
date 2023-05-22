@@ -67,6 +67,10 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
         viewModel = viewModelProvider(this)
         flow = ReceiveStockFlowController(baseActivity!!)
         initArgs()
+    }
+
+    override fun onResume() {
+        super.onResume()
         initSubscribers()
     }
 
@@ -170,21 +174,21 @@ class ConfirmReceiveStockHostFragment : BaseFragment() {
         stock_receive_now_host_tablayout.touchables.map {
             it.isClickable = true
         }
-
-        stock_receive_now_host_tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {
-                if (!doNotRecursiveCheck)
-                    checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
-
-                doNotRecursiveCheck = false
-            }
-
-            override fun onTabUnselected(tab: TabLayout.Tab?) {
-            }
-
-            override fun onTabReselected(tab: TabLayout.Tab?) {
-            }
-        })
+/*Commenting this out. No clear purpose, but causes crash*/
+//        stock_receive_now_host_tablayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+//            override fun onTabSelected(tab: TabLayout.Tab?) {
+//                if (!doNotRecursiveCheck)
+//                    checkPage(false, stock_receive_now_host_tablayout.selectedTabPosition)
+//
+//                doNotRecursiveCheck = false
+//            }
+//
+//            override fun onTabUnselected(tab: TabLayout.Tab?) {
+//            }
+//
+//            override fun onTabReselected(tab: TabLayout.Tab?) {
+//            }
+//        })
     }
 
     private fun turnMarkOneToGreen() {

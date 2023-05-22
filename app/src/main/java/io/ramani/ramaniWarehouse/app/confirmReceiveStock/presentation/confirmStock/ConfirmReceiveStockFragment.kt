@@ -23,7 +23,6 @@ import io.ramani.ramaniWarehouse.BuildConfig
 import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.common.presentation.dialogs.errorDialog
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.gone
-import io.ramani.ramaniWarehouse.app.common.presentation.extensions.greaterThan
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.extensions.visible
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
@@ -36,7 +35,6 @@ import io.ramani.ramaniWarehouse.app.stockreceive.model.STOCK_RECEIVE_MODEL
 import io.ramani.ramaniWarehouse.app.stockreceive.presentation.receivenow.StockReceiveSignaturePadSheetFragment
 import io.ramani.ramaniWarehouse.app.warehouses.invoices.model.ProductModelView
 import kotlinx.android.synthetic.main.fragment_confirm_receive_stock.*
-import kotlinx.android.synthetic.main.fragment_stock_assign_product.*
 import kotlinx.android.synthetic.main.preview_support_doc.*
 import org.jetbrains.anko.backgroundDrawable
 import org.jetbrains.anko.textColor
@@ -49,25 +47,27 @@ import java.util.*
 class ConfirmReceiveStockFragment : BaseFragment() {
     private var capturedImage: File? = null
     private var capturePhotoActivityResult: ActivityResultLauncher<Intent>? = null
-    private var currentBitmap:Bitmap? = null
+    private var currentBitmap: Bitmap? = null
 
 
-    private var selectPictureActivityResult = registerForActivityResult(ActivityResultContracts.GetContent()){
+    private var selectPictureActivityResult =
+        registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                val inputStream: InputStream? = requireContext().contentResolver.openInputStream(it)
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+                inputStream?.close()
 
-        val inputStream: InputStream? = requireContext().contentResolver.openInputStream(it)
-        val bitmap = BitmapFactory.decodeStream(inputStream)
-        inputStream?.close()
 
 
+                RECEIVE_MODELS.invoiceModelView?.supportingDocs?.add(
+                    bitmap
+                )
 
-            RECEIVE_MODELS.invoiceModelView?.supportingDocs?.add(
-                bitmap
-            )
+                viewModel.onSupportingDocAdded.postValue(true)
+            }
+        }
 
-            viewModel.onSupportingDocAdded.postValue(true)
-    }
-
-    private lateinit var builder:AlertDialog
+    private lateinit var builder: AlertDialog
 
     companion object {
         fun newInstance() = ConfirmReceiveStockFragment()
@@ -160,11 +160,10 @@ class ConfirmReceiveStockFragment : BaseFragment() {
     }
 
 
-
     private fun setupSupportingDocsPreview() {
         builder = AlertDialog.Builder(requireContext())
             .create()
-        val view = layoutInflater.inflate(R.layout.preview_support_doc,null)
+        val view = layoutInflater.inflate(R.layout.preview_support_doc, null)
         builder.setView(view)
         view.findViewById<AppCompatButton>(R.id.deleteimage_preview).setOnSingleClickListener {
             RECEIVE_MODELS.invoiceModelView?.supportingDocs?.remove(currentBitmap)
@@ -187,7 +186,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         take_photo_support_doc.setOnSingleClickListener {
             val signedName = stock_receive_confirm_delivery_person_name.text.toString()
 
-            if (RECEIVE_MODELS?.invoiceModelView?.supportingDocs?.size == 10) {
+            if (RECEIVE_MODELS.invoiceModelView?.supportingDocs?.size == 10) {
                 errorDialog("Cannot upload more than 10 items.")
             } else {
                 if (signedName.isNotEmpty()) {
@@ -211,7 +210,7 @@ class ConfirmReceiveStockFragment : BaseFragment() {
         gallery_support_doc.setOnSingleClickListener {
             val signedName = stock_receive_confirm_delivery_person_name.text.toString()
 
-            if (RECEIVE_MODELS?.invoiceModelView?.supportingDocs?.size == 10) {
+            if (RECEIVE_MODELS.invoiceModelView?.supportingDocs?.size == 10) {
                 errorDialog("Cannot upload more than 10 items.")
             } else {
                 if (signedName.isNotEmpty()) {
@@ -324,10 +323,9 @@ class ConfirmReceiveStockFragment : BaseFragment() {
                 val image = BitmapFactory.decodeFile(capturedImage?.absolutePath)
                 val deliveryPersonName = stock_receive_confirm_delivery_person_name.text.toString()
                 RECEIVE_MODELS.invoiceModelView?.deliveryPersonName = deliveryPersonName
-                RECEIVE_MODELS.invoiceModelView?.deliveryPersonSign = image
                 RECEIVE_MODELS.invoiceModelView?.supportingDocs?.add(
-                        image
-                    )
+                    image
+                )
                 viewModel.onSupportingDocAdded.postValue(true)
 
             }
@@ -367,25 +365,31 @@ class ConfirmReceiveStockFragment : BaseFragment() {
             this.adapter = productsAdapter
         }
 
-        supportingDocumentAdapter = SupportingDocumentAdapter(RECEIVE_MODELS.invoiceModelView!!.supportingDocs){bitmap,delete ->
-            if (delete){
-                RECEIVE_MODELS.invoiceModelView!!.supportingDocs.remove(bitmap)
-                supportingDocumentAdapter.notifyDataSetChanged()
-                checkShouldRVBeVisible()
-            }else {
-                builder.show()
-                builder.preview_imageview.setImageBitmap(bitmap)
-                currentBitmap = bitmap
+
+        RECEIVE_MODELS.invoiceModelView?.supportingDocs?.let {
+            supportingDocumentAdapter = SupportingDocumentAdapter(it) { bitmap, delete ->
+                if (delete) {
+                    RECEIVE_MODELS.invoiceModelView!!.supportingDocs.remove(bitmap)
+                    supportingDocumentAdapter.notifyDataSetChanged()
+                    checkShouldRVBeVisible()
+                } else {
+                    builder.show()
+                    builder.preview_imageview.setImageBitmap(bitmap)
+                    currentBitmap = bitmap
+                }
             }
         }
-        supporting_docs_rv.apply {
-            this.adapter = supportingDocumentAdapter
-            this.layoutManager = LinearLayoutManager(requireContext())
+        supportingDocumentAdapter.let {
+            supporting_docs_rv.apply {
+                this.adapter = supportingDocumentAdapter
+                this.layoutManager = LinearLayoutManager(requireContext())
+            }
         }
+
     }
 
     private fun subscribeWhenDocAdded() {
-        viewModel.onSupportingDocAdded.observe(this){
+        viewModel.onSupportingDocAdded.observe(this) {
             supportingDocumentAdapter.notifyDataSetChanged()
             checkShouldRVBeVisible()
         }
