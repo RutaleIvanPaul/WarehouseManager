@@ -132,14 +132,14 @@ class ConfirmReceiveViewModel(
         }
     }
 
-    fun putMoreSupportingDocs(context: Context, id: String){
+    fun putMoreSupportingDocs(context: Context, id: String) {
         if (RECEIVE_MODELS.invoiceModelView?.supportingDocs?.size?.greaterThan(0) == true) {
             val builder: MultipartBody.Builder = MultipartBody.Builder().setType(MultipartBody.FORM)
                 .addFormDataPart("warehouseStockId", id)
             val bitmap = RECEIVE_MODELS.invoiceModelView?.supportingDocs?.first
             builder.addFormDataPart(
-                "supportingDocument", "supportingDocument",
-                createImageFormData(bitmap!!, context)
+                "supportingDocument", "supportingDocument-${now()}",
+                bitmap?.let { createImageFormData(it, context) }
             )
             val request = GoodsReceivedRequestModel(
                 builder.build()
