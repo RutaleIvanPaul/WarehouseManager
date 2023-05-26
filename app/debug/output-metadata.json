@@ -4,16 +4,16 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "io.ramani.ramaniWarehouse",
-  "variantName": "release",
+  "applicationId": "io.ramani.ramaniWarehouse.debug",
+  "variantName": "debug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 333,
-      "versionName": "9.0.3.0",
-      "outputFile": "app-release.apk"
+      "versionCode": 326,
+      "versionName": "8.0.2.6-debug",
+      "outputFile": "app-debug.apk"
     }
   ],
   "elementType": "File"
