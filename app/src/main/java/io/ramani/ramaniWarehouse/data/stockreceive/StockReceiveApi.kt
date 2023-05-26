@@ -23,4 +23,9 @@ interface StockReceiveApi {
         @Body body: RequestBody
     ): Single<BaseResponse<GoodsReceivedRemoteModel>>
 
+    @PUT("/api/v2/invoice/goods-received")
+    fun putMoreSupportingDocs(
+        @Body body: RequestBody
+    ): Single<BaseResponse<Any>>
+
 }

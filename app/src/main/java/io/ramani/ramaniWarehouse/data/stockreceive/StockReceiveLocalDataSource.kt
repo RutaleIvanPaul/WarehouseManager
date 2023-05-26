@@ -23,5 +23,9 @@ class StockReceiveLocalDataSource(
         TODO("Not yet implemented")
     }
 
+    override fun putMoreSupportingDocs(body: RequestBody): Single<String> {
+        TODO("Not yet implemented")
+    }
+
 
 }

@@ -19,4 +19,7 @@ class StockReceiveRepository(
 
     override fun postGoodsReceived(body: RequestBody): Single<GoodsReceivedModel> =
         remoteStockReceiveDataSource.postGoodsReceived(body)
+
+    override fun putMoreSupportingDocs(body: RequestBody): Single<String>  =
+        remoteStockReceiveDataSource.putMoreSupportingDocs(body)
 }

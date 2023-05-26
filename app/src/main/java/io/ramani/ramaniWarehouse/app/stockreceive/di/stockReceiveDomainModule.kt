@@ -9,6 +9,7 @@ import io.ramani.ramaniWarehouse.domain.stockreceive.useCase.GetSupplierUseCase
 import io.ramani.ramaniWarehouse.domain.stockreceive.useCase.PostGoodsReceivedUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.BaseSingleUseCase
 import io.ramani.ramaniWarehouse.domain.base.v2.Params
+import io.ramani.ramaniWarehouse.domain.stockreceive.useCase.PutMoreSupportingDocsUseCase
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
 import org.kodein.di.generic.instance
@@ -27,6 +28,10 @@ val stockReceiveDomainModule = Kodein.Module("stockReceiveDomainModule") {
 
     bind<BaseSingleUseCase<GoodsReceivedModel, GoodsReceivedRequestModel>>("postGoodsReceivedUseCase") with provider {
         PostGoodsReceivedUseCase(instance(), instance(), instance("stockReceiveDataSource"))
+    }
+
+    bind<BaseSingleUseCase<String, GoodsReceivedRequestModel>>("putMoreSupportingDocsUseCase") with provider {
+        PutMoreSupportingDocsUseCase(instance(), instance(), instance("stockReceiveDataSource"))
     }
 
 }

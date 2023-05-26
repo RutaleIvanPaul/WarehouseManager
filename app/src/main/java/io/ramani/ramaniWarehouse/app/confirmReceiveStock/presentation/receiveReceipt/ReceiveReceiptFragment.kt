@@ -16,6 +16,7 @@ import io.ramani.ramaniWarehouse.R
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlow
 import io.ramani.ramaniWarehouse.app.auth.flow.AuthFlowController
 import io.ramani.ramaniWarehouse.app.common.presentation.actvities.BaseActivity
+import io.ramani.ramaniWarehouse.app.common.presentation.extensions.setOnSingleClickListener
 import io.ramani.ramaniWarehouse.app.common.presentation.fragments.BaseFragment
 import io.ramani.ramaniWarehouse.app.common.presentation.viewmodels.BaseViewModel
 import io.ramani.ramaniWarehouse.app.confirmReceiveStock.model.RECEIVE_MODELS
@@ -57,7 +58,7 @@ class ReceiveReceiptFragment : BaseFragment() {
         returned_items_RV.layoutManager = layoutManagerWithDisabledScrolling
         returned_items_RV.adapter = receiptItemsAdapter
 
-        return_stock_print_receipt.setOnClickListener {
+        return_stock_print_receipt.setOnSingleClickListener {
             var canPrint = true
 
             // If printer is bluetooth printer, then check bluetooth permission
@@ -88,9 +89,9 @@ class ReceiveReceiptFragment : BaseFragment() {
             }
         }
 
-        return_stock_done.setOnClickListener {
-            (requireActivity() as BaseActivity).navigationManager?.popToRootFragment()
+        return_stock_done.setOnSingleClickListener {
             RECEIVE_MODELS.reset()
+            flow.openMainNav()
         }
     }
 

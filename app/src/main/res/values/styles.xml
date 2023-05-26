@@ -50,6 +50,10 @@
         <item name="android:fontFamily">@font/raleway_bold</item>
     </style>
 
+    <style name="BoldTextLabelGrey" parent="BoldTextLabel">
+        <item name="android:textColor">@color/light_grey_99282828</item>
+    </style>
+
     <style name="BoldTextSmallLabel" parent="BoldTextLabel">
         <item name="android:textSize">10sp</item>
     </style>
@@ -79,6 +83,11 @@
     <style name="BlueStrokeActionButton" parent="NormalActionButton">
         <item name="android:background">@drawable/blue_stroke_action_button</item>
         <item name="android:textColor">@color/secondary_blue</item>
+    </style>
+
+    <style name="RedStrokeActionButton" parent="NormalActionButton">
+        <item name="android:background">@drawable/red_stroke_action_button</item>
+        <item name="android:textColor">@color/redbutton</item>
     </style>
 
     <style name="GreenFillActionButton" parent="NormalActionButton">
